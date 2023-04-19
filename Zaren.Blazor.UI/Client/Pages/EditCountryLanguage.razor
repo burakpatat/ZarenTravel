@@ -1,0 +1,77 @@
+@page "/edit-country-language"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject JSONServerService JSONServerService
+
+<PageTitle>Edit CountryLanguage</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save CountryLanguage</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenUI.Server.Models.JSONServer.CountryLanguage" Data="@countryLanguage" Visible="@(countryLanguage != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Country Id" Component="CountryId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@countryLanguage.CountryId" Name="CountryId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Country Name" Component="CountryName" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@countryLanguage.CountryName" Name="CountryName" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Language Name" Component="LanguageName" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@countryLanguage.LanguageName" Name="LanguageName" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        countryLanguage = await JSONServerService.GetCountryLanguageById(id:Id);
+    }
+    protected bool errorVisible;
+    protected ZarenUI.Server.Models.JSONServer.CountryLanguage countryLanguage;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await JSONServerService.UpdateCountryLanguage(id:Id, countryLanguage);
+            DialogService.Close(countryLanguage);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+}

@@ -1,0 +1,59 @@
+@page "/Hotels/Delete/{Id}"
+@using ZarenBlazorAdmin.Services
+@using ZarenBlazorAdmin.Model
+@inject HotelsService serviceInstance
+@inject NavigationManager NavigationManager
+
+<h2>Delete Hotels</h2>
+<hr />
+<h3>Are you sure want to delete?</h3>
+<form>
+    <div class="row">
+        <div class=" col-md-8">
+            <div class='form-group'> <label>Id:</label> <label>@obj.Id</label> </div>
+<div class='form-group'> <label>Hotelchainıd:</label> <label>@obj.HotelChainId</label> </div>
+<div class='form-group'> <label>Name:</label> <label>@obj.Name</label> </div>
+<div class='form-group'> <label>Hoteltypeıd:</label> <label>@obj.HotelTypeId</label> </div>
+<div class='form-group'> <label>Countryıd:</label> <label>@obj.CountryId</label> </div>
+<div class='form-group'> <label>Regionıd:</label> <label>@obj.RegionId</label> </div>
+<div class='form-group'> <label>Zoneıd:</label> <label>@obj.ZoneId</label> </div>
+<div class='form-group'> <label>Cityıd:</label> <label>@obj.CityId</label> </div>
+<div class='form-group'> <label>Address:</label> <label>@obj.Address</label> </div>
+<div class='form-group'> <label>Zipcode:</label> <label>@obj.ZipCode</label> </div>
+<div class='form-group'> <label>Latitude:</label> <label>@obj.Latitude</label> </div>
+<div class='form-group'> <label>Longitude:</label> <label>@obj.Longitude</label> </div>
+<div class='form-group'> <label>Commercialcontactıd:</label> <label>@obj.CommercialContactId</label> </div>
+<div class='form-group'> <label>Reservationcontactıd:</label> <label>@obj.ReservationContactId</label> </div>
+<div class='form-group'> <label>Financecontactıd:</label> <label>@obj.FinanceContactId</label> </div>
+<div class='form-group'> <label>Release:</label> <label>@obj.Release</label> </div>
+<div class='form-group'> <label>Numberrooms:</label> <label>@obj.NumberRooms</label> </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-danger" @onclick="@DeleteHotels" value="Delete" />
+                <input type="button" class="btn btn-primary" @onclick="@CancelHotels" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@code { [Parameter]
+    public string Id { get; set; }
+    Hotels obj = new Hotels();
+    protected override async Task OnInitializedAsync()
+    {
+        obj = await Task.Run(() => serviceInstance.GetHotelsAsync(Convert.ToInt32(Id)));
+    }
+    protected async void DeleteHotels()
+    {
+        await serviceInstance.DeleteHotelsAsync(obj);
+        NavigationManager.NavigateTo("Hotels/List");
+    }
+    void CancelHotels()
+    {
+        NavigationManager.NavigateTo("Hotels/List");
+    } }
+

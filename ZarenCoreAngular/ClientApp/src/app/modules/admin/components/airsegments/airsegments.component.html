@@ -1,0 +1,72 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">people_alt</i>
+            </div>
+            <h4 class="card-title float-left">AirSegments</h4>
+            <button mat-raised-button class="float-right" color="primary" style="margin-top: 10px;"
+              (click)="addDialog()">
+              Add
+            </button>
+          </div>
+          <div class="card-body">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover" width="100%">
+              <thead>
+                <tr>
+                 <td>Id</td>
+<td>Airıd</td>
+<td>Airlineıd</td>
+<td>Aisedeparture</td>
+<td>Aisearrival</td>
+<td>Airportıdorigin</td>
+<td>Airportıddestination</td>
+<td>Aiseflightnumber</td>
+<td>Aiseclass</td>
+<td>Terminalıdorigin</td>
+<td>Terminalıddestination</td>
+<td>Aisetimestamp</td>
+<td>Aiseactive</td>
+
+                  <th class="text-right" data-orderable="false" data-priority="2">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let dto1 of dtos">
+                
+
+                   <td>{{dto1['ıd']}}</td>
+ <td>{{dto1['airId']}}</td>
+ <td>{{dto1['airlineId']}}</td>
+ <td>{{dto1['aiSeDeparture'] | date }}</td>
+ <td>{{dto1['aiSeArrival'] | date }}</td>
+ <td>{{dto1['airportIdOrigin']}}</td>
+ <td>{{dto1['airportIdDestination']}}</td>
+ <td>{{dto1['aiSeFlightNumber']}}</td>
+ <td>{{dto1['aiSeClass']}}</td>
+ <td>{{dto1['terminalIdOrigin']}}</td>
+ <td>{{dto1['terminalIdDestination']}}</td>
+ <td>{{dto1['aiSeTimestamp'] | date }}</td>
+ <td>{{dto1['aiSeActive']}}</td>
+
+                  <td class="text-right">
+                    <a href="javascript:void(0)" (click)="editDialog(dto1)"
+                      class="btn btn-link btn-warning btn-just-icon edit">
+                      <i class="material-icons">dvr</i>
+                    </a>
+                    <a href="javascript:void(0)" (click)="deleteDialog(dto1)"
+                      class="btn btn-link btn-danger btn-just-icon remove">
+                      <i class="material-icons">close</i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

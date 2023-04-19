@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{93F7E8A5-5E12-4258-8626-1110523C52C2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataLayer</RootNamespace>
+    <AssemblyName>DataLayer</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BusinessLayer\AgenciesDB.cs" />
+    <Compile Include="BusinessLayer\BoardTypeLanguagesDB.cs" />
+    <Compile Include="BusinessLayer\BoardTypesDB.cs" />
+    <Compile Include="BusinessLayer\BookingDealsDB.cs" />
+    <Compile Include="BusinessLayer\BookingRoomsDB.cs" />
+    <Compile Include="BusinessLayer\BookingsDB.cs" />
+    <Compile Include="BusinessLayer\BuyRoomsDB.cs" />
+    <Compile Include="BusinessLayer\CancelationLanguagesDB.cs" />
+    <Compile Include="BusinessLayer\CancellationRulesDB.cs" />
+    <Compile Include="BusinessLayer\CancellationSeasonsDB.cs" />
+    <Compile Include="BusinessLayer\CitiesDB.cs" />
+    <Compile Include="BusinessLayer\ContactsDB.cs" />
+    <Compile Include="BusinessLayer\CountriesDB.cs" />
+    <Compile Include="BusinessLayer\DealsDB.cs" />
+    <Compile Include="BusinessLayer\DealTypeLanguagesDB.cs" />
+    <Compile Include="BusinessLayer\DealTypesDB.cs" />
+    <Compile Include="BusinessLayer\FacilitiesDB.cs" />
+    <Compile Include="BusinessLayer\FacilitiesHotelsDB.cs" />
+    <Compile Include="BusinessLayer\FacilityLanguagesDB.cs" />
+    <Compile Include="BusinessLayer\HotelAgencyMarkupsDB.cs" />
+    <Compile Include="BusinessLayer\HotelBuyRoomAllotmentDB.cs" />
+    <Compile Include="BusinessLayer\HotelBuyRoomsDB.cs" />
+    <Compile Include="BusinessLayer\HotelChainsDB.cs" />
+    <Compile Include="BusinessLayer\HotelDescriptionsDB.cs" />
+    <Compile Include="BusinessLayer\HotelPhotoLanguagesDB.cs" />
+    <Compile Include="BusinessLayer\HotelPhotosDB.cs" />
+    <Compile Include="BusinessLayer\HotelRoomDailyPricesDB.cs" />
+    <Compile Include="BusinessLayer\HotelRoomLanguagesDB.cs" />
+    <Compile Include="BusinessLayer\HotelRoomsDB.cs" />
+    <Compile Include="BusinessLayer\HotelsDB.cs" />
+    <Compile Include="BusinessLayer\HotelTypeLanguagesDB.cs" />
+    <Compile Include="BusinessLayer\HotelTypesDB.cs" />
+    <Compile Include="BusinessLayer\LanguagesDB.cs" />
+    <Compile Include="BusinessLayer\ProvidersDB.cs" />
+    <Compile Include="BusinessLayer\RegionsDB.cs" />
+    <Compile Include="BusinessLayer\RoomsDB.cs" />
+    <Compile Include="BusinessLayer\ZonesDB.cs" />
+    <Compile Include="BusinessLayer\ZonesCitiesDB.cs" />
+    <Compile Include="DataBase.cs" />
+    <Compile Include="DTO\Agencies.cs" />
+    <Compile Include="DTO\BoardTypeLanguages.cs" />
+    <Compile Include="DTO\BoardTypes.cs" />
+    <Compile Include="DTO\BookingDeals.cs" />
+    <Compile Include="DTO\BookingRooms.cs" />
+    <Compile Include="DTO\Bookings.cs" />
+    <Compile Include="DTO\BuyRooms.cs" />
+    <Compile Include="DTO\CancelationLanguages.cs" />
+    <Compile Include="DTO\CancellationRules.cs" />
+    <Compile Include="DTO\CancellationSeasons.cs" />
+    <Compile Include="DTO\Cities.cs" />
+    <Compile Include="DTO\Contacts.cs" />
+    <Compile Include="DTO\Countries.cs" />
+    <Compile Include="DTO\Deals.cs" />
+    <Compile Include="DTO\DealTypeLanguages.cs" />
+    <Compile Include="DTO\DealTypes.cs" />
+    <Compile Include="DTO\Facilities.cs" />
+    <Compile Include="DTO\FacilitiesHotels.cs" />
+    <Compile Include="DTO\FacilityLanguages.cs" />
+    <Compile Include="DTO\HotelAgencyMarkups.cs" />
+    <Compile Include="DTO\HotelBuyRoomAllotment.cs" />
+    <Compile Include="DTO\HotelBuyRooms.cs" />
+    <Compile Include="DTO\HotelChains.cs" />
+    <Compile Include="DTO\HotelDescriptions.cs" />
+    <Compile Include="DTO\HotelPhotoLanguages.cs" />
+    <Compile Include="DTO\HotelPhotos.cs" />
+    <Compile Include="DTO\HotelRoomDailyPrices.cs" />
+    <Compile Include="DTO\HotelRoomLanguages.cs" />
+    <Compile Include="DTO\HotelRooms.cs" />
+    <Compile Include="DTO\Hotels.cs" />
+    <Compile Include="DTO\HotelTypeLanguages.cs" />
+    <Compile Include="DTO\HotelTypes.cs" />
+    <Compile Include="DTO\Languages.cs" />
+    <Compile Include="DTO\Providers.cs" />
+    <Compile Include="DTO\Regions.cs" />
+    <Compile Include="DTO\Rooms.cs" />
+    <Compile Include="DTO\Zones.cs" />
+    <Compile Include="DTO\ZonesCities.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

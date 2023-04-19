@@ -1,0 +1,112 @@
+@page "/AccountActions/Edit/{Id}/{AccountId}"
+@using MyProjectName.Services
+@using MyProjectName.Model
+@inject AccountActionsService serviceInstance
+@inject AccountsService AccountsInstance
+@inject PostsService PostsInstance
+@inject TagsService TagsInstance
+@inject NavigationManager NavigationManager
+<h2>Edit AccountActions</h2>
+<hr />
+
+<form>
+@{ if (isPageInit)
+    {
+    <div class="row">
+        <div class="col-md-8">
+         <div class="card-body">
+             <div class='form-group'> <label for='Id' class='control-label'>Id</label> <input type='number' form='Id' class='form-control' @bind='@obj.Id' /> </div>
+<div class='form-group'> <label for='GoogleClientId' class='control-label'>GoogleClientId</label> <input type='text' form='GoogleClientId' class='form-control' @bind='@obj.GoogleClientId' /> </div>
+<div class='form-group'>
+<label for='AccountId' class='control-label'>AccountId</label>
+<select name='AccountId' class='form-control' @bind='@obj.AccountId'>
+    @{
+        foreach (var b in Accounts)
+        {
+            <option value='@b.Id'>@b.Name</option>
+        }
+    }
+</select>
+</div>
+<div class='form-group'>
+<label for='PostId' class='control-label'>PostId</label>
+<select name='PostId' class='form-control' @bind='@obj.PostId'>
+    @{
+        foreach (var b in Posts)
+        {
+            <option value='@b.Id'>@b.PostTitle</option>
+        }
+    }
+</select>
+</div>
+<div class='form-group'> <label for='ProfileId' class='control-label'>ProfileId</label> <input type='number' form='ProfileId' class='form-control' @bind='@obj.ProfileId' /> </div>
+<div class='form-group'> <label for='VisitedUrl' class='control-label'>VisitedUrl</label> <input type='text' form='VisitedUrl' class='form-control' @bind='@obj.VisitedUrl' /> </div>
+<div class='form-group'>
+<label for='TagId' class='control-label'>TagId</label>
+<select name='TagId' class='form-control' @bind='@obj.TagId'>
+    @{
+        foreach (var b in Tags)
+        {
+            <option value='@b.Id'>@b.Name</option>
+        }
+    }
+</select>
+</div>
+<div class='form-group'> <label for='ClickedElements' class='control-label'>ClickedElements</label> <input type='text' form='ClickedElements' class='form-control' @bind='@obj.ClickedElements' /> </div>
+<div class='form-group'> <label for='SessionId' class='control-label'>SessionId</label> <input type='text' form='SessionId' class='form-control' @bind='@obj.SessionId' /> </div>
+<div class='form-group'> <label for='ReferalFrom' class='control-label'>ReferalFrom</label> <input type='text' form='ReferalFrom' class='form-control' @bind='@obj.ReferalFrom' /> </div>
+<div class='form-group'> <input class='form-control' type='date' placeholder='EventDate' name='EventDate' @bind='@obj.EventDate'  ></div>
+
+             <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@Update" value="Update" />
+                <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+            </div>
+        </div>
+    </div>
+      <div class="card-arrow">
+                        <div class="card-arrow-top-left"></div>
+                        <div class="card-arrow-top-right"></div>
+                        <div class="card-arrow-bottom-left"></div>
+                        <div class="card-arrow-bottom-right"></div>
+                    </div>
+             </div>
+        </div>
+    </div>
+     
+    }else{
+      <p><em>Loading... !</em></p>
+      }
+    }
+</form>
+
+@code { [Parameter]
+    public string Id { get; set; }
+public string AccountId { get; set; }
+    AccountActions obj = new AccountActions();
+    bool isPageInit = false;
+    List<Accounts> Accounts;
+List<Posts> Posts;
+List<Tags> Tags;
+    protected override async Task OnInitializedAsync()
+    {
+        obj = await Task.Run(() => serviceInstance.GetAccountActionsAsync(Convert.ToInt64(Id),Convert.ToInt64(AccountId)));
+        Accounts= await Task.Run(() => AccountsInstance.GetAllAccountsForDropDownAsync());
+Posts= await Task.Run(() => PostsInstance.GetAllPostsForDropDownAsync());
+Tags= await Task.Run(() => TagsInstance.GetAllTagsForDropDownAsync());
+        if(Accounts is not null && Posts is not null && Tags is not null)
+            isPageInit = true;
+    
+    }
+    protected async void Update()
+    {
+        await serviceInstance.UpdateAccountActionsAsync(obj);
+        NavigationManager.NavigateTo("AccountActions/List");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("AccountActions/List");
+    } 
+    }
+

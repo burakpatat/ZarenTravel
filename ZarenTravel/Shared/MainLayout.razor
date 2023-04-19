@@ -1,0 +1,180 @@
+@inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+@inject Microsoft.Extensions.Localization.IStringLocalizer<MainLayout> L
+<RadzenDialog />
+<RadzenNotification />
+<RadzenTooltip />
+<RadzenContextMenu />
+
+<RadzenLayout style="grid-template-areas: 'rz-sidebar rz-header' 'rz-sidebar rz-body';">
+    <RadzenHeader>
+        <div class="container-fluid">
+            <div class="row justify-content-start align-items-center">
+                <div class="col-6 d-flex align-items-center ps-0 pl-0">
+                    <RadzenSidebarToggle Click="@SidebarToggleClick"></RadzenSidebarToggle>
+                </div>
+                <div class="col-6 d-flex align-items-center justify-content-end pr-0 pe-0">
+                    <CulturePicker />
+                    <RadzenProfileMenu Visible="@Security.IsAuthenticated()" Click="@ProfileMenuClick">
+                        <ChildContent>
+                            <RadzenProfileMenuItem Path="profile" Icon="settings" Text="Profile" />
+                            <RadzenProfileMenuItem Path="application-users" Icon="person" Text="Users" />
+                            <RadzenProfileMenuItem Path="application-roles" Icon="security" Text="Roles" />
+                            <RadzenProfileMenuItem Text="Logout" Value="Logout" Icon="power_settings_new" />
+                        </ChildContent>
+                        <Template>
+                            @Security.User?.Name
+                            <RadzenGravatar Email="@Security.User?.Name" />
+                        </Template>
+                    </RadzenProfileMenu>
+                </div>
+            </div>
+        </div>
+    </RadzenHeader>
+    <RadzenBody Expanded="@sidebarExpanded">
+        <div class="container-fluid pt-2 pt-md-3 pt-lg-4 pt-xl-5 pb-2 pb-lg-5" style="max-width: 1440px;">
+            <div class="row">
+                <div class="col">
+                    @Body
+                </div>
+            </div>
+        </div>
+    </RadzenBody>
+    <RadzenSidebar Expanded="@sidebarExpanded" style="z-index: 2">
+        <div style="text-align: center;
+    padding: 25px;">
+            <img style="width:70%;" src="/images/v4.png" />
+        </div>
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Anasayfa" Target="_blank" Path="https://www.zarentravel.com" />
+            <RadzenPanelMenuItem Text="Agencies" Path="agencies" />
+            <RadzenPanelMenuItem Text="AgencyGroups" Path="agency-groups" />
+            <RadzenPanelMenuItem Text="AgentInformations" Path="agent-informations" />
+            <RadzenPanelMenuItem Text="AirExtras" Path="air-extras" />
+            <RadzenPanelMenuItem Text="Airlines" Path="airlines" />
+            <RadzenPanelMenuItem Text="Airports" Path="airports" />
+            <RadzenPanelMenuItem Text="Airs" Path="airs" />
+            <RadzenPanelMenuItem Text="AirSegments" Path="air-segments" />
+            <RadzenPanelMenuItem Text="Apis" Path="apis" />
+            <RadzenPanelMenuItem Text="AuthorizationTemplates" Path="authorization-templates" />
+            <RadzenPanelMenuItem Text="AutoCompletes" Path="auto-completes" />
+            <RadzenPanelMenuItem Text="AutoCompleteTypes" Path="auto-complete-types" />
+            <RadzenPanelMenuItem Text="Banners" Path="banners" />
+            <RadzenPanelMenuItem Text="BoardTypeLanguages" Path="board-type-languages" />
+            <RadzenPanelMenuItem Text="BoardTypes" Path="board-types" />
+            <RadzenPanelMenuItem Text="BookingDeals" Path="booking-deals" />
+            <RadzenPanelMenuItem Text="BookingRooms" Path="booking-rooms" />
+            <RadzenPanelMenuItem Text="Bookings" Path="bookings" />
+            <RadzenPanelMenuItem Text="Brokers" Path="brokers" />
+            <RadzenPanelMenuItem Text="BuyRooms" Path="buy-rooms" />
+            <RadzenPanelMenuItem Text="CancelationLanguages" Path="cancelation-languages" />
+            <RadzenPanelMenuItem Text="CancellationRules" Path="cancellation-rules" />
+            <RadzenPanelMenuItem Text="CancellationSeasons" Path="cancellation-seasons" />
+            <RadzenPanelMenuItem Text="CarRentals" Path="car-rentals" />
+            <RadzenPanelMenuItem Text="CarRents" Path="car-rents" />
+            <RadzenPanelMenuItem Text="CarTypes" Path="car-types" />
+            <RadzenPanelMenuItem Text="Cities" Path="cities" />
+            <RadzenPanelMenuItem Text="CityModels" Path="city-models" />
+            <RadzenPanelMenuItem Text="Companies" Path="companies" />
+            <RadzenPanelMenuItem Text="Contacts" Path="contacts" />
+            <RadzenPanelMenuItem Text="Countries" Path="countries" />
+            <RadzenPanelMenuItem Text="Currencies" Path="currencies" />
+            <RadzenPanelMenuItem Text="CustomerInformations" Path="customer-informations" />
+            <RadzenPanelMenuItem Text="DatabaseColumns" Path="database-columns" />
+            <RadzenPanelMenuItem Text="DatabaseTables" Path="database-tables" />
+            <RadzenPanelMenuItem Text="DatabaseValueTypes" Path="database-value-types" />
+            <RadzenPanelMenuItem Text="DatatableCmsInputTypes" Path="datatable-cms-input-types" />
+            <RadzenPanelMenuItem Text="Deals" Path="deals" />
+            <RadzenPanelMenuItem Text="DealTypeLanguages" Path="deal-type-languages" />
+            <RadzenPanelMenuItem Text="DealTypes" Path="deal-types" />
+            <RadzenPanelMenuItem Text="ExchangeRates" Path="exchange-rates" />
+            <RadzenPanelMenuItem Text="Extensions" Path="extensions" />
+            <RadzenPanelMenuItem Text="ExtrasTypes" Path="extras-types" />
+            <RadzenPanelMenuItem Text="Facilities" Path="facilities" />
+            <RadzenPanelMenuItem Text="FacilitiesHotels" Path="facilities-hotels" />
+            <RadzenPanelMenuItem Text="FacilityLanguages" Path="facility-languages" />
+            <RadzenPanelMenuItem Text="FieldsTypes" Path="fields-types" />
+            <RadzenPanelMenuItem Text="HeaderColors" Path="header-colors" />
+            <RadzenPanelMenuItem Text="HotelAgencyMarkups" Path="hotel-agency-markups" />
+            <RadzenPanelMenuItem Text="HotelBuyRoomAllotments" Path="hotel-buy-room-allotments" />
+            <RadzenPanelMenuItem Text="HotelBuyRooms" Path="hotel-buy-rooms" />
+            <RadzenPanelMenuItem Text="HotelChains" Path="hotel-chains" />
+            <RadzenPanelMenuItem Text="HotelDescriptions" Path="hotel-descriptions" />
+            <RadzenPanelMenuItem Text="HotelPhotoLanguages" Path="hotel-photo-languages" />
+            <RadzenPanelMenuItem Text="HotelPhotos" Path="hotel-photos" />
+            <RadzenPanelMenuItem Text="HotelRoomDailyPrices" Path="hotel-room-daily-prices" />
+            <RadzenPanelMenuItem Text="HotelRoomLanguages" Path="hotel-room-languages" />
+            <RadzenPanelMenuItem Text="HotelRooms" Path="hotel-rooms" />
+            <RadzenPanelMenuItem Text="Hotels" Path="hotels" />
+            <RadzenPanelMenuItem Text="HotelTypeLanguages" Path="hotel-type-languages" />
+            <RadzenPanelMenuItem Text="HotelTypes" Path="hotel-types" />
+            <RadzenPanelMenuItem Text="Languages" Path="languages" />
+            <RadzenPanelMenuItem Text="LogPermissions" Path="log-permissions" />
+            <RadzenPanelMenuItem Text="Logs" Path="logs" />
+            <RadzenPanelMenuItem Text="Menus" Path="menus" />
+            <RadzenPanelMenuItem Text="OgSeos" Path="og-seos" />
+            <RadzenPanelMenuItem Text="PageContents" Path="page-contents" />
+            <RadzenPanelMenuItem Text="PageTypes" Path="page-types" />
+            <RadzenPanelMenuItem Text="PassengerInformations" Path="passenger-informations" />
+            <RadzenPanelMenuItem Text="Passengers" Path="passengers" />
+            <RadzenPanelMenuItem Text="PnrCustomFields" Path="pnr-custom-fields" />
+            <RadzenPanelMenuItem Text="PnRs" Path="pn-rs" />
+            <RadzenPanelMenuItem Text="PossibleQueries" Path="possible-queries" />
+            <RadzenPanelMenuItem Text="Providers" Path="providers" />
+            <RadzenPanelMenuItem Text="Proviences" Path="proviences" />
+            <RadzenPanelMenuItem Text="Regions" Path="regions" />
+            <RadzenPanelMenuItem Text="ReservationDetails" Path="reservation-details" />
+            <RadzenPanelMenuItem Text="Reservations" Path="reservations" />
+            <RadzenPanelMenuItem Text="Rooms" Path="rooms" />
+            <RadzenPanelMenuItem Text="Statuses" Path="statuses" />
+            <RadzenPanelMenuItem Text="SupplierBuyingDestinations" Path="supplier-buying-destinations" />
+            <RadzenPanelMenuItem Text="SupplierFees" Path="supplier-fees" />
+            <RadzenPanelMenuItem Text="SupplierProductTypes" Path="supplier-product-types" />
+            <RadzenPanelMenuItem Text="SupplierRegisteredProducts" Path="supplier-registered-products" />
+            <RadzenPanelMenuItem Text="Suppliers" Path="suppliers" />
+            <RadzenPanelMenuItem Text="SupplierSellingDestinations" Path="supplier-selling-destinations" />
+            <RadzenPanelMenuItem Text="SupplierTypes" Path="supplier-types" />
+            <RadzenPanelMenuItem Text="Terminals" Path="terminals" />
+            <RadzenPanelMenuItem Text="ThemeStyles" Path="theme-styles" />
+            <RadzenPanelMenuItem Text="Urls" Path="urls" />
+            <RadzenPanelMenuItem Text="UserPreferences" Path="user-preferences" />
+            <RadzenPanelMenuItem Text="Users" Path="users" />
+            <RadzenPanelMenuItem Text="UserTypes" Path="user-types" />
+            <RadzenPanelMenuItem Text="YesNos" Path="yes-nos" />
+            <RadzenPanelMenuItem Text="Zones" Path="zones" />
+            <RadzenPanelMenuItem Text="ZonesCities" Path="zones-cities" />
+            <RadzenPanelMenuItem Text="Currency1S" Path="currency1-s" />
+            <RadzenPanelMenuItem Text="MarketPlacesProfiles" Path="market-places-profiles" />
+            <RadzenPanelMenuItem Text="MarketPlaceTypes" Path="market-place-types" />
+        </RadzenPanelMenu>
+        <div class="py-3 py-md-4" style="padding: var(--rz-panel-menu-item-padding);">
+            <RadzenText Text="ZarenTravel v1.0.0" TextStyle="Radzen.Blazor.TextStyle.Caption" style="color: var(--rz-text-disabled-color);" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" />
+            <RadzenText Text="Copyright Ⓒ 2023" TextStyle="Radzen.Blazor.TextStyle.Caption" class="mb-0" style="color: var(--rz-text-disabled-color);" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" />
+        </div>
+    </RadzenSidebar>
+</RadzenLayout>
+
+@code {
+    bool sidebarExpanded = true;
+
+    [Inject]
+    protected SecurityService Security { get; set; }
+
+    void SidebarToggleClick()
+    {
+        sidebarExpanded = !sidebarExpanded;
+    }
+
+    protected void ProfileMenuClick(RadzenProfileMenuItem args)
+    {
+        if (args.Value == "Logout")
+        {
+            Security.Logout();
+        }
+    }
+}

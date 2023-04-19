@@ -1,0 +1,185 @@
+@page "/add-log-permission"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Add LogPermission</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save LogPermission</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.LogPermission" Data="@logPermission" Visible="@(logPermission != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="User I D" Component="UserID" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@logPermission.UserID" Name="UserID" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Change Date" Component="ChangeDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@logPermission.ChangeDate" Name="ChangeDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Database Tables" Component="DatabaseTables" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@logPermission.DatabaseTables" Name="DatabaseTables" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Can Insert" Component="CanInsert" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@logPermission.CanInsert" Name="CanInsert" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Can Update" Component="CanUpdate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@logPermission.CanUpdate" Name="CanUpdate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Can Get One" Component="CanGetOne" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@logPermission.CanGetOne" Name="CanGetOne" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Can Get List" Component="CanGetList" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@logPermission.CanGetList" Name="CanGetList" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Can Delete" Component="CanDelete" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@logPermission.CanDelete" Name="CanDelete" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Can View" Component="CanView" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@logPermission.CanView" Name="CanView" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Can Class Init" Component="CanClassInit" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@logPermission.CanClassInit" Name="CanClassInit" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Can Class Insert" Component="CanClassInsert" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@logPermission.CanClassInsert" Name="CanClassInsert" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Can Class List" Component="CanClassList" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@logPermission.CanClassList" Name="CanClassList" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Can Class Update" Component="CanClassUpdate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@logPermission.CanClassUpdate" Name="CanClassUpdate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Products" Component="Products" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@logPermission.Products" Name="Products" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Note" Component="Note" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@logPermission.Note" Name="Note" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Modify By" Component="ModifyBy" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@logPermission.ModifyBy" Name="ModifyBy" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Modify Date" Component="ModifyDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@logPermission.ModifyDate" Name="ModifyDate" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.LogPermission logPermission;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.CreateLogPermission(logPermission);
+            DialogService.Close(logPermission);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+}

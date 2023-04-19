@@ -1,0 +1,120 @@
+@page "/edit-user-preference"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit UserPreference</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save UserPreference</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.UserPreference" Data="@userPreference" Visible="@(userPreference != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Theme Style" Component="ThemeStyle" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@userPreference.ThemeStyle" Name="ThemeStyle" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Products" Component="Products" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@userPreference.Products" Name="Products" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Header Color" Component="HeaderColor" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@userPreference.HeaderColor" Name="HeaderColor" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Side Bar Color" Component="SideBarColor" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@userPreference.SideBarColor" Name="SideBarColor" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="User" Component="User" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@usersForUserID" TextProperty="GovernmentID" ValueProperty="ID"
+                        Disabled=@(hasUserIDValue) Placeholder="Choose User" style="display: block; width: 100%" @bind-Value="@userPreference.UserID" Name="UserID"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int ID { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        userPreference = await ZarenSoftService.GetUserPreferenceById(ID);
+
+        usersForUserID = await ZarenSoftService.GetUsers();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.UserPreference userPreference;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.User> usersForUserID;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateUserPreference(ID, userPreference);
+            DialogService.Close(userPreference);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasUserIDValue;
+
+    [Parameter]
+    public int? UserID { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        userPreference = new ZarenTravel.Models.ZarenSoft.UserPreference();
+
+        hasUserIDValue = parameters.TryGetValue<int?>("UserID", out var hasUserIDResult);
+
+        if (hasUserIDValue)
+        {
+            userPreference.UserID = hasUserIDResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

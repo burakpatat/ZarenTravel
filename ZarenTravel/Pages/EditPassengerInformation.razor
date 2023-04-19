@@ -1,0 +1,169 @@
+@page "/edit-passenger-information"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit PassengerInformation</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save PassengerInformation</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.PassengerInformation" Data="@passengerInformation" Visible="@(passengerInformation != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Pnrpax Id" Component="PnrpaxId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@passengerInformation.PnrpaxId" Name="PnrpaxId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Pnr" Component="Pnr" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@passengerInformation.Pnr" Name="Pnr" />
+                    <RadzenRequiredValidator Component="Pnr" Text="Pnr is required" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Pax Sequence" Component="PaxSequence" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@passengerInformation.PaxSequence" Name="PaxSequence" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Title" Component="Title" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@passengerInformation.Title" Name="Title" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="First Name" Component="FirstName" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@passengerInformation.FirstName" Name="FirstName" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Last Name" Component="LastName" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@passengerInformation.LastName" Name="LastName" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Adult Id" Component="AdultId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@passengerInformation.AdultId" Name="AdultId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Nationality Code" Component="NationalityCode" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@passengerInformation.NationalityCode" Name="NationalityCode" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Total Fare" Component="TotalFare" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@passengerInformation.TotalFare" Name="TotalFare" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Total Taxchg" Component="TotalTaxchg" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@passengerInformation.TotalTaxchg" Name="TotalTaxchg" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Total Paid" Component="TotalPaid" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@passengerInformation.TotalPaid" Name="TotalPaid" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="F I L E I D" Component="FILE_ID" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@passengerInformation.FILE_ID" Name="FILE_ID" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="F I L E N A M E" Component="FILE_NAME" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@passengerInformation.FILE_NAME" Name="FILE_NAME" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Record Date Stamp" Component="RecordDateStamp" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@passengerInformation.RecordDateStamp" Name="RecordDateStamp" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Parameter]
+    public string Pnr { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        passengerInformation = await ZarenSoftService.GetPassengerInformationByIdAndPnr(Id, Pnr);
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.PassengerInformation passengerInformation;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdatePassengerInformation(Id, Pnr, passengerInformation);
+            DialogService.Close(passengerInformation);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+}

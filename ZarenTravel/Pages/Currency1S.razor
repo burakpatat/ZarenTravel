@@ -1,0 +1,573 @@
+@page "/currency1-s"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Currency1S</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="Currency1S" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px" Render=Grid0Render AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@currency1S"    TItem="ZarenTravel.Models.ZarenSoft.Currency1" RowDoubleClick="@EditRow" RowSelect=@GetChildData>
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Currency1" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Currency1" Property="CurrencyCode" Title="Currency Code">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Currency1" Property="CurrencyCodeIata" Title="Currency Code Iata">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Currency1" Property="CurrencyName" Title="Currency Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Currency1" Property="CurrencyTimestamp" Title="Currency Timestamp">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Currency1" Property="CurrencyActive" Title="Currency Active">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Currency1" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="currency1">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, currency1)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+                    <RadzenHeading Visible="@(currency1 != null)" Size="H1" Text="Airs" />
+                    <RadzenButton Visible="@(currency1 != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => AirAddButtonClick(args,currency1)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(currency1 != null)" @ref=AirDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@currency1?.Airs" TItem="ZarenTravel.Models.ZarenSoft.Air"  RowSelect="@(args => AirRowSelect(args, currency1))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="AirRecordAirline" Title="Air Record Airline">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="AirTicket" Title="Air Ticket">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="AirBookedDate" Title="Air Booked Date">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="AirIssueddate" Title="Air Issueddate">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="AirReIssued" Title="Air Re Issued">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="AirOriginalTicket" Title="Air Original Ticket">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="AirFare" Title="Air Fare">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="AirTax" Title="Air Tax">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="AirLowestFare" Title="Air Lowest Fare">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="AirHighestFare" Title="Air Highest Fare">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="AirFareBases" Title="Air Fare Bases">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="AirIncludeBags" Title="Air Include Bags">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="AirTimestamp" Title="Air Timestamp">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="AirActive" Title="Air Active">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="Airline.AirlineCode" Title="Airline">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="Broker.BrokerCode" Title="Broker">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="Currency1.CurrencyCode" Title="Currency1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Property="Pnr.PNRRecord" Title="Pnr">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Air" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="airChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => AirDeleteButtonClick(args, airChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(currency1 != null)" Size="H1" Text="CarRents" />
+                    <RadzenButton Visible="@(currency1 != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => CarRentAddButtonClick(args,currency1)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(currency1 != null)" @ref=CarRentDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@currency1?.CarRents" TItem="ZarenTravel.Models.ZarenSoft.CarRent"  RowSelect="@(args => CarRentRowSelect(args, currency1))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CaRePickUpDate" Title="Ca Re Pick Up Date">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CaReReturnDate" Title="Ca Re Return Date">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CaReRate" Title="Ca Re Rate">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CaReTax" Title="Ca Re Tax">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CaReBookDate" Title="Ca Re Book Date">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CaReTimestamp" Title="Ca Re Timestamp">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CaReActive" Title="Ca Re Active">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="Airport.AirportCode" Title="Airport">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="Airport1.AirportCode" Title="Airport1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CarRental.CaRtCode" Title="Car Rental">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CarType.CaTyCode" Title="Car Type">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="Currency1.CurrencyCode" Title="Currency1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="Pnr.PNRRecord" Title="Pnr">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="carRentChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => CarRentDeleteButtonClick(args, carRentChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(currency1 != null)" Size="H1" Text="Companies" />
+                    <RadzenButton Visible="@(currency1 != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => CompanyAddButtonClick(args,currency1)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(currency1 != null)" @ref=CompanyDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@currency1?.Companies" TItem="ZarenTravel.Models.ZarenSoft.Company"  RowSelect="@(args => CompanyRowSelect(args, currency1))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="CompanyCode" Title="Company Code">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="CompanyRepresentative" Title="Company Representative">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="CoGrId" Title="Co Gr Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="CoDiId" Title="Co Di Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="InSeId" Title="In Se Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="CompanyTimestamp" Title="Company Timestamp">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="CompanyActive" Title="Company Active">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="Agency.Name" Title="Agency">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="Country.Name" Title="Country">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="Currency1.CurrencyCode" Title="Currency1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="Language.Name" Title="Language">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="companyChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => CompanyDeleteButtonClick(args, companyChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(currency1 != null)" Size="H1" Text="ExchangeRates" />
+                    <RadzenButton Visible="@(currency1 != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => ExchangeRateAddButtonClick(args,currency1)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(currency1 != null)" @ref=ExchangeRateDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@currency1?.ExchangeRates" TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate"  RowSelect="@(args => ExchangeRateRowSelect(args, currency1))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Property="ExRaValue" Title="Ex Ra Value">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Property="ExRaDate" Title="Ex Ra Date">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Property="ExRaTimestamp" Title="Ex Ra Timestamp">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Property="ExRaActive" Title="Ex Ra Active">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Property="Currency1.CurrencyCode" Title="Currency1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Property="Currency11.CurrencyCode" Title="Currency11">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="exchangeRateChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => ExchangeRateDeleteButtonClick(args, exchangeRateChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(currency1 != null)" Size="H1" Text="ExchangeRates" />
+                    <RadzenButton Visible="@(currency1 != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => ExchangeRateAddButtonClick(args,currency1)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(currency1 != null)" @ref=ExchangeRateDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@currency1?.ExchangeRates1" TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate"  RowSelect="@(args => ExchangeRateRowSelect(args, currency1))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Property="ExRaValue" Title="Ex Ra Value">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Property="ExRaDate" Title="Ex Ra Date">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Property="ExRaTimestamp" Title="Ex Ra Timestamp">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Property="ExRaActive" Title="Ex Ra Active">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Property="Currency1.CurrencyCode" Title="Currency1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Property="Currency11.CurrencyCode" Title="Currency11">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="exchangeRateChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => ExchangeRateDeleteButtonClick(args, exchangeRateChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Currency1> currency1S;
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.Currency1> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        currency1S = await ZarenSoftService.GetCurrency1S(new Query { Filter = $@"i => i.CurrencyCode.Contains(@0) || i.CurrencyCodeIata.Contains(@0) || i.CurrencyName.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        currency1S = await ZarenSoftService.GetCurrency1S(new Query { Filter = $@"i => i.CurrencyCode.Contains(@0) || i.CurrencyCodeIata.Contains(@0) || i.CurrencyName.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddCurrency1>("Add Currency1", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravel.Models.ZarenSoft.Currency1> args)
+    {
+        await DialogService.OpenAsync<EditCurrency1>("Edit Currency1", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Currency1 currency1)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteCurrency1(currency1.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete Currency1" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await ZarenSoftService.ExportCurrency1SToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "Currency1S");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await ZarenSoftService.ExportCurrency1SToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "Currency1S");
+        }
+    }
+
+    protected ZarenTravel.Models.ZarenSoft.Currency1 currency1;
+    protected async Task GetChildData(ZarenTravel.Models.ZarenSoft.Currency1 args)
+    {
+        currency1 = args;
+        var AirResult = await ZarenSoftService.GetAirs(new Query { Filter = $"i => i.CurrencyId == {args.Id}", Expand = "Airline,Broker,Currency1,Pnr" });
+        if (AirResult != null)
+        {
+            args.Airs = AirResult.ToList();
+        }
+        var CarRentResult = await ZarenSoftService.GetCarRents(new Query { Filter = $"i => i.CurrencyId == {args.Id}", Expand = "Airport,Airport1,CarRental,CarType,Currency1,Pnr" });
+        if (CarRentResult != null)
+        {
+            args.CarRents = CarRentResult.ToList();
+        }
+        var CompanyResult = await ZarenSoftService.GetCompanies(new Query { Filter = $"i => i.CurrencyId == {args.Id}", Expand = "Agency,Country,Currency1,Language" });
+        if (CompanyResult != null)
+        {
+            args.Companies = CompanyResult.ToList();
+        }
+        var ExchangeRateResult = await ZarenSoftService.GetExchangeRates(new Query { Filter = $"i => i.CurrencyIdFrom == {args.Id}", Expand = "Currency1,Currency11" });
+        if (ExchangeRateResult != null)
+        {
+            args.ExchangeRates = ExchangeRateResult.ToList();
+        }
+        var ExchangeRateResult = await ZarenSoftService.GetExchangeRates();
+        if (ExchangeRateResult != null)
+        {
+            args.ExchangeRates1 = ExchangeRateResult.ToList();
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.Air> AirDataGrid;
+
+    protected async Task AirAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Currency1 data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddAir>("Add Air", new Dictionary<string, object> { {"CurrencyId" , data.Id} });
+        await GetChildData(data);
+        await AirDataGrid.Reload();
+    }
+
+    protected async Task AirRowSelect(ZarenTravel.Models.ZarenSoft.Air args, ZarenTravel.Models.ZarenSoft.Currency1 data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditAir>("Edit Air", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await AirDataGrid.Reload();
+    }
+
+    protected async Task AirDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Air air)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteAir(air.Id);
+
+                if (deleteResult != null)
+                {
+                    await AirDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete Air" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.CarRent> CarRentDataGrid;
+
+    protected async Task CarRentAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Currency1 data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddCarRent>("Add CarRent", new Dictionary<string, object> { {"CurrencyId" , data.Id} });
+        await GetChildData(data);
+        await CarRentDataGrid.Reload();
+    }
+
+    protected async Task CarRentRowSelect(ZarenTravel.Models.ZarenSoft.CarRent args, ZarenTravel.Models.ZarenSoft.Currency1 data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditCarRent>("Edit CarRent", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await CarRentDataGrid.Reload();
+    }
+
+    protected async Task CarRentDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.CarRent carRent)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteCarRent(carRent.Id);
+
+                if (deleteResult != null)
+                {
+                    await CarRentDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete CarRent" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.Company> CompanyDataGrid;
+
+    protected async Task CompanyAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Currency1 data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddCompany>("Add Company", new Dictionary<string, object> { {"CurrencyId" , data.Id} });
+        await GetChildData(data);
+        await CompanyDataGrid.Reload();
+    }
+
+    protected async Task CompanyRowSelect(ZarenTravel.Models.ZarenSoft.Company args, ZarenTravel.Models.ZarenSoft.Currency1 data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditCompany>("Edit Company", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await CompanyDataGrid.Reload();
+    }
+
+    protected async Task CompanyDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Company company)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteCompany(company.Id);
+
+                if (deleteResult != null)
+                {
+                    await CompanyDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete Company" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.ExchangeRate> ExchangeRateDataGrid;
+
+    protected async Task ExchangeRateAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Currency1 data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddExchangeRate>("Add ExchangeRate", new Dictionary<string, object> { {"CurrencyIdFrom" , data.Id} });
+        await GetChildData(data);
+        await ExchangeRateDataGrid.Reload();
+    }
+
+    protected async Task ExchangeRateRowSelect(ZarenTravel.Models.ZarenSoft.ExchangeRate args, ZarenTravel.Models.ZarenSoft.Currency1 data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditExchangeRate>("Edit ExchangeRate", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await ExchangeRateDataGrid.Reload();
+    }
+
+    protected async Task ExchangeRateDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.ExchangeRate exchangeRate)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteExchangeRate(exchangeRate.Id);
+
+                if (deleteResult != null)
+                {
+                    await ExchangeRateDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete ExchangeRate" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.ExchangeRate> ExchangeRateDataGrid;
+
+    protected async Task ExchangeRateAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Currency1 data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddExchangeRate>("Add ExchangeRate", new Dictionary<string, object> {  });
+        await GetChildData(data);
+        await ExchangeRateDataGrid.Reload();
+    }
+
+    protected async Task ExchangeRateRowSelect(ZarenTravel.Models.ZarenSoft.ExchangeRate args, ZarenTravel.Models.ZarenSoft.Currency1 data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditExchangeRate>("Edit ExchangeRate", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await ExchangeRateDataGrid.Reload();
+    }
+
+    protected async Task ExchangeRateDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.ExchangeRate exchangeRate)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteExchangeRate(exchangeRate.Id);
+
+                if (deleteResult != null)
+                {
+                    await ExchangeRateDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete ExchangeRate" 
+            });
+        }
+    }
+
+    string lastFilter;
+    protected async void Grid0Render(DataGridRenderEventArgs<ZarenTravel.Models.ZarenSoft.Currency1> args)
+    {
+        if (grid0.Query.Filter != lastFilter) {
+            currency1 = grid0.View.FirstOrDefault();
+        }
+
+        if (grid0.Query.Filter != lastFilter)
+        {
+            await grid0.SelectRow(currency1);
+        }
+
+        lastFilter = grid0.Query.Filter;
+    }
+}

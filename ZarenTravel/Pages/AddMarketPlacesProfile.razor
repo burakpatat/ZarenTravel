@@ -1,0 +1,207 @@
+@page "/add-market-places-profile"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Add MarketPlacesProfile</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save MarketPlacesProfile</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Data="@marketPlacesProfile" Visible="@(marketPlacesProfile != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Name" Component="Name" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@marketPlacesProfile.Name" Name="Name" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Descriptions" Component="Descriptions" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@marketPlacesProfile.Descriptions" Name="Descriptions" />
+                    <RadzenRequiredValidator Component="Descriptions" Text="Descriptions is required" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Website" Component="Website" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@marketPlacesProfile.Website" Name="Website" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Source Market Country Id" Component="SourceMarketCountryId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@marketPlacesProfile.SourceMarketCountryId" Name="SourceMarketCountryId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Logo" Component="Logo" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@marketPlacesProfile.Logo" Name="Logo" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Accept Supplier" Component="AcceptSupplier" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@marketPlacesProfile.AcceptSupplier" Name="AcceptSupplier" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Accept Reseller" Component="AcceptReseller" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@marketPlacesProfile.AcceptReseller" Name="AcceptReseller" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Accept Products" Component="AcceptProducts" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@marketPlacesProfile.AcceptProducts" Name="AcceptProducts" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Created Date" Component="CreatedDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@marketPlacesProfile.CreatedDate" Name="CreatedDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Updated Date" Component="UpdatedDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@marketPlacesProfile.UpdatedDate" Name="UpdatedDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Created By" Component="CreatedBy" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@marketPlacesProfile.CreatedBy" Name="CreatedBy" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Updated By" Component="UpdatedBy" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@marketPlacesProfile.UpdatedBy" Name="UpdatedBy" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Market Place Type" Component="MarketPlaceType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@marketPlaceTypesForMarketPlaceTypeId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasMarketPlaceTypeIdValue) Placeholder="Choose MarketPlaceType" style="display: block; width: 100%" @bind-Value="@marketPlacesProfile.MarketPlaceTypeId" Name="MarketPlaceTypeId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Market Places Profile1" Component="MarketPlacesProfile1" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@marketPlacesProfilesForParentId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasParentIdValue) Placeholder="Choose MarketPlacesProfile1" style="display: block; width: 100%" @bind-Value="@marketPlacesProfile.ParentId" Name="ParentId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        marketPlaceTypesForMarketPlaceTypeId = await ZarenSoftService.GetMarketPlaceTypes();
+
+        marketPlacesProfilesForParentId = await ZarenSoftService.GetMarketPlacesProfiles();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.MarketPlacesProfile marketPlacesProfile;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.MarketPlaceType> marketPlaceTypesForMarketPlaceTypeId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.MarketPlacesProfile> marketPlacesProfilesForParentId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.CreateMarketPlacesProfile(marketPlacesProfile);
+            DialogService.Close(marketPlacesProfile);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasMarketPlaceTypeIdValue;
+
+    [Parameter]
+    public int? MarketPlaceTypeId { get; set; }
+
+    bool hasParentIdValue;
+
+    [Parameter]
+    public int? ParentId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        marketPlacesProfile = new ZarenTravel.Models.ZarenSoft.MarketPlacesProfile();
+
+        hasMarketPlaceTypeIdValue = parameters.TryGetValue<int?>("MarketPlaceTypeId", out var hasMarketPlaceTypeIdResult);
+
+        if (hasMarketPlaceTypeIdValue)
+        {
+            marketPlacesProfile.MarketPlaceTypeId = hasMarketPlaceTypeIdResult;
+        }
+
+        hasParentIdValue = parameters.TryGetValue<int?>("ParentId", out var hasParentIdResult);
+
+        if (hasParentIdValue)
+        {
+            marketPlacesProfile.ParentId = hasParentIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

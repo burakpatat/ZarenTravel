@@ -1,0 +1,147 @@
+@page "/edit-microsite-country"
+
+<PageTitle>Edit MicrositeCountry</PageTitle>
+<div  class="row">
+    <div class="col-md-9">
+        <RadzenLabel style="font-weight: bold" Text="Item no longer available." Visible="@(!canEdit)" />
+    </div>
+    <div class="col-md-3">
+        <RadzenButton ButtonStyle="ButtonStyle.Secondary" style="margin-bottom: 20px" Text="Close" Visible="@(!canEdit)" Click="@CancelButtonClick" />
+    </div>
+</div>
+<div  class="row">
+    <div class="col-md-9">
+        <RadzenLabel style="font-weight: bold" Text="Another user has made conflicting changes to one or more of the fields you have modified. Please reload." Visible="@hasChanges" />
+    </div>
+    <div class="col-md-3">
+        <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="autorenew" style="margin-bottom: 20px" Text="Reload" Visible="@hasChanges" Click="@ReloadButtonClick" />
+    </div>
+</div>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save MicrositeCountry</RadzenAlert>
+        <RadzenTemplateForm TItem="Travel.Models.TravelCDb.MicrositeCountry" Data="@micrositeCountry" Visible="@(micrositeCountry != null && canEdit)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Code" Component="Code" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@micrositeCountry.Code" Name="Code" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Flag" Component="Flag" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@micrositeCountry.Flag" Name="Flag" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Name" Component="Name" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@micrositeCountry.Name" Name="Name" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Continent" Component="Continent" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@micrositeCountry.Continent" Name="Continent" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Prefix" Component="Prefix" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@micrositeCountry.Prefix" Name="Prefix" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Farud Risk Id" Component="FarudRiskId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@micrositeCountry.FarudRiskId" Name="FarudRiskId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Manual Registration" Component="ManualRegistration" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@micrositeCountry.ManualRegistration" Name="ManualRegistration" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Default Currency Id" Component="DefaultCurrencyId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@micrositeCountry.DefaultCurrencyId" Name="DefaultCurrencyId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Create Date" Component="CreateDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@micrositeCountry.CreateDate" Name="CreateDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Updat Date" Component="UpdatDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@micrositeCountry.UpdatDate" Name="UpdatDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Created By" Component="CreatedBy" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@micrositeCountry.CreatedBy" Name="CreatedBy" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Update By" Component="UpdateBy" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@micrositeCountry.UpdateBy" Name="UpdateBy" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency" Component="Agency" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agenciesForAgencyId" TextProperty="City" ValueProperty="Id"
+                         Placeholder="Choose Agency" style="display: block; width: 100%" @bind-Value="@micrositeCountry.AgencyId" Name="AgencyId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Micro Site" Component="MicroSite" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@microSitesForMicroSiteId" TextProperty="Domain" ValueProperty="Id"
+                         Placeholder="Choose MicroSite" style="display: block; width: 100%" @bind-Value="@micrositeCountry.MicroSiteId" Name="MicroSiteId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+

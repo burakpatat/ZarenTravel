@@ -1,0 +1,146 @@
+@page "/edit-air-extra"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit AirExtra</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save AirExtra</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.AirExtra" Data="@airExtra" Visible="@(airExtra != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ai Ex Description" Component="AiExDescription" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@airExtra.AiExDescription" Name="AiExDescription" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ai Ex Fare" Component="AiExFare" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@airExtra.AiExFare" Name="AiExFare" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ai Ex Timestamp" Component="AiExTimestamp" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@airExtra.AiExTimestamp" Name="AiExTimestamp" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ai Ex Active" Component="AiExActive" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@airExtra.AiExActive" Name="AiExActive" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air" Component="Air" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@airsForAirId" TextProperty="AirRecordAirline" ValueProperty="Id"
+                        Disabled=@(hasAirIdValue) Placeholder="Choose Air" style="display: block; width: 100%" @bind-Value="@airExtra.AirId" Name="AirId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Extras Type" Component="ExtrasType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@extrasTypesForExTyId" TextProperty="ExTyCode" ValueProperty="Id"
+                        Disabled=@(hasExTyIdValue) Placeholder="Choose ExtrasType" style="display: block; width: 100%" @bind-Value="@airExtra.ExTyId" Name="ExTyId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        airExtra = await ZarenSoftService.GetAirExtraById(Id);
+
+        airsForAirId = await ZarenSoftService.GetAirs();
+
+        extrasTypesForExTyId = await ZarenSoftService.GetExtrasTypes();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.AirExtra airExtra;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Air> airsForAirId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.ExtrasType> extrasTypesForExTyId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateAirExtra(Id, airExtra);
+            DialogService.Close(airExtra);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasAirIdValue;
+
+    [Parameter]
+    public int? AirId { get; set; }
+
+    bool hasExTyIdValue;
+
+    [Parameter]
+    public int? ExTyId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        airExtra = new ZarenTravel.Models.ZarenSoft.AirExtra();
+
+        hasAirIdValue = parameters.TryGetValue<int?>("AirId", out var hasAirIdResult);
+
+        if (hasAirIdValue)
+        {
+            airExtra.AirId = hasAirIdResult;
+        }
+
+        hasExTyIdValue = parameters.TryGetValue<int?>("ExTyId", out var hasExTyIdResult);
+
+        if (hasExTyIdValue)
+        {
+            airExtra.ExTyId = hasExTyIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

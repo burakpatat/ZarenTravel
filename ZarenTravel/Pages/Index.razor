@@ -1,0 +1,33 @@
+@page "/"
+@attribute [Authorize]
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Index> L
+<PageTitle>ZarenSoft Index</PageTitle>
+<div class="row pt-5 px-5">
+    <div class="col-12">
+        
+        <RadzenCard Style="margin-top: 40px; padding: 20px 40px 40px;">
+            <div class="row">
+                <div class="col-12 ">
+                   
+                            <img style="width:100%;" src="/images/zarenlogo.png"/>
+                        
+
+                </div>
+                
+            </div>
+        </RadzenCard>
+    </div>
+</div>
+
+@code {
+
+    [Inject]
+    protected SecurityService Security { get; set; }
+}
+

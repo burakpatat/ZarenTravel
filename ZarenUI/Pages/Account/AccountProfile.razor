@@ -1,0 +1,298 @@
+﻿@page "/account-profile"
+@using System.Globalization;
+@using Microsoft.AspNetCore.Identity;
+@using Model.Concrete;
+@using Newtonsoft.Json;
+@using System.Net.Http.Headers;
+@using Core.Entities;
+@using ZarenUI.Models;
+@using Radzen
+@using System.Text.Json
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Index> L
+@inject IJSRuntime JS
+@inject NavigationManager NavigationManager
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+@inject IConfiguration config
+@using Radzen.Blazor.Rendering;
+@attribute [Authorize]
+
+@if (user != null)
+{
+    <main data-auth="@Security.IsAuthenticated()" data-user="@user.ToJson()">
+        <section class="pt-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-xl-3">
+                        <!-- Responsive offcanvas body START -->
+                        <div class="offcanvas-lg offcanvas-end" tabindex="-1" id="offcanvasSidebar">
+                            <!-- Offcanvas header -->
+                            <div class="offcanvas-header justify-content-end pb-2">
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar" aria-label="Close"></button>
+                            </div>
+
+                            <!-- Offcanvas body -->
+                            <div class="offcanvas-body p-3 p-lg-0">
+                                <div class="card bg-light w-100">
+
+                                    <!-- Edit profile button -->
+                                    <div class="position-absolute top-0 end-0 p-3">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </div>
+                                    <!-- Card body START -->
+                                    <div class="card-body p-3">
+                                        <!-- Avatar and content -->
+                                        <div class="text-center mb-3">
+                                            <!-- Avatar -->
+                                            <div class="avatar avatar-xl mb-2">
+                                                <img class="avatar-img rounded-circle border border-2 border-white" src="@user.ProfilePhoto" alt="">
+                                            </div>
+                                            <h6 class="mb-0">@user.FullName</h6>
+                                            <a href="#" class="text-reset text-primary-hover small">@user.Email</a>
+                                            <hr>
+                                        </div>
+
+                                        <!-- Sidebar menu item START -->
+                                        <ul class="nav nav-pills-primary-soft flex-column">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="account-profile"><i class="bi bi-person fa-fw me-2"></i><span data-i18="account.profile.myprofile"></span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="account-bookings"><i class="bi bi-ticket-perforated fa-fw me-2"></i><span data-i18="account.profile.mybookings"></span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="account-payment-details"><i class="bi bi-wallet fa-fw me-2"></i><span data-i18="account.profile.payment.details"></span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="account-wishlist"><i class="bi bi-heart fa-fw me-2"></i><span data-i18="account.profile.wishlist"></span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="account-settings"><i class="bi bi-gear fa-fw me-2"></i><span data-i18="account.profile.settings"></span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-danger bg-danger-soft-hover" href="account/logout"><i class="fas fa-sign-out-alt fa-fw me-2"></i><span data-i18="account.profile.signout"></span></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-xl-9">
+                        <!-- Offcanvas menu button -->
+                        <div class="d-grid mb-0 d-lg-none w-100">
+                            <button class="btn btn-primary mb-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+                                <i class="fas fa-sliders-h"></i> Menu
+                            </button>
+                        </div>
+
+                        <div class="vstack gap-4">
+                            <!-- Verified message -->
+                            <!-- Personal info START -->
+                            <div class="card border">
+                                <!-- Card header -->
+                                <div class="card-header border-bottom">
+                                    <h4 class="card-header-title" data-i18="account.profile.personalinfo"></h4>
+                                </div>
+                                <!-- Card body START -->
+                                <div class="card-body saveChanges">
+                                    <div class="row g-3">
+                                        <!-- Profile photo -->
+                                        <form method="post" action="upload/imageUpload" enctype="multipart/form-data" class="col-12">
+                                            <input type="hidden" value="@user.Id" name="userId">
+                                            <div class="d-flex align-items-center">
+                                                <label class="position-relative me-4" for="imageFile">
+                                                    <!-- Avatar place holder -->
+                                                    <span class="avatar avatar-xl">
+                                                        <img id="uploadfile-1-preview" class="avatar-img rounded-circle border border-white border-3 shadow" src="@(user.ProfilePhoto)" alt="">
+                                                        <input data-prop="ProfilePhoto" type="hidden" value="@(user.ProfilePhoto)">
+                                                    </span>
+                                                </label>
+                                                <label class="position-relative me-4 changeImg btn btn-sm btn-primary-soft " for="imageFile" style="cursor:pointer;" data-i18="account.profile.change"></label>
+                                                <!-- Upload button -->
+                                                <button class="btn btn-sm btn-primary-soft mb-0 changeImgBtn" for="imageFile" type="submit" style="display:none" data-i18="account.profile.upload.photo"></button>
+                                                <input type="file" name="imageFile" id="imageFile" style="display:none">
+                                            </div>
+                                        </form>
+                                        <!-- Name -->
+                                        <div class="col-md-6">
+                                            <label class="form-label" data-i18="account.profile.enter.name"><span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control " data-prop="FullName" @bind="@(user.FullName)" placeholder="Enter your full name">
+                                        </div>
+                                        <!-- Email -->
+                                        <div class="col-md-6">
+                                            <label class="form-label" data-i18="account.profile.enter.email.id"><span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control" data-prop="Email" disabled @bind="@(user.Email)" placeholder="Enter your email id">
+                                        </div>
+                                        <!-- Mobile -->
+                                        <div class="col-md-6">
+                                            <label class="form-label" data-i18="account.profile.enter.mobile.number"><span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" data-prop="PhoneNumber" @bind="@(user.PhoneNumber)" placeholder="Enter your mobile number">
+                                        </div>
+                                        <!-- Nationality -->
+                                        <div class="col-md-6">
+                                            <label class="form-label" data-i18="account.profile.nationality"><span class="text-danger">*</span></label>
+                                            <select class="form-select js-choice" data-prop="CountryId">
+                                                <option selected value="@user.CountryId">@countryName</option>
+                                                @foreach (var country in countries)
+                                                {
+                                                    <option value="@country.Id">@country.Name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <!-- Date of birth -->
+                                        <div class="col-md-6">
+                                            <label class="form-label" data-i18="account.profile.enter.dateofbirth"><span class="text-danger">*</span></label>
+                                            @if (user.DateOfBirth == null || user.DateOfBirth == DateTime.MinValue)
+                                            {
+                                                <input type="date" class="form-control bi-calendar" required data-prop="DateOfBirth" placeholder="yyyy.MM.dd" />
+                                            }
+                                            else
+                                            {
+                                                <input type="date" class="form-control bi-calendar flatpickr" required value="@user.DateOfBirth.Value.ToShortDateTime()" data-prop="DateOfBirth" placeholder="dd/MM/yyyy" />
+                                            }
+
+
+                                        </div>
+                                        <!-- Gender -->
+                                        <div class="col-md-6">
+                                            <label class="form-label" data-i18="account.profile.select.gender"><span class="text-danger">*</span></label>
+                                            <div class="d-flex gap-4">
+
+                                                @if (user.Gender == 1)
+                                                {
+                                                    <div class="form-check radio-bg-light">
+                                                        <input class="form-check-input" data-prop="Gender" data-index="Mr" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked="">
+                                                        <label class="form-check-label" for="flexRadioDefault1" data-i18="account.profile.gender.mr">
+                                                            @Gender.Mr
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check radio-bg-light">
+                                                        <input class="form-check-input" data-prop="Gender" data-index="Mrs" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                                                        <label class="form-check-label" for="flexRadioDefault2" data-i18="account.profile.gender.mrs">
+                                                            @Gender.Mrs
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check radio-bg-light">
+                                                        <input class="form-check-input" data-prop="Gender" data-index="Others" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
+                                                        <label class="form-check-label" for="flexRadioDefault3" data-i18="account.profile.gender.others">
+                                                            @Gender.Others
+                                                        </label>
+                                                    </div>
+                                                }
+                                                else if (user.Gender == 2)
+                                                {
+                                                    <div class="form-check radio-bg-light">
+                                                        <input class="form-check-input" data-prop="Gender" data-index="Mr" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                                        <label class="form-check-label" for="flexRadioDefault1" data-i18="account.profile.gender.mr">
+                                                            @Gender.Mr
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check radio-bg-light">
+                                                        <input class="form-check-input" data-prop="Gender" data-index="Mrs" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked="">
+                                                        <label class="form-check-label" for="flexRadioDefault2" data-i18="account.profile.gender.mrs">
+                                                            @Gender.Mrs
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check radio-bg-light">
+                                                        <input class="form-check-input" data-prop="Gender" data-index="Others" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
+                                                        <label class="form-check-label" for="flexRadioDefault3" data-i18="account.profile.gender.others">
+                                                            @Gender.Others
+                                                        </label>
+                                                    </div>
+                                                }
+                                                else if (user.Gender == 3)
+                                                {
+                                                    <div class="form-check radio-bg-light">
+                                                        <input class="form-check-input" data-prop="Gender" data-index="Mr" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                                        <label class="form-check-label" for="flexRadioDefault1" data-i18="account.profile.gender.mr">
+                                                            @Gender.Mr
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check radio-bg-light">
+                                                        <input class="form-check-input" data-prop="Gender" data-index="Mrs" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                                                        <label class="form-check-label" for="flexRadioDefault2" data-i18="account.profile.gender.mrs">
+                                                            @Gender.Mrs
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check radio-bg-light">
+                                                        <input class="form-check-input" data-prop="Gender" data-index="Others" type="radio" name="flexRadioDefault" id="flexRadioDefault3" checked="">
+                                                        <label class="form-check-label" for="flexRadioDefault3" data-i18="account.profile.gender.others">
+                                                            @Gender.Others
+                                                        </label>
+                                                    </div>
+                                                }
+
+                                            </div>
+                                        </div>
+                                        <!-- Address -->
+                                        <div class="col-12">
+                                            <label class="form-label" data-i18="account.profile.address"></label>
+                                            <textarea class="form-control" type="text" rows="3" data-prop="Address" spellcheck="false">
+                                                @user.Address
+                                                    </textarea>
+                                        </div>
+                                        <!-- Button -->
+                                        <div class="col-12 text-end">
+                                            <button class="btn btn-primary mb-0 save" data-i18="account.profile.btnsave"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card body END -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+}
+
+@code {
+    protected AspNetUsers user;
+    protected List<Country> countries;
+    protected bool isBusy;
+    protected bool errorVisible;
+    protected string error;
+    protected string countryName;
+
+    [Inject]
+    protected SecurityService Security { get; set; }
+    [Inject]
+    protected CountryRepository CountryRepository { get; set; }
+    [Inject]
+    protected AspNetUsersRepository AspNetUsersRepository { get; set; }
+    enum Gender
+    {
+        Mr = 1,
+        Mrs = 2,
+        Others = 3
+    };
+
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (Security.IsAuthenticated())
+        {
+            base.OnAfterRender(firstRender);
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/login", true);
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+
+        user = Security.Current();
+        if (user != null)
+        {
+            countries = CountryRepository.GetAllByCache().OrderBy(x => x.Name).ToList();
+            countryName = countries.Where(x => x.Id == user.CountryId).FirstOrDefault().Name;
+        }
+        base.OnInitialized();
+    }
+}
+}

@@ -1,0 +1,84 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">people_alt</i>
+            </div>
+            <h4 class="card-title float-left">Air</h4>
+            <button mat-raised-button class="float-right" color="primary" style="margin-top: 10px;"
+              (click)="addDialog()">
+              Add
+            </button>
+          </div>
+          <div class="card-body">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover" width="100%">
+              <thead>
+                <tr>
+                 <td>Id</td>
+<td>Airlineıd</td>
+<td>Airrecordairline</td>
+<td>Airticket</td>
+<td>Airbookeddate</td>
+<td>Airıssueddate</td>
+<td>Airreıssued</td>
+<td>Airoriginalticket</td>
+<td>Pnrıd</td>
+<td>Currencyıd</td>
+<td>Airfare</td>
+<td>Airtax</td>
+<td>Airlowestfare</td>
+<td>Airhighestfare</td>
+<td>Airfarebases</td>
+<td>Brokerıd</td>
+<td>Airıncludebags</td>
+<td>Airtimestamp</td>
+<td>Airactive</td>
+
+                  <th class="text-right" data-orderable="false" data-priority="2">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let dto1 of dtos">
+                
+
+                   <td>{{dto1['ıd']}}</td>
+ <td>{{dto1['airlineId']}}</td>
+ <td>{{dto1['airRecordAirline']}}</td>
+ <td>{{dto1['airTicket']}}</td>
+ <td>{{dto1['airBookedDate'] | date }}</td>
+ <td>{{dto1['airIssueddate'] | date }}</td>
+ <td>{{dto1['airReIssued']}}</td>
+ <td>{{dto1['airOriginalTicket']}}</td>
+ <td>{{dto1['pNRId']}}</td>
+ <td>{{dto1['currencyId']}}</td>
+ <td>{{dto1['airFare']}}</td>
+ <td>{{dto1['airTax']}}</td>
+ <td>{{dto1['airLowestFare']}}</td>
+ <td>{{dto1['airHighestFare']}}</td>
+ <td>{{dto1['airFareBases']}}</td>
+ <td>{{dto1['brokerId']}}</td>
+ <td>{{dto1['airIncludeBags']}}</td>
+ <td>{{dto1['airTimestamp'] | date }}</td>
+ <td>{{dto1['airActive']}}</td>
+
+                  <td class="text-right">
+                    <a href="javascript:void(0)" (click)="editDialog(dto1)"
+                      class="btn btn-link btn-warning btn-just-icon edit">
+                      <i class="material-icons">dvr</i>
+                    </a>
+                    <a href="javascript:void(0)" (click)="deleteDialog(dto1)"
+                      class="btn btn-link btn-danger btn-just-icon remove">
+                      <i class="material-icons">close</i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

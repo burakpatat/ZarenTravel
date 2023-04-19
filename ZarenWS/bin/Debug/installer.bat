@@ -1,0 +1,1 @@
+c:\windows\microsoft.net\framework\v4.0.30319\installutil.exe C:\Users\gokha\MoneyMiner\TweetCatcher\bin\Debug\TweetCatcher.exe

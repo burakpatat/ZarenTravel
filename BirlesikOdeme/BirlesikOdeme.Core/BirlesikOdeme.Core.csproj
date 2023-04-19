@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Entities\Transaction\AspNetRoleClaims.cs" />
+    <Compile Remove="Entities\Transaction\AspNetRoles.cs" />
+    <Compile Remove="Entities\Transaction\AspNetUserClaims.cs" />
+    <Compile Remove="Entities\Transaction\AspNetUserLogins.cs" />
+    <Compile Remove="Entities\Transaction\AspNetUserRoles.cs" />
+    <Compile Remove="Entities\Transaction\AspNetUsers.cs" />
+    <Compile Remove="Entities\Transaction\AspNetUserTokens.cs" />
+    <Compile Remove="Services\Repositories\AspNetRoleClaimsRepository.cs" />
+    <Compile Remove="Services\Repositories\AspNetRolesRepository.cs" />
+    <Compile Remove="Services\Repositories\AspNetUserClaimsRepository.cs" />
+    <Compile Remove="Services\Repositories\AspNetUserLoginsRepository.cs" />
+    <Compile Remove="Services\Repositories\AspNetUserRolesRepository.cs" />
+    <Compile Remove="Services\Repositories\AspNetUsersRepository.cs" />
+    <Compile Remove="Services\Repositories\AspNetUserTokensRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
+    <PackageReference Include="RestSharp" Version="108.0.2" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.1.4" />
+
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.8.*" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="4.8.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.8.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.8.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.8.*" />
+    <PackageReference Include="System.Text.Json" Version="6.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Entities\Transaction\" />
+    <Folder Include="Services\Repositories\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,431 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{23879713-CC7D-4090-B92F-C4F94B40668C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ApiCrawler.Paximum</RootNamespace>
+    <AssemblyName>ApiCrawler</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=6.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.6.3.0\lib\netstandard2.0\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.123\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper.Contrib, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Contrib.2.0.78\lib\net461\Dapper.Contrib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.7.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.TypeExtensions, Version=4.1.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.TypeExtensions.4.7.0\lib\net461\System.Reflection.TypeExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Text.Json, Version=6.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Framework\Unite.Ad\Bin\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Code\Paximum\Model\Agency.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyCmsDevices.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyCmsSectionTypes.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyCmsSocialMediaUrls.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyCmsThemes.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyCommisions.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyContractsClosedTours.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyContractsConfigurationByHotel.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyContractsHotelCategories.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyContractsHotelInformation.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyContractsHotelInformationImage.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyContractsHotelsConfiguration.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyContractsHotelsConfigurationDays.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyContractsHotelsMenu.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyContractsInsuranceBasicData.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyContractsInsuranceSelectedLanguage.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyContractsInsuranceSelectedProductType.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyContractsInsuranceType.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyCreditDeposit.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyManager.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteApiProductProviders.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteDesign.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteDomainLanguageSettings.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteDomains.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSitePaymentProviders.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteProperties.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSites.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingPassengerData.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsAccommodationSearchResults.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsBookingProcess.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsBookingReplicatorMode.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsEmailVoucher.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsEnableMultiDay.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsGeneral.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsHelpSupport.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsInvoice.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsOther.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsPaymetOptions.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsRequestInvoices.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsRequiredPassenger.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsSearchEngine.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsSearchSettings.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsSortType.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSiteSettingsTermsConditions.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyMicroSitesSettingsEmailConfiguration.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencySupplementCommissions.cs" />
+    <Compile Include="App_Code\Paximum\Model\AgencyUsers.cs" />
+    <Compile Include="App_Code\Paximum\Model\ApiProducts.cs" />
+    <Compile Include="App_Code\Paximum\Model\ApiResults.cs" />
+    <Compile Include="App_Code\Paximum\Model\AspNetRoleClaims.cs" />
+    <Compile Include="App_Code\Paximum\Model\AspNetRoles.cs" />
+    <Compile Include="App_Code\Paximum\Model\AspNetUserClaims.cs" />
+    <Compile Include="App_Code\Paximum\Model\AspNetUserLogins.cs" />
+    <Compile Include="App_Code\Paximum\Model\AspNetUserRoles.cs" />
+    <Compile Include="App_Code\Paximum\Model\AspNetUsers.cs" />
+    <Compile Include="App_Code\Paximum\Model\AspNetUserTokens.cs" />
+    <Compile Include="App_Code\Paximum\Model\AutoCompletes.cs" />
+    <Compile Include="App_Code\Paximum\Model\AutoCompleteTypes.cs" />
+    <Compile Include="App_Code\Paximum\Model\Boards.cs" />
+    <Compile Include="App_Code\Paximum\Model\CancellationPolicies.cs" />
+    <Compile Include="App_Code\Paximum\Model\Cities.cs" />
+    <Compile Include="App_Code\Paximum\Model\CityModels.cs" />
+    <Compile Include="App_Code\Paximum\Model\Countries.cs" />
+    <Compile Include="App_Code\Paximum\Model\Country.cs" />
+    <Compile Include="App_Code\Paximum\Model\Currencies.cs" />
+    <Compile Include="App_Code\Paximum\Model\Currency.cs" />
+    <Compile Include="App_Code\Paximum\Model\Facilities.cs" />
+    <Compile Include="App_Code\Paximum\Model\FacilitiesSelectedCategory.cs" />
+    <Compile Include="App_Code\Paximum\Model\FacilityCategories.cs" />
+    <Compile Include="App_Code\Paximum\Model\Gender.cs" />
+    <Compile Include="App_Code\Paximum\Model\Geolocations.cs" />
+    <Compile Include="App_Code\Paximum\Model\GiataInfos.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelBoards.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelCategories.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelFacilities.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelFacilityCategories.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelFacilityCategorySelectedFacilities.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelOffers.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelPaymentPlans.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelPresentation.cs" />
+    <Compile Include="App_Code\Paximum\Model\PassengerAmounts.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelRoomsWithRoomOffers.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelRoomsOffers.cs" />
+    <Compile Include="App_Code\Paximum\Model\Hotels.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelSeasonMediaFiles.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelRooms.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelSeasons.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelSeasonSelectedTextCategories.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelSelectedCategories.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelTextCategories.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelTextCategoriesSelectedPresentations.cs" />
+    <Compile Include="App_Code\Paximum\Model\HotelThemes.cs" />
+    <Compile Include="App_Code\Paximum\Model\Informations.cs" />
+    <Compile Include="App_Code\Paximum\Model\InsuranceSelectedLang.cs" />
+    <Compile Include="App_Code\Paximum\Model\InvoiceTypes.cs" />
+    <Compile Include="App_Code\Paximum\Model\Items.cs" />
+    <Compile Include="App_Code\Paximum\Model\Language.cs" />
+    <Compile Include="App_Code\Paximum\Model\LimitTypes.cs" />
+    <Compile Include="App_Code\Paximum\Model\MediaFiles.cs" />
+    <Compile Include="App_Code\Paximum\Model\OfferCancellationPolicies.cs" />
+    <Compile Include="App_Code\Paximum\Model\OfferPriceBreakDowns.cs" />
+    <Compile Include="App_Code\Paximum\Model\OfferRooms.cs" />
+    <Compile Include="App_Code\Paximum\Model\Offers.cs" />
+    <Compile Include="App_Code\Paximum\Model\PaymentPlanInfos.cs" />
+    <Compile Include="App_Code\Paximum\Model\PaymentTypes.cs" />
+    <Compile Include="App_Code\Paximum\Model\PossibleQuery.cs" />
+    <Compile Include="App_Code\Paximum\Model\Presentations.cs" />
+    <Compile Include="App_Code\Paximum\Model\PriceBreakDowns.cs" />
+    <Compile Include="App_Code\Paximum\Model\Prices.cs" />
+    <Compile Include="App_Code\Paximum\Model\ProductType.cs" />
+    <Compile Include="App_Code\Paximum\Model\RoomFacilities.cs" />
+    <Compile Include="App_Code\Paximum\Model\RoomInfoFacilities.cs" />
+    <Compile Include="App_Code\Paximum\Model\RoomInfos.cs" />
+    <Compile Include="App_Code\Paximum\Model\RoomInfosMediaFiles.cs" />
+    <Compile Include="App_Code\Paximum\Model\RoomMediaFiles.cs" />
+    <Compile Include="App_Code\Paximum\Model\RoomPresentations.cs" />
+    <Compile Include="App_Code\Paximum\Model\Rooms.cs" />
+    <Compile Include="App_Code\Paximum\Model\SeasonMediaFiles.cs" />
+    <Compile Include="App_Code\Paximum\Model\Seasons.cs" />
+    <Compile Include="App_Code\Paximum\Model\SeasonTextCategory.cs" />
+    <Compile Include="App_Code\Paximum\Model\SeasonThemes.cs" />
+    <Compile Include="App_Code\Paximum\Model\States.cs" />
+    <Compile Include="App_Code\Paximum\Model\Statu.cs" />
+    <Compile Include="App_Code\Paximum\Enums\GetOffersRequest.cs" />
+    <Compile Include="App_Code\Paximum\Enums\GetProductInfoRequest.cs" />
+    <Compile Include="App_Code\Paximum\Model\TextCategories.cs" />
+    <Compile Include="App_Code\Paximum\Model\Themes.cs" />
+    <Compile Include="App_Code\Paximum\Model\Towns.cs" />
+    <Compile Include="App_Code\Paximum\Model\Villages.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\PassengerAmountToPayRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyCommisionsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencySupplementCommissionsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\BoardsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\CancellationPoliciesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\CountriesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\FacilitiesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\FacilitiesSelectedCategoryRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\FacilityCategoriesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\GeolocationsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\GiataInfosRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelBoardsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelOffersRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelPaymentPlansRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelThemesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\InformationsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\ItemsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\LanguageRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\MediaFilesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\OfferCancellationPoliciesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\OfferPriceBreakDownsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\OfferRoomsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\OffersRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\PaymentPlanInfosRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\PresentationsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\PriceBreakDownsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\PricesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\RoomFacilitiesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\RoomInfoFacilitiesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\RoomInfosMediaFilesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\RoomInfosRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\RoomMediaFilesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\RoomPresentationsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\RoomsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\SeasonMediaFilesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\SeasonsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\SeasonTextCategoryRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\SeasonThemesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\StatesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\TextCategoriesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\ThemesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\TownsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\VillagesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Response\HotelSeasons.cs" />
+    <Compile Include="App_Code\Paximum\Response\ApiResult.cs" />
+    <Compile Include="App_Code\Paximum\Enums\Cultures.cs" />
+    <Compile Include="App_Code\Paximum\Enums\Types.cs" />
+    <Compile Include="App_Code\Paximum\Authentication\Login.cs" />
+    <Compile Include="App_Code\Paximum\Request\GetArrivalAutocompleteRequest.cs" />
+    <Compile Include="App_Code\Paximum\Request\GetOfferDetailRequest.cs" />
+    <Compile Include="App_Code\Paximum\Request\GetOffersRequest.cs" />
+    <Compile Include="App_Code\Paximum\Request\GetProductInfoRequest.cs" />
+    <Compile Include="App_Code\Paximum\Request\PriceSearchByHotelRequest.cs" />
+    <Compile Include="App_Code\Paximum\Request\PriceSearchByLocationRequest.cs" />
+    <Compile Include="App_Code\Paximum\Response\GetArrivalAutocompleteResponse.cs" />
+    <Compile Include="App_Code\Paximum\Response\GetOfferDetailsResponse.cs" />
+    <Compile Include="App_Code\Paximum\Response\GetOffersResponse.cs" />
+    <Compile Include="App_Code\Paximum\Response\GetProductInfoResponse.cs" />
+    <Compile Include="App_Code\Paximum\Response\PriceSearchResponse.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyCmsDevicesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyCmsSectionTypesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyCmsSocialMediaUrlsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyCmsThemesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyContractsClosedToursRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyContractsConfigurationByHotelRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyContractsHotelCategoriesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyContractsHotelInformationImageRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyContractsHotelInformationRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyContractsHotelsConfigurationDaysRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyContractsHotelsConfigurationRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyContractsHotelsMenuRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyContractsInsuranceBasicDataRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyContractsInsuranceSelectedLanguageRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyContractsInsuranceSelectedProductTypeRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyContractsInsuranceTypeRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyCreditDepositRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyManagerRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteApiProductProvidersRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteDesignRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteDomainLanguageSettingsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteDomainsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSitePaymentProvidersRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSitePropertiesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingPassengerDataRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsAccommodationSearchResultsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsBookingProcessRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsBookingReplicatorModeRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsEmailVoucherRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsEnableMultiDayRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsGeneralRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsHelpSupportRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsInvoiceRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsOtherRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsPaymetOptionsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsRequestInvoicesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsRequiredPassengerRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsSearchEngineRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsSearchSettingsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsSortTypeRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSiteSettingsTermsConditionsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSitesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyMicroSitesSettingsEmailConfigurationRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AgencyUsersRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\ApiProductsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\ApiResultsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AspNetRoleClaimsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AspNetRolesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AspNetUserClaimsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AspNetUserLoginsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AspNetUserRolesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AspNetUsersRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AspNetUserTokensRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AutoCompletesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\AutoCompleteTypesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\CitiesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\CityModelsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\CountryRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\CurrenciesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\CurrencyRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\GenderRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelCategoriesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelFacilitiesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelFacilityCategoriesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelFacilityCategorySelectedFacilitiesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelPresentationRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelRoomsWithRoomOffersRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelRoomsOffersRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelSeasonMediaFilesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelSeasonSelectedTextCategoriesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelSeasonsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelSelectedCategoriesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelRoomsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelTextCategoriesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\HotelTextCategoriesSelectedPresentationsRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\InsuranceSelectedLangRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\InvoiceTypesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\LimitTypesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\PaymentTypesRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\PossibleQueryRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\ProductTypeRepository.cs" />
+    <Compile Include="App_Code\Paximum\Repositories\StatuRepository.cs" />
+    <Compile Include="Helper\DataTypeExtensions.cs" />
+    <None Include="JSON\cultures - Copy - Copy.json" />
+    <None Include="JSON\demo.json" />
+    <None Include="JSON\cultures - Copy.json" />
+    <None Include="JSON\cultures.json" />
+    <None Include="JSON\GetArrivalAutocomplete.json">
+      <SubType>Component</SubType>
+    </None>
+    <None Include="JSON\pricesearch.json" />
+    <Compile Include="Interface\IEntity.cs" />
+    <Compile Include="ProjectInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProjectInstaller.Designer.cs">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Paximum.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Paximum.Designer.cs">
+      <DependentUpon>Paximum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\LoginService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="JSON\Types\MessageTypes.json" />
+    <None Include="JSON\Types\MessageCodes.json" />
+    <None Include="JSON\Types\ProductTypes.json" />
+    <None Include="JSON\Types\AutocompleteResponse.json" />
+    <None Include="JSON\Types\LocationType.json" />
+    <None Include="JSON\Types\Gender.json" />
+    <None Include="JSON\Types\TravellerTitle.json" />
+    <None Include="JSON\Types\Traveller.json" />
+    <None Include="JSON\Types\passanger.json" />
+    <None Include="JSON\Types\clear.json" />
+    <None Include="packages.config" />
+    <None Include="JSON\token.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProjectInstaller.resx">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="log\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

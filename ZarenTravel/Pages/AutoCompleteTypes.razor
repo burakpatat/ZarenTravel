@@ -1,0 +1,221 @@
+@page "/auto-complete-types"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>AutoCompleteTypes</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="AutoCompleteTypes" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px" Render=Grid0Render AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@autoCompleteTypes"    TItem="ZarenTravel.Models.ZarenSoft.AutoCompleteType" RowDoubleClick="@EditRow" RowSelect=@GetChildData>
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AutoCompleteType" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AutoCompleteType" Property="Name" Title="Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AutoCompleteType" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="autoCompleteType">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, autoCompleteType)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+                    <RadzenHeading Visible="@(autoCompleteType != null)" Size="H1" Text="AutoCompletes" />
+                    <RadzenButton Visible="@(autoCompleteType != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => AutoCompleteAddButtonClick(args,autoCompleteType)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(autoCompleteType != null)" @ref=AutoCompleteDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@autoCompleteType?.AutoCompletes" TItem="ZarenTravel.Models.ZarenSoft.AutoComplete"  RowSelect="@(args => AutoCompleteRowSelect(args, autoCompleteType))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AutoComplete" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AutoComplete" Property="Name" Title="Name">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AutoComplete" Property="ApiSystemId" Title="Api System Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AutoComplete" Property="Api.ApiName" Title="Api">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AutoComplete" Property="AutoCompleteType.Name" Title="Auto Complete Type">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AutoComplete" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="autoCompleteChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => AutoCompleteDeleteButtonClick(args, autoCompleteChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.AutoCompleteType> autoCompleteTypes;
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.AutoCompleteType> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        autoCompleteTypes = await ZarenSoftService.GetAutoCompleteTypes(new Query { Filter = $@"i => i.Name.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        autoCompleteTypes = await ZarenSoftService.GetAutoCompleteTypes(new Query { Filter = $@"i => i.Name.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddAutoCompleteType>("Add AutoCompleteType", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravel.Models.ZarenSoft.AutoCompleteType> args)
+    {
+        await DialogService.OpenAsync<EditAutoCompleteType>("Edit AutoCompleteType", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.AutoCompleteType autoCompleteType)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteAutoCompleteType(autoCompleteType.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete AutoCompleteType" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await ZarenSoftService.ExportAutoCompleteTypesToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "AutoCompleteTypes");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await ZarenSoftService.ExportAutoCompleteTypesToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "AutoCompleteTypes");
+        }
+    }
+
+    protected ZarenTravel.Models.ZarenSoft.AutoCompleteType autoCompleteType;
+    protected async Task GetChildData(ZarenTravel.Models.ZarenSoft.AutoCompleteType args)
+    {
+        autoCompleteType = args;
+        var AutoCompleteResult = await ZarenSoftService.GetAutoCompletes(new Query { Filter = $"i => i.Type == {args.Id}", Expand = "Api,AutoCompleteType" });
+        if (AutoCompleteResult != null)
+        {
+            args.AutoCompletes = AutoCompleteResult.ToList();
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.AutoComplete> AutoCompleteDataGrid;
+
+    protected async Task AutoCompleteAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.AutoCompleteType data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddAutoComplete>("Add AutoComplete", new Dictionary<string, object> { {"Type" , data.Id} });
+        await GetChildData(data);
+        await AutoCompleteDataGrid.Reload();
+    }
+
+    protected async Task AutoCompleteRowSelect(ZarenTravel.Models.ZarenSoft.AutoComplete args, ZarenTravel.Models.ZarenSoft.AutoCompleteType data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditAutoComplete>("Edit AutoComplete", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await AutoCompleteDataGrid.Reload();
+    }
+
+    protected async Task AutoCompleteDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.AutoComplete autoComplete)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteAutoComplete(autoComplete.Id);
+
+                if (deleteResult != null)
+                {
+                    await AutoCompleteDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete AutoComplete" 
+            });
+        }
+    }
+
+    string lastFilter;
+    protected async void Grid0Render(DataGridRenderEventArgs<ZarenTravel.Models.ZarenSoft.AutoCompleteType> args)
+    {
+        if (grid0.Query.Filter != lastFilter) {
+            autoCompleteType = grid0.View.FirstOrDefault();
+        }
+
+        if (grid0.Query.Filter != lastFilter)
+        {
+            await grid0.SelectRow(autoCompleteType);
+        }
+
+        lastFilter = grid0.Query.Filter;
+    }
+}

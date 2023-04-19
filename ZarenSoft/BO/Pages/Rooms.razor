@@ -1,0 +1,55 @@
+@page "/rooms"
+
+<PageTitle>Rooms</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="Rooms" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"  AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@rooms"    TItem="Travel.Models.TravelCDb.Room" RowDoubleClick="@EditRow" >
+            <Columns>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Room" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Room" Property="Name" Title="Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Room" Property="BoardId" Title="Board Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Room" Property="BoardName" Title="Board Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Room" Property="StopSaleGuaranteed" Title="Stop Sale Guaranteed">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Room" Property="StopSaleStandart" Title="Stop Sale Standart">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Room" Property="PriceId" Title="Price Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Room" Property="TravellerId" Title="Traveller Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Room" Property="FacilityId" Title="Facility Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Room" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="room">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, room)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+</div>

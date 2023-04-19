@@ -1,0 +1,105 @@
+@page "/add-payment-log"
+@attribute [Authorize]
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenService ZarenService
+@inject Microsoft.Extensions.Localization.IStringLocalizer<AddPaymentLog> L
+
+<PageTitle>Add PaymentLog</PageTitle>
+    <RadzenColumn SizeMD=12>
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save PaymentLog</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenBO2.Models.Zaren.PaymentLog" Data="@paymentLog" Visible="@(paymentLog != null && canEdit)" Submit="@FormSubmit">
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Text="Request" Component="Request" style="width: 100%" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@paymentLog.Request" Name="Request" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Text="Request Date" Component="RequestDate" style="width: 100%" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenDatePicker DateFormat="dd/MM/yyyy" style="display: block; width: 100%" @bind-Value="@paymentLog.RequestDate" Name="RequestDate" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Text="Response" Component="Response" style="width: 100%" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@paymentLog.Response" Name="Response" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Text="Response Date" Component="ResponseDate" style="width: 100%" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenDatePicker DateFormat="dd/MM/yyyy" style="display: block; width: 100%" @bind-Value="@paymentLog.ResponseDate" Name="ResponseDate" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Text="Transaction" Component="Transaction" style="width: 100%" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenDropDownDataGrid Data="@transactionsForTransactionId" TextProperty="IdGuid" ValueProperty="Id"
+                         Placeholder="Choose Transaction" style="display: block; width: 100%" @bind-Value="@paymentLog.TransactionId" Name="TransactionId"
+                           />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+            </RadzenStack>
+        </RadzenTemplateForm>
+    </RadzenColumn>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        paymentLog = new ZarenBO2.Models.Zaren.PaymentLog();
+
+        transactionsForTransactionId = await ZarenService.GetTransactions();
+    }
+    protected bool errorVisible;
+    protected ZarenBO2.Models.Zaren.PaymentLog paymentLog;
+
+    protected IEnumerable<ZarenBO2.Models.Zaren.Transaction> transactionsForTransactionId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenService.CreatePaymentLog(paymentLog);
+            DialogService.Close(paymentLog);
+        }
+        catch (Exception ex)
+        {
+            hasChanges = ex is Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException;
+            canEdit = !(ex is Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException);
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+    protected bool hasChanges = false;
+    protected bool canEdit = true;
+
+    [Inject]
+    protected SecurityService Security { get; set; }
+}

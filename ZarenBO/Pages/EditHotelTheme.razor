@@ -1,0 +1,159 @@
+@page "/edit-hotel-theme"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject zaren_testService zaren_testService
+
+<PageTitle>Edit HotelTheme</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save HotelTheme</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravelBO.Models.zaren_test.HotelTheme" Data="@hotelTheme" Visible="@(hotelTheme != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Hotel Id" Component="HotelId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@hotelTheme.HotelId" Name="HotelId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="System Id" Component="SystemId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@hotelTheme.SystemId" Name="SystemId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Api Id" Component="ApiId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@hotelTheme.ApiId" Name="ApiId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Micro Site Id" Component="MicroSiteId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@hotelTheme.MicroSiteId" Name="MicroSiteId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Created Date" Component="CreatedDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@hotelTheme.CreatedDate" Name="CreatedDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Updated Date" Component="UpdatedDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@hotelTheme.UpdatedDate" Name="UpdatedDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Created By" Component="CreatedBy" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@hotelTheme.CreatedBy" Name="CreatedBy" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Updated By" Component="UpdatedBy" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@hotelTheme.UpdatedBy" Name="UpdatedBy" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency" Component="Agency" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agenciesForAgencyId" TextProperty="InvoiceName" ValueProperty="Id"
+                         Placeholder="Choose Agency" style="display: block; width: 100%" @bind-Value="@hotelTheme.AgencyId" Name="AgencyId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Language" Component="Language" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@languagesForLanguageId" TextProperty="ShortCode" ValueProperty="Id"
+                         Placeholder="Choose Language" style="display: block; width: 100%" @bind-Value="@hotelTheme.LanguageId" Name="LanguageId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Theme" Component="Theme" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@themesForThemesId" TextProperty="Name" ValueProperty="Id"
+                         Placeholder="Choose Theme" style="display: block; width: 100%" @bind-Value="@hotelTheme.ThemesId" Name="ThemesId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        hotelTheme = await zaren_testService.GetHotelThemeById(Id);
+
+        agenciesForAgencyId = await zaren_testService.GetAgencies();
+
+        languagesForLanguageId = await zaren_testService.GetLanguages();
+
+        themesForThemesId = await zaren_testService.GetThemes();
+    }
+    protected bool errorVisible;
+    protected ZarenTravelBO.Models.zaren_test.HotelTheme hotelTheme;
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_test.Agency> agenciesForAgencyId;
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_test.Language> languagesForLanguageId;
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_test.Theme> themesForThemesId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await zaren_testService.UpdateHotelTheme(Id, hotelTheme);
+            DialogService.Close(hotelTheme);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+}

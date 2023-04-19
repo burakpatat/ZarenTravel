@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Abstract\AdoNet\**" />
+    <Compile Remove="Abstract\Dapper\**" />
+    <Compile Remove="Concrete\AdoNet\**" />
+    <Compile Remove="Concrete\Dapper\**" />
+    <EmbeddedResource Remove="Abstract\AdoNet\**" />
+    <EmbeddedResource Remove="Abstract\Dapper\**" />
+    <EmbeddedResource Remove="Concrete\AdoNet\**" />
+    <EmbeddedResource Remove="Concrete\Dapper\**" />
+    <None Remove="Abstract\AdoNet\**" />
+    <None Remove="Abstract\Dapper\**" />
+    <None Remove="Concrete\AdoNet\**" />
+    <None Remove="Concrete\Dapper\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Concrete\WordyWellContext.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.Development.json" />
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Abstract\" />
+    <Folder Include="Concrete\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.14" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="4.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="5.0.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Zaren.Core.csproj" />
+    <ProjectReference Include="..\Model\Zaren.Model.csproj" />
+  </ItemGroup>
+
+</Project>

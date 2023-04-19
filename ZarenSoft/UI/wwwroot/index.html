@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Google fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/vendors.css" />
+  <link rel="stylesheet" href="css/main.css?v7457547" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="css/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="css/daterangepicker.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://cdn.jsdelivr.net/npm/@opencage/geosearch-bundle/dist/css/autocomplete-theme-classic.min.css" />
+  <title>ZAREN TRAVEL</title>
+</head>
+
+<body>
+  <main>
+    <!-- PRELOAD -->
+    <div class="preloader js-preloader">
+      <div class="preloader__wrap">
+        <div class="preloader__icon">
+          <img src="img/a23.gif" />
+        </div>
+      </div>
+
+      <div class="preloader__title"><img width="200" src="img/brand-primary.png" /></div>
+    </div>
+    <!-- PRELOAD END -->
+    <!-- HEADER -->
+    <div class="header-margin"></div>
+    <header data-add-bg="" class="header bg-blue-1 shadow-3 js-header" data-x="header" data-x-toggle="is-menu-opened">
+      <div class="container ">
+        <div class="row justify-between items-center">
+          <div class="col-auto">
+            <div class="d-flex items-center">
+              <!-- LOGO -->
+              <a href="#" class="header-logo mr-30" data-x="header-logo" data-x-toggle="is-logo-dark">
+                <img src="https://zarentravel.com/css/clientes/zarentravel/images/logo.gif" alt="logo icon" />
+                <img src="https://zarentravel.com/css/clientes/zarentravel/images/logo.gif" alt="logo icon" />
+              </a>
+              <!-- LOGO END-->
+            </div>
+          </div>
+
+          <div class="col-auto">
+            <div class="d-flex items-center">
+              <div class="row x-gap-20 items-center">
+                <div class="header-menu " data-x="mobile-menu" data-x-toggle="is-menu-active">
+                  <div class="mobile-overlay"></div>
+                  <div class="header-menu__content">
+                    <div class="mobile-bg js-mobile-bg"></div>
+                    <div class="menu js-navList">
+                      <ul class="menu__nav text-dark-1 -is-active">
+                        <!-- currenty unit -->
+                        <li class="menu-item-has-children">
+                          <a class="text-white" href="#">
+                            <span class="mr-10">USD $</span>
+                            <i class="icon icon-chevron-sm-down"></i>
+                          </a>
+                          <ul class="subnav">
+                            <li class="subnav__backBtn js-nav-list-back">
+                              <a href="#"><i class="icon icon-chevron-sm-down"></i> USD $</a>
+                            </li>
+                            <li><a href="#">TL ₺</a></li>
+                            <li><a href="#">USD $</a></li>
+                            <li><a href="#">EU €</a></li>
+                            <li><a href="#">GBP £</a></li>
+                          </ul>
+                        </li>
+                        <!-- currenty unit end -->
+                        <li class="menu-item-has-children">
+                          <a href="#" class="text-white">
+                            <span class="mr-10"><img width="26" src="img/general/en.svg" alt="image"
+                                class="rounded-4 mr-10"> English</span>
+                            <i class="icon icon-chevron-sm-down"></i>
+                          </a>
+
+                          <!-- language content -->
+                          <ul class="subnav">
+                            <li class="subnav__backBtn js-nav-list-back">
+                              <a href="#">Turkey <i class="icon icon-chevron-sm-down"></i> Home</a>
+                            </li>
+                            <li><a href="#"><img width="26" src="img/general/tr.svg" alt="image"
+                                  class="rounded-4 mr-10"> Turkey</a></li>
+                            <li><a href="#"><img width="26" src="img/general/de.svg" alt="image"
+                                  class="rounded-4 mr-10"> German</a></li>
+                            <li><a href="#"><img width="26" src="img/general/ru.svg" alt="image"
+                                  class="rounded-4 mr-10"> Russian</a></li>
+                            <li><a href="#"><img width="26" src="img/general/en.svg" alt="image"
+                                  class="rounded-4 mr-10"> English</a></li>
+                            <li><a href="#"><img width="26" src="img/general/es.svg" alt="image"
+                                  class="rounded-4 mr-10"> Español</a></li>
+                            <li><a href="#"><img width="26" src="img/general/fr.svg" alt="image"
+                                  class="rounded-4 mr-10"> Français</a></li>
+                            <li><a href="#"><img width="26" src="img/general/it.svg" alt="image"
+                                  class="rounded-4 mr-10"> Italiano</a></li>
+                          </ul>
+                          <!-- language content end -->
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="mobile-footer px-20 py-20 border-top-light js-mobile-footer">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex items-center ml-20 is-menu-opened-hide md:d-none">
+                <a href="#"
+                  class="button -outline-blue-1 px-30 fw-400 text-14 h-40 text-blue-1 text-white mr-20 border-white">Login</a>
+                <a href="#"
+                  class="button -white border-white bg-blue-1 px-30 fw-400 text-14 h-40 text-white">Register</a>
+              </div>
+
+              <div class="d-none xl:d-flex x-gap-20 items-center pl-30" data-x="header-mobile-icons"
+                data-x-toggle="text-white">
+                <div>
+                  <a href="#" class="d-flex items-center icon-user text-inherit text-22"></a>
+                </div>
+                <div>
+                  <button class="d-flex items-center icon-menu text-inherit text-20"
+                    data-x-click="header, header-logo, header-mobile-icons, mobile-menu"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- HEADER END -->
+
+
+    <!-- slider -->
+
+    <section data-anim-wrap class="search-v3-content masthead -type-3 relative z-5">
+
+      <div class="container">
+        <div class="row justify-center">
+          <div class="col-12">
+
+            <div data-anim-child="slide-up delay-6" class="masthead__tabs search-v3">
+              <div class="tabs -bookmark js-tabs">
+                <div class="tabs__controls d-flex items-center js-tabs-controls">
+
+                  <!-- HOTEL -->
+                  <div>
+                    <button
+                      class="tabs__button rounded-4 fw-600 text-white js-tabs-button js-tabs-button is-tab-el-active"
+                      data-tab-target=".-tab-item-2">
+                      <span class="material-symbols-outlined">
+                        hotel
+                      </span>
+                      Hotels
+                    </button>
+                  </div>
+                  <!-- HOTEL END -->
+
+                  <!-- FLIGHT -->
+                  <div>
+                    <button class="tabs__button rounded-4 fw-600 text-white js-tabs-button js-tabs-button "
+                      data-tab-target=".-tab-item-1">
+                      <span class="material-symbols-outlined">
+                        flight_takeoff
+                      </span>
+                      Flight
+                    </button>
+                  </div>
+                  <!-- FLIGHT END -->
+
+                  <!-- MULTI DESTINATION  -->
+                  <div>
+                    <button class="tabs__button rounded-4 fw-600 text-white js-tabs-button  js-tabs-button "
+                      data-tab-target=".-tab-item-3">
+                      <span class="material-symbols-outlined">
+                        add_location_alt
+                      </span>
+                      Multi Destination
+                    </button>
+                  </div>
+                  <!-- MULTI DESTINATION END -->
+
+                  <!-- CRUISES  -->
+                  <div>
+                    <button class="tabs__button rounded-4 fw-600 text-white js-tabs-button  js-tabs-button "
+                      data-tab-target=".-tab-item-4">
+                      <span class="material-symbols-outlined">
+                        directions_boat
+                      </span>
+                      Cruises
+                    </button>
+                  </div>
+                  <!-- CRUISES END -->
+
+                  <!-- TRANSFERS  -->
+                  <div>
+                    <button class="tabs__button rounded-4 fw-600 text-white js-tabs-button  js-tabs-button "
+                      data-tab-target=".-tab-item-5">
+                      <span class="material-symbols-outlined">
+                        swap_horiz
+                      </span>
+                      Transfers
+                    </button>
+                  </div>
+                  <!-- TRANSFERS END -->
+
+                  <!-- ACTIVITIES  -->
+                  <div>
+                    <button class="tabs__button rounded-4 fw-600 text-white js-tabs-button  js-tabs-button "
+                      data-tab-target=".-tab-item-6">
+                      <span class="material-symbols-outlined">
+                        confirmation_number
+                      </span>
+                      Activities
+                    </button>
+                  </div>
+                  <!-- ACTIVITIES END -->
+
+                  <!-- RENT A CAR  -->
+                  <div>
+                    <button class="tabs__button rounded-4 fw-600 text-white js-tabs-button  js-tabs-button "
+                      data-tab-target=".-tab-item-7">
+                      <span class="material-symbols-outlined">
+                        directions_car
+                      </span>
+                      Rent a Car
+                    </button>
+                  </div>
+                  <!-- RENT A CAR END -->
+
+                </div>
+
+
+                <div class="tabs__content js-tabs-content">
+                  
+                  <!-- HOTEL CONTENT -->
+                  <div class="tabs__pane -tab-item-2 is-tab-el-active">
+                    <div class="search-flight-content mt-40">
+                      <!-- one way -->
+                      <div>
+                        <div class="row">
+                          <!-- going to -->
+                          <div
+                            class="col-lg-6 col-md-6 col-sm-12 col-12 pr-0 searchMenu-loc  js-form-dd js-liverSearch">
+                            <div class="search-input-group" data-x-dd-click="searchMenu-loc">
+                              <div class="search-input-title">Going to</div>
+                              <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">
+                                  <span class="material-symbols-outlined">
+                                    location_on
+                                    </span>
+                                </span>
+                                <input type="text" placeholder="Going to" autocomplete="off" type="search"
+                                  class="form-control js-search js-dd-focus input-swap-01">
+                              </div>
+                            </div>
+                            <div class="searchMenu-loc__field shadow-2 js-popup-window"
+                              data-x-dd="searchMenu-loc" data-x-dd-toggle="-is-active">
+                              <div class="bg-white  sm:px-0 sm:py-15 rounded-4">
+                                <div class="y-gap-5 js-results">
+                                  <div class="text-14 px-20 pt-10">
+                                    <strong>Popüler Destinasyonlar</strong>
+                                  </div>
+                                  <div>
+                                    <button
+                                      class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
+                                      <div class="d-flex">
+                                        <div class="icon-location-2 text-light-1 text-20 pt-4"></div>
+                                        <div class="ml-10">
+                                          <div class="text-15 lh-12 js-search-option-target">İstanbul</div>
+                                          <div class="text-14 lh-12 text-light-1 mt-5">İstanbul, Türkiye</div>
+                                        </div>
+                                      </div>
+                                    </button>
+                                  </div>
+
+                                  <div>
+                                    <button
+                                      class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
+                                      <div class="d-flex">
+                                        <div class="icon-location-2 text-light-1 text-20 pt-4"></div>
+                                        <div class="ml-10">
+                                          <div class="text-15 lh-12 js-search-option-target">İzmir</div>
+                                          <div class="text-14 lh-12 text-light-1 mt-5">İzmir, Türkiye</div>
+                                        </div>
+                                      </div>
+                                    </button>
+                                  </div>
+
+                                  <div>
+                                    <button
+                                      class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
+                                      <div class="d-flex">
+                                        <div class="icon-location-2 text-light-1 text-20 pt-4"></div>
+                                        <div class="ml-10">
+                                          <div class="text-15 lh-12 js-search-option-target">Ankara</div>
+                                          <div class="text-14 lh-12 text-light-1 mt-5">Ankara, Türkiye</div>
+                                        </div>
+                                      </div>
+                                    </button>
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+                           
+                          </div>
+
+                          <!-- going to end -->
+
+                          <!-- going to -->
+                         
+                          <!-- going to end -->
+
+                          <div class="col-lg-4 col-md-8 col-sm-12 col-12 pr-0">
+                            <div class="row">
+                              <div class="col-6 pr-0">
+                                <div class="search-input-group">
+                                  <div class="search-input-title">Check-in</div>
+                                  <div class="input-group rounded-4">
+                                    <span class="input-group-text" id="basic-addon1">
+                                      <span class="material-symbols-outlined">date_range</span>
+                                    </span>
+                                    <input type="text" name="start-date" class="form-control" id="start-date"
+                                      placeholder="Select Date" />
+                                  </div>
+                                </div>
+
+                              </div>
+                              <div class="col-6">
+                                <div class="search-input-group">
+                                  <div class="search-input-title">Check-out</div>
+                                  <div class="input-group rounded-4">
+                                    <span class="input-group-text" id="basic-addon1">
+                                      <span class="material-symbols-outlined">date_range</span>
+                                    </span>
+                                    <input type="text" name="end-date" class="form-control" id="end-date"
+                                      placeholder="Select Date" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+
+
+
+                          <div class="col-lg-2 col-md-8 col-sm-12">
+                            <div class="search-input-group">
+                              <div class="searchMenu-guests js-form-dd js-form-counters">
+
+                                <div data-x-dd-click="searchMenu-guests">
+                                  <div class="search-input-title">Travelers</div>
+
+                                  <div class="search-passenger">
+                                    <span class="js-count-adult">1</span> Adult
+                                    -
+                                    <span class="js-count-child">1</span> Children
+
+                                  </div>
+                                </div>
+
+
+                                <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests"
+                                  data-x-dd-toggle="-is-active">
+                                  <div class="bg-white px-20 py-20 rounded-4">
+                                    <div class="row y-gap-10 justify-between items-center">
+                                      <div class="col-auto">
+                                        <div class=""><strong>Room 1</strong>
+                                        </div>
+                                      </div>
+                                     
+                                    </div>
+
+                                    <div class="border-top-light mt-10 mb-10"></div>
+                                    <div class="row y-gap-10 justify-between items-center">
+                                      <div class="col-auto">
+                                        <div class="">Adults</div>
+                                        <div class="text-14 lh-12 text-light-1 mt-5">12+ Yrs</div>
+
+                                      </div>
+
+                                      <div class="col-auto">
+                                        <div class="d-flex items-center js-counter"
+                                          data-value-change=".js-count-adult">
+                                          <button
+                                            class="button -outline-blue-1 text-blue-1 size-30 rounded-4 js-down">
+                                            <i class="icon-minus text-12"></i>
+                                          </button>
+
+                                          <div class="flex-center size-20 ml-15 mr-15">
+                                            <div class="text-15 js-count">1</div>
+                                          </div>
+
+                                          <button
+                                            class="button -outline-blue-1 text-blue-1 size-30 rounded-4 js-up">
+                                            <i class="icon-plus text-12"></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="border-top-light mt-10 mb-10"></div>
+
+                                    <div class="row y-gap-10 justify-between items-center">
+                                      <div class="col-auto">
+                                        <div class="text-15 lh-12 fw-500">Children</div>
+                                        <div class="text-14 lh-12 text-light-1 mt-5">Ages 0 to 17 </div>
+                                      </div>
+
+                                      <div class="col-auto">
+                                        <div class="d-flex items-center js-counter"
+                                          data-value-change=".js-count-child">
+                                          <button
+                                            class="button -outline-blue-1 text-blue-1 size-30 rounded-4 js-down">
+                                            <i class="icon-minus text-12"></i>
+                                          </button>
+
+                                          <div class="flex-center size-20 ml-15 mr-15">
+                                            <div class="text-15 js-count">1</div>
+                                          </div>
+
+                                          <button
+                                            class="button -outline-blue-1 text-blue-1 size-30 rounded-4 js-up">
+                                            <i class="icon-plus text-12"></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="border-top-light mt-10 mb-10"></div>
+
+                                    <div class="row y-gap-10 justify-between items-center">
+                                      <div class="col-auto">
+                                        <div class="">Infant</div>
+                                        <div class="text-14 lh-12 text-light-1 mt-5">Under 2 years old</div>
+                                      </div>
+
+                                      <div class="col-auto">
+                                        <div class="d-flex items-center js-counter"
+                                          data-value-change=".js-count-room">
+                                          <button
+                                            class="button -outline-blue-1 text-blue-1 size-30 rounded-4 js-down">
+                                            <i class="icon-minus text-12"></i>
+                                          </button>
+
+                                          <div class="flex-center size-20 ml-15 mr-15">
+                                            <div class="text-15 js-count">1</div>
+                                          </div>
+
+                                          <button
+                                            class="button -outline-blue-1 text-blue-1 size-30 rounded-4 js-up">
+                                            <i class="icon-plus text-12"></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="d-flex justify-content-center">
+                            <div class="items-center">
+                              <button class="mainSearch__submit">
+                                Search
+                              </button>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                      <!-- one way end -->
+                    </div>
+                  </div>
+                  <!-- HOTEL CONTENT END -->
+
+                  <!-- FLIGHT CONTENT -->
+                  <div class="tabs__pane -tab-item-1">
+                    <!-- flight tab nav control  -->
+                    <ul class="nav nav-pills nav-control" id="pills-tab" role="tablist">
+                      <li class="nav-item" role="presentation">
+                        <a href="#" class="nav-link active" data-bs-toggle="pill" data-bs-target="#roundtrip"
+                          type="button" role="tab" aria-controls="roundtrip" aria-selected="false">Roundtrip</a>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <a href="#" class="nav-link" data-bs-toggle="pill" data-bs-target="#oneway" type="button"
+                          role="tab" aria-controls="oneway" aria-selected="true">One Way </a>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <a href="#" class="nav-link" data-bs-toggle="pill" data-bs-target="#multicity" type="button"
+                          role="tab" aria-controls="multicity" aria-selected="false">Multi City</a>
+                      </li>
+                    </ul>
+                    <!-- flight tab nav control end -->
+                    <!-- flight tab content -->
+                    <div class="tab-content" id="pills-tabContent">
+                      <div class="tab-pane fade show active" id="roundtrip" role="tabpanel" aria-labelledby="roundtrip">
+                        <div class="mainSearch bg-white lg:pt-5 rounded-4">
+                          <div class="mainSearch">
+                            <div class="search-flight">
+
+                              <div class="search-flight-content">
+                                <!-- one way -->
+                                <div>
+                                  <div class="row">
+                                    <!-- going to -->
+                                    <div
+                                      class="col-lg-3 col-md-6 col-sm-12 col-12 pr-0 searchMenu-loc  js-form-dd js-liverSearch">
+                                      <div class="search-input-group" data-x-dd-click="searchMenu-loc">
+                                        <div class="search-input-title">From</div>
+                                        <div class="input-group">
+                                          <span class="input-group-text" id="basic-addon1">
+                                            <span class="material-symbols-outlined">
+                                              flight_takeoff
+                                            </span>
+                                          </span>
+                                          <input type="text" placeholder="From" autocomplete="off" type="search"
+                                            class="form-control js-search js-dd-focus input-swap-01">
+                                        </div>
+                                      </div>
+                                      <div class="searchMenu-loc__field shadow-2 js-popup-window"
+                                        data-x-dd="searchMenu-loc" data-x-dd-toggle="-is-active">
+                                        <div class="bg-white  sm:px-0 sm:py-15 rounded-4">
+                                          <div class="y-gap-5 js-results">
+                                            <div class="text-14 px-20 pt-10">
+                                              <strong>Popüler Destinasyonlar</strong>
+                                            </div>
+                                            <div>
+                                              <button
+                                                class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
+                                                <div class="d-flex">
+                                                  <div class="icon-location-2 text-light-1 text-20 pt-4"></div>
+                                                  <div class="ml-10">
+                                                    <div class="text-15 lh-12 js-search-option-target">İstanbul</div>
+                                                    <div class="text-14 lh-12 text-light-1 mt-5">İstanbul, Türkiye</div>
+                                                  </div>
+                                                </div>
+                                              </button>
+                                            </div>
+
+                                            <div>
+                                              <button
+                                                class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
+                                                <div class="d-flex">
+                                                  <div class="icon-location-2 text-light-1 text-20 pt-4"></div>
+                                                  <div class="ml-10">
+                                                    <div class="text-15 lh-12 js-search-option-target">İzmir</div>
+                                                    <div class="text-14 lh-12 text-light-1 mt-5">İzmir, Türkiye</div>
+                                                  </div>
+                                                </div>
+                                              </button>
+                                            </div>
+
+                                            <div>
+                                              <button
+                                                class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
+                                                <div class="d-flex">
+                                                  <div class="icon-location-2 text-light-1 text-20 pt-4"></div>
+                                                  <div class="ml-10">
+                                                    <div class="text-15 lh-12 js-search-option-target">Ankara</div>
+                                                    <div class="text-14 lh-12 text-light-1 mt-5">Ankara, Türkiye</div>
+                                                  </div>
+                                                </div>
+                                              </button>
+                                            </div>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="input-swap">
+                                        <span class="material-symbols-outlined">
+                                          swap_horiz
+                                        </span>
+                                      </div>
+                                    </div>
+
+                                    <!-- going to end -->
+
+                                    <!-- going to -->
+                                    <div
+                                      class="col-lg-3 col-md-6 col-sm-12 col-12 pr-0  searchMenu-loc  js-form-dd js-liverSearch">
+                                      <div class="search-input-group" data-x-dd-click="searchMenu-loc">
+                                        <div class="search-input-title">To</div>
+                                        <div class="input-group">
+                                          <span class="input-group-text" id="basic-addon1">
+                                            <span class="material-symbols-outlined">
+                                              flight_land
+                                            </span>
+                                          </span>
+                                          <input type="text" placeholder="To" autocomplete="off" type="search"
+                                            class="form-control js-search js-dd-focus input-swap-02">
+
+                                        </div>
+                                      </div>
+                                      <div class="searchMenu-loc__field shadow-2 js-popup-window"
+                                        data-x-dd="searchMenu-loc" data-x-dd-toggle="-is-active">
+                                        <div class="bg-white  sm:px-0 sm:py-15 rounded-4">
+                                          <div class="y-gap-5 js-results">
+                                            <div class="text-14 px-20 pt-10">
+                                              <strong>Popüler Destinasyonlar</strong>
+                                            </div>
+                                            <div>
+                                              <button
+                                                class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
+                                                <div class="d-flex">
+                                                  <div class="icon-location-2 text-light-1 text-20 pt-4"></div>
+                                                  <div class="ml-10">
+                                                    <div class="text-15 lh-12 js-search-option-target">İstanbul</div>
+                                                    <div class="text-14 lh-12 text-light-1 mt-5">İstanbul, Türkiye</div>
+                                                  </div>
+                                                </div>
+                                              </button>
+                                            </div>
+
+                                            <div>
+                                              <button
+                                                class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
+                                                <div class="d-flex">
+                                                  <div class="icon-location-2 text-light-1 text-20 pt-4"></div>
+                                                  <div class="ml-10">
+                                                    <div class="text-15 lh-12 js-search-option-target">İzmir</div>
+                                                    <div class="text-14 lh-12 text-light-1 mt-5">İzmir, Türkiye</div>
+                                                  </div>
+                                                </div>
+                                              </button>
+                                            </div>
+
+                                            <div>
+                                              <button
+                                                class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
+                                                <div class="d-flex">
+                                                  <div class="icon-location-2 text-light-1 text-20 pt-4"></div>
+                                                  <div class="ml-10">
+                                                    <div class="text-15 lh-12 js-search-option-target">Ankara</div>
+                                                    <div class="text-14 lh-12 text-light-1 mt-5">Ankara, Türkiye</div>
+                                                  </div>
+                                                </div>
+                                              </button>
+                                            </div>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <!-- going to end -->
+
+                                    <div class="col-lg-4 col-md-8 col-sm-12 col-12 pr-0">
+                                      <div class="row">
+                                        <div class="col-6 pr-0">
+                                          <div class="search-input-group">
+                                            <div class="search-input-title">Journey date</div>
+                                            <div class="input-group rounded-4">
+                                              <span class="input-group-text" id="basic-addon1">
+                                                <span class="material-symbols-outlined">date_range</span>
+                                              </span>
+                                              <input type="text" name="start-date" class="form-control" id="start-date"
+                                                placeholder="Select Date" />
+                                            </div>
+                                          </div>
+
+                                        </div>
+                                        <div class="col-6">
+                                          <div class="search-input-group">
+                                            <div class="search-input-title">Return date</div>
+                                            <div class="input-group rounded-4">
+                                              <span class="input-group-text" id="basic-addon1">
+                                                <span class="material-symbols-outlined">date_range</span>
+                                              </span>
+                                              <input type="text" name="end-date" class="form-control" id="end-date"
+                                                placeholder="Select Date" />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                    </div>
+
+
+
+                                    <div class="col-lg-2 col-md-8 col-sm-12">
+                                      <div class="search-input-group">
+                                        <div class="searchMenu-guests js-form-dd js-form-counters">
+
+                                          <div data-x-dd-click="searchMenu-guests">
+                                            <div class="search-input-title">Passenger, Class</div>
+
+                                            <div class="search-passenger">
+                                              <span class="js-count-adult">1</span> Adult
+                                              -
+                                              <span class="js-count-child">1</span> Children
+
+                                            </div>
+                                          </div>
+
+
+                                          <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests"
+                                            data-x-dd-toggle="-is-active">
+                                            <div class="bg-white px-20 py-20 rounded-4">
+                                              <div class="row y-gap-10 justify-between items-center">
+                                                <div class="col-auto">
+                                                  <div class="">Class</div>
+                                                </div>
+
+                                                <div class="col-auto">
+                                                  <select class="form-select" aria-label="Default select example">
+                                                    <option value="1">Economy</option>
+                                                    <option value="2">Business</option>
+                                                    <option value="2">First Class</option>
+                                                  </select>
+                                                </div>
+                                              </div>
+
+                                              <div class="border-top-light mt-10 mb-10"></div>
+                                              <div class="row y-gap-10 justify-between items-center">
+                                                <div class="col-auto">
+                                                  <div class="">Adults</div>
+                                                  <div class="text-14 lh-12 text-light-1 mt-5">12+ Yrs</div>
+
+                                                </div>
+
+                                                <div class="col-auto">
+                                                  <div class="d-flex items-center js-counter"
+                                                    data-value-change=".js-count-adult">
+                                                    <button
+                                                      class="button -outline-blue-1 text-blue-1 size-30 rounded-4 js-down">
+                                                      <i class="icon-minus text-12"></i>
+                                                    </button>
+
+                                                    <div class="flex-center size-20 ml-15 mr-15">
+                                                      <div class="text-15 js-count">1</div>
+                                                    </div>
+
+                                                    <button
+                                                      class="button -outline-blue-1 text-blue-1 size-30 rounded-4 js-up">
+                                                      <i class="icon-plus text-12"></i>
+                                                    </button>
+                                                  </div>
+                                                </div>
+                                              </div>
+
+                                              <div class="border-top-light mt-10 mb-10"></div>
+
+                                              <div class="row y-gap-10 justify-between items-center">
+                                                <div class="col-auto">
+                                                  <div class="text-15 lh-12 fw-500">Children</div>
+                                                  <div class="text-14 lh-12 text-light-1 mt-5">2 - 11 Yrs </div>
+                                                </div>
+
+                                                <div class="col-auto">
+                                                  <div class="d-flex items-center js-counter"
+                                                    data-value-change=".js-count-child">
+                                                    <button
+                                                      class="button -outline-blue-1 text-blue-1 size-30 rounded-4 js-down">
+                                                      <i class="icon-minus text-12"></i>
+                                                    </button>
+
+                                                    <div class="flex-center size-20 ml-15 mr-15">
+                                                      <div class="text-15 js-count">1</div>
+                                                    </div>
+
+                                                    <button
+                                                      class="button -outline-blue-1 text-blue-1 size-30 rounded-4 js-up">
+                                                      <i class="icon-plus text-12"></i>
+                                                    </button>
+                                                  </div>
+                                                </div>
+                                              </div>
+
+                                              <div class="border-top-light mt-10 mb-10"></div>
+
+                                              <div class="row y-gap-10 justify-between items-center">
+                                                <div class="col-auto">
+                                                  <div class="">Infant</div>
+                                                  <div class="text-14 lh-12 text-light-1 mt-5">Under 2 years old</div>
+                                                </div>
+
+                                                <div class="col-auto">
+                                                  <div class="d-flex items-center js-counter"
+                                                    data-value-change=".js-count-room">
+                                                    <button
+                                                      class="button -outline-blue-1 text-blue-1 size-30 rounded-4 js-down">
+                                                      <i class="icon-minus text-12"></i>
+                                                    </button>
+
+                                                    <div class="flex-center size-20 ml-15 mr-15">
+                                                      <div class="text-15 js-count">1</div>
+                                                    </div>
+
+                                                    <button
+                                                      class="button -outline-blue-1 text-blue-1 size-30 rounded-4 js-up">
+                                                      <i class="icon-plus text-12"></i>
+                                                    </button>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-center">
+                                      <div class="items-center">
+                                        <button class="mainSearch__submit">
+                                          Search
+                                        </button>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+                                <!-- one way end -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="oneway" role="tabpanel" aria-labelledby="oneway">
+                        <div class="search-flight-content">
+                          One Way
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="multicity" role="tabpanel" aria-labelledby="multicity">
+                        Multi City
+                      </div>
+                    </div>
+                    <!-- flight tab content end -->
+                  </div>
+                  <!-- FLIGHT CONTENT END -->
+
+                  <!-- MULTI DESTINATION CONTENT -->
+                  <div class="tabs__pane -tab-item-3">
+                    Multi Destination Content
+                  </div>
+                  <!-- MULTI DESTINATION CONTENT END -->
+
+                  <!-- CRUISES CONTENT -->
+                  <div class="tabs__pane -tab-item-4">
+                    Cruises Destination Content
+                  </div>
+                  <!-- CRUISES CONTENT END-->
+
+                  <!-- TRANSFERS CONTENT -->
+                  <div class="tabs__pane -tab-item-5">
+                    Transfers Content
+                  </div>
+                  <!-- TRANSFERS CONTENT END-->
+
+                  <!-- TRANSFERS CONTENT -->
+                  <div class="tabs__pane -tab-item-6">
+                    Activities
+                  </div>
+                  <!-- TRANSFERS CONTENT END-->
+
+                  <!-- RENT A CAR  CONTENT -->
+                  <div class="tabs__pane -tab-item-7">
+                    Rent a Car Content
+                  </div>
+                  <!-- RENT A CAR CONTENT END-->
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- slider end -->
+
+    <section class="layout-pt-md layout-pb-lg">
+      <div data-anim-wrap="" class="container animated">
+        <div class="row justify-center text-center">
+          <div class="col-auto">
+            <div class="sectionTitle -md">
+              <h2 class="sectionTitle__title">What are you interested in?</h2>
+
+            </div>
+          </div>
+        </div>
+        <div class="row y-gap-40 justify-between pt-40 sm:pt-20">
+
+          <div class="col-xl-6 col-md-6 col-sm-12 is-in-view">
+
+            <a href="#" class="citiesCard -type-3 d-block height-350 rounded-4 ">
+              <div class="citiesCard__image ratio ratio-1:1">
+                <img class="col-12 js-lazy loaded" src="img/index-banner/hotel.jpg" alt="image" data-ll-status="loaded">
+              </div>
+
+              <div class="citiesCard__content px-30 py-30">
+                <h4 class="text-26 fw-600 text-white">Hotel</h4>
+                <span class="text-white text-40 material-symbols-outlined">
+                  apartment
+                </span>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-xl-3 col-md-6 col-sm-12 is-in-view">
+
+            <a href="#" class="citiesCard -type-3 d-block height-350 rounded-4 ">
+              <div class="citiesCard__image ratio ratio-1:1">
+                <img class="col-12 js-lazy loaded"
+                  src="https://b2c.zarentravel.com/images/what-are-you-interested/flight.jpg" alt="image"
+                  data-ll-status="loaded">
+              </div>
+
+              <div class="citiesCard__content px-30 py-30">
+                <h4 class="text-26 fw-600 text-white">Aircraft and Transportation</h4>
+                <div class="text-white"><span class="text-40  material-symbols-outlined">
+                    flight_takeoff
+                  </span></div>
+              </div>
+            </a>
+
+          </div>
+
+          <div class="col-xl-3 col-md-6 col-sm-12 is-in-view">
+
+            <a href="#" class="citiesCard -type-3 d-block height-350 rounded-4 ">
+              <div class="citiesCard__image ratio ratio-1:1">
+                <img class="col-12 js-lazy loaded"
+                  src="	https://b2c.zarentravel.com/images/what-are-you-interested/cruise.jpg" alt="image"
+                  data-ll-status="loaded">
+              </div>
+
+              <div class="citiesCard__content px-30 py-30">
+                <h4 class="text-26 fw-600 text-white">Ship Tour</h4>
+                <div class="text-white"><span class="text-40  material-symbols-outlined">
+                    directions_boat
+                  </span></div>
+              </div>
+            </a>
+
+          </div>
+
+          <div class="col-xl-3 col-md-6 col-sm-12 is-in-view">
+
+            <a href="#" class="citiesCard -type-3 d-block height-350 rounded-4 ">
+              <div class="citiesCard__image ratio ratio-1:1">
+                <img class="col-12 js-lazy loaded" src="img/index-banner/health.jpg" alt="image"
+                  data-ll-status="loaded">
+              </div>
+
+              <div class="citiesCard__content px-30 py-30">
+                <h4 class="text-26 fw-600 text-white">Health tourism</h4>
+                <div class="text-white"><span class="text-40  material-symbols-outlined">
+                    health_and_safety
+                  </span></div>
+              </div>
+            </a>
+          </div>
+          <div class="col-xl-3 col-md-6 col-sm-12 is-in-view">
+            <a href="#" class="citiesCard -type-3 d-block height-350 rounded-4 ">
+              <div class="citiesCard__image ratio ratio-1:1">
+                <img class="col-12 js-lazy loaded" src="img/index-banner/rentc.jpeg" alt="image"
+                  data-ll-status="loaded">
+              </div>
+              <div class="citiesCard__content px-30 py-30">
+                <h4 class="text-26 fw-600 text-white">Rent a car</h4>
+                <div class="text-white"><span class="text-40  material-symbols-outlined">
+                    car_rental
+                  </span>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-xl-6 col-md-6 col-sm-12 is-in-view">
+            <a href="#" class="citiesCard -type-3 d-block height-350 rounded-4 ">
+              <div class="citiesCard__image ratio ratio-1:1">
+                <img class="col-12 js-lazy loaded" src="img/index-banner/transfer.jpg" alt="image"
+                  data-ll-status="loaded">
+              </div>
+
+              <div class="citiesCard__content px-30 py-30">
+                <h4 class="text-26 fw-600 text-white">Transfer</h4>
+                <div class="text-white"><span class="text-40  material-symbols-outlined">
+                    transfer_within_a_station
+                  </span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="layout-pt-md layout-pb-md">
+      <div data-anim-wrap="" class="container animated">
+        <div class="row justify-center text-center">
+          <div class="col-auto">
+            <div class="sectionTitle -md">
+              <h2 class="sectionTitle__title">Popular Packages</h2>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row y-gap-30 pt-20 sm:pt-20">
+          <!-- item -->
+          <div class="col-xl-4 col-lg-3 col-sm-6">
+            <div class="tourCard__image">
+              <div class="cardImage ratio ratio-1:1">
+                <div class="cardImage__content">
+                  <div
+                    class="cardImage-slider rounded-4 overflow-hidden js-cardImage-slider swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden">
+                    <div class="swiper-wrapper" id="swiper-wrapper-a100256fe2537127e" aria-live="polite">
+                      <div class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 3"
+                        style="width: 276px;">
+                        <img class="col-12 js-lazy loaded"
+                          src="https://avatars.mds.yandex.net/i?id=d18df98141b55e94e56799fbe07b8337-5220232-images-thumbs&n=13"
+                          alt="image" data-ll-status="loaded">
+                      </div>
+                      <div class="swiper-slide swiper-slide-next" role="group" aria-label="2 / 3" style="width: 276px;">
+                        <img class="col-12 js-lazy loaded"
+                          src="https://avatars.mds.yandex.net/i?id=8b2457eff2603f9445c14843181c8eb1-5427399-images-thumbs&n=13"
+                          alt="image" data-ll-status="loaded">
+                      </div>
+
+                      <div class="swiper-slide" role="group" aria-label="3 / 3" style="width: 276px;">
+                        <img class="col-12 js-lazy" src="#"
+                          data-src="https://avatars.mds.yandex.net/i?id=a34e2451f9968b1a846468945120cde0-4342942-images-thumbs&n=13"
+                          alt="image">
+                      </div>
+                    </div>
+
+                    <div
+                      class="cardImage-slider__pagination js-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal">
+                      <div class="pagination__item is-active" tabindex="0" role="button" aria-label="Go to slide 1"
+                        aria-current="true"></div>
+                      <div class="pagination__item" tabindex="0" role="button" aria-label="Go to slide 2"></div>
+                      <div class="pagination__item" tabindex="0" role="button" aria-label="Go to slide 3"></div>
+                    </div>
+
+                    <div class="cardImage-slider__nav -prev">
+                      <button
+                        class="button -blue-1 bg-white size-30 rounded-full shadow-2 js-prev swiper-button-disabled"
+                        disabled="" tabindex="-1" aria-label="Previous slide"
+                        aria-controls="swiper-wrapper-a100256fe2537127e" aria-disabled="true">
+                        <i class="icon-chevron-left text-10"></i>
+                      </button>
+                    </div>
+
+                    <div class="cardImage-slider__nav -next">
+                      <button class="button -blue-1 bg-white size-30 rounded-full shadow-2 js-next" tabindex="0"
+                        aria-label="Next slide" aria-controls="swiper-wrapper-a100256fe2537127e" aria-disabled="false">
+                        <i class="icon-chevron-right text-10"></i>
+                      </button>
+                    </div>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span
+                      class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span
+                      class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span
+                      class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                  </div>
+                </div>
+
+                <div class="cardImage__wishlist">
+                  <button class="button -blue-1 bg-white size-30 rounded-full shadow-2">
+                    <i class="icon-heart text-12"></i>
+                  </button>
+                </div>
+
+                <div class="cardImage__leftBadge">
+                  <div class="py-5 px-15 ml-10 rounded-right-4 text-12 lh-16 fw-500 border-rad-20 bg-blue-1 text-white">
+                    <div class="text-14 text-light-2">
+                      <span class="text-14 fw-500 text-light-2"> 1250$</span>
+                      with prices starting from
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tourCard__content mt-10">
+              <div class="d-flex items-center lh-14 mb-5">
+                <div class="text-14 text-light-1 flex-center"><span class="material-symbols-outlined">
+                    nightlight</span>4 Gece</div>
+                <div class="size-3 bg-light-1 rounded-full ml-10 mr-10"></div>
+                <div class="text-14 text-light-1 flex-center"><span class="material-symbols-outlined">
+                    pin_drop
+                  </span>1 Destinasyon</div>
+              </div>
+
+              <h4 class="tourCard__title text-dark-1 text-18 lh-16 fw-500">
+                <span>Paris Kültür Turu, Fransa</span>
+              </h4>
+
+              <div class="flex-row">
+                <span class="material-symbols-outlined text-light-2 py-5 px-5 mr-5 border-rad-20 bg-blue-1">
+                  bed
+                </span>
+                <p class="text-black-1 lh-14 text-18 mt-5">
+                  Tatil Paketi
+                </p>
+              </div>
+
+              <div class="row justify-between items-center pt-15">
+                <div class="col-auto">
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- item end -->
+          <!-- item -->
+          <div class="col-xl-4 col-lg-3 col-sm-6">
+            <div class="tourCard__image">
+              <div class="cardImage ratio ratio-1:1">
+                <div class="cardImage__content">
+                  <div
+                    class="cardImage-slider rounded-4 overflow-hidden js-cardImage-slider swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden">
+                    <div class="swiper-wrapper" id="swiper-wrapper-a100256fe2537127e" aria-live="polite">
+                      <div class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 3"
+                        style="width: 276px;">
+                        <img class="col-12 js-lazy loaded"
+                          src="https://avatars.mds.yandex.net/i?id=d18df98141b55e94e56799fbe07b8337-5220232-images-thumbs&n=13"
+                          alt="image" data-ll-status="loaded">
+                      </div>
+                      <div class="swiper-slide swiper-slide-next" role="group" aria-label="2 / 3" style="width: 276px;">
+                        <img class="col-12 js-lazy loaded"
+                          src="https://avatars.mds.yandex.net/i?id=8b2457eff2603f9445c14843181c8eb1-5427399-images-thumbs&n=13"
+                          alt="image" data-ll-status="loaded">
+                      </div>
+
+                      <div class="swiper-slide" role="group" aria-label="3 / 3" style="width: 276px;">
+                        <img class="col-12 js-lazy" src="#"
+                          data-src="https://avatars.mds.yandex.net/i?id=a34e2451f9968b1a846468945120cde0-4342942-images-thumbs&n=13"
+                          alt="image">
+                      </div>
+                    </div>
+
+                    <div
+                      class="cardImage-slider__pagination js-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal">
+                      <div class="pagination__item is-active" tabindex="0" role="button" aria-label="Go to slide 1"
+                        aria-current="true"></div>
+                      <div class="pagination__item" tabindex="0" role="button" aria-label="Go to slide 2"></div>
+                      <div class="pagination__item" tabindex="0" role="button" aria-label="Go to slide 3"></div>
+                    </div>
+
+                    <div class="cardImage-slider__nav -prev">
+                      <button
+                        class="button -blue-1 bg-white size-30 rounded-full shadow-2 js-prev swiper-button-disabled"
+                        disabled="" tabindex="-1" aria-label="Previous slide"
+                        aria-controls="swiper-wrapper-a100256fe2537127e" aria-disabled="true">
+                        <i class="icon-chevron-left text-10"></i>
+                      </button>
+                    </div>
+
+                    <div class="cardImage-slider__nav -next">
+                      <button class="button -blue-1 bg-white size-30 rounded-full shadow-2 js-next" tabindex="0"
+                        aria-label="Next slide" aria-controls="swiper-wrapper-a100256fe2537127e" aria-disabled="false">
+                        <i class="icon-chevron-right text-10"></i>
+                      </button>
+                    </div>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span
+                      class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span
+                      class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span
+                      class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                  </div>
+                </div>
+
+                <div class="cardImage__wishlist">
+                  <button class="button -blue-1 bg-white size-30 rounded-full shadow-2">
+                    <i class="icon-heart text-12"></i>
+                  </button>
+                </div>
+
+                <div class="cardImage__leftBadge">
+                  <div class="py-5 px-15 ml-10 rounded-right-4 text-12 lh-16 fw-500 border-rad-20 bg-blue-1 text-white">
+                    <div class="text-14 text-light-2">
+                      <span class="text-14 fw-500 text-light-2"> 1250$</span>
+                      with prices starting from
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tourCard__content mt-10">
+              <div class="d-flex items-center lh-14 mb-5">
+                <div class="text-14 text-light-1 flex-center"><span class="material-symbols-outlined">
+                    nightlight</span>4 Gece</div>
+                <div class="size-3 bg-light-1 rounded-full ml-10 mr-10"></div>
+                <div class="text-14 text-light-1 flex-center"><span class="material-symbols-outlined">
+                    pin_drop
+                  </span>1 Destinasyon</div>
+              </div>
+
+              <h4 class="tourCard__title text-dark-1 text-18 lh-16 fw-500">
+                <span>Paris Kültür Turu, Fransa</span>
+              </h4>
+
+              <div class="flex-row">
+                <span class="material-symbols-outlined text-light-2 py-5 px-5 mr-5 border-rad-20 bg-blue-1">
+                  bed
+                </span>
+                <p class="text-black-1 lh-14 text-18 mt-5">
+                  Tatil Paketi
+                </p>
+              </div>
+
+              <div class="row justify-between items-center pt-15">
+                <div class="col-auto">
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- item end -->
+          <!-- item -->
+          <div class="col-xl-4 col-lg-3 col-sm-6">
+            <div class="tourCard__image">
+              <div class="cardImage ratio ratio-1:1">
+                <div class="cardImage__content">
+                  <div
+                    class="cardImage-slider rounded-4 overflow-hidden js-cardImage-slider swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden">
+                    <div class="swiper-wrapper" id="swiper-wrapper-a100256fe2537127e" aria-live="polite">
+                      <div class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 3"
+                        style="width: 276px;">
+                        <img class="col-12 js-lazy loaded"
+                          src="https://avatars.mds.yandex.net/i?id=d18df98141b55e94e56799fbe07b8337-5220232-images-thumbs&n=13"
+                          alt="image" data-ll-status="loaded">
+                      </div>
+                      <div class="swiper-slide swiper-slide-next" role="group" aria-label="2 / 3" style="width: 276px;">
+                        <img class="col-12 js-lazy loaded"
+                          src="https://avatars.mds.yandex.net/i?id=8b2457eff2603f9445c14843181c8eb1-5427399-images-thumbs&n=13"
+                          alt="image" data-ll-status="loaded">
+                      </div>
+
+                      <div class="swiper-slide" role="group" aria-label="3 / 3" style="width: 276px;">
+                        <img class="col-12 js-lazy" src="#"
+                          data-src="https://avatars.mds.yandex.net/i?id=a34e2451f9968b1a846468945120cde0-4342942-images-thumbs&n=13"
+                          alt="image">
+                      </div>
+                    </div>
+
+                    <div
+                      class="cardImage-slider__pagination js-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal">
+                      <div class="pagination__item is-active" tabindex="0" role="button" aria-label="Go to slide 1"
+                        aria-current="true"></div>
+                      <div class="pagination__item" tabindex="0" role="button" aria-label="Go to slide 2"></div>
+                      <div class="pagination__item" tabindex="0" role="button" aria-label="Go to slide 3"></div>
+                    </div>
+
+                    <div class="cardImage-slider__nav -prev">
+                      <button
+                        class="button -blue-1 bg-white size-30 rounded-full shadow-2 js-prev swiper-button-disabled"
+                        disabled="" tabindex="-1" aria-label="Previous slide"
+                        aria-controls="swiper-wrapper-a100256fe2537127e" aria-disabled="true">
+                        <i class="icon-chevron-left text-10"></i>
+                      </button>
+                    </div>
+
+                    <div class="cardImage-slider__nav -next">
+                      <button class="button -blue-1 bg-white size-30 rounded-full shadow-2 js-next" tabindex="0"
+                        aria-label="Next slide" aria-controls="swiper-wrapper-a100256fe2537127e" aria-disabled="false">
+                        <i class="icon-chevron-right text-10"></i>
+                      </button>
+                    </div>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span
+                      class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span
+                      class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span
+                      class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                  </div>
+                </div>
+
+                <div class="cardImage__wishlist">
+                  <button class="button -blue-1 bg-white size-30 rounded-full shadow-2">
+                    <i class="icon-heart text-12"></i>
+                  </button>
+                </div>
+
+                <div class="cardImage__leftBadge">
+                  <div class="py-5 px-15 ml-10 rounded-right-4 text-12 lh-16 fw-500 border-rad-20 bg-blue-1 text-white">
+                    <div class="text-14 text-light-2">
+                      <span class="text-14 fw-500 text-light-2"> 1250$</span>
+                      with prices starting from
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tourCard__content mt-10">
+              <div class="d-flex items-center lh-14 mb-5">
+                <div class="text-14 text-light-1 flex-center"><span class="material-symbols-outlined">
+                    nightlight</span>4 Gece</div>
+                <div class="size-3 bg-light-1 rounded-full ml-10 mr-10"></div>
+                <div class="text-14 text-light-1 flex-center"><span class="material-symbols-outlined">
+                    pin_drop
+                  </span>1 Destinasyon</div>
+              </div>
+
+              <h4 class="tourCard__title text-dark-1 text-18 lh-16 fw-500">
+                <span>Paris Kültür Turu, Fransa</span>
+              </h4>
+
+              <div class="flex-row">
+                <span class="material-symbols-outlined text-light-2 py-5 px-5 mr-5 border-rad-20 bg-blue-1">
+                  bed
+                </span>
+                <p class="text-black-1 lh-14 text-18 mt-5">
+                  Tatil Paketi
+                </p>
+              </div>
+
+              <div class="row justify-between items-center pt-15">
+                <div class="col-auto">
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- item end -->
+
+
+        </div>
+      </div>
+
+    </section>
+
+    <section class="xl:d-none layout-pt-md layout-pb-md">
+      <div class="container">
+        <div class="row justify-center text-center">
+          <div class="col-auto">
+            <div class="sectionTitle -md">
+              <h2 class="sectionTitle__title">Our travel ideas</h2>
+              <p class=" sectionTitle__text mt-5 sm:mt-0">You can see our featured travel ideas here</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row y-gap-30 pt-40 sm:pt-20">
+
+          <div class="col-xl col-md-4 col-sm-6">
+
+            <a href="#" class="tourTypeCard -type-1 d-block rounded-4 bg-white  rounded-4">
+              <div class="tourTypeCard__content text-center pt-20 pb-24 px-30">
+
+                <span class="text-60 text-blue-1 material-symbols-outlined">
+                  night_shelter
+                </span>
+
+                <h4 class="text-dark-1 text-18 fw-500 mt-20 md:mt-30">Hotel</h4>
+
+              </div>
+            </a>
+
+          </div>
+
+          <div class="col-xl col-md-4 col-sm-6">
+
+            <a href="#" class="tourTypeCard -type-1 d-block rounded-4 bg-white  rounded-4">
+              <div class="tourTypeCard__content text-center pt-20 pb-24 px-30">
+
+                <span class="text-60 text-blue-1 material-symbols-outlined">
+                  flight_takeoff
+                </span>
+
+                <h4 class="text-dark-1 text-18 fw-500 mt-20 md:mt-30">Aircraft and Transportation</h4>
+
+              </div>
+            </a>
+
+          </div>
+
+          <div class="col-xl col-md-4 col-sm-6">
+
+            <a href="#" class="tourTypeCard -type-1 d-block rounded-4 bg-white  rounded-4">
+              <div class="tourTypeCard__content text-center pt-20 pb-24 px-30">
+
+                <span class="text-60 text-blue-1 material-symbols-outlined">
+                  emoji_transportation
+                </span>
+
+                <h4 class="text-dark-1 text-18 fw-500 mt-20 md:mt-30">Transfer</h4>
+
+              </div>
+            </a>
+
+          </div>
+
+          <div class="col-xl col-md-4 col-sm-6">
+
+            <a href="#" class="tourTypeCard -type-1 d-block rounded-4 bg-white  rounded-4">
+              <div class="tourTypeCard__content text-center pt-20 pb-24 px-30">
+
+                <span class="text-60 text-blue-1 material-symbols-outlined">
+                  directions_boat
+                </span>
+
+                <h4 class="text-dark-1 text-18 fw-500 mt-20 md:mt-30">Cruise</h4>
+
+              </div>
+            </a>
+
+          </div>
+
+          <div class="col-xl col-md-4 col-sm-6">
+
+            <a href="#" class="tourTypeCard -type-1 d-block rounded-4 bg-white  rounded-4">
+              <div class="tourTypeCard__content text-center pt-20 pb-24 px-30">
+
+                <span class="text-60 text-blue-1 material-symbols-outlined">
+                  directions_car
+                </span>
+
+                <h4 class="text-dark-1 text-18 fw-500 mt-20 md:mt-30">Rental Car</h4>
+
+              </div>
+            </a>
+
+          </div>
+
+        </div>
+
+        <div class="row y-gap-30 pt-20 sm:pt-20">
+
+          <div class="col-xl col-md-4 col-sm-6">
+
+            <a href="#" class="tourTypeCard -type-1 d-block rounded-4 bg-white  rounded-4">
+              <div class="tourTypeCard__content text-center pt-20 pb-24 px-30">
+
+                <span class="text-60 text-blue-1 material-symbols-outlined">
+                  shopping_bag
+                </span>
+
+                <h4 class="text-dark-1 text-18 fw-500 mt-20 md:mt-30">Packets</h4>
+
+              </div>
+            </a>
+
+          </div>
+
+          <div class="col-xl col-md-4 col-sm-6">
+
+            <a href="#" class="tourTypeCard -type-1 d-block rounded-4 bg-white  rounded-4">
+              <div class="tourTypeCard__content text-center pt-20 pb-24 px-30">
+
+                <span class="text-60 text-blue-1 material-symbols-outlined">
+                  kayaking
+                </span>
+
+                <h4 class="text-dark-1 text-18 fw-500 mt-20 md:mt-30">Activity</h4>
+
+              </div>
+            </a>
+
+          </div>
+
+          <div class="col-xl col-md-4 col-sm-6">
+
+            <a href="#" class="tourTypeCard -type-1 d-block rounded-4 bg-white  rounded-4">
+              <div class="tourTypeCard__content text-center pt-20 pb-24 px-30">
+
+                <span class="text-60 text-blue-1 material-symbols-outlined">
+                  conversion_path
+                </span>
+
+                <h4 class="text-dark-1 text-18 fw-500 mt-20 md:mt-30">Multiple Destinations</h4>
+
+              </div>
+            </a>
+
+          </div>
+
+          <div class="col-xl col-md-4 col-sm-6">
+
+            <a href="#" class="tourTypeCard -type-1 d-block rounded-4 bg-white  rounded-4">
+              <div class="tourTypeCard__content text-center pt-20 pb-24 px-30">
+
+                <span class="text-60 text-blue-1 material-symbols-outlined">
+                  health_and_safety
+                </span>
+
+                <h4 class="text-dark-1 text-18 fw-500 mt-20 md:mt-30">Health tourism</h4>
+
+              </div>
+            </a>
+
+          </div>
+
+          <div class="col-xl col-md-4 col-sm-6">
+
+            <a href="#" class="tourTypeCard -type-1 d-block rounded-4 bg-white  rounded-4">
+              <div class="tourTypeCard__content text-center pt-20 pb-24 px-30">
+
+                <span class="text-60 text-blue-1 material-symbols-outlined">
+                  account_balance
+                </span>
+
+                <h4 class="text-dark-1 text-18 fw-500 mt-20 md:mt-30">Investment</h4>
+
+              </div>
+            </a>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section-bg layout-pt-xl layout-pb-xl">
+      <div data-anim="fade delay-1" class="section-bg__item -mx-20 is-in-view" data-parallax="0.7">
+
+        <div class="video-index">
+          <div>
+            <video poster="images/video_slider.jpg" playsinline="" autoplay="" muted="" loop="">
+              <source src="https://b2c.zarentravel.com/images/videos/slide-video.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div data-anim="fade delay-3" class="row justify-center text-center is-in-view">
+          <div class="col-auto">
+            <div class="text-white text-20 mb-10">Explore new worlds with us</div>
+            <h2 class="text-24 text-white">Enjoy exotic destinations with our amazing travel deals</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="layout-pt-md layout-pb-lg">
+      <div data-anim-wrap="" class="container animated">
+        <div class="row justify-center text-center">
+          <div class="col-auto">
+            <div class="sectionTitle -md">
+              <h2 class="sectionTitle__title">Our offers</h2>
+              <p class=" sectionTitle__text mt-5 sm:mt-0">The best tips from our partners from all over the city
+                discover.</p>
+            </div>
+          </div>
+        </div>
+        <div class="container px-0 mt-30">
+          <div class="row y-gap-30 pt-20 sm:pt-20">
+            <div class="col-xl-3 col-sm-12 height-350">
+
+              <a href="#" class="citiesCard -type-3 d-block h-full rounded-4 ">
+                <div class="citiesCard__image ratio ratio-1:1">
+                  <img class="col-12 js-lazy loaded"
+                    src="https://avatars.mds.yandex.net/i?id=ca813a3e63f3e8a25cc0fb9aa0b119bcc9cf3051-4909159-images-thumbs&amp;n=13"
+                    alt="image" data-ll-status="loaded">
+                </div>
+
+                <div class="citiesCard__content px-30 py-30">
+                  <h4 class="text-20 fw-800 text-white"> Autumn Madrid Tour</h4>
+                  <h5 class="text-18 fw-400 text-white"> Holiday Package</h5>
+                </div>
+              </a>
+
+            </div>
+            <div class="col-xl-3 col-sm-12 height-350">
+
+              <a href="#" class="citiesCard -type-3 d-block h-full rounded-4 ">
+                <div class="citiesCard__image ratio ratio-1:1">
+                  <img class="col-12 js-lazy loaded"
+                    src="https://avatars.mds.yandex.net/i?id=1e27b06562d96efb92cf6e58af5ffa15f5871fa7-8263377-images-thumbs&amp;n=13"
+                    alt="image" data-ll-status="loaded">
+                </div>
+
+                <div class="citiesCard__content px-30 py-30">
+                  <h4 class="text-20 fw-800 text-white"> Autumn France Tour</h4>
+                  <h5 class="text-18 fw-400 text-white"> Holiday Package</h5>
+                </div>
+              </a>
+
+            </div>
+            <div class="col-xl-3 col-sm-12 height-350">
+              <a href="#" class="citiesCard -type-3 d-block h-full rounded-4 ">
+                <div class="citiesCard__image ratio ratio-1:1">
+                  <img class="col-12 js-lazy loaded"
+                    src="https://www.iesabroad.org/files/blog/images/tug40860%40temple.edu/2019-07-14/hero_ultimaterome_hero_shutterstock789412159.jpg"
+                    alt="image" data-ll-status="loaded">
+                </div>
+                <div class="citiesCard__content px-30 py-30">
+                  <h4 class="text-20 fw-800 text-white"> Autumn Roma Tour</h4>
+                  <h5 class="text-18 fw-400 text-white"> Holiday Package</h5>
+                </div>
+              </a>
+            </div>
+            <div class="col-xl-3 col-sm-12 height-350">
+
+              <a href="#" class="citiesCard -type-3 d-block h-full rounded-4 ">
+                <div class="citiesCard__image ratio ratio-1:1">
+                  <img class="col-12 js-lazy loaded"
+                    src="https://avatars.mds.yandex.net/i?id=ffb487b01f4bde610935ef8ecfdbbc9cc7b8fdbf-6661455-images-thumbs&amp;n=13"
+                    alt="image" data-ll-status="loaded">
+                </div>
+
+                <div class="citiesCard__content px-30 py-30">
+                  <h4 class="text-20 fw-800 text-white"> Autumn Istanbul Tour</h4>
+                  <h5 class="text-18 fw-400 text-white"> Holiday Package</h5>
+
+                </div>
+              </a>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="layout-pt-md layout-pb-lg">
+      <div data-anim-wrap="" class="container animated">
+        <div class="row justify-center text-center">
+          <div class="col-auto">
+            <div class="sectionTitle -md">
+              <h2 class="sectionTitle__title">Discover the best destinations</h2>
+              <p class=" sectionTitle__text mt-5 sm:mt-0">Here you can see your destination suggestions</p>
+            </div>
+          </div>
+        </div>
+        <div class="container px-0 mt-30">
+          <div class="row y-gap-30 pt-20 sm:pt-20">
+            <div class="col-xl-6 col-sm-12 height-350">
+
+              <a href="#" class="citiesCard -type-3 d-block h-full rounded-4 ">
+                <div class="citiesCard__image ratio ratio-1:1">
+                  <img class="col-12 js-lazy loaded"
+                    src="https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=687&amp;q=80"
+                    alt="image" data-ll-status="loaded">
+                </div>
+
+                <div class="citiesCard__content px-30 py-30">
+                  <h4 class="text-26 fw-600 text-white"> London</h4>
+
+                </div>
+              </a>
+
+            </div>
+            <div class="col-xl-3 col-sm-12 height-350">
+
+              <a href="#" class="citiesCard -type-3 d-block h-full rounded-4 ">
+                <div class="citiesCard__image ratio ratio-1:1">
+                  <img class="col-12 js-lazy loaded"
+                    src="https://images.unsplash.com/photo-1584003564911-a7a321c84e1c?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=984&amp;q=80"
+                    alt="image" data-ll-status="loaded">
+                </div>
+
+                <div class="citiesCard__content px-30 py-30">
+                  <h4 class="text-26 fw-600 text-white"> Amsterdam</h4>
+
+                </div>
+              </a>
+
+            </div>
+            <div class="col-xl-3 col-sm-12 height-350">
+
+              <a href="#" class="citiesCard -type-3 d-block h-full rounded-4 ">
+                <div class="citiesCard__image ratio ratio-1:1">
+                  <img class="col-12 js-lazy loaded"
+                    src="https://images.unsplash.com/photo-1583063660702-fb3673c1d52e?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1170&amp;q=80"
+                    alt="image" data-ll-status="loaded">
+                </div>
+
+                <div class="citiesCard__content px-30 py-30">
+                  <h4 class="text-26 fw-600 text-white">İstanbul</h4>
+
+                </div>
+              </a>
+
+            </div>
+
+            <div class="col-xl-6 col-sm-12 height-350">
+
+              <a href="#" class="citiesCard -type-3 d-block h-full rounded-4 ">
+                <div class="citiesCard__image ratio ratio-1:1">
+                  <img class="col-12 js-lazy loaded"
+                    src="https://images.unsplash.com/photo-1581262208382-c2dad6c67c9b?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=665&amp;q=80"
+                    alt="image" data-ll-status="loaded">
+                </div>
+
+                <div class="citiesCard__content px-30 py-30">
+                  <h4 class="text-26 fw-600 text-white"> Paris</h4>
+
+                </div>
+              </a>
+
+            </div>
+
+            <div class="col-xl-6 col-sm-12 height-350">
+
+              <a href="#" class="citiesCard -type-3 d-block h-full rounded-4 ">
+                <div class="citiesCard__image ratio ratio-1:1">
+                  <img class="col-12 js-lazy loaded"
+                    src="https://images.unsplash.com/photo-1597982087634-9884f03198ce?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1488&amp;q=80"
+                    alt="image" data-ll-status="loaded">
+                </div>
+
+                <div class="citiesCard__content px-30 py-30">
+                  <h4 class="text-26 fw-600 text-white"> Los Angeles</h4>
+
+                </div>
+              </a>
+
+            </div>
+
+            <div class="col-xl-3 col-sm-12 height-350">
+
+              <a href="#" class="citiesCard -type-3 d-block h-full rounded-4 ">
+                <div class="citiesCard__image ratio ratio-1:1">
+                  <img class="col-12 js-lazy loaded"
+                    src="https://images.unsplash.com/photo-1597466599360-3b9775841aec?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=764&amp;q=80"
+                    alt="image" data-ll-status="loaded">
+                </div>
+
+                <div class="citiesCard__content px-30 py-30">
+                  <h4 class="text-26 fw-600 text-white"> Orlando</h4>
+
+                </div>
+              </a>
+
+            </div>
+
+            <div class="col-xl-3 col-sm-12 height-350">
+
+              <a href="#" class="citiesCard -type-3 d-block h-full rounded-4 ">
+                <div class="citiesCard__image ratio ratio-1:1">
+                  <img class="col-12 js-lazy loaded"
+                    src="https://images.unsplash.com/photo-1597982087634-9884f03198ce?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1488&amp;q=80"
+                    alt="image" data-ll-status="loaded">
+                </div>
+
+                <div class="citiesCard__content px-30 py-30">
+                  <h4 class="text-26 fw-600 text-white"> Mexico</h4>
+                </div>
+              </a>
+
+            </div>
+
+            <div class="col-xl-6 col-sm-12 height-350">
+
+              <a href="#" class="citiesCard -type-3 d-block h-full rounded-4 ">
+                <div class="citiesCard__image ratio ratio-1:1">
+                  <img class="col-12 js-lazy loaded"
+                    src="https://media.istockphoto.com/id/521008320/tr/foto%C4%9Fraf/cibeles-square-madrid.jpg?s=1024x1024&amp;w=is&amp;k=20&amp;c=RknK8gQxBqsdatOqGdPfhjc3BoOxvsWZ8AScFKg0iys="
+                    alt="image" data-ll-status="loaded">
+                </div>
+
+                <div class="citiesCard__content px-30 py-30">
+                  <h4 class="text-26 fw-600 text-white"> Madrid</h4>
+
+                </div>
+              </a>
+
+            </div>
+          </div>
+
+
+
+
+        </div>
+
+
+      </div>
+    </section>
+
+    <footer class="footer -type-2 bg-blue-1">
+      <div class="container">
+        <div class="pt-20 pb-20">
+          <div class="row y-gap-40 justify-content-center xl:justify-start">
+            <div class="col-xl-12 col-lg-12 text-center">
+              <img src="https://b2c.zarentravel.com/images/logo.gif" alt="image" class="h-50">
+
+              <div class="row y-gap-20 justify-content-center pt-20">
+                <div class="col-sm-3">
+                  <a href="#" class="text-18 fw-500 text-white mt-5">+90 850 380 00 34</a>
+                </div>
+
+                <div class="col-sm-3 justify-content-center">
+                  <a href="#" class="text-18 fw-500 text-white mt-5">info@zarentravel.com</a>
+                </div>
+              </div>
+
+              <div class="row x-gap-20 y-gap-15 pt-20">
+                <div class="col-12">
+                  <p class="text-white"> Ataköy 7-8-9-10. Kısım Mh.E-5 Yan Yol Caddesi No:16/1/A<br> Selenium Retro-9 A
+                    Blok 18/130
+                    Bakırköy / İstanbul </p>
+                </div>
+              </div>
+
+              <div class="mt-20">
+                <h5 class="text-16 text-white fw-500 mb-10">Follow us on social media</h5>
+                <div class="d-flex x-gap-20 text-white items-center justify-content-center">
+                  <a href="#"><i class="icon-facebook text-20"></i></a>
+                  <a href="#"><i class="icon-twitter text-20"></i></a>
+                  <a href="#"><i class="icon-instagram text-20"></i></a>
+                  <a href="#"><i class="icon-linkedin text-20"></i></a>
+                </div>
+              </div>
+
+              <div class="mt-20">
+                <img src="https://b2c.zarentravel.com/images/v-cards.png">
+                <img src="https://b2c.zarentravel.com/images/tursab.png">
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+        <div class="py-20 border-top-light">
+          <div class="row justify-between items-center y-gap-10">
+            <div class="col-auto">
+              <div class="row x-gap-30 y-gap-10">
+                <div class="col-auto">
+                  <div class="d-flex items-center text-white">
+                    2022 | Zaren Travel
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-auto">
+              <div class="row y-gap-10 items-center">
+                <div class="col-auto">
+                  <div class="col-auto">
+                    <div class="d-flex x-gap-15 text-white">
+                      <a href="#">Privacy</a>
+                      <a href="#">Terms of Use</a>
+                      <a href="#">Sitemap</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+  <!-- JavaScripts -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
+  <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+  <script src="js/vendors.js"></script>
+  <script src="js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+
+
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+  <script>
+    var start_date = null, end_date = null;
+    var timestamp_start_date = null, timestamp_end_date = null;
+    var $input_start_date = null, $input_end_date = null;
+
+    function getDateClass(date, start, end) {
+      if (end != null && start != null) {
+        if (date > start && date < end)
+          return [true, "sejour", "Séjour"];
+      }
+
+      if (date == start)
+        return [true, "start", "Başlangıç Tarihi"];
+      if (date == end)
+        return [true, "end", "Bitiş Tarihi"];
+
+      return false;
+    }
+
+    function datepicker_draw_nb_nights() {
+      var $datepicker = jQuery("#ui-datepicker-div");
+      setTimeout(function () {
+        if (start_date != null && end_date != null) {
+          var $qty_days_stay = jQuery("<div />", { class: "ui-datepicker-stay-duration" });
+          var qty_nights_stay = get_days_difference(timestamp_start_date, timestamp_end_date);
+          $qty_days_stay.text(qty_nights_stay + " Gece Sayısı");
+          $qty_days_stay.appendTo($datepicker);
+        }
+      });
+    }
+
+    var options_start_date = {
+      showAnim: false,
+      constrainInput: true,
+      numberOfMonths: 2,
+      showOtherMonths: true,
+      beforeShow: function (input, datepicker) {
+        datepicker_draw_nb_nights();
+      },
+      beforeShowDay: function (date) {
+        // 0: published
+        // 1: class
+        // 2: tooltip
+        var timestamp_date = date.getTime();
+        var result = getDateClass(timestamp_date, timestamp_start_date, timestamp_end_date);
+        if (result != false)
+          return result;
+
+        return [true, "", ""];
+        // return [ true, "chocolate", "Chocolate! " ];
+      },
+      onSelect: function (date_string, datepicker) {
+        // this => input
+        start_date = $input_start_date.datepicker("getDate");
+        timestamp_start_date = start_date.getTime();
+      },
+      onClose: function () {
+        if (end_date != null) {
+          if (timestamp_start_date >= timestamp_end_date || end_date == null) {
+            $input_end_date.datepicker("setDate", null);
+            end_date = null;
+            timestamp_end_date = null;
+            $input_end_date.datepicker("show");
+            return;
+          }
+        }
+        if (start_date != null && end_date == null)
+          $input_end_date.datepicker("show");
+      }
+    };
+    var options_end_date = {
+      showAnim: false,
+      constrainInput: true,
+      numberOfMonths: 2,
+      showOtherMonths: true,
+      beforeShow: function (input, datepicker) {
+        datepicker_draw_nb_nights();
+      },
+      beforeShowDay: function (date) {
+        var timestamp_date = date.getTime();
+        var result = getDateClass(timestamp_date, timestamp_start_date, timestamp_end_date);
+        if (result != false)
+          return result;
+
+        return [true, "", "Chocolate !"];
+      },
+      onSelect: function (date_string, datepicker) {
+        // this => input
+        end_date = $input_end_date.datepicker("getDate");
+        timestamp_end_date = end_date.getTime();
+      },
+      onClose: function () {
+        if (end_date == null)
+          return;
+
+        if (timestamp_end_date <= timestamp_start_date || start_date == null) {
+          $input_start_date.datepicker("setDate", null);
+          start_date = null;
+          timestamp_start_date = null;
+          $input_start_date.datepicker("show");
+        }
+      }
+    };
+
+    $input_start_date = jQuery("#start-date");
+    $input_end_date = jQuery("#end-date");
+
+    $input_start_date.datepicker(options_start_date);
+    $input_end_date.datepicker(options_end_date);
+
+    function get_days_difference(start_date, end_date) {
+      return Math.floor(end_date - start_date) / (1000 * 60 * 60 * 24);
+    }
+  </script>
+  <script>
+    $('.input-swap').on('click', function () {
+      var input_swap_01 = $('.input-swap-01').val();
+      var input_swap_02 = $('.input-swap-02').val();
+
+      $('.input-swap-01').val(input_swap_02);
+      $('.input-swap-02').val(input_swap_01);
+      // console.log(input_swap_01, input_swap_02);
+    });
+
+
+    //javascript
+    function swaptxtbox() {
+      var input_swap_01 = document.getElementById('input-swap-01').value;
+      var input_swap_02 = document.getElementById('input-swap-02').value;
+      //console.log(input_swap_01, input_swap_02);
+      document.getElementById('input-swap-01').value = input_swap_02;
+      document.getElementById('input-swap-02').value = input_swap_01;
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,218 @@
+@page "/add-company"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Add Company</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Company</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.Company" Data="@company" Visible="@(company != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Company Code" Component="CompanyCode" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@company.CompanyCode" Name="CompanyCode" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Company Representative" Component="CompanyRepresentative" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@company.CompanyRepresentative" Name="CompanyRepresentative" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Co Gr Id" Component="CoGrId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@company.CoGrId" Name="CoGrId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Co Di Id" Component="CoDiId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@company.CoDiId" Name="CoDiId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="In Se Id" Component="InSeId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@company.InSeId" Name="InSeId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Company Timestamp" Component="CompanyTimestamp" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@company.CompanyTimestamp" Name="CompanyTimestamp" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Company Active" Component="CompanyActive" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@company.CompanyActive" Name="CompanyActive" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency" Component="Agency" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agenciesForAgencyId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasAgencyIdValue) Placeholder="Choose Agency" style="display: block; width: 100%" @bind-Value="@company.AgencyId" Name="AgencyId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Country" Component="Country" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@countriesForCountryId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasCountryIdValue) Placeholder="Choose Country" style="display: block; width: 100%" @bind-Value="@company.CountryId" Name="CountryId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Currency1" Component="Currency1" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@currency1SForCurrencyId" TextProperty="CurrencyCode" ValueProperty="Id"
+                        Disabled=@(hasCurrencyIdValue) Placeholder="Choose Currency1" style="display: block; width: 100%" @bind-Value="@company.CurrencyId" Name="CurrencyId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Language" Component="Language" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@languagesForLanguagesId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasLanguagesIdValue) Placeholder="Choose Language" style="display: block; width: 100%" @bind-Value="@company.LanguagesId" Name="LanguagesId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        agenciesForAgencyId = await ZarenSoftService.GetAgencies();
+
+        countriesForCountryId = await ZarenSoftService.GetCountries();
+
+        currency1SForCurrencyId = await ZarenSoftService.GetCurrency1S();
+
+        languagesForLanguagesId = await ZarenSoftService.GetLanguages();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.Company company;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Agency> agenciesForAgencyId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Country> countriesForCountryId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Currency1> currency1SForCurrencyId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Language> languagesForLanguagesId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.CreateCompany(company);
+            DialogService.Close(company);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasAgencyIdValue;
+
+    [Parameter]
+    public int? AgencyId { get; set; }
+
+    bool hasCountryIdValue;
+
+    [Parameter]
+    public int? CountryId { get; set; }
+
+    bool hasCurrencyIdValue;
+
+    [Parameter]
+    public int? CurrencyId { get; set; }
+
+    bool hasLanguagesIdValue;
+
+    [Parameter]
+    public int? LanguagesId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        company = new ZarenTravel.Models.ZarenSoft.Company();
+
+        hasAgencyIdValue = parameters.TryGetValue<int?>("AgencyId", out var hasAgencyIdResult);
+
+        if (hasAgencyIdValue)
+        {
+            company.AgencyId = hasAgencyIdResult;
+        }
+
+        hasCountryIdValue = parameters.TryGetValue<int?>("CountryId", out var hasCountryIdResult);
+
+        if (hasCountryIdValue)
+        {
+            company.CountryId = hasCountryIdResult;
+        }
+
+        hasCurrencyIdValue = parameters.TryGetValue<int?>("CurrencyId", out var hasCurrencyIdResult);
+
+        if (hasCurrencyIdValue)
+        {
+            company.CurrencyId = hasCurrencyIdResult;
+        }
+
+        hasLanguagesIdValue = parameters.TryGetValue<int?>("LanguagesId", out var hasLanguagesIdResult);
+
+        if (hasLanguagesIdValue)
+        {
+            company.LanguagesId = hasLanguagesIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

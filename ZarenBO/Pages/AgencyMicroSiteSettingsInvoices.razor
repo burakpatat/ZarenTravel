@@ -1,0 +1,161 @@
+@page "/agency-micro-site-settings-invoices"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject zaren_prodService zaren_prodService
+
+<PageTitle>AgencyMicroSiteSettingsInvoices</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="AgencyMicroSiteSettingsInvoices" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"  AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@agencyMicroSiteSettingsInvoices"    TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" RowDoubleClick="@EditRow" >
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="NumberPrefix" Title="Number Prefix">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="Name" Title="Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="Address" Title="Address">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="Country" Title="Country">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="Email" Title="Email">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="City" Title="City">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="VAT" Title="V A T">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="TaxesByPercentage" Title="Taxes By Percentage">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="BillingDetails" Title="Billing Details">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="BankDetails" Title="Bank Details">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="TaxesDetails" Title="Taxes Details">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="LegalFooter" Title="Legal Footer">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="DirectOperatorToAgencyBilling" Title="Direct Operator To Agency Billing">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="MailBody" Title="Mail Body">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="Agency.InvoiceName" Title="Agency">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Property="AgencyMicroSite.Domain" Title="Agency Micro Site">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="agencyMicroSiteSettingsInvoice">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, agencyMicroSiteSettingsInvoice)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice> agencyMicroSiteSettingsInvoices;
+
+    protected RadzenDataGrid<ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        agencyMicroSiteSettingsInvoices = await zaren_prodService.GetAgencyMicroSiteSettingsInvoices(new Query { Filter = $@"i => i.NumberPrefix.Contains(@0) || i.Name.Contains(@0) || i.Address.Contains(@0) || i.Email.Contains(@0) || i.City.Contains(@0) || i.VAT.Contains(@0) || i.BillingDetails.Contains(@0) || i.BankDetails.Contains(@0) || i.TaxesDetails.Contains(@0) || i.LegalFooter.Contains(@0) || i.MailBody.Contains(@0)", FilterParameters = new object[] { search }, Expand = "Agency,AgencyMicroSite" });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        agencyMicroSiteSettingsInvoices = await zaren_prodService.GetAgencyMicroSiteSettingsInvoices(new Query { Filter = $@"i => i.NumberPrefix.Contains(@0) || i.Name.Contains(@0) || i.Address.Contains(@0) || i.Email.Contains(@0) || i.City.Contains(@0) || i.VAT.Contains(@0) || i.BillingDetails.Contains(@0) || i.BankDetails.Contains(@0) || i.TaxesDetails.Contains(@0) || i.LegalFooter.Contains(@0) || i.MailBody.Contains(@0)", FilterParameters = new object[] { search }, Expand = "Agency,AgencyMicroSite" });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddAgencyMicroSiteSettingsInvoice>("Add AgencyMicroSiteSettingsInvoice", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice> args)
+    {
+        await DialogService.OpenAsync<EditAgencyMicroSiteSettingsInvoice>("Edit AgencyMicroSiteSettingsInvoice", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsInvoice agencyMicroSiteSettingsInvoice)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await zaren_prodService.DeleteAgencyMicroSiteSettingsInvoice(agencyMicroSiteSettingsInvoice.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete AgencyMicroSiteSettingsInvoice" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await zaren_prodService.ExportAgencyMicroSiteSettingsInvoicesToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "Agency,AgencyMicroSite", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "AgencyMicroSiteSettingsInvoices");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await zaren_prodService.ExportAgencyMicroSiteSettingsInvoicesToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "Agency,AgencyMicroSite", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "AgencyMicroSiteSettingsInvoices");
+        }
+    }
+}

@@ -1,0 +1,93 @@
+@page "/payment-reservation-statuses"
+@attribute [Authorize]
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenService ZarenService
+@inject Microsoft.Extensions.Localization.IStringLocalizer<PaymentReservationStatuses> L
+
+<PageTitle>PaymentReservationStatuses</PageTitle>
+<RadzenStack>
+<RadzenRow AlignItems="AlignItems.Center">
+    <RadzenColumn Size="12" SizeMD="6">
+        <RadzenText Text="PaymentReservationStatuses" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </RadzenColumn>
+    <RadzenColumn Size="12" SizeMD="6">
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+            <RadzenSplitButton Icon="get_app" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+                <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+                <RadzenSplitButtonItem Text="CSV" Value="csv" />
+            </RadzenSplitButton>
+        </RadzenStack>
+    </RadzenColumn>
+</RadzenRow>
+<RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+<RadzenRow>
+    <RadzenColumn SizeMD=12>
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"  AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
+            Data="@paymentReservationStatuses"    TItem="ZarenBO2.Models.Zaren.PaymentReservationStatus" >
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentReservationStatus" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentReservationStatus" Property="Description" Title="Description">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentReservationStatus" Property="About" Title="About">
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </RadzenColumn>
+</RadzenRow>
+</RadzenStack>
+@code {
+
+    protected IEnumerable<ZarenBO2.Models.Zaren.PaymentReservationStatus> paymentReservationStatuses;
+
+    protected RadzenDataGrid<ZarenBO2.Models.Zaren.PaymentReservationStatus> grid0;
+
+    protected string search = "";
+
+    [Inject]
+    protected SecurityService Security { get; set; }
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        paymentReservationStatuses = await ZarenService.GetPaymentReservationStatuses(new Query { Filter = $@"i => i.Description.Contains(@0) || i.About.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        paymentReservationStatuses = await ZarenService.GetPaymentReservationStatuses(new Query { Filter = $@"i => i.Description.Contains(@0) || i.About.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await ZarenService.ExportPaymentReservationStatusesToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible() && !string.IsNullOrEmpty(c.Property)).Select(c => c.Property))
+}, "PaymentReservationStatuses");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await ZarenService.ExportPaymentReservationStatusesToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible() && !string.IsNullOrEmpty(c.Property)).Select(c => c.Property))
+}, "PaymentReservationStatuses");
+        }
+    }
+}

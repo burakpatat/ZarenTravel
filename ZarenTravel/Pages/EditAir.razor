@@ -1,0 +1,278 @@
+@page "/edit-air"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit Air</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Air</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.Air" Data="@air" Visible="@(air != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air Record Airline" Component="AirRecordAirline" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@air.AirRecordAirline" Name="AirRecordAirline" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air Ticket" Component="AirTicket" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@air.AirTicket" Name="AirTicket" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air Booked Date" Component="AirBookedDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@air.AirBookedDate" Name="AirBookedDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air Issueddate" Component="AirIssueddate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@air.AirIssueddate" Name="AirIssueddate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air Re Issued" Component="AirReIssued" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@air.AirReIssued" Name="AirReIssued" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air Original Ticket" Component="AirOriginalTicket" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@air.AirOriginalTicket" Name="AirOriginalTicket" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air Fare" Component="AirFare" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@air.AirFare" Name="AirFare" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air Tax" Component="AirTax" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@air.AirTax" Name="AirTax" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air Lowest Fare" Component="AirLowestFare" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@air.AirLowestFare" Name="AirLowestFare" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air Highest Fare" Component="AirHighestFare" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@air.AirHighestFare" Name="AirHighestFare" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air Fare Bases" Component="AirFareBases" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@air.AirFareBases" Name="AirFareBases" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air Include Bags" Component="AirIncludeBags" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@air.AirIncludeBags" Name="AirIncludeBags" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air Timestamp" Component="AirTimestamp" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@air.AirTimestamp" Name="AirTimestamp" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air Active" Component="AirActive" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@air.AirActive" Name="AirActive" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Airline" Component="Airline" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@airlinesForAirlineId" TextProperty="AirlineCode" ValueProperty="Id"
+                        Disabled=@(hasAirlineIdValue) Placeholder="Choose Airline" style="display: block; width: 100%" @bind-Value="@air.AirlineId" Name="AirlineId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Broker" Component="Broker" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@brokersForBrokerId" TextProperty="BrokerCode" ValueProperty="Id"
+                        Disabled=@(hasBrokerIdValue) Placeholder="Choose Broker" style="display: block; width: 100%" @bind-Value="@air.BrokerId" Name="BrokerId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Currency1" Component="Currency1" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@currency1SForCurrencyId" TextProperty="CurrencyCode" ValueProperty="Id"
+                        Disabled=@(hasCurrencyIdValue) Placeholder="Choose Currency1" style="display: block; width: 100%" @bind-Value="@air.CurrencyId" Name="CurrencyId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Pnr" Component="Pnr" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@pnRsForPNRId" TextProperty="PNRRecord" ValueProperty="Id"
+                        Disabled=@(hasPNRIdValue) Placeholder="Choose Pnr" style="display: block; width: 100%" @bind-Value="@air.PNRId" Name="PNRId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        air = await ZarenSoftService.GetAirById(Id);
+
+        airlinesForAirlineId = await ZarenSoftService.GetAirlines();
+
+        brokersForBrokerId = await ZarenSoftService.GetBrokers();
+
+        currency1SForCurrencyId = await ZarenSoftService.GetCurrency1S();
+
+        pnRsForPNRId = await ZarenSoftService.GetPnRs();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.Air air;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Airline> airlinesForAirlineId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Broker> brokersForBrokerId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Currency1> currency1SForCurrencyId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.PnR> pnRsForPNRId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateAir(Id, air);
+            DialogService.Close(air);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasAirlineIdValue;
+
+    [Parameter]
+    public int? AirlineId { get; set; }
+
+    bool hasBrokerIdValue;
+
+    [Parameter]
+    public int? BrokerId { get; set; }
+
+    bool hasCurrencyIdValue;
+
+    [Parameter]
+    public int? CurrencyId { get; set; }
+
+    bool hasPNRIdValue;
+
+    [Parameter]
+    public int? PNRId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        air = new ZarenTravel.Models.ZarenSoft.Air();
+
+        hasAirlineIdValue = parameters.TryGetValue<int?>("AirlineId", out var hasAirlineIdResult);
+
+        if (hasAirlineIdValue)
+        {
+            air.AirlineId = hasAirlineIdResult;
+        }
+
+        hasBrokerIdValue = parameters.TryGetValue<int?>("BrokerId", out var hasBrokerIdResult);
+
+        if (hasBrokerIdValue)
+        {
+            air.BrokerId = hasBrokerIdResult;
+        }
+
+        hasCurrencyIdValue = parameters.TryGetValue<int?>("CurrencyId", out var hasCurrencyIdResult);
+
+        if (hasCurrencyIdValue)
+        {
+            air.CurrencyId = hasCurrencyIdResult;
+        }
+
+        hasPNRIdValue = parameters.TryGetValue<int?>("PNRId", out var hasPNRIdResult);
+
+        if (hasPNRIdValue)
+        {
+            air.PNRId = hasPNRIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

@@ -1,0 +1,134 @@
+@page "/add-hotel-room-daily-price"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Add HotelRoomDailyPrice</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save HotelRoomDailyPrice</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.HotelRoomDailyPrice" Data="@hotelRoomDailyPrice" Visible="@(hotelRoomDailyPrice != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Cost" Component="Cost" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@hotelRoomDailyPrice.Cost" Name="Cost" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Day" Component="Day" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@hotelRoomDailyPrice.Day" Name="Day" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Stop Sale" Component="StopSale" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@hotelRoomDailyPrice.StopSale" Name="StopSale" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Board Type" Component="BoardType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@boardTypesForBoardTypeId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasBoardTypeIdValue) Placeholder="Choose BoardType" style="display: block; width: 100%" @bind-Value="@hotelRoomDailyPrice.BoardTypeId" Name="BoardTypeId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Hotel Room" Component="HotelRoom" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@hotelRoomsForHotelRoomId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasHotelRoomIdValue) Placeholder="Choose HotelRoom" style="display: block; width: 100%" @bind-Value="@hotelRoomDailyPrice.HotelRoomId" Name="HotelRoomId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        boardTypesForBoardTypeId = await ZarenSoftService.GetBoardTypes();
+
+        hotelRoomsForHotelRoomId = await ZarenSoftService.GetHotelRooms();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.HotelRoomDailyPrice hotelRoomDailyPrice;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.BoardType> boardTypesForBoardTypeId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.HotelRoom> hotelRoomsForHotelRoomId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.CreateHotelRoomDailyPrice(hotelRoomDailyPrice);
+            DialogService.Close(hotelRoomDailyPrice);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasBoardTypeIdValue;
+
+    [Parameter]
+    public int? BoardTypeId { get; set; }
+
+    bool hasHotelRoomIdValue;
+
+    [Parameter]
+    public int? HotelRoomId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        hotelRoomDailyPrice = new ZarenTravel.Models.ZarenSoft.HotelRoomDailyPrice();
+
+        hasBoardTypeIdValue = parameters.TryGetValue<int?>("BoardTypeId", out var hasBoardTypeIdResult);
+
+        if (hasBoardTypeIdValue)
+        {
+            hotelRoomDailyPrice.BoardTypeId = hasBoardTypeIdResult;
+        }
+
+        hasHotelRoomIdValue = parameters.TryGetValue<int?>("HotelRoomId", out var hasHotelRoomIdResult);
+
+        if (hasHotelRoomIdValue)
+        {
+            hotelRoomDailyPrice.HotelRoomId = hasHotelRoomIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

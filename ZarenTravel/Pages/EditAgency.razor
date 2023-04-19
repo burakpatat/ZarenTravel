@@ -1,0 +1,195 @@
+@page "/edit-agency"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit Agency</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Agency</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.Agency" Data="@agency" Visible="@(agency != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Name" Component="Name" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agency.Name" Name="Name" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Address" Component="Address" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agency.Address" Name="Address" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Payment Politics" Component="PaymentPolitics" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agency.PaymentPolitics" Name="PaymentPolitics" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Mark Up" Component="MarkUp" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agency.MarkUp" Name="MarkUp" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Contact" Component="Contact" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@contactsForComercialContactId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasComercialContactIdValue) Placeholder="Choose Contact" style="display: block; width: 100%" @bind-Value="@agency.ComercialContactId" Name="ComercialContactId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Contact1" Component="Contact1" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@contactsForFinanceContactId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasFinanceContactIdValue) Placeholder="Choose Contact1" style="display: block; width: 100%" @bind-Value="@agency.FinanceContactId" Name="FinanceContactId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency Group" Component="AgencyGroup" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agencyGroupsForId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasIdValue) Placeholder="Choose AgencyGroup" style="display: block; width: 100%" @bind-Value="@agency.Id" Name="Id"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Contact2" Component="Contact2" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@contactsForReservationContactId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasReservationContactIdValue) Placeholder="Choose Contact2" style="display: block; width: 100%" @bind-Value="@agency.ReservationContactId" Name="ReservationContactId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        agency = await ZarenSoftService.GetAgencyById(Id);
+
+        contactsForComercialContactId = await ZarenSoftService.GetContacts();
+
+        contactsForFinanceContactId = await ZarenSoftService.GetContacts();
+
+        agencyGroupsForId = await ZarenSoftService.GetAgencyGroups();
+
+        contactsForReservationContactId = await ZarenSoftService.GetContacts();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.Agency agency;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Contact> contactsForComercialContactId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Contact> contactsForFinanceContactId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.AgencyGroup> agencyGroupsForId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Contact> contactsForReservationContactId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateAgency(Id, agency);
+            DialogService.Close(agency);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasComercialContactIdValue;
+
+    [Parameter]
+    public int? ComercialContactId { get; set; }
+
+    bool hasFinanceContactIdValue;
+
+    [Parameter]
+    public int? FinanceContactId { get; set; }
+
+    bool hasIdValue;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    bool hasReservationContactIdValue;
+
+    [Parameter]
+    public int? ReservationContactId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        agency = new ZarenTravel.Models.ZarenSoft.Agency();
+
+        hasComercialContactIdValue = parameters.TryGetValue<int?>("ComercialContactId", out var hasComercialContactIdResult);
+
+        if (hasComercialContactIdValue)
+        {
+            agency.ComercialContactId = hasComercialContactIdResult;
+        }
+
+        hasFinanceContactIdValue = parameters.TryGetValue<int?>("FinanceContactId", out var hasFinanceContactIdResult);
+
+        if (hasFinanceContactIdValue)
+        {
+            agency.FinanceContactId = hasFinanceContactIdResult;
+        }
+
+        hasIdValue = parameters.TryGetValue<int>("Id", out var hasIdResult);
+
+        if (hasIdValue)
+        {
+            agency.Id = hasIdResult;
+        }
+
+        hasReservationContactIdValue = parameters.TryGetValue<int?>("ReservationContactId", out var hasReservationContactIdResult);
+
+        if (hasReservationContactIdValue)
+        {
+            agency.ReservationContactId = hasReservationContactIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

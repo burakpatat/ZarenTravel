@@ -1,0 +1,116 @@
+@page "/add-cancellation-rule"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Add CancellationRule</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save CancellationRule</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.CancellationRule" Data="@cancellationRule" Visible="@(cancellationRule != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Cost" Component="Cost" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@cancellationRule.Cost" Name="Cost" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Cost Type" Component="CostType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@cancellationRule.CostType" Name="CostType" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="From Days" Component="FromDays" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@cancellationRule.FromDays" Name="FromDays" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="To Days" Component="ToDays" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@cancellationRule.ToDays" Name="ToDays" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Cancellation Season" Component="CancellationSeason" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@cancellationSeasonsForCancellationSeasonId" TextProperty="" ValueProperty="Id"
+                        Disabled=@(hasCancellationSeasonIdValue) Placeholder="Choose CancellationSeason" style="display: block; width: 100%" @bind-Value="@cancellationRule.CancellationSeasonId" Name="CancellationSeasonId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        cancellationSeasonsForCancellationSeasonId = await ZarenSoftService.GetCancellationSeasons();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.CancellationRule cancellationRule;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.CancellationSeason> cancellationSeasonsForCancellationSeasonId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.CreateCancellationRule(cancellationRule);
+            DialogService.Close(cancellationRule);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasCancellationSeasonIdValue;
+
+    [Parameter]
+    public int? CancellationSeasonId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        cancellationRule = new ZarenTravel.Models.ZarenSoft.CancellationRule();
+
+        hasCancellationSeasonIdValue = parameters.TryGetValue<int?>("CancellationSeasonId", out var hasCancellationSeasonIdResult);
+
+        if (hasCancellationSeasonIdValue)
+        {
+            cancellationRule.CancellationSeasonId = hasCancellationSeasonIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

@@ -1,0 +1,143 @@
+@page "/agency-micro-site-settings-search-engines"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject zaren_prodService zaren_prodService
+
+<PageTitle>AgencyMicroSiteSettingsSearchEngines</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="AgencyMicroSiteSettingsSearchEngines" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"  AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@agencyMicroSiteSettingsSearchEngines"    TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchEngine" RowDoubleClick="@EditRow" >
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchEngine" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchEngine" Property="DefaultAvailabilityTimeoutDuration" Title="Default Availability Timeout Duration">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchEngine" Property="DefaultReleaseDaysForEarlyBooking" Title="Default Release Days For Early Booking">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchEngine" Property="DefaultReleaseDaysB2BUsers" Title="Default Release Days B2 B Users">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchEngine" Property="DefaultReleaseDaysOtherUsers" Title="Default Release Days Other Users">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchEngine" Property="MinimumNightAllowed" Title="Minimum Night Allowed">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchEngine" Property="Agency.InvoiceName" Title="Agency">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchEngine" Property="AgencyMicroSite.Domain" Title="Agency Micro Site">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchEngine" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="agencyMicroSiteSettingsSearchEngine">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, agencyMicroSiteSettingsSearchEngine)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchEngine> agencyMicroSiteSettingsSearchEngines;
+
+    protected RadzenDataGrid<ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchEngine> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        agencyMicroSiteSettingsSearchEngines = await zaren_prodService.GetAgencyMicroSiteSettingsSearchEngines(new Query { Expand = "Agency,AgencyMicroSite" });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        agencyMicroSiteSettingsSearchEngines = await zaren_prodService.GetAgencyMicroSiteSettingsSearchEngines(new Query { Expand = "Agency,AgencyMicroSite" });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddAgencyMicroSiteSettingsSearchEngine>("Add AgencyMicroSiteSettingsSearchEngine", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchEngine> args)
+    {
+        await DialogService.OpenAsync<EditAgencyMicroSiteSettingsSearchEngine>("Edit AgencyMicroSiteSettingsSearchEngine", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchEngine agencyMicroSiteSettingsSearchEngine)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await zaren_prodService.DeleteAgencyMicroSiteSettingsSearchEngine(agencyMicroSiteSettingsSearchEngine.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete AgencyMicroSiteSettingsSearchEngine" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await zaren_prodService.ExportAgencyMicroSiteSettingsSearchEnginesToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "Agency,AgencyMicroSite", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "AgencyMicroSiteSettingsSearchEngines");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await zaren_prodService.ExportAgencyMicroSiteSettingsSearchEnginesToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "Agency,AgencyMicroSite", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "AgencyMicroSiteSettingsSearchEngines");
+        }
+    }
+}

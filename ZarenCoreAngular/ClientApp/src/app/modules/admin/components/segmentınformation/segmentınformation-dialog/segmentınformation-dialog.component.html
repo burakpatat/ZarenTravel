@@ -1,0 +1,156 @@
+<h1 mat-dialog-title>segmentınformation</h1>
+<div mat-dialog-content>
+    <form fxLayout="column" #segmentınformationForm="ngForm">
+       <mat-tab-group mat-align-tabs="start">
+<mat-tab label="Tab 1">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Pnrsegıd" name="pNRSegId"[(ngModel)]="segmentınformationObj.pNRSegId"
+#pNRSegId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Pnr" name="pNR"[(ngModel)]="segmentınformationObj.pNR"
+#pNR="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Flightnumber" name="flightNumber"[(ngModel)]="segmentınformationObj.flightNumber"
+#flightNumber="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Origin" name="origin"[(ngModel)]="segmentınformationObj.origin"
+#origin="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Destination" name="destination"[(ngModel)]="segmentınformationObj.destination"
+#destination="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Segmentcode" name="segmentcode"[(ngModel)]="segmentınformationObj.segmentcode"
+#segmentcode="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+<mat-tab label="Tab 2">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Esttimedeparturelocal (dd-mm-yyyy)"
+                    [ngModel]="segmentınformationObj.esttimeDepartureLocal | date:'dd-MM-yyyy'" name="esttimeDepartureLocal"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="esttimeDepartureLocalPicker" name="hiddenawardDate"
+                    [(ngModel)]="segmentınformationObj.esttimeDepartureLocal">
+                <mat-datepicker-toggle matSuffix [for]="esttimeDepartureLocalPicker"></mat-datepicker-toggle>
+                <mat-datepicker #esttimeDepartureLocalPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Esttimearrivallocal (dd-mm-yyyy)"
+                    [ngModel]="segmentınformationObj.esttimeArrivalLocal | date:'dd-MM-yyyy'" name="esttimeArrivalLocal"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="esttimeArrivalLocalPicker" name="hiddenawardDate"
+                    [(ngModel)]="segmentınformationObj.esttimeArrivalLocal">
+                <mat-datepicker-toggle matSuffix [for]="esttimeArrivalLocalPicker"></mat-datepicker-toggle>
+                <mat-datepicker #esttimeArrivalLocalPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Daynumber" name="daynumber"[(ngModel)]="segmentınformationObj.daynumber"
+#daynumber="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Segmentstatus" name="segmentStatus"[(ngModel)]="segmentınformationObj.segmentStatus"
+#segmentStatus="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Modificationdate (dd-mm-yyyy)"
+                    [ngModel]="segmentınformationObj.modificationDate | date:'dd-MM-yyyy'" name="modificationDate"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="modificationDatePicker" name="hiddenawardDate"
+                    [(ngModel)]="segmentınformationObj.modificationDate">
+                <mat-datepicker-toggle matSuffix [for]="modificationDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #modificationDatePicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Fıle_ıd" name="fILE_ID"[(ngModel)]="segmentınformationObj.fILE_ID"
+#fILE_ID="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Fıle_name" name="fILE_NAME"[(ngModel)]="segmentınformationObj.fILE_NAME"
+#fILE_NAME="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Recorddatestamp (dd-mm-yyyy)"
+                    [ngModel]="segmentınformationObj.recordDateStamp | date:'dd-MM-yyyy'" name="recordDateStamp"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="recordDateStampPicker" name="hiddenawardDate"
+                    [(ngModel)]="segmentınformationObj.recordDateStamp">
+                <mat-datepicker-toggle matSuffix [for]="recordDateStampPicker"></mat-datepicker-toggle>
+                <mat-datepicker #recordDateStampPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+
+</mat-tab-group>
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row wrap" fxFlex fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button mat-button mat-dialog-close tabindex="-1" cdkFocusInitial>Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!segmentınformationForm.valid || !segmentınformationForm.dirty"
+            (click)="savesegmentınformation(segmentınformationObj)">
+            Add/Update
+        </button>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+<h1 mat-dialog-title>country</h1>
+<div mat-dialog-content>
+    <form fxLayout="column" #countryForm="ngForm">
+       <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Countrycode" name="countryCode"[(ngModel)]="countryObj.countryCode"
+#countryCode="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Countryname" name="countryName"[(ngModel)]="countryObj.countryName"
+#countryName="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Currencyıd" name="currencyId"[(ngModel)]="countryObj.currencyId"
+#currencyId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Countrytimestamp (dd-mm-yyyy)"
+                    [ngModel]="countryObj.countryTimestamp | date:'dd-MM-yyyy'" name="countryTimestamp"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="countryTimestampPicker" name="hiddenawardDate"
+                    [(ngModel)]="countryObj.countryTimestamp">
+                <mat-datepicker-toggle matSuffix [for]="countryTimestampPicker"></mat-datepicker-toggle>
+                <mat-datepicker #countryTimestampPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Countryactive" name="countryActive"[(ngModel)]="countryObj.countryActive"
+#countryActive="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row wrap" fxFlex fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button mat-button mat-dialog-close tabindex="-1" cdkFocusInitial>Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!countryForm.valid || !countryForm.dirty"
+            (click)="savecountry(countryObj)">
+            Add/Update
+        </button>
+    </div>
+</div>

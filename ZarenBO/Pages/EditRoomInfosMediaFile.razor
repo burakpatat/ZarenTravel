@@ -1,0 +1,153 @@
+@page "/edit-room-infos-media-file"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject zaren_testService zaren_testService
+
+<PageTitle>Edit RoomInfosMediaFile</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save RoomInfosMediaFile</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravelBO.Models.zaren_test.RoomInfosMediaFile" Data="@roomInfosMediaFile" Visible="@(roomInfosMediaFile != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Meda File Id" Component="MedaFileId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@roomInfosMediaFile.MedaFileId" Name="MedaFileId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Room Info Id" Component="RoomInfoId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@roomInfosMediaFile.RoomInfoId" Name="RoomInfoId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Api Id" Component="ApiId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@roomInfosMediaFile.ApiId" Name="ApiId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Micro Site Id" Component="MicroSiteId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@roomInfosMediaFile.MicroSiteId" Name="MicroSiteId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Created Date" Component="CreatedDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@roomInfosMediaFile.CreatedDate" Name="CreatedDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Updated Date" Component="UpdatedDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@roomInfosMediaFile.UpdatedDate" Name="UpdatedDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Created By" Component="CreatedBy" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@roomInfosMediaFile.CreatedBy" Name="CreatedBy" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Updated By" Component="UpdatedBy" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@roomInfosMediaFile.UpdatedBy" Name="UpdatedBy" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="System Id" Component="SystemId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@roomInfosMediaFile.SystemId" Name="SystemId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency" Component="Agency" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agenciesForAgencyId" TextProperty="InvoiceName" ValueProperty="Id"
+                         Placeholder="Choose Agency" style="display: block; width: 100%" @bind-Value="@roomInfosMediaFile.AgencyId" Name="AgencyId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Language" Component="Language" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@languagesForLanguageId" TextProperty="ShortCode" ValueProperty="Id"
+                         Placeholder="Choose Language" style="display: block; width: 100%" @bind-Value="@roomInfosMediaFile.LanguageId" Name="LanguageId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        roomInfosMediaFile = await zaren_testService.GetRoomInfosMediaFileById(Id);
+
+        agenciesForAgencyId = await zaren_testService.GetAgencies();
+
+        languagesForLanguageId = await zaren_testService.GetLanguages();
+    }
+    protected bool errorVisible;
+    protected ZarenTravelBO.Models.zaren_test.RoomInfosMediaFile roomInfosMediaFile;
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_test.Agency> agenciesForAgencyId;
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_test.Language> languagesForLanguageId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await zaren_testService.UpdateRoomInfosMediaFile(Id, roomInfosMediaFile);
+            DialogService.Close(roomInfosMediaFile);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+}

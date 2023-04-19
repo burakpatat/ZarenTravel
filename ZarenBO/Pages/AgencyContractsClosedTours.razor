@@ -1,0 +1,165 @@
+@page "/agency-contracts-closed-tours"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject zaren_prodService zaren_prodService
+
+<PageTitle>AgencyContractsClosedTours</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="AgencyContractsClosedTours" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"  AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@agencyContractsClosedTours"    TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" RowDoubleClick="@EditRow" >
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="AgencyId" Title="Agency Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="MicroSiteId" Title="Micro Site Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="IsSelect" Title="Is Select">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="IsActive" Title="Is Active">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="MarketPlace" Title="Market Place">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="Pro" Title="Pro">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="Extension" Title="Extension">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="Code" Title="Code">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="Creator" Title="Creator">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="DateCreation" Title="Date Creation">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="LastUpdate" Title="Last Update">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="UpdateBy" Title="Update By">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="Supplier" Title="Supplier">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="TourSupplierName" Title="Tour Supplier Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="Destinations" Title="Destinations">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="Nights" Title="Nights">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="ContractaFrom" Title="Contracta From">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Property="ContractTo" Title="Contract To">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="agencyContractsClosedTour">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, agencyContractsClosedTour)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour> agencyContractsClosedTours;
+
+    protected RadzenDataGrid<ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        agencyContractsClosedTours = await zaren_prodService.GetAgencyContractsClosedTours(new Query { Filter = $@"i => i.Code.Contains(@0) || i.Creator.Contains(@0) || i.Supplier.Contains(@0) || i.TourSupplierName.Contains(@0) || i.Destinations.Contains(@0) || i.ContractaFrom.Contains(@0) || i.ContractTo.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        agencyContractsClosedTours = await zaren_prodService.GetAgencyContractsClosedTours(new Query { Filter = $@"i => i.Code.Contains(@0) || i.Creator.Contains(@0) || i.Supplier.Contains(@0) || i.TourSupplierName.Contains(@0) || i.Destinations.Contains(@0) || i.ContractaFrom.Contains(@0) || i.ContractTo.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddAgencyContractsClosedTour>("Add AgencyContractsClosedTour", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour> args)
+    {
+        await DialogService.OpenAsync<EditAgencyContractsClosedTour>("Edit AgencyContractsClosedTour", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravelBO.Models.zaren_prod.AgencyContractsClosedTour agencyContractsClosedTour)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await zaren_prodService.DeleteAgencyContractsClosedTour(agencyContractsClosedTour.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete AgencyContractsClosedTour" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await zaren_prodService.ExportAgencyContractsClosedToursToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "AgencyContractsClosedTours");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await zaren_prodService.ExportAgencyContractsClosedToursToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "AgencyContractsClosedTours");
+        }
+    }
+}

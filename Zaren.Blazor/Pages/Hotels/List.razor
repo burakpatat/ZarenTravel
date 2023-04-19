@@ -1,0 +1,198 @@
+@page "/Hotels/List/{page?}"
+
+@inject HotelsService serviceInstance
+@inject NavigationManager NavigationManager
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="font-weight-bold text-primary">Hotels (@total)</h5>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group mb-3">
+                    <input type="text" @bind="@searchKey" class="form-control" placeholder="Search Hotels..." aria-label="Search Hotels..." aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" @onclick="@Reset">Reset</button>
+                        <button class="btn btn-outline-secondary" type="button" @onclick="@Search">Search</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <NavLink class="btn btn-primary float-right" href="/Hotels/Add">
+                    <span class="oi oi-plus" aria-hidden="true">Add New</span>
+                </NavLink>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="card-body">
+        @if (localObj is null)
+        {
+            <p><em>Loading... !</em></p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>Id</td>
+
+<td>Hotelchainıd</td>
+
+<td>Name</td>
+
+<td>Hoteltypeıd</td>
+
+<td>Countryıd</td>
+
+<td>Regionıd</td>
+
+<td>Zoneıd</td>
+
+<td>Cityıd</td>
+
+<td>Address</td>
+
+<td>Zipcode</td>
+
+<td>Latitude</td>
+
+<td>Longitude</td>
+
+<td>Commercialcontactıd</td>
+
+<td>Reservationcontactıd</td>
+
+<td>Financecontactıd</td>
+
+<td>Release</td>
+
+<td>Numberrooms</td>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var d in localObj)
+                        {
+                            <tr>
+                                <td>@d.Id</td>
+<td>@d.HotelChainId</td>
+<td>@d.Name</td>
+<td>@d.HotelTypeId</td>
+<td>@d.CountryId</td>
+<td>@d.RegionId</td>
+<td>@d.ZoneId</td>
+<td>@d.CityId</td>
+<td>@d.Address</td>
+<td>@d.ZipCode</td>
+<td>@d.Latitude</td>
+<td>@d.Longitude</td>
+<td>@d.CommercialContactId</td>
+<td>@d.ReservationContactId</td>
+<td>@d.FinanceContactId</td>
+<td>@d.Release</td>
+<td>@d.NumberRooms</td>
+                                <td>
+                                    <a class="nav-link" href="Hotels/Edit/@d.Id">
+                                        <span class="oi oi-pencil" aria-hidden="true">Edit</span>
+                                    </a>
+                                    <a class="nav-link" href="Hotels/Delete/@d.Id">
+                                        <span class="oi oi-trash" aria-hidden="true">Delete</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                 @{ if (totalPage > 0)
+                                    {
+                                        <nav aria-label="Page navigation" class="float-left">
+                                            <ul class="pagination justify-content-center">
+                                                <li class="page-item"><a class="page-link" href="Hotels/List/1">First</a></li>
+                                                @{
+                                                    var start=pageNo-2;
+                                                    var end=pageNo+3;
+                                                    start=start<=0? 2:start;
+                                                    for (int i = start; i < end; i++)
+                                                    {  var active = i==pageNo? " active":"";
+                                                        <li class="page-item @active"><a class="page-link" href="Hotels/List/@i">@i</a></li>
+                                                        
+                                                    }
+                                                     if (totalPage > 6)
+                                                      {
+                                                       <li class="page-item">...</li>
+                                                      }
+                                                }
+                                                <li class="page-item"><a class="page-link" href="Hotels/List/@(totalPage)">Last</a></li>
+                                            </ul>
+                                        </nav>
+                                    }
+                                }
+            </div>
+           
+        }
+    </div>
+</div>
+
+@code {
+    List<Hotels> localObj;
+    public int pageSize = 20;
+    public string searchKey { get; set; }
+    public int total { get; set; }
+    public int totalPage { get; set; }
+    [Parameter]
+    public string page { get; set; }
+    public int pageNo { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        pageNo = page == null ? 1 : Convert.ToInt32(page);
+        localObj = await Task.Run(() => serviceInstance.GetAllHotelsAsync(pageNo, pageSize));
+        total = await Task.Run(() => serviceInstance.GetTotalCountHotelsAsync());
+        totalPage = (int)(total / pageSize);
+
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+        pageNo = page == null ? 1 : Convert.ToInt32(page);
+        localObj = await Task.Run(() => serviceInstance.GetAllHotelsAsync(pageNo, pageSize));
+        total = await Task.Run(() => serviceInstance.GetTotalCountHotelsAsync());
+        totalPage = (int)(total / pageSize);
+    }
+    protected async void Reset()
+    {
+        pageNo = 1;
+        searchKey = "";
+        localObj = await Task.Run(() => serviceInstance.GetAllHotelsAsync(pageNo, pageSize));
+        total = await Task.Run(() => serviceInstance.GetTotalCountHotelsAsync());
+        totalPage = (int)(total / pageSize);
+        StateHasChanged();
+
+    }
+    protected async void Search()
+    {
+        if (!string.IsNullOrEmpty(searchKey))
+        {
+            pageNo = 1;
+            localObj = await Task.Run(() => serviceInstance.SearchAllHotelsAsync(searchKey, pageNo, pageSize));
+            total = await Task.Run(() => serviceInstance.GetTotalSearchCountHotelsAsync(searchKey));
+            totalPage = (int)(total / pageSize);
+            StateHasChanged();
+        }
+        else
+        {
+            pageNo = 1;
+            localObj = await Task.Run(() => serviceInstance.GetAllHotelsAsync(pageNo, pageSize));
+            total = await Task.Run(() => serviceInstance.GetTotalCountHotelsAsync());
+            totalPage = (int)(total / pageSize);
+            StateHasChanged();
+        }
+
+    }
+
+}
+

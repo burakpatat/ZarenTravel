@@ -1,0 +1,777 @@
+@page "/languages"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Languages</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="Languages" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px" Render=Grid0Render AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@languages"    TItem="ZarenTravel.Models.ZarenSoft.Language" RowDoubleClick="@EditRow" RowSelect=@GetChildData>
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Language" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Language" Property="Name" Title="Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Language" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="language">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, language)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+                    <RadzenHeading Visible="@(language != null)" Size="H1" Text="BoardTypeLanguages" />
+                    <RadzenButton Visible="@(language != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => BoardTypeLanguageAddButtonClick(args,language)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(language != null)" @ref=BoardTypeLanguageDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@language?.BoardTypeLanguages" TItem="ZarenTravel.Models.ZarenSoft.BoardTypeLanguage"  RowSelect="@(args => BoardTypeLanguageRowSelect(args, language))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.BoardTypeLanguage" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.BoardTypeLanguage" Property="Name" Title="Name">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.BoardTypeLanguage" Property="BoardType.Name" Title="Board Type">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.BoardTypeLanguage" Property="Language.Name" Title="Language">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.BoardTypeLanguage" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="boardTypeLanguageChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => BoardTypeLanguageDeleteButtonClick(args, boardTypeLanguageChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(language != null)" Size="H1" Text="CancelationLanguages" />
+                    <RadzenButton Visible="@(language != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => CancelationLanguageAddButtonClick(args,language)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(language != null)" @ref=CancelationLanguageDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@language?.CancelationLanguages" TItem="ZarenTravel.Models.ZarenSoft.CancelationLanguage"  RowSelect="@(args => CancelationLanguageRowSelect(args, language))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancelationLanguage" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancelationLanguage" Property="Name" Title="Name">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancelationLanguage" Property="Description" Title="Description">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancelationLanguage" Property="CancellationRule" Title="Cancellation Rule">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancelationLanguage" Property="Language.Name" Title="Language">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancelationLanguage" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="cancelationLanguageChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => CancelationLanguageDeleteButtonClick(args, cancelationLanguageChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(language != null)" Size="H1" Text="Companies" />
+                    <RadzenButton Visible="@(language != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => CompanyAddButtonClick(args,language)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(language != null)" @ref=CompanyDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@language?.Companies" TItem="ZarenTravel.Models.ZarenSoft.Company"  RowSelect="@(args => CompanyRowSelect(args, language))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="CompanyCode" Title="Company Code">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="CompanyRepresentative" Title="Company Representative">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="CoGrId" Title="Co Gr Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="CoDiId" Title="Co Di Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="InSeId" Title="In Se Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="CompanyTimestamp" Title="Company Timestamp">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="CompanyActive" Title="Company Active">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="Agency.Name" Title="Agency">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="Country.Name" Title="Country">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="Currency1.CurrencyCode" Title="Currency1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Property="Language.Name" Title="Language">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Company" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="companyChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => CompanyDeleteButtonClick(args, companyChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(language != null)" Size="H1" Text="DealTypeLanguages" />
+                    <RadzenButton Visible="@(language != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => DealTypeLanguageAddButtonClick(args,language)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(language != null)" @ref=DealTypeLanguageDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@language?.DealTypeLanguages" TItem="ZarenTravel.Models.ZarenSoft.DealTypeLanguage"  RowSelect="@(args => DealTypeLanguageRowSelect(args, language))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.DealTypeLanguage" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.DealTypeLanguage" Property="Name" Title="Name">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.DealTypeLanguage" Property="Description" Title="Description">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.DealTypeLanguage" Property="DealType" Title="Deal Type">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.DealTypeLanguage" Property="Language.Name" Title="Language">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.DealTypeLanguage" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="dealTypeLanguageChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => DealTypeLanguageDeleteButtonClick(args, dealTypeLanguageChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(language != null)" Size="H1" Text="FacilityLanguages" />
+                    <RadzenButton Visible="@(language != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => FacilityLanguageAddButtonClick(args,language)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(language != null)" @ref=FacilityLanguageDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@language?.FacilityLanguages" TItem="ZarenTravel.Models.ZarenSoft.FacilityLanguage"  RowSelect="@(args => FacilityLanguageRowSelect(args, language))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.FacilityLanguage" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.FacilityLanguage" Property="Name" Title="Name">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.FacilityLanguage" Property="Facility.Name" Title="Facility">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.FacilityLanguage" Property="Language.Name" Title="Language">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.FacilityLanguage" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="facilityLanguageChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => FacilityLanguageDeleteButtonClick(args, facilityLanguageChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(language != null)" Size="H1" Text="HotelDescriptions" />
+                    <RadzenButton Visible="@(language != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => HotelDescriptionAddButtonClick(args,language)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(language != null)" @ref=HotelDescriptionDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@language?.HotelDescriptions" TItem="ZarenTravel.Models.ZarenSoft.HotelDescription"  RowSelect="@(args => HotelDescriptionRowSelect(args, language))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelDescription" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelDescription" Property="Description" Title="Description">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelDescription" Property="Hotel.Name" Title="Hotel">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelDescription" Property="Language.Name" Title="Language">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelDescription" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="hotelDescriptionChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => HotelDescriptionDeleteButtonClick(args, hotelDescriptionChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(language != null)" Size="H1" Text="HotelPhotoLanguages" />
+                    <RadzenButton Visible="@(language != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => HotelPhotoLanguageAddButtonClick(args,language)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(language != null)" @ref=HotelPhotoLanguageDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@language?.HotelPhotoLanguages" TItem="ZarenTravel.Models.ZarenSoft.HotelPhotoLanguage"  RowSelect="@(args => HotelPhotoLanguageRowSelect(args, language))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelPhotoLanguage" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelPhotoLanguage" Property="Description" Title="Description">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelPhotoLanguage" Property="HotelPhoto.Path" Title="Hotel Photo">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelPhotoLanguage" Property="Language.Name" Title="Language">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelPhotoLanguage" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="hotelPhotoLanguageChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => HotelPhotoLanguageDeleteButtonClick(args, hotelPhotoLanguageChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(language != null)" Size="H1" Text="HotelRoomLanguages" />
+                    <RadzenButton Visible="@(language != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => HotelRoomLanguageAddButtonClick(args,language)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(language != null)" @ref=HotelRoomLanguageDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@language?.HotelRoomLanguages" TItem="ZarenTravel.Models.ZarenSoft.HotelRoomLanguage"  RowSelect="@(args => HotelRoomLanguageRowSelect(args, language))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelRoomLanguage" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelRoomLanguage" Property="Name" Title="Name">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelRoomLanguage" Property="Description" Title="Description">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelRoomLanguage" Property="HotelRoom.Name" Title="Hotel Room">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelRoomLanguage" Property="Language.Name" Title="Language">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelRoomLanguage" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="hotelRoomLanguageChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => HotelRoomLanguageDeleteButtonClick(args, hotelRoomLanguageChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(language != null)" Size="H1" Text="HotelTypeLanguages" />
+                    <RadzenButton Visible="@(language != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => HotelTypeLanguageAddButtonClick(args,language)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(language != null)" @ref=HotelTypeLanguageDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@language?.HotelTypeLanguages" TItem="ZarenTravel.Models.ZarenSoft.HotelTypeLanguage"  RowSelect="@(args => HotelTypeLanguageRowSelect(args, language))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelTypeLanguage" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelTypeLanguage" Property="Name" Title="Name">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelTypeLanguage" Property="HotelType.Name" Title="Hotel Type">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelTypeLanguage" Property="Language.Name" Title="Language">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.HotelTypeLanguage" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="hotelTypeLanguageChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => HotelTypeLanguageDeleteButtonClick(args, hotelTypeLanguageChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Language> languages;
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.Language> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        languages = await ZarenSoftService.GetLanguages(new Query { Filter = $@"i => i.Name.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        languages = await ZarenSoftService.GetLanguages(new Query { Filter = $@"i => i.Name.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddLanguage>("Add Language", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravel.Models.ZarenSoft.Language> args)
+    {
+        await DialogService.OpenAsync<EditLanguage>("Edit Language", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Language language)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteLanguage(language.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete Language" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await ZarenSoftService.ExportLanguagesToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "Languages");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await ZarenSoftService.ExportLanguagesToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "Languages");
+        }
+    }
+
+    protected ZarenTravel.Models.ZarenSoft.Language language;
+    protected async Task GetChildData(ZarenTravel.Models.ZarenSoft.Language args)
+    {
+        language = args;
+        var BoardTypeLanguageResult = await ZarenSoftService.GetBoardTypeLanguages(new Query { Filter = $"i => i.LanguageId == {args.Id}", Expand = "BoardType,Language" });
+        if (BoardTypeLanguageResult != null)
+        {
+            args.BoardTypeLanguages = BoardTypeLanguageResult.ToList();
+        }
+        var CancelationLanguageResult = await ZarenSoftService.GetCancelationLanguages(new Query { Filter = $"i => i.LanguageId == {args.Id}", Expand = "CancellationRule,Language" });
+        if (CancelationLanguageResult != null)
+        {
+            args.CancelationLanguages = CancelationLanguageResult.ToList();
+        }
+        var CompanyResult = await ZarenSoftService.GetCompanies(new Query { Filter = $"i => i.LanguagesId == {args.Id}", Expand = "Agency,Country,Currency1,Language" });
+        if (CompanyResult != null)
+        {
+            args.Companies = CompanyResult.ToList();
+        }
+        var DealTypeLanguageResult = await ZarenSoftService.GetDealTypeLanguages(new Query { Filter = $"i => i.LanguageId == {args.Id}", Expand = "DealType,Language" });
+        if (DealTypeLanguageResult != null)
+        {
+            args.DealTypeLanguages = DealTypeLanguageResult.ToList();
+        }
+        var FacilityLanguageResult = await ZarenSoftService.GetFacilityLanguages(new Query { Filter = $"i => i.LanguageId == {args.Id}", Expand = "Facility,Language" });
+        if (FacilityLanguageResult != null)
+        {
+            args.FacilityLanguages = FacilityLanguageResult.ToList();
+        }
+        var HotelDescriptionResult = await ZarenSoftService.GetHotelDescriptions(new Query { Filter = $"i => i.LanguageId == {args.Id}", Expand = "Hotel,Language" });
+        if (HotelDescriptionResult != null)
+        {
+            args.HotelDescriptions = HotelDescriptionResult.ToList();
+        }
+        var HotelPhotoLanguageResult = await ZarenSoftService.GetHotelPhotoLanguages(new Query { Filter = $"i => i.LanguageId == {args.Id}", Expand = "HotelPhoto,Language" });
+        if (HotelPhotoLanguageResult != null)
+        {
+            args.HotelPhotoLanguages = HotelPhotoLanguageResult.ToList();
+        }
+        var HotelRoomLanguageResult = await ZarenSoftService.GetHotelRoomLanguages(new Query { Filter = $"i => i.LanguageId == {args.Id}", Expand = "HotelRoom,Language" });
+        if (HotelRoomLanguageResult != null)
+        {
+            args.HotelRoomLanguages = HotelRoomLanguageResult.ToList();
+        }
+        var HotelTypeLanguageResult = await ZarenSoftService.GetHotelTypeLanguages(new Query { Filter = $"i => i.LanguageId == {args.Id}", Expand = "HotelType,Language" });
+        if (HotelTypeLanguageResult != null)
+        {
+            args.HotelTypeLanguages = HotelTypeLanguageResult.ToList();
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.BoardTypeLanguage> BoardTypeLanguageDataGrid;
+
+    protected async Task BoardTypeLanguageAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddBoardTypeLanguage>("Add BoardTypeLanguage", new Dictionary<string, object> { {"LanguageId" , data.Id} });
+        await GetChildData(data);
+        await BoardTypeLanguageDataGrid.Reload();
+    }
+
+    protected async Task BoardTypeLanguageRowSelect(ZarenTravel.Models.ZarenSoft.BoardTypeLanguage args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditBoardTypeLanguage>("Edit BoardTypeLanguage", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await BoardTypeLanguageDataGrid.Reload();
+    }
+
+    protected async Task BoardTypeLanguageDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.BoardTypeLanguage boardTypeLanguage)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteBoardTypeLanguage(boardTypeLanguage.Id);
+
+                if (deleteResult != null)
+                {
+                    await BoardTypeLanguageDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete BoardTypeLanguage" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.CancelationLanguage> CancelationLanguageDataGrid;
+
+    protected async Task CancelationLanguageAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddCancelationLanguage>("Add CancelationLanguage", new Dictionary<string, object> { {"LanguageId" , data.Id} });
+        await GetChildData(data);
+        await CancelationLanguageDataGrid.Reload();
+    }
+
+    protected async Task CancelationLanguageRowSelect(ZarenTravel.Models.ZarenSoft.CancelationLanguage args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditCancelationLanguage>("Edit CancelationLanguage", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await CancelationLanguageDataGrid.Reload();
+    }
+
+    protected async Task CancelationLanguageDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.CancelationLanguage cancelationLanguage)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteCancelationLanguage(cancelationLanguage.Id);
+
+                if (deleteResult != null)
+                {
+                    await CancelationLanguageDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete CancelationLanguage" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.Company> CompanyDataGrid;
+
+    protected async Task CompanyAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddCompany>("Add Company", new Dictionary<string, object> { {"LanguagesId" , data.Id} });
+        await GetChildData(data);
+        await CompanyDataGrid.Reload();
+    }
+
+    protected async Task CompanyRowSelect(ZarenTravel.Models.ZarenSoft.Company args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditCompany>("Edit Company", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await CompanyDataGrid.Reload();
+    }
+
+    protected async Task CompanyDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Company company)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteCompany(company.Id);
+
+                if (deleteResult != null)
+                {
+                    await CompanyDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete Company" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.DealTypeLanguage> DealTypeLanguageDataGrid;
+
+    protected async Task DealTypeLanguageAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddDealTypeLanguage>("Add DealTypeLanguage", new Dictionary<string, object> { {"LanguageId" , data.Id} });
+        await GetChildData(data);
+        await DealTypeLanguageDataGrid.Reload();
+    }
+
+    protected async Task DealTypeLanguageRowSelect(ZarenTravel.Models.ZarenSoft.DealTypeLanguage args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditDealTypeLanguage>("Edit DealTypeLanguage", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await DealTypeLanguageDataGrid.Reload();
+    }
+
+    protected async Task DealTypeLanguageDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.DealTypeLanguage dealTypeLanguage)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteDealTypeLanguage(dealTypeLanguage.Id);
+
+                if (deleteResult != null)
+                {
+                    await DealTypeLanguageDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete DealTypeLanguage" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.FacilityLanguage> FacilityLanguageDataGrid;
+
+    protected async Task FacilityLanguageAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddFacilityLanguage>("Add FacilityLanguage", new Dictionary<string, object> { {"LanguageId" , data.Id} });
+        await GetChildData(data);
+        await FacilityLanguageDataGrid.Reload();
+    }
+
+    protected async Task FacilityLanguageRowSelect(ZarenTravel.Models.ZarenSoft.FacilityLanguage args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditFacilityLanguage>("Edit FacilityLanguage", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await FacilityLanguageDataGrid.Reload();
+    }
+
+    protected async Task FacilityLanguageDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.FacilityLanguage facilityLanguage)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteFacilityLanguage(facilityLanguage.Id);
+
+                if (deleteResult != null)
+                {
+                    await FacilityLanguageDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete FacilityLanguage" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.HotelDescription> HotelDescriptionDataGrid;
+
+    protected async Task HotelDescriptionAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddHotelDescription>("Add HotelDescription", new Dictionary<string, object> { {"LanguageId" , data.Id} });
+        await GetChildData(data);
+        await HotelDescriptionDataGrid.Reload();
+    }
+
+    protected async Task HotelDescriptionRowSelect(ZarenTravel.Models.ZarenSoft.HotelDescription args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditHotelDescription>("Edit HotelDescription", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await HotelDescriptionDataGrid.Reload();
+    }
+
+    protected async Task HotelDescriptionDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.HotelDescription hotelDescription)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteHotelDescription(hotelDescription.Id);
+
+                if (deleteResult != null)
+                {
+                    await HotelDescriptionDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete HotelDescription" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.HotelPhotoLanguage> HotelPhotoLanguageDataGrid;
+
+    protected async Task HotelPhotoLanguageAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddHotelPhotoLanguage>("Add HotelPhotoLanguage", new Dictionary<string, object> { {"LanguageId" , data.Id} });
+        await GetChildData(data);
+        await HotelPhotoLanguageDataGrid.Reload();
+    }
+
+    protected async Task HotelPhotoLanguageRowSelect(ZarenTravel.Models.ZarenSoft.HotelPhotoLanguage args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditHotelPhotoLanguage>("Edit HotelPhotoLanguage", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await HotelPhotoLanguageDataGrid.Reload();
+    }
+
+    protected async Task HotelPhotoLanguageDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.HotelPhotoLanguage hotelPhotoLanguage)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteHotelPhotoLanguage(hotelPhotoLanguage.Id);
+
+                if (deleteResult != null)
+                {
+                    await HotelPhotoLanguageDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete HotelPhotoLanguage" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.HotelRoomLanguage> HotelRoomLanguageDataGrid;
+
+    protected async Task HotelRoomLanguageAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddHotelRoomLanguage>("Add HotelRoomLanguage", new Dictionary<string, object> { {"LanguageId" , data.Id} });
+        await GetChildData(data);
+        await HotelRoomLanguageDataGrid.Reload();
+    }
+
+    protected async Task HotelRoomLanguageRowSelect(ZarenTravel.Models.ZarenSoft.HotelRoomLanguage args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditHotelRoomLanguage>("Edit HotelRoomLanguage", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await HotelRoomLanguageDataGrid.Reload();
+    }
+
+    protected async Task HotelRoomLanguageDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.HotelRoomLanguage hotelRoomLanguage)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteHotelRoomLanguage(hotelRoomLanguage.Id);
+
+                if (deleteResult != null)
+                {
+                    await HotelRoomLanguageDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete HotelRoomLanguage" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.HotelTypeLanguage> HotelTypeLanguageDataGrid;
+
+    protected async Task HotelTypeLanguageAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddHotelTypeLanguage>("Add HotelTypeLanguage", new Dictionary<string, object> { {"LanguageId" , data.Id} });
+        await GetChildData(data);
+        await HotelTypeLanguageDataGrid.Reload();
+    }
+
+    protected async Task HotelTypeLanguageRowSelect(ZarenTravel.Models.ZarenSoft.HotelTypeLanguage args, ZarenTravel.Models.ZarenSoft.Language data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditHotelTypeLanguage>("Edit HotelTypeLanguage", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await HotelTypeLanguageDataGrid.Reload();
+    }
+
+    protected async Task HotelTypeLanguageDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.HotelTypeLanguage hotelTypeLanguage)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteHotelTypeLanguage(hotelTypeLanguage.Id);
+
+                if (deleteResult != null)
+                {
+                    await HotelTypeLanguageDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete HotelTypeLanguage" 
+            });
+        }
+    }
+
+    string lastFilter;
+    protected async void Grid0Render(DataGridRenderEventArgs<ZarenTravel.Models.ZarenSoft.Language> args)
+    {
+        if (grid0.Query.Filter != lastFilter) {
+            language = grid0.View.FirstOrDefault();
+        }
+
+        if (grid0.Query.Filter != lastFilter)
+        {
+            await grid0.SelectRow(language);
+        }
+
+        lastFilter = grid0.Query.Filter;
+    }
+}

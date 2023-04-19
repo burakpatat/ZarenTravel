@@ -1,0 +1,153 @@
+@page "/air-ports"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject zaren_prodService zaren_prodService
+
+<PageTitle>AirPorts</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="AirPorts" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"  AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@airPorts"    TItem="ZarenTravelBO.Models.zaren_prod.AirPort" RowDoubleClick="@EditRow" >
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AirPort" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AirPort" Property="Name" Title="Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AirPort" Property="Code" Title="Code">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AirPort" Property="ApiId" Title="Api Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AirPort" Property="LanguageId" Title="Language Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AirPort" Property="SystemId" Title="System Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AirPort" Property="CreatedDate" Title="Created Date">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AirPort" Property="UpdatedDate" Title="Updated Date">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AirPort" Property="CreatedBy" Title="Created By">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AirPort" Property="UpdatedBy" Title="Updated By">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AirPort" Property="AutoCompletesId" Title="Auto Completes Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AirPort" Property="Longitude" Title="Longitude">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AirPort" Property="Latitude" Title="Latitude">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AirPort" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="airPort">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, airPort)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_prod.AirPort> airPorts;
+
+    protected RadzenDataGrid<ZarenTravelBO.Models.zaren_prod.AirPort> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        airPorts = await zaren_prodService.GetAirPorts(new Query { Filter = $@"i => i.Name.Contains(@0) || i.Code.Contains(@0) || i.SystemId.Contains(@0) || i.Longitude.Contains(@0) || i.Latitude.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        airPorts = await zaren_prodService.GetAirPorts(new Query { Filter = $@"i => i.Name.Contains(@0) || i.Code.Contains(@0) || i.SystemId.Contains(@0) || i.Longitude.Contains(@0) || i.Latitude.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddAirPort>("Add AirPort", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravelBO.Models.zaren_prod.AirPort> args)
+    {
+        await DialogService.OpenAsync<EditAirPort>("Edit AirPort", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravelBO.Models.zaren_prod.AirPort airPort)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await zaren_prodService.DeleteAirPort(airPort.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete AirPort" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await zaren_prodService.ExportAirPortsToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "AirPorts");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await zaren_prodService.ExportAirPortsToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "AirPorts");
+        }
+    }
+}

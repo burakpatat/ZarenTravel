@@ -1,0 +1,140 @@
+@page "/asp-net-roles"
+@attribute [Authorize]
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenService ZarenService
+@inject Microsoft.Extensions.Localization.IStringLocalizer<AspNetRoles> L
+
+<PageTitle>AspNetRoles</PageTitle>
+<RadzenStack>
+<RadzenRow AlignItems="AlignItems.Center">
+    <RadzenColumn Size="12" SizeMD="6">
+        <RadzenText Text="AspNetRoles" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </RadzenColumn>
+    <RadzenColumn Size="12" SizeMD="6">
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+            <RadzenSplitButton Icon="get_app" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+                <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+                <RadzenSplitButtonItem Text="CSV" Value="csv" />
+            </RadzenSplitButton>
+            <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+        </RadzenStack>
+    </RadzenColumn>
+</RadzenRow>
+<RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+<RadzenRow>
+    <RadzenColumn SizeMD=12>
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"  AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
+            Data="@aspNetRoles"    TItem="ZarenBO2.Models.Zaren.AspNetRole" RowSelect="@EditRow" >
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.AspNetRole" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.AspNetRole" Property="ConcurrencyStamp" Title="Concurrency Stamp">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.AspNetRole" Property="Name" Title="Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.AspNetRole" Property="NormalizedName" Title="Normalized Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.AspNetRole" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="aspNetRole">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, aspNetRole)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </RadzenColumn>
+</RadzenRow>
+</RadzenStack>
+@code {
+
+    protected IEnumerable<ZarenBO2.Models.Zaren.AspNetRole> aspNetRoles;
+
+    protected RadzenDataGrid<ZarenBO2.Models.Zaren.AspNetRole> grid0;
+
+    protected string search = "";
+
+    [Inject]
+    protected SecurityService Security { get; set; }
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        aspNetRoles = await ZarenService.GetAspNetRoles(new Query { Filter = $@"i => i.Id.Contains(@0) || i.ConcurrencyStamp.Contains(@0) || i.Name.Contains(@0) || i.NormalizedName.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        aspNetRoles = await ZarenService.GetAspNetRoles(new Query { Filter = $@"i => i.Id.Contains(@0) || i.ConcurrencyStamp.Contains(@0) || i.Name.Contains(@0) || i.NormalizedName.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddAspNetRole>("Add AspNetRole", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(ZarenBO2.Models.Zaren.AspNetRole args)
+    {
+        await DialogService.OpenAsync<EditAspNetRole>("Edit AspNetRole", new Dictionary<string, object> { {"Id", args.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenBO2.Models.Zaren.AspNetRole aspNetRole)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenService.DeleteAspNetRole(aspNetRole.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete AspNetRole" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await ZarenService.ExportAspNetRolesToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible() && !string.IsNullOrEmpty(c.Property)).Select(c => c.Property))
+}, "AspNetRoles");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await ZarenService.ExportAspNetRolesToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible() && !string.IsNullOrEmpty(c.Property)).Select(c => c.Property))
+}, "AspNetRoles");
+        }
+    }
+}

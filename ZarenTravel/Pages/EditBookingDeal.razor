@@ -1,0 +1,114 @@
+@page "/edit-booking-deal"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit BookingDeal</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save BookingDeal</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.BookingDeal" Data="@bookingDeal" Visible="@(bookingDeal != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Booking" Component="Booking" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@bookingsForBookingId" TextProperty="Reference" ValueProperty="Id"
+                        Disabled=@(hasBookingIdValue) Placeholder="Choose Booking" style="display: block; width: 100%" @bind-Value="@bookingDeal.BookingId" Name="BookingId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Deal" Component="Deal" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@dealsForDealId" TextProperty="" ValueProperty="Id"
+                        Disabled=@(hasDealIdValue) Placeholder="Choose Deal" style="display: block; width: 100%" @bind-Value="@bookingDeal.DealId" Name="DealId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        bookingDeal = await ZarenSoftService.GetBookingDealById(Id);
+
+        bookingsForBookingId = await ZarenSoftService.GetBookings();
+
+        dealsForDealId = await ZarenSoftService.GetDeals();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.BookingDeal bookingDeal;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Booking> bookingsForBookingId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Deal> dealsForDealId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateBookingDeal(Id, bookingDeal);
+            DialogService.Close(bookingDeal);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasBookingIdValue;
+
+    [Parameter]
+    public int? BookingId { get; set; }
+
+    bool hasDealIdValue;
+
+    [Parameter]
+    public int? DealId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        bookingDeal = new ZarenTravel.Models.ZarenSoft.BookingDeal();
+
+        hasBookingIdValue = parameters.TryGetValue<int?>("BookingId", out var hasBookingIdResult);
+
+        if (hasBookingIdValue)
+        {
+            bookingDeal.BookingId = hasBookingIdResult;
+        }
+
+        hasDealIdValue = parameters.TryGetValue<int?>("DealId", out var hasDealIdResult);
+
+        if (hasDealIdValue)
+        {
+            bookingDeal.DealId = hasDealIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

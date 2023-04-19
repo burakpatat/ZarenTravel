@@ -1,0 +1,166 @@
+@page "/payment-configurations"
+@attribute [Authorize]
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenService ZarenService
+@inject Microsoft.Extensions.Localization.IStringLocalizer<PaymentConfigurations> L
+
+<PageTitle>PaymentConfigurations</PageTitle>
+<RadzenStack>
+<RadzenRow AlignItems="AlignItems.Center">
+    <RadzenColumn Size="12" SizeMD="6">
+        <RadzenText Text="PaymentConfigurations" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </RadzenColumn>
+    <RadzenColumn Size="12" SizeMD="6">
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+            <RadzenSplitButton Icon="get_app" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+                <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+                <RadzenSplitButtonItem Text="CSV" Value="csv" />
+            </RadzenSplitButton>
+            <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+        </RadzenStack>
+    </RadzenColumn>
+</RadzenRow>
+<RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+<RadzenRow>
+    <RadzenColumn SizeMD=12>
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"  AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
+            Data="@paymentConfigurations"    TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" RowSelect="@EditRow" >
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="PaymentCompany" Title="Payment Company">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="Email" Title="Email">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="Password" Title="Password">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="TestSecurityUrl" Title="Test Security Url">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="ProdSecurityUrl" Title="Prod Security Url">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="HashPassword" Title="Hash Password">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="OkUrl" Title="Ok Url">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="FailUrl" Title="Fail Url">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="UserId" Title="User Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="MemberId" Title="Member Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="MerchantId" Title="Merchant Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="UserCode" Title="User Code">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="TxnType" Title="Txn Type">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="TestPaymentUrl" Title="Test Payment Url">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="ProdPaymentUrl" Title="Prod Payment Url">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Property="Language1.LanguageName" Title="Language1">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.PaymentConfiguration" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="paymentConfiguration">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, paymentConfiguration)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </RadzenColumn>
+</RadzenRow>
+</RadzenStack>
+@code {
+
+    protected IEnumerable<ZarenBO2.Models.Zaren.PaymentConfiguration> paymentConfigurations;
+
+    protected RadzenDataGrid<ZarenBO2.Models.Zaren.PaymentConfiguration> grid0;
+
+    protected string search = "";
+
+    [Inject]
+    protected SecurityService Security { get; set; }
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        paymentConfigurations = await ZarenService.GetPaymentConfigurations(new Query { Filter = $@"i => i.PaymentCompany.Contains(@0) || i.Email.Contains(@0) || i.Password.Contains(@0) || i.TestSecurityUrl.Contains(@0) || i.ProdSecurityUrl.Contains(@0) || i.HashPassword.Contains(@0) || i.OkUrl.Contains(@0) || i.FailUrl.Contains(@0) || i.UserId.Contains(@0) || i.MemberId.Contains(@0) || i.MerchantId.Contains(@0) || i.UserCode.Contains(@0) || i.TxnType.Contains(@0) || i.TestPaymentUrl.Contains(@0) || i.ProdPaymentUrl.Contains(@0)", FilterParameters = new object[] { search }, Expand = "Language1" });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        paymentConfigurations = await ZarenService.GetPaymentConfigurations(new Query { Filter = $@"i => i.PaymentCompany.Contains(@0) || i.Email.Contains(@0) || i.Password.Contains(@0) || i.TestSecurityUrl.Contains(@0) || i.ProdSecurityUrl.Contains(@0) || i.HashPassword.Contains(@0) || i.OkUrl.Contains(@0) || i.FailUrl.Contains(@0) || i.UserId.Contains(@0) || i.MemberId.Contains(@0) || i.MerchantId.Contains(@0) || i.UserCode.Contains(@0) || i.TxnType.Contains(@0) || i.TestPaymentUrl.Contains(@0) || i.ProdPaymentUrl.Contains(@0)", FilterParameters = new object[] { search }, Expand = "Language1" });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddPaymentConfiguration>("Add PaymentConfiguration", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(ZarenBO2.Models.Zaren.PaymentConfiguration args)
+    {
+        await DialogService.OpenAsync<EditPaymentConfiguration>("Edit PaymentConfiguration", new Dictionary<string, object> { {"Id", args.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenBO2.Models.Zaren.PaymentConfiguration paymentConfiguration)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenService.DeletePaymentConfiguration(paymentConfiguration.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete PaymentConfiguration" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await ZarenService.ExportPaymentConfigurationsToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "Language1", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible() && !string.IsNullOrEmpty(c.Property)).Select(c => c.Property))
+}, "PaymentConfigurations");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await ZarenService.ExportPaymentConfigurationsToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "Language1", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible() && !string.IsNullOrEmpty(c.Property)).Select(c => c.Property))
+}, "PaymentConfigurations");
+        }
+    }
+}

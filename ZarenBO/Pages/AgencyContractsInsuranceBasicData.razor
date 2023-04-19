@@ -1,0 +1,163 @@
+@page "/agency-contracts-insurance-basic-data"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject zaren_prodService zaren_prodService
+
+<PageTitle>AgencyContractsInsuranceBasicData</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="AgencyContractsInsuranceBasicData" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"  AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@agencyContractsInsuranceBasicData"    TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" RowDoubleClick="@EditRow" >
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="AgencyId" Title="Agency Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="MicroSiteId" Title="Micro Site Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="CreateDate" Title="Create Date">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="UpdateTime" Title="Update Time">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="CreateBy" Title="Create By">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="UpdateBy" Title="Update By">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="IsActive" Title="Is Active">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="PolicyName" Title="Policy Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="PolicyNumber" Title="Policy Number">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="InsuranceTypeId" Title="Insurance Type Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="SelectByDefault" Title="Select By Default">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="SupplierId" Title="Supplier Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="ServiceProviderId" Title="Service Provider Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="SelectedInsuranceLanguageId" Title="Selected Insurance Language Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="InsuranceSelectedProductTypeId" Title="Insurance Selected Product Type Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="ImageUrl" Title="Image Url">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Property="ImagePath" Title="Image Path">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="agencyContractsInsuranceBasicDatum">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, agencyContractsInsuranceBasicDatum)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum> agencyContractsInsuranceBasicData;
+
+    protected RadzenDataGrid<ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        agencyContractsInsuranceBasicData = await zaren_prodService.GetAgencyContractsInsuranceBasicData(new Query { Filter = $@"i => i.PolicyName.Contains(@0) || i.PolicyNumber.Contains(@0) || i.ImageUrl.Contains(@0) || i.ImagePath.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        agencyContractsInsuranceBasicData = await zaren_prodService.GetAgencyContractsInsuranceBasicData(new Query { Filter = $@"i => i.PolicyName.Contains(@0) || i.PolicyNumber.Contains(@0) || i.ImageUrl.Contains(@0) || i.ImagePath.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddAgencyContractsInsuranceBasicDatum>("Add AgencyContractsInsuranceBasicDatum", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum> args)
+    {
+        await DialogService.OpenAsync<EditAgencyContractsInsuranceBasicDatum>("Edit AgencyContractsInsuranceBasicDatum", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravelBO.Models.zaren_prod.AgencyContractsInsuranceBasicDatum agencyContractsInsuranceBasicDatum)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await zaren_prodService.DeleteAgencyContractsInsuranceBasicDatum(agencyContractsInsuranceBasicDatum.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete AgencyContractsInsuranceBasicDatum" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await zaren_prodService.ExportAgencyContractsInsuranceBasicDataToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "AgencyContractsInsuranceBasicData");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await zaren_prodService.ExportAgencyContractsInsuranceBasicDataToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "AgencyContractsInsuranceBasicData");
+        }
+    }
+}

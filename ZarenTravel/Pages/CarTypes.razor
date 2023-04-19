@@ -1,0 +1,245 @@
+@page "/car-types"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>CarTypes</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="CarTypes" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px" Render=Grid0Render AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@carTypes"    TItem="ZarenTravel.Models.ZarenSoft.CarType" RowDoubleClick="@EditRow" RowSelect=@GetChildData>
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarType" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarType" Property="CaTyCode" Title="Ca Ty Code">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarType" Property="CaTyDescription" Title="Ca Ty Description">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarType" Property="CaTyTimestamp" Title="Ca Ty Timestamp">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarType" Property="CaTyActive" Title="Ca Ty Active">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarType" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="carType">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, carType)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+                    <RadzenHeading Visible="@(carType != null)" Size="H1" Text="CarRents" />
+                    <RadzenButton Visible="@(carType != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => CarRentAddButtonClick(args,carType)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(carType != null)" @ref=CarRentDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@carType?.CarRents" TItem="ZarenTravel.Models.ZarenSoft.CarRent"  RowSelect="@(args => CarRentRowSelect(args, carType))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CaRePickUpDate" Title="Ca Re Pick Up Date">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CaReReturnDate" Title="Ca Re Return Date">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CaReRate" Title="Ca Re Rate">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CaReTax" Title="Ca Re Tax">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CaReBookDate" Title="Ca Re Book Date">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CaReTimestamp" Title="Ca Re Timestamp">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CaReActive" Title="Ca Re Active">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="Airport.AirportCode" Title="Airport">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="Airport1.AirportCode" Title="Airport1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CarRental.CaRtCode" Title="Car Rental">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="CarType.CaTyCode" Title="Car Type">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="Currency1.CurrencyCode" Title="Currency1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Property="Pnr.PNRRecord" Title="Pnr">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CarRent" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="carRentChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => CarRentDeleteButtonClick(args, carRentChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.CarType> carTypes;
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.CarType> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        carTypes = await ZarenSoftService.GetCarTypes(new Query { Filter = $@"i => i.CaTyCode.Contains(@0) || i.CaTyDescription.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        carTypes = await ZarenSoftService.GetCarTypes(new Query { Filter = $@"i => i.CaTyCode.Contains(@0) || i.CaTyDescription.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddCarType>("Add CarType", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravel.Models.ZarenSoft.CarType> args)
+    {
+        await DialogService.OpenAsync<EditCarType>("Edit CarType", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.CarType carType)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteCarType(carType.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete CarType" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await ZarenSoftService.ExportCarTypesToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "CarTypes");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await ZarenSoftService.ExportCarTypesToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "CarTypes");
+        }
+    }
+
+    protected ZarenTravel.Models.ZarenSoft.CarType carType;
+    protected async Task GetChildData(ZarenTravel.Models.ZarenSoft.CarType args)
+    {
+        carType = args;
+        var CarRentResult = await ZarenSoftService.GetCarRents(new Query { Filter = $"i => i.CaTyId == {args.Id}", Expand = "Airport,Airport1,CarRental,CarType,Currency1,Pnr" });
+        if (CarRentResult != null)
+        {
+            args.CarRents = CarRentResult.ToList();
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.CarRent> CarRentDataGrid;
+
+    protected async Task CarRentAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.CarType data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddCarRent>("Add CarRent", new Dictionary<string, object> { {"CaTyId" , data.Id} });
+        await GetChildData(data);
+        await CarRentDataGrid.Reload();
+    }
+
+    protected async Task CarRentRowSelect(ZarenTravel.Models.ZarenSoft.CarRent args, ZarenTravel.Models.ZarenSoft.CarType data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditCarRent>("Edit CarRent", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await CarRentDataGrid.Reload();
+    }
+
+    protected async Task CarRentDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.CarRent carRent)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteCarRent(carRent.Id);
+
+                if (deleteResult != null)
+                {
+                    await CarRentDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete CarRent" 
+            });
+        }
+    }
+
+    string lastFilter;
+    protected async void Grid0Render(DataGridRenderEventArgs<ZarenTravel.Models.ZarenSoft.CarType> args)
+    {
+        if (grid0.Query.Filter != lastFilter) {
+            carType = grid0.View.FirstOrDefault();
+        }
+
+        if (grid0.Query.Filter != lastFilter)
+        {
+            await grid0.SelectRow(carType);
+        }
+
+        lastFilter = grid0.Query.Filter;
+    }
+}

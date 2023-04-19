@@ -1,0 +1,88 @@
+<h1 mat-dialog-title>pnr</h1>
+<div mat-dialog-content>
+    <form fxLayout="column" #pnrForm="ngForm">
+       <mat-tab-group mat-align-tabs="start">
+<mat-tab label="Tab 1">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Agencyıd" name="agencyId"[(ngModel)]="pnrObj.agencyId"
+#agencyId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Pccıd" name="pCCId"[(ngModel)]="pnrObj.pCCId"
+#pCCId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Companyıd" name="companyId"[(ngModel)]="pnrObj.companyId"
+#companyId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Passengerıd" name="passengerId"[(ngModel)]="pnrObj.passengerId"
+#passengerId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Pnrrecord" name="pNRRecord"[(ngModel)]="pnrObj.pNRRecord"
+#pNRRecord="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Pnrtimestamp (dd-mm-yyyy)"
+                    [ngModel]="pnrObj.pNRTimestamp | date:'dd-MM-yyyy'" name="pNRTimestamp"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="pNRTimestampPicker" name="hiddenawardDate"
+                    [(ngModel)]="pnrObj.pNRTimestamp">
+                <mat-datepicker-toggle matSuffix [for]="pNRTimestampPicker"></mat-datepicker-toggle>
+                <mat-datepicker #pNRTimestampPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+<mat-tab label="Tab 2">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Pnractive" name="pNRActive"[(ngModel)]="pnrObj.pNRActive"
+#pNRActive="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+
+</mat-tab-group>
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row wrap" fxFlex fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button mat-button mat-dialog-close tabindex="-1" cdkFocusInitial>Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!pnrForm.valid || !pnrForm.dirty"
+            (click)="savepnr(pnrObj)">
+            Add/Update
+        </button>
+    </div>
+</div>

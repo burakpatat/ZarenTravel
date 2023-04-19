@@ -1,0 +1,93 @@
+import { Routes } from '@angular/router';
+import { AccommodationComponent } from './components/accommodation/accommodation.component';
+import { AccommodationExtrasComponent } from './components/accommodationextras/accommodationextras.component';
+import { AgencyComponent } from './components/agency/agency.component';
+import { AgencyGroupComponent } from './components/agencygroup/agencygroup.component';
+import { AgentInformationComponent } from './components/agentınformation/agentınformation.component';
+import { AirComponent } from './components/air/air.component';
+import { AirExtrasComponent } from './components/airextras/airextras.component';
+import { AirlineComponent } from './components/airline/airline.component';
+import { AirportComponent } from './components/airport/airport.component';
+import { AirSegmentsComponent } from './components/airsegments/airsegments.component';
+import { BrokerComponent } from './components/broker/broker.component';
+import { carrentComponent } from './components/carrent/carrent.component';
+import { CarRentalComponent } from './components/carrental/carrental.component';
+import { CarTypeComponent } from './components/cartype/cartype.component';
+import { ChainComponent } from './components/chain/chain.component';
+import { CityComponent } from './components/city/city.component';
+import { CompanyComponent } from './components/company/company.component';
+import { CompanyCustomFieldsComponent } from './components/companycustomfields/companycustomfields.component';
+import { CompanyDivisionsComponent } from './components/companydivisions/companydivisions.component';
+import { CompanyGroupComponent } from './components/companygroup/companygroup.component';
+import { CountryComponent } from './components/country/country.component';
+import { CurrencyComponent } from './components/currency/currency.component';
+import { CustomerInformationComponent } from './components/customerınformation/customerınformation.component';
+import { ExchangeRatesComponent } from './components/exchangerates/exchangerates.component';
+import { ExtrasTypeComponent } from './components/extrastype/extrastype.component';
+import { FieldsTypeComponent } from './components/fieldstype/fieldstype.component';
+import { GDSComponent } from './components/gds/gds.component';
+import { HotelComponent } from './components/hotel/hotel.component';
+import { HotelCodesComponent } from './components/hotelcodes/hotelcodes.component';
+import { IndustrySegmentComponent } from './components/ındustrysegment/ındustrysegment.component';
+import { LanguagesComponent } from './components/languages/languages.component';
+import { PassengerComponent } from './components/passenger/passenger.component';
+import { PassengerInformationComponent } from './components/passengerınformation/passengerınformation.component';
+import { PCCComponent } from './components/pcc/pcc.component';
+import { PNRComponent } from './components/pnr/pnr.component';
+import { PNRCustomFieldsComponent } from './components/pnrcustomfields/pnrcustomfields.component';
+import { ReservationInformationComponent } from './components/reservationınformation/reservationınformation.component';
+import { RoomTypeComponent } from './components/roomtype/roomtype.component';
+import { SegmentInformationComponent } from './components/segmentınformation/segmentınformation.component';
+import { TerminalComponent } from './components/terminal/terminal.component';
+
+
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AdminComponent } from './admin.component';
+
+export const AdminRoutes: Routes = [
+    { path: '', component: AdminComponent },
+	{ path: 'accommodation', component: AccommodationComponent },
+{ path: 'accommodationextras', component: AccommodationExtrasComponent },
+{ path: 'agency', component: AgencyComponent },
+{ path: 'agencygroup', component: AgencyGroupComponent },
+{ path: 'agentınformation', component: AgentInformationComponent },
+{ path: 'air', component: AirComponent },
+{ path: 'airextras', component: AirExtrasComponent },
+{ path: 'airline', component: AirlineComponent },
+{ path: 'airport', component: AirportComponent },
+{ path: 'airsegments', component: AirSegmentsComponent },
+{ path: 'broker', component: BrokerComponent },
+{ path: 'carrent', component: carrentComponent },
+{ path: 'carrental', component: CarRentalComponent },
+{ path: 'cartype', component: CarTypeComponent },
+{ path: 'chain', component: ChainComponent },
+{ path: 'city', component: CityComponent },
+{ path: 'company', component: CompanyComponent },
+{ path: 'companycustomfields', component: CompanyCustomFieldsComponent },
+{ path: 'companydivisions', component: CompanyDivisionsComponent },
+{ path: 'companygroup', component: CompanyGroupComponent },
+{ path: 'country', component: CountryComponent },
+{ path: 'currency', component: CurrencyComponent },
+{ path: 'customerınformation', component: CustomerInformationComponent },
+{ path: 'exchangerates', component: ExchangeRatesComponent },
+{ path: 'extrastype', component: ExtrasTypeComponent },
+{ path: 'fieldstype', component: FieldsTypeComponent },
+{ path: 'gds', component: GDSComponent },
+{ path: 'hotel', component: HotelComponent },
+{ path: 'hotelcodes', component: HotelCodesComponent },
+{ path: 'ındustrysegment', component: IndustrySegmentComponent },
+{ path: 'languages', component: LanguagesComponent },
+{ path: 'passenger', component: PassengerComponent },
+{ path: 'passengerınformation', component: PassengerInformationComponent },
+{ path: 'pcc', component: PCCComponent },
+{ path: 'pnr', component: PNRComponent },
+{ path: 'pnrcustomfields', component: PNRCustomFieldsComponent },
+{ path: 'reservationınformation', component: ReservationInformationComponent },
+{ path: 'roomtype', component: RoomTypeComponent },
+{ path: 'segmentınformation', component: SegmentInformationComponent },
+{ path: 'terminal', component: TerminalComponent },
+
+
+    { path: 'dashboard', component: DashboardComponent }
+    
+];

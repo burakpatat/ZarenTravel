@@ -1,0 +1,118 @@
+@page "/add-hotel-type-language"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Add HotelTypeLanguage</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save HotelTypeLanguage</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.HotelTypeLanguage" Data="@hotelTypeLanguage" Visible="@(hotelTypeLanguage != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Name" Component="Name" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@hotelTypeLanguage.Name" Name="Name" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Hotel Type" Component="HotelType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@hotelTypesForHotelTypeId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasHotelTypeIdValue) Placeholder="Choose HotelType" style="display: block; width: 100%" @bind-Value="@hotelTypeLanguage.HotelTypeId" Name="HotelTypeId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Language" Component="Language" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@languagesForLanguageId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasLanguageIdValue) Placeholder="Choose Language" style="display: block; width: 100%" @bind-Value="@hotelTypeLanguage.LanguageId" Name="LanguageId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        hotelTypesForHotelTypeId = await ZarenSoftService.GetHotelTypes();
+
+        languagesForLanguageId = await ZarenSoftService.GetLanguages();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.HotelTypeLanguage hotelTypeLanguage;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.HotelType> hotelTypesForHotelTypeId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Language> languagesForLanguageId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.CreateHotelTypeLanguage(hotelTypeLanguage);
+            DialogService.Close(hotelTypeLanguage);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasHotelTypeIdValue;
+
+    [Parameter]
+    public int? HotelTypeId { get; set; }
+
+    bool hasLanguageIdValue;
+
+    [Parameter]
+    public int? LanguageId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        hotelTypeLanguage = new ZarenTravel.Models.ZarenSoft.HotelTypeLanguage();
+
+        hasHotelTypeIdValue = parameters.TryGetValue<int?>("HotelTypeId", out var hasHotelTypeIdResult);
+
+        if (hasHotelTypeIdValue)
+        {
+            hotelTypeLanguage.HotelTypeId = hasHotelTypeIdResult;
+        }
+
+        hasLanguageIdValue = parameters.TryGetValue<int?>("LanguageId", out var hasLanguageIdResult);
+
+        if (hasLanguageIdValue)
+        {
+            hotelTypeLanguage.LanguageId = hasLanguageIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

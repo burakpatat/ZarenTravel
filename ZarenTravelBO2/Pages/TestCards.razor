@@ -1,0 +1,152 @@
+@page "/test-cards"
+@attribute [Authorize]
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenService ZarenService
+@inject Microsoft.Extensions.Localization.IStringLocalizer<TestCards> L
+
+<PageTitle>TestCards</PageTitle>
+<RadzenStack>
+<RadzenRow AlignItems="AlignItems.Center">
+    <RadzenColumn Size="12" SizeMD="6">
+        <RadzenText Text="TestCards" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </RadzenColumn>
+    <RadzenColumn Size="12" SizeMD="6">
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+            <RadzenSplitButton Icon="get_app" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+                <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+                <RadzenSplitButtonItem Text="CSV" Value="csv" />
+            </RadzenSplitButton>
+            <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+        </RadzenStack>
+    </RadzenColumn>
+</RadzenRow>
+<RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+<RadzenRow>
+    <RadzenColumn SizeMD=12>
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"  AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
+            Data="@testCards"    TItem="ZarenBO2.Models.Zaren.TestCard" RowSelect="@EditRow" >
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.TestCard" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.TestCard" Property="BankName" Title="Bank Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.TestCard" Property="CardNo" Title="Card No">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.TestCard" Property="ValidDate" Title="Valid Date">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.TestCard" Property="CVV" Title="C V V">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.TestCard" Property="ThreeDPassword" Title="Three D Password">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.TestCard" Property="CardType" Title="Card Type">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.TestCard" Property="CardScheme" Title="Card Scheme">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.TestCard" Property="ResponseType" Title="Response Type">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.TestCard" Property="PaymentConfiguration.PaymentCompany" Title="Payment Configuration">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenBO2.Models.Zaren.TestCard" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="testCard">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, testCard)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </RadzenColumn>
+</RadzenRow>
+</RadzenStack>
+@code {
+
+    protected IEnumerable<ZarenBO2.Models.Zaren.TestCard> testCards;
+
+    protected RadzenDataGrid<ZarenBO2.Models.Zaren.TestCard> grid0;
+
+    protected string search = "";
+
+    [Inject]
+    protected SecurityService Security { get; set; }
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        testCards = await ZarenService.GetTestCards(new Query { Filter = $@"i => i.BankName.Contains(@0) || i.CardNo.Contains(@0) || i.ValidDate.Contains(@0) || i.CVV.Contains(@0) || i.ThreeDPassword.Contains(@0) || i.CardType.Contains(@0) || i.CardScheme.Contains(@0) || i.ResponseType.Contains(@0)", FilterParameters = new object[] { search }, Expand = "PaymentConfiguration" });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        testCards = await ZarenService.GetTestCards(new Query { Filter = $@"i => i.BankName.Contains(@0) || i.CardNo.Contains(@0) || i.ValidDate.Contains(@0) || i.CVV.Contains(@0) || i.ThreeDPassword.Contains(@0) || i.CardType.Contains(@0) || i.CardScheme.Contains(@0) || i.ResponseType.Contains(@0)", FilterParameters = new object[] { search }, Expand = "PaymentConfiguration" });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddTestCard>("Add TestCard", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(ZarenBO2.Models.Zaren.TestCard args)
+    {
+        await DialogService.OpenAsync<EditTestCard>("Edit TestCard", new Dictionary<string, object> { {"Id", args.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenBO2.Models.Zaren.TestCard testCard)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenService.DeleteTestCard(testCard.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete TestCard" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await ZarenService.ExportTestCardsToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "PaymentConfiguration", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible() && !string.IsNullOrEmpty(c.Property)).Select(c => c.Property))
+}, "TestCards");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await ZarenService.ExportTestCardsToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "PaymentConfiguration", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible() && !string.IsNullOrEmpty(c.Property)).Select(c => c.Property))
+}, "TestCards");
+        }
+    }
+}

@@ -1,0 +1,31 @@
+@inherits LayoutComponentBase
+
+<RadzenDialog />
+<RadzenNotification />
+<RadzenTooltip />
+<RadzenContextMenu />
+
+<RadzenLayout style="background: url('images/login.jpg'); background-size: cover;">
+    <RadzenBody>
+        <div class="container" style="height: 100%">
+            <div class="row align-items-center " style="height: 100%">
+                <div class="col-12 py-3">
+                    <RadzenCard class="rz-shadow-5 rz-border-radius-4" style="padding: 0; overflow: hidden">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-12 col-md-6 p-5 position-relative" style="color: #12526a; background-color: #164c61">
+                                    <RadzenImage Path="/images/v4.png" class="col-8"></RadzenImage>
+                                    <RadzenText Text="Hoş Geldiniz !" TextStyle="Radzen.Blazor.TextStyle.H2" class="mt-3 mt-md-5 pt-0 pt-md-5 mb-4 rz-color-white d-none d-sm-block" />
+                                </div>
+                                <div class="col-12 col-md-6 p-5">
+                                    @Body
+                                </div>
+                            </div>
+                        </div>
+                    </RadzenCard>
+                    <RadzenText Text="Travel v.1.0.0, Copyright Ⓒ 2023" TextStyle="Radzen.Blazor.TextStyle.Caption" TextAlign="Radzen.TextAlign.Center" Style="width: 100%; margin-top: 20px" TagName="Radzen.Blazor.TagName.P"/>
+                </div>
+            </div>
+        </div>
+    </RadzenBody>
+</RadzenLayout>

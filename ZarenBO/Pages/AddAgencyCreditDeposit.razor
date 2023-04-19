@@ -1,0 +1,106 @@
+@page "/add-agency-credit-deposit"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject zaren_prodService zaren_prodService
+
+<PageTitle>Add AgencyCreditDeposit</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save AgencyCreditDeposit</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravelBO.Models.zaren_prod.AgencyCreditDeposit" Data="@agencyCreditDeposit" Visible="@(agencyCreditDeposit != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency Id" Component="AgencyId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyCreditDeposit.AgencyId" Name="AgencyId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Balance Currency Id" Component="BalanceCurrencyId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyCreditDeposit.BalanceCurrencyId" Name="BalanceCurrencyId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Balance Amount" Component="BalanceAmount" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyCreditDeposit.BalanceAmount" Name="BalanceAmount" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Send Balance Warning" Component="SendBalanceWarning" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyCreditDeposit.SendBalanceWarning" Name="SendBalanceWarning" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency Balance Warning Amount" Component="AgencyBalanceWarningAmount" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyCreditDeposit.AgencyBalanceWarningAmount" Name="AgencyBalanceWarningAmount" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency Balance Warning Is By Percentage" Component="AgencyBalanceWarningIsByPercentage" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyCreditDeposit.AgencyBalanceWarningIsByPercentage" Name="AgencyBalanceWarningIsByPercentage" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency Balance Warning Currency Id" Component="AgencyBalanceWarningCurrencyId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyCreditDeposit.AgencyBalanceWarningCurrencyId" Name="AgencyBalanceWarningCurrencyId" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        agencyCreditDeposit = new ZarenTravelBO.Models.zaren_prod.AgencyCreditDeposit();
+    }
+    protected bool errorVisible;
+    protected ZarenTravelBO.Models.zaren_prod.AgencyCreditDeposit agencyCreditDeposit;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await zaren_prodService.CreateAgencyCreditDeposit(agencyCreditDeposit);
+            DialogService.Close(agencyCreditDeposit);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+}

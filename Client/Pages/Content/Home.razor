@@ -1,0 +1,403 @@
+﻿@page "/home"
+@page "/"
+@using System.Text.RegularExpressions
+@using System.Data.SqlClient
+@using System.Text.RegularExpressions
+@using System.IO
+@using Newtonsoft.Json
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Home> _localizer
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <!-- BEGIN card -->
+        <div class="card mb-3">
+            <!-- BEGIN card-body -->
+            <div class="card-body">
+                <div id="tabsV2" class="mb-5">
+                    <div class="card">
+                        <div class="card-body pt-1">
+                            <div class="mb-3 row ">
+                                <div class="col-sm-12">
+                                    <div class="mb-3 row ">
+                                        <div class="col-sm-12">
+                                            <div class="mb-3 row ">
+                                                <div class="col-sm-3">
+                                                    <div class="card mb-3">
+                                                        <!-- BEGIN card-body -->
+                                                        <div class="card-body">
+                                                            <!-- BEGIN title -->
+                                                            <div class="d-flex fw-bold small mb-3">
+                                                                <span class="flex-grow-1">NEW WORDY</span>
+                                                                <a href="#" data-toggle="card-expand" class="text-white text-opacity-50 text-decoration-none"><i class="bi bi-fullscreen"></i></a>
+                                                            </div>
+                                                            <!-- END title -->
+                                                            <!-- BEGIN stat-lg -->
+                                                            <div class="row align-items-center mb-2">
+                                                                <div class="col-7">
+                                                                    <h3 class="mb-0">@randomNo </h3>
+                                                                </div>
+                                                                <div class="col-5">
+                                                                    <div class="mt-n2" data-render="apexchart" data-type="bar" data-title="Visitors" data-height="30"></div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- END stat-lg -->
+                                                        </div>
+                                                        <!-- END card-body -->
+                                                        <!-- BEGIN card-arrow -->
+                                                        <div class="card-arrow">
+                                                            <div class="card-arrow-top-left"></div>
+                                                            <div class="card-arrow-top-right"></div>
+                                                            <div class="card-arrow-bottom-left"></div>
+                                                            <div class="card-arrow-bottom-right"></div>
+                                                        </div>
+                                                        <!-- END card-arrow -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="card mb-3">
+                                                        <!-- BEGIN card-body -->
+                                                        <div class="card-body">
+                                                            <!-- BEGIN title -->
+                                                            <div class="d-flex fw-bold small mb-3">
+                                                                <span class="flex-grow-1">LIKE COUNT</span>
+                                                                <a href="#" data-toggle="card-expand" class="text-white text-opacity-50 text-decoration-none"><i class="bi bi-fullscreen"></i></a>
+                                                            </div>
+                                                            <!-- END title -->
+                                                            <!-- BEGIN stat-lg -->
+                                                            <div class="row align-items-center mb-2">
+                                                                <div class="col-7">
+                                                                    <h3 class="mb-0">@randomNo </h3>
+                                                                </div>
+                                                                <div class="col-5">
+                                                                    <div class="mt-n2" data-render="apexchart" data-type="bar" data-title="Visitors" data-height="30"></div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- END stat-lg -->
+                                                        </div>
+                                                        <!-- END card-body -->
+                                                        <!-- BEGIN card-arrow -->
+                                                        <div class="card-arrow">
+                                                            <div class="card-arrow-top-left"></div>
+                                                            <div class="card-arrow-top-right"></div>
+                                                            <div class="card-arrow-bottom-left"></div>
+                                                            <div class="card-arrow-bottom-right"></div>
+                                                        </div>
+                                                        <!-- END card-arrow -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="card mb-3">
+                                                        <!-- BEGIN card-body -->
+                                                        <div class="card-body">
+                                                            <!-- BEGIN title -->
+                                                            <div class="d-flex fw-bold small mb-3">
+                                                                <span class="flex-grow-1">FOLLOW COUNT</span>
+                                                                <a href="#" data-toggle="card-expand" class="text-white text-opacity-50 text-decoration-none"><i class="bi bi-fullscreen"></i></a>
+                                                            </div>
+                                                            <!-- END title -->
+                                                            <!-- BEGIN stat-lg -->
+                                                            <div class="row align-items-center mb-2">
+                                                                <div class="col-7">
+                                                                    <h3 class="mb-0">@randomNo </h3>
+                                                                </div>
+                                                                <div class="col-5">
+                                                                    <div class="mt-n2" data-render="apexchart" data-type="bar" data-title="Visitors" data-height="30"></div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- END stat-lg -->
+                                                        </div>
+                                                        <!-- END card-body -->
+                                                        <!-- BEGIN card-arrow -->
+                                                        <div class="card-arrow">
+                                                            <div class="card-arrow-top-left"></div>
+                                                            <div class="card-arrow-top-right"></div>
+                                                            <div class="card-arrow-bottom-left"></div>
+                                                            <div class="card-arrow-bottom-right"></div>
+                                                        </div>
+                                                        <!-- END card-arrow -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="card mb-3">
+                                                        <!-- BEGIN card-body -->
+                                                        <div class="card-body">
+                                                            <!-- BEGIN title -->
+                                                            <div class="d-flex fw-bold small mb-3">
+                                                                <span class="flex-grow-1">SAVED COUNT</span>
+                                                                <a href="#" data-toggle="card-expand" class="text-white text-opacity-50 text-decoration-none"><i class="bi bi-fullscreen"></i></a>
+                                                            </div>
+                                                            <!-- END title -->
+                                                            <!-- BEGIN stat-lg -->
+                                                            <div class="row align-items-center mb-2">
+                                                                <div class="col-7">
+                                                                    <h3 class="mb-0">@randomNo </h3>
+                                                                </div>
+                                                                <div class="col-5">
+                                                                    <div class="mt-n2" data-render="apexchart" data-type="bar" data-title="Visitors" data-height="30"></div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- END stat-lg -->
+                                                        </div>
+                                                        <!-- END card-body -->
+                                                        <!-- BEGIN card-arrow -->
+                                                        <div class="card-arrow">
+                                                            <div class="card-arrow-top-left"></div>
+                                                            <div class="card-arrow-top-right"></div>
+                                                            <div class="card-arrow-bottom-left"></div>
+                                                            <div class="card-arrow-bottom-right"></div>
+                                                        </div>
+                                                        <!-- END card-arrow -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <a href="#" class="card text-decoration-none">
+                                                        <div class="card-body d-flex align-items-center text-white m-5px bg-white bg-opacity-15">
+                                                            <div class="flex-fill">
+                                                                <div class="mb-1">Total Advertorial View</div>
+                                                                <h2>@randomNo  </h2>
+
+                                                                @if (DateTime.Now.Minute.ToString().Length == 1)
+                                                                {
+                                                                    <div>Today, @DateTime.Now.Hour :0 @DateTime.Now.Minute </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div>Today, @DateTime.Now.Hour :@DateTime.Now.Minute </div>
+                                                                }
+                                                            </div>
+                                                            <div class="opacity-5">
+                                                                <i class="fa fa-shopping-bag fa-4x"></i>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- card-arrow -->
+                                                        <div class="card-arrow">
+                                                            <div class="card-arrow-top-left"></div>
+                                                            <div class="card-arrow-top-right"></div>
+                                                            <div class="card-arrow-bottom-left"></div>
+                                                            <div class="card-arrow-bottom-right"></div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <a href="#" class="card text-decoration-none">
+                                                        <div class="card-body d-flex align-items-center text-white m-5px bg-white bg-opacity-15">
+                                                            <div class="flex-fill">
+                                                                <div class="mb-1">New Member</div>
+                                                                <h2>@randomNo  </h2>
+                                                                @if (DateTime.Now.Minute.ToString().Length == 1)
+                                                                {
+                                                                    <div>Today, @DateTime.Now.Hour :0 @DateTime.Now.Minute </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div>Today, @DateTime.Now.Hour :@DateTime.Now.Minute </div>
+                                                                }
+                                                            </div>
+                                                            <div class="opacity-5">
+                                                                <i class="fa fa-shopping-bag fa-4x"></i>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- card-arrow -->
+                                                        <div class="card-arrow">
+                                                            <div class="card-arrow-top-left"></div>
+                                                            <div class="card-arrow-top-right"></div>
+                                                            <div class="card-arrow-bottom-left"></div>
+                                                            <div class="card-arrow-bottom-right"></div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <a href="#" class="card text-decoration-none">
+                                                        <div class="card-body d-flex align-items-center text-white m-5px bg-white bg-opacity-15">
+                                                            <div class="flex-fill">
+                                                                <div class="mb-1">Total Visitors</div>
+                                                                <h2>@randomNo </h2>
+
+                                                                @if (DateTime.Now.Minute.ToString().Length == 1)
+                                                                {
+                                                                    <div>Today, @DateTime.Now.Hour :0 @DateTime.Now.Minute </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div>Today, @DateTime.Now.Hour :@DateTime.Now.Minute </div>
+                                                                }
+                                                            </div>
+                                                            <div class="opacity-5">
+                                                                <i class="fa fa-shopping-bag fa-4x"></i>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- card-arrow -->
+                                                        <div class="card-arrow">
+                                                            <div class="card-arrow-top-left"></div>
+                                                            <div class="card-arrow-top-right"></div>
+                                                            <div class="card-arrow-bottom-left"></div>
+                                                            <div class="card-arrow-bottom-right"></div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <a href="#" class="card text-decoration-none">
+
+                                                        <div class="card-body d-flex align-items-center text-white m-5px bg-white bg-opacity-15">
+                                                            <div class="flex-fill">
+                                                                <div class="mb-1">Total PageView</div>
+                                                                <h2>@randomNo</h2>
+
+                                                                @if (DateTime.Now.Minute.ToString().Length == 1)
+                                                                {
+                                                                    <div>Today, @DateTime.Now.Hour :0 DateTime.Now.Minute</div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div>Today, @DateTime.Now.Hour : @DateTime.Now.Minute</div>
+                                                                }
+                                                            </div>
+                                                            <div class="opacity-5">
+                                                                <i class="fa fa-shopping-bag fa-4x"></i>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- card-arrow -->
+                                                        <div class="card-arrow">
+                                                            <div class="card-arrow-top-left"></div>
+                                                            <div class="card-arrow-top-right"></div>
+                                                            <div class="card-arrow-bottom-left"></div>
+                                                            <div class="card-arrow-bottom-right"></div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row ">
+                                        @foreach (var table in dbHelper.GetAllTablesWithOutView())
+                                        {
+                                            var SizeReport = dbHelper.GetDynamicTableSize(table.TableName);
+                                            var ModifyReport = dbHelper.GetDynamicTableModifyReport(table.TableName);
+                                            var startingText = table.TableName;
+                                            var textWEmpty = "";
+                                            var inedx = dbHelper.GetGetIndexStatsResult(table.TableName);
+                                            string[] split2 = Regex.Split(startingText, @"(?<!^)(?=[A-Z])");
+                                            for (int z = 0; z < split2.Count(); z++)
+                                            {
+                                                textWEmpty += split2[z] + " ";
+                                            }
+
+                                            <div class="mb-3   col-lg-3">
+                                                <div class="card">
+                                                    <div class="card-header bg-none fw-bold d-flex align-items-center">
+                                                        <h4 style="font-size: 15px;"><i class="  fas fa-lg fa-fw me-2 fa-th-list text-theme"></i>@textWEmpty</h4>
+                                                        <a target="_blank" href="/List/@table.TableName" class="ms-auto text-muted text-decoration-none"><i class="fa fa-link"></i></a>
+                                                    </div>
+
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="d-flex">
+                                                                    <div class="ps-3 flex-1">
+                                                                        <div class="fs-10px fw-bold text-white text-opacity-50 mb-1">DISK SPACE</div>
+                                                                        <div class="mb-2 fs-5 text-truncate">@SizeReport.UsedSpaceKB/ SizeReport.TotalSpaceKB_Swiss</div>
+                                                                        <div class="progress h-3px bg-white-transparent-2 mb-1">
+                                                                            @if (SizeReport.UsedSpaceKB != 0 && SizeReport.TotalSpaceKB != 0)
+                                                                            {
+                                                                                <div class="progress-bar bg-theme" style="width: @((100*SizeReport.UsedSpaceKB)/SizeReport.TotalSpaceKB) %"></div>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <div class="progress-bar bg-theme" style="width: 0%"></div>
+                                                                            }
+
+                                                                        </div>
+                                                                        <div class="fs-11px text-white text-opacity-50 mb-2 text-truncate">
+                                                                            Last updated @ModifyReport.last_modified
+                                                                        </div>
+
+
+                                                                        @if (inedx != null)
+                                                                        {
+                                                                            <div class="d-flex align-items-center small">
+                                                                                <i class="bi bi-circle-fill fs-6px me-2 text-theme"></i>
+                                                                                <div class="flex-1">TOTAL DATA</div>
+                                                                                <div>@inedx.RowCt </div>
+                                                                            </div>
+                                                                            <div class="d-flex align-items-center small">
+                                                                                <i class="bi bi-circle-fill fs-6px me-2 text-theme"></i>
+                                                                                <div class="flex-1">INDEX FRAG</div>
+                                                                                <div>@inedx.AvgFrag %</div>
+                                                                            </div>
+                                                                            <div class="d-flex align-items-center small">
+                                                                                <i class="bi bi-circle-fill fs-6px me-2 text-theme"></i>
+                                                                                <div class="flex-1">LAST INDEX</div>
+                                                                                <div>@inedx.StatsDt</div>
+                                                                            </div>
+                                                                        }
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-arrow">
+                                                        <div class="card-arrow-top-left"></div>
+                                                        <div class="card-arrow-top-right"></div>
+                                                        <div class="card-arrow-bottom-left"></div>
+                                                        <div class="card-arrow-bottom-right"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- BEGIN nav-tabs -->
+                            <ul class="nav nav-tabs nav-tabs-v2">
+                                <li class="nav-item me-3"><a href="#report" class="nav-link active" data-bs-toggle="tab">Report</a></li>
+                                <li class="nav-item me-3"><a href="#tools" class="nav-link" data-bs-toggle="tab">Tools</a></li>
+                                <li class="nav-item me-3"><a href="#table" class="nav-link " data-bs-toggle="tab">Database</a></li>
+                                <li class="nav-item me-3"><a href="#settings" class="nav-link" data-bs-toggle="tab">Settings</a></li>
+                                <li class="nav-item me-3"><a href="#api" class="nav-link" data-bs-toggle="tab">API</a></li>
+
+                            </ul>
+                            <!-- END nav-tabs -->
+                            <!-- BEGIN tab-content -->
+                            <!-- END tab-pane -->
+                            <!-- BEGIN tab-pane -->
+                            <!-- END tab-pane -->
+                            <!-- END tab-content -->
+                        </div>
+                    </div>
+                    <div class="card-arrow">
+                        <div class="card-arrow-top-left"></div>
+                        <div class="card-arrow-top-right"></div>
+                        <div class="card-arrow-bottom-left"></div>
+                        <div class="card-arrow-bottom-right"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END card-body -->
+        <!-- BEGIN card-arrow -->
+        <div class="card-arrow">
+            <div class="card-arrow-top-left"></div>
+            <div class="card-arrow-top-right"></div>
+            <div class="card-arrow-bottom-left"></div>
+            <div class="card-arrow-bottom-right"></div>
+        </div>
+        <!-- END card-arrow -->
+    </div>
+    <!-- END card -->
+</div>
+
+@code {
+    long randomNo = new Random().Next(1000, 500000) * 17;
+}

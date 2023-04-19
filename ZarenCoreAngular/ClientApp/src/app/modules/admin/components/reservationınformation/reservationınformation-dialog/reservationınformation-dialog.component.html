@@ -1,0 +1,266 @@
+<h1 mat-dialog-title>reservationınformation</h1>
+<div mat-dialog-content>
+    <form fxLayout="column" #reservationınformationForm="ngForm">
+       <mat-tab-group mat-align-tabs="start">
+<mat-tab label="Tab 1">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Pnr" name="pNR"[(ngModel)]="reservationınformationObj.pNR"
+#pNR="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Bookingtimestamp (dd-mm-yyyy)"
+                    [ngModel]="reservationınformationObj.bookingTimeStamp | date:'dd-MM-yyyy'" name="bookingTimeStamp"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="bookingTimeStampPicker" name="hiddenawardDate"
+                    [(ngModel)]="reservationınformationObj.bookingTimeStamp">
+                <mat-datepicker-toggle matSuffix [for]="bookingTimeStampPicker"></mat-datepicker-toggle>
+                <mat-datepicker #bookingTimeStampPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Firstname" name="firstName"[(ngModel)]="reservationınformationObj.firstName"
+#firstName="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Lastname" name="lastName"[(ngModel)]="reservationınformationObj.lastName"
+#lastName="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Passportnumber" name="passportNumber"[(ngModel)]="reservationınformationObj.passportNumber"
+#passportNumber="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Streetaddress1" name="streetAddress1"[(ngModel)]="reservationınformationObj.streetAddress1"
+#streetAddress1="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+<mat-tab label="Tab 2">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Streetaddress2" name="streetAddress2"[(ngModel)]="reservationınformationObj.streetAddress2"
+#streetAddress2="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="City" name="city"[(ngModel)]="reservationınformationObj.city"
+#city="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="State" name="state"[(ngModel)]="reservationınformationObj.state"
+#state="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Countrycode" name="countryCode"[(ngModel)]="reservationınformationObj.countryCode"
+#countryCode="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Phoneno" name="phoneNo"[(ngModel)]="reservationınformationObj.phoneNo"
+#phoneNo="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Mobileno" name="mobileNo"[(ngModel)]="reservationınformationObj.mobileNo"
+#mobileNo="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Fax" name="fax"[(ngModel)]="reservationınformationObj.fax"
+#fax="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Email" name="email"[(ngModel)]="reservationınformationObj.email"
+#email="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+<mat-tab label="Tab 3">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Nationalitycode" name="nationalityCode"[(ngModel)]="reservationınformationObj.nationalityCode"
+#nationalityCode="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Saleschannelcode" name="salesChannelCode"[(ngModel)]="reservationınformationObj.salesChannelCode"
+#salesChannelCode="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Agentcode" name="agentCode"[(ngModel)]="reservationınformationObj.agentCode"
+#agentCode="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Customerıd" name="customerId"[(ngModel)]="reservationınformationObj.customerId"
+#customerId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Totalpaxcount" name="totalpaxcount"[(ngModel)]="reservationınformationObj.totalpaxcount"
+#totalpaxcount="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Totalınfantcount" name="totalInfantcount"[(ngModel)]="reservationınformationObj.totalInfantcount"
+#totalInfantcount="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex> 
+                <input matInput placeholder="Totaltaxchg" type="number" name="totalTaxChg"[(ngModel)]="reservationınformationObj.totalTaxChg"
+#totalTaxChg="ngModel"   >
+               
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex> 
+                <input matInput placeholder="Totalfare" type="number" name="totalFare"[(ngModel)]="reservationınformationObj.totalFare"
+#totalFare="ngModel"   >
+               
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+<mat-tab label="Tab 4">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Bookingstatus" name="bookingStatus"[(ngModel)]="reservationınformationObj.bookingStatus"
+#bookingStatus="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Modificationdate (dd-mm-yyyy)"
+                    [ngModel]="reservationınformationObj.modificationDate | date:'dd-MM-yyyy'" name="modificationDate"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="modificationDatePicker" name="hiddenawardDate"
+                    [(ngModel)]="reservationınformationObj.modificationDate">
+                <mat-datepicker-toggle matSuffix [for]="modificationDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #modificationDatePicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Fıle_ıd" name="fILE_ID"[(ngModel)]="reservationınformationObj.fILE_ID"
+#fILE_ID="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Fıle_name" name="fILE_NAME"[(ngModel)]="reservationınformationObj.fILE_NAME"
+#fILE_NAME="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Recorddatestamp (dd-mm-yyyy)"
+                    [ngModel]="reservationınformationObj.recordDateStamp | date:'dd-MM-yyyy'" name="recordDateStamp"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="recordDateStampPicker" name="hiddenawardDate"
+                    [(ngModel)]="reservationınformationObj.recordDateStamp">
+                <mat-datepicker-toggle matSuffix [for]="recordDateStampPicker"></mat-datepicker-toggle>
+                <mat-datepicker #recordDateStampPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+
+</mat-tab-group>
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row wrap" fxFlex fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button mat-button mat-dialog-close tabindex="-1" cdkFocusInitial>Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!reservationınformationForm.valid || !reservationınformationForm.dirty"
+            (click)="savereservationınformation(reservationınformationObj)">
+            Add/Update
+        </button>
+    </div>
+</div>

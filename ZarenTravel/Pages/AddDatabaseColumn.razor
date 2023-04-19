@@ -1,0 +1,320 @@
+@page "/add-database-column"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Add DatabaseColumn</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save DatabaseColumn</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.DatabaseColumn" Data="@databaseColumn" Visible="@(databaseColumn != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Column Name" Component="ColumnName" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@databaseColumn.ColumnName" Name="ColumnName" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Is Routing Field" Component="IsRoutingField" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@databaseColumn.IsRoutingField" Name="IsRoutingField" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="C M S Column Title" Component="CMSColumnTitle" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@databaseColumn.CMSColumnTitle" Name="CMSColumnTitle" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Table Order" Component="TableOrder" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@databaseColumn.TableOrder" Name="TableOrder" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Selected Value" Component="SelectedValue" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@databaseColumn.SelectedValue" Name="SelectedValue" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Selected Text" Component="SelectedText" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@databaseColumn.SelectedText" Name="SelectedText" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Has Showed On List" Component="HasShowedOnList" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@databaseColumn.HasShowedOnList" Name="HasShowedOnList" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Is Filter" Component="IsFilter" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@databaseColumn.IsFilter" Name="IsFilter" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Resize" Component="Resize" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@databaseColumn.Resize" Name="Resize" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Is Language Field" Component="IsLanguageField" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@databaseColumn.IsLanguageField" Name="IsLanguageField" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Is Primary" Component="IsPrimary" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@databaseColumn.IsPrimary" Name="IsPrimary" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Is Secondry" Component="IsSecondry" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@databaseColumn.IsSecondry" Name="IsSecondry" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Selected Data Source Table" Component="SelectedDataSourceTable" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@databaseColumn.SelectedDataSourceTable" Name="SelectedDataSourceTable" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Json Name" Component="JsonName" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@databaseColumn.JsonName" Name="JsonName" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Tooltip" Component="Tooltip" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@databaseColumn.Tooltip" Name="Tooltip" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Is Nullable" Component="IsNullable" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@databaseColumn.IsNullable" Name="IsNullable" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Max Length" Component="MaxLength" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@databaseColumn.MaxLength" Name="MaxLength" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Is Required" Component="IsRequired" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@databaseColumn.IsRequired" Name="IsRequired" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Has Default Value" Component="HasDefaultValue" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@databaseColumn.HasDefaultValue" Name="HasDefaultValue" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Is Public" Component="IsPublic" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@databaseColumn.IsPublic" Name="IsPublic" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Return Column Name From C M S Title" Component="ReturnColumnNameFromCMSTitle" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@databaseColumn.ReturnColumnNameFromCMSTitle" Name="ReturnColumnNameFromCMSTitle" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Error Description" Component="ErrorDescription" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@databaseColumn.ErrorDescription" Name="ErrorDescription" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Parameter Description" Component="ParameterDescription" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@databaseColumn.ParameterDescription" Name="ParameterDescription" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Datatable Cmsinput Type" Component="DatatableCmsinputType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@datatableCmsInputTypesForCMSInputType" TextProperty="Name" ValueProperty="ID"
+                        Disabled=@(hasCMSInputTypeValue) Placeholder="Choose DatatableCmsinputType" style="display: block; width: 100%" @bind-Value="@databaseColumn.CMSInputType" Name="CMSInputType"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Database Value Type" Component="DatabaseValueType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@databaseValueTypesForDbType" TextProperty="FrontEndName" ValueProperty="ID"
+                        Disabled=@(hasDbTypeValue) Placeholder="Choose DatabaseValueType" style="display: block; width: 100%" @bind-Value="@databaseColumn.DbType" Name="DbType"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Database Table" Component="DatabaseTable" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@databaseTablesForTableID" TextProperty="TableName" ValueProperty="ID"
+                        Disabled=@(hasTableIDValue) Placeholder="Choose DatabaseTable" style="display: block; width: 100%" @bind-Value="@databaseColumn.TableID" Name="TableID"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        datatableCmsInputTypesForCMSInputType = await ZarenSoftService.GetDatatableCmsInputTypes();
+
+        databaseValueTypesForDbType = await ZarenSoftService.GetDatabaseValueTypes();
+
+        databaseTablesForTableID = await ZarenSoftService.GetDatabaseTables();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.DatabaseColumn databaseColumn;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.DatatableCmsInputType> datatableCmsInputTypesForCMSInputType;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.DatabaseValueType> databaseValueTypesForDbType;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.DatabaseTable> databaseTablesForTableID;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.CreateDatabaseColumn(databaseColumn);
+            DialogService.Close(databaseColumn);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasCMSInputTypeValue;
+
+    [Parameter]
+    public int? CMSInputType { get; set; }
+
+    bool hasDbTypeValue;
+
+    [Parameter]
+    public int? DbType { get; set; }
+
+    bool hasTableIDValue;
+
+    [Parameter]
+    public int? TableID { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        databaseColumn = new ZarenTravel.Models.ZarenSoft.DatabaseColumn();
+
+        hasCMSInputTypeValue = parameters.TryGetValue<int?>("CMSInputType", out var hasCMSInputTypeResult);
+
+        if (hasCMSInputTypeValue)
+        {
+            databaseColumn.CMSInputType = hasCMSInputTypeResult;
+        }
+
+        hasDbTypeValue = parameters.TryGetValue<int?>("DbType", out var hasDbTypeResult);
+
+        if (hasDbTypeValue)
+        {
+            databaseColumn.DbType = hasDbTypeResult;
+        }
+
+        hasTableIDValue = parameters.TryGetValue<int?>("TableID", out var hasTableIDResult);
+
+        if (hasTableIDValue)
+        {
+            databaseColumn.TableID = hasTableIDResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

@@ -1,0 +1,55 @@
+@page "/AccountActions/Delete/{Id}/{AccountId}"
+@using MyProjectName.Services
+@using MyProjectName.Model
+@inject AccountActionsService serviceInstance
+@inject NavigationManager NavigationManager
+
+<h2>Delete AccountActions</h2>
+<hr />
+<h3>Are you sure want to delete?</h3>
+<form>
+    <div class="row">
+        <div class=" col-md-8">
+            <div class='form-group'> <label>Id:</label> <label>@obj.Id</label> </div>
+<div class='form-group'> <label>GoogleClientId:</label> <label>@obj.GoogleClientId</label> </div>
+<div class='form-group'> <label>AccountId:</label> <label>@obj.AccountId</label> </div>
+<div class='form-group'> <label>PostId:</label> <label>@obj.PostId</label> </div>
+<div class='form-group'> <label>ProfileId:</label> <label>@obj.ProfileId</label> </div>
+<div class='form-group'> <label>VisitedUrl:</label> <label>@obj.VisitedUrl</label> </div>
+<div class='form-group'> <label>TagId:</label> <label>@obj.TagId</label> </div>
+<div class='form-group'> <label>OnProfile:</label> <label>@obj.OnProfile</label> </div>
+<div class='form-group'> <label>ClickedElements:</label> <label>@obj.ClickedElements</label> </div>
+<div class='form-group'> <label>SessionId:</label> <label>@obj.SessionId</label> </div>
+<div class='form-group'> <label>ReferalFrom:</label> <label>@obj.ReferalFrom</label> </div>
+<div class='form-group'> <label>EventDate:</label> <label>@obj.EventDate</label> </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-danger" @onclick="@DeleteAccountActions" value="Delete" />
+                <input type="button" class="btn btn-primary" @onclick="@CancelAccountActions" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@code { [Parameter]
+    public string Id { get; set; }
+public string AccountId { get; set; }
+    AccountActions obj = new AccountActions();
+    protected override async Task OnInitializedAsync()
+    {
+        obj = await Task.Run(() => serviceInstance.GetAccountActionsAsync(Convert.ToInt64(Id),Convert.ToInt64(AccountId)));
+    }
+    protected async void DeleteAccountActions()
+    {
+        await serviceInstance.DeleteAccountActionsAsync(obj);
+        NavigationManager.NavigateTo("AccountActions/List");
+    }
+    void CancelAccountActions()
+    {
+        NavigationManager.NavigateTo("AccountActions/List");
+    } }
+

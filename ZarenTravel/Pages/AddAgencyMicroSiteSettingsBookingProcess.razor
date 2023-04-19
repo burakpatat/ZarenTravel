@@ -1,0 +1,225 @@
+@page "/add-agency-micro-site-settings-booking-process"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Add AgencyMicroSiteSettingsBookingProcess</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save AgencyMicroSiteSettingsBookingProcess</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.AgencyMicroSiteSettingsBookingProcess" Data="@agencyMicroSiteSettingsBookingProcess" Visible="@(agencyMicroSiteSettingsBookingProcess != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency Id" Component="AgencyId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsBookingProcess.AgencyId" Name="AgencyId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Micro Site Id" Component="MicroSiteId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsBookingProcess.MicroSiteId" Name="MicroSiteId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Payment Option" Component="PaymentOption" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsBookingProcess.PaymentOption" Name="PaymentOption" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Allow B2 C User Invoice" Component="AllowB2CUserInvoice" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsBookingProcess.AllowB2CUserInvoice" Name="AllowB2CUserInvoice" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Require Agency Booking Process" Component="RequireAgencyBookingProcess" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsBookingProcess.RequireAgencyBookingProcess" Name="RequireAgencyBookingProcess" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Enable Cross Sell Ticket" Component="EnableCrossSellTicket" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsBookingProcess.EnableCrossSellTicket" Name="EnableCrossSellTicket" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Enable Cross Sell Rental Cars" Component="EnableCrossSellRentalCars" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsBookingProcess.EnableCrossSellRentalCars" Name="EnableCrossSellRentalCars" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Enable Cross Sell Cross Selling" Component="EnableCrossSellCrossSelling" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsBookingProcess.EnableCrossSellCrossSelling" Name="EnableCrossSellCrossSelling" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Enable Cross Sell Transports" Component="EnableCrossSellTransports" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsBookingProcess.EnableCrossSellTransports" Name="EnableCrossSellTransports" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Enable Cross Sell Transfers" Component="EnableCrossSellTransfers" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsBookingProcess.EnableCrossSellTransfers" Name="EnableCrossSellTransfers" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Notify Changes Requoting Saved Idea" Component="NotifyChangesRequotingSavedIdea" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsBookingProcess.NotifyChangesRequotingSavedIdea" Name="NotifyChangesRequotingSavedIdea" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Max Tolerance Price" Component="MaxTolerancePrice" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsBookingProcess.MaxTolerancePrice" Name="MaxTolerancePrice" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Max Tolerance Amount Id" Component="MaxToleranceAmountId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsBookingProcess.MaxToleranceAmountId" Name="MaxToleranceAmountId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Max Tolerance Currency Id" Component="MaxToleranceCurrencyId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsBookingProcess.MaxToleranceCurrencyId" Name="MaxToleranceCurrencyId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="B2 B Users Manuel Services Enable" Component="B2BUsersManuelServicesEnable" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsBookingProcess.B2BUsersManuelServicesEnable" Name="B2BUsersManuelServicesEnable" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Show Fare Breakdown On Transports" Component="ShowFareBreakdownOnTransports" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsBookingProcess.ShowFareBreakdownOnTransports" Name="ShowFareBreakdownOnTransports" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Set Flight Taxes As Non Commission Able" Component="SetFlightTaxesAsNonCommissionAble" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsBookingProcess.SetFlightTaxesAsNonCommissionAble" Name="SetFlightTaxesAsNonCommissionAble" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Default Replicatorbookingmode For B2 B" Component="DefaultReplicatorbookingmodeForB2B" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsBookingProcess.DefaultReplicatorbookingmodeForB2B" Name="DefaultReplicatorbookingmodeForB2B" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Default Replicatorbookingmode For B2 C" Component="DefaultReplicatorbookingmodeForB2C" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsBookingProcess.DefaultReplicatorbookingmodeForB2C" Name="DefaultReplicatorbookingmodeForB2C" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Select Appear Digital Brochures For B2 B Users" Component="SelectAppearDigitalBrochuresForB2BUsers" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsBookingProcess.SelectAppearDigitalBrochuresForB2BUsers" Name="SelectAppearDigitalBrochuresForB2BUsers" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Select Appear Digital Brochures For B2 C Users" Component="SelectAppearDigitalBrochuresForB2CUsers" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsBookingProcess.SelectAppearDigitalBrochuresForB2CUsers" Name="SelectAppearDigitalBrochuresForB2CUsers" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="For On Request Contracts" Component="ForOnRequestContracts" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsBookingProcess.ForOnRequestContracts" Name="ForOnRequestContracts" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.AgencyMicroSiteSettingsBookingProcess agencyMicroSiteSettingsBookingProcess;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.CreateAgencyMicroSiteSettingsBookingProcess(agencyMicroSiteSettingsBookingProcess);
+            DialogService.Close(agencyMicroSiteSettingsBookingProcess);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+}

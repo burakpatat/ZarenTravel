@@ -1,0 +1,330 @@
+@page "/terminals"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Terminals</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="Terminals" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px" Render=Grid0Render AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@terminals"    TItem="ZarenTravel.Models.ZarenSoft.Terminal" RowDoubleClick="@EditRow" RowSelect=@GetChildData>
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Terminal" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Terminal" Property="TerminalName" Title="Terminal Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Terminal" Property="TerminalCode" Title="Terminal Code">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Terminal" Property="TerminalTimestamp" Title="Terminal Timestamp">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Terminal" Property="TerminalActive" Title="Terminal Active">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Terminal" Property="Airport.AirportCode" Title="Airport">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Terminal" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="terminal">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, terminal)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+                    <RadzenHeading Visible="@(terminal != null)" Size="H1" Text="AirSegments" />
+                    <RadzenButton Visible="@(terminal != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => AirSegmentAddButtonClick(args,terminal)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(terminal != null)" @ref=AirSegmentDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@terminal?.AirSegments" TItem="ZarenTravel.Models.ZarenSoft.AirSegment"  RowSelect="@(args => AirSegmentRowSelect(args, terminal))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="AiSeDeparture" Title="Ai Se Departure">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="AiSeArrival" Title="Ai Se Arrival">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="AiSeFlightNumber" Title="Ai Se Flight Number">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="AiSeClass" Title="Ai Se Class">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="AiSeTimestamp" Title="Ai Se Timestamp">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="AiSeActive" Title="Ai Se Active">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="Air.AirRecordAirline" Title="Air">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="Airline.AirlineCode" Title="Airline">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="Airport.AirportCode" Title="Airport">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="Airport1.AirportCode" Title="Airport1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="Terminal.TerminalName" Title="Terminal">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="Terminal1.TerminalName" Title="Terminal1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="airSegmentChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => AirSegmentDeleteButtonClick(args, airSegmentChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(terminal != null)" Size="H1" Text="AirSegments" />
+                    <RadzenButton Visible="@(terminal != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => AirSegmentAddButtonClick(args,terminal)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(terminal != null)" @ref=AirSegmentDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@terminal?.AirSegments1" TItem="ZarenTravel.Models.ZarenSoft.AirSegment"  RowSelect="@(args => AirSegmentRowSelect(args, terminal))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="AiSeDeparture" Title="Ai Se Departure">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="AiSeArrival" Title="Ai Se Arrival">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="AiSeFlightNumber" Title="Ai Se Flight Number">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="AiSeClass" Title="Ai Se Class">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="AiSeTimestamp" Title="Ai Se Timestamp">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="AiSeActive" Title="Ai Se Active">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="Air.AirRecordAirline" Title="Air">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="Airline.AirlineCode" Title="Airline">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="Airport.AirportCode" Title="Airport">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="Airport1.AirportCode" Title="Airport1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="Terminal.TerminalName" Title="Terminal">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Property="Terminal1.TerminalName" Title="Terminal1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="airSegmentChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => AirSegmentDeleteButtonClick(args, airSegmentChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Terminal> terminals;
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.Terminal> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        terminals = await ZarenSoftService.GetTerminals(new Query { Filter = $@"i => i.TerminalName.Contains(@0) || i.TerminalCode.Contains(@0)", FilterParameters = new object[] { search }, Expand = "Airport" });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        terminals = await ZarenSoftService.GetTerminals(new Query { Filter = $@"i => i.TerminalName.Contains(@0) || i.TerminalCode.Contains(@0)", FilterParameters = new object[] { search }, Expand = "Airport" });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddTerminal>("Add Terminal", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravel.Models.ZarenSoft.Terminal> args)
+    {
+        await DialogService.OpenAsync<EditTerminal>("Edit Terminal", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Terminal terminal)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteTerminal(terminal.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete Terminal" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await ZarenSoftService.ExportTerminalsToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "Airport", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "Terminals");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await ZarenSoftService.ExportTerminalsToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "Airport", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "Terminals");
+        }
+    }
+
+    protected ZarenTravel.Models.ZarenSoft.Terminal terminal;
+    protected async Task GetChildData(ZarenTravel.Models.ZarenSoft.Terminal args)
+    {
+        terminal = args;
+        var AirSegmentResult = await ZarenSoftService.GetAirSegments(new Query { Filter = $"i => i.TerminalIdDestination == {args.Id}", Expand = "Air,Airline,Airport,Airport1,Terminal,Terminal1" });
+        if (AirSegmentResult != null)
+        {
+            args.AirSegments = AirSegmentResult.ToList();
+        }
+        var AirSegmentResult = await ZarenSoftService.GetAirSegments();
+        if (AirSegmentResult != null)
+        {
+            args.AirSegments1 = AirSegmentResult.ToList();
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.AirSegment> AirSegmentDataGrid;
+
+    protected async Task AirSegmentAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Terminal data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddAirSegment>("Add AirSegment", new Dictionary<string, object> { {"TerminalIdDestination" , data.Id} });
+        await GetChildData(data);
+        await AirSegmentDataGrid.Reload();
+    }
+
+    protected async Task AirSegmentRowSelect(ZarenTravel.Models.ZarenSoft.AirSegment args, ZarenTravel.Models.ZarenSoft.Terminal data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditAirSegment>("Edit AirSegment", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await AirSegmentDataGrid.Reload();
+    }
+
+    protected async Task AirSegmentDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.AirSegment airSegment)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteAirSegment(airSegment.Id);
+
+                if (deleteResult != null)
+                {
+                    await AirSegmentDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete AirSegment" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.AirSegment> AirSegmentDataGrid;
+
+    protected async Task AirSegmentAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Terminal data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddAirSegment>("Add AirSegment", new Dictionary<string, object> {  });
+        await GetChildData(data);
+        await AirSegmentDataGrid.Reload();
+    }
+
+    protected async Task AirSegmentRowSelect(ZarenTravel.Models.ZarenSoft.AirSegment args, ZarenTravel.Models.ZarenSoft.Terminal data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditAirSegment>("Edit AirSegment", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await AirSegmentDataGrid.Reload();
+    }
+
+    protected async Task AirSegmentDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.AirSegment airSegment)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteAirSegment(airSegment.Id);
+
+                if (deleteResult != null)
+                {
+                    await AirSegmentDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete AirSegment" 
+            });
+        }
+    }
+
+    string lastFilter;
+    protected async void Grid0Render(DataGridRenderEventArgs<ZarenTravel.Models.ZarenSoft.Terminal> args)
+    {
+        if (grid0.Query.Filter != lastFilter) {
+            terminal = grid0.View.FirstOrDefault();
+        }
+
+        if (grid0.Query.Filter != lastFilter)
+        {
+            await grid0.SelectRow(terminal);
+        }
+
+        lastFilter = grid0.Query.Filter;
+    }
+}

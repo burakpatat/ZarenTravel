@@ -1,0 +1,75 @@
+@page "/booking-reservations/{Id}"
+@attribute [Authorize]
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenService ZarenService
+@inject Microsoft.Extensions.Localization.IStringLocalizer<EditBookingReservation> L
+
+<PageTitle>Edit BookingReservation</PageTitle>
+<RadzenRow>
+    <RadzenColumn>
+
+                </RadzenColumn>
+            </RadzenRow>
+            
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        bookingReservation = await ZarenService.GetBookingReservationById(Id);
+
+        aspNetUsersForUserId = await ZarenService.GetAspNetUsers();
+    }
+    protected bool errorVisible;
+    protected ZarenBO2.Models.Zaren.BookingReservation bookingReservation;
+
+    protected IEnumerable<ZarenBO2.Models.Zaren.AspNetUser> aspNetUsersForUserId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenService.UpdateBookingReservation(Id, bookingReservation);
+            DialogService.Close(bookingReservation);
+        }
+        catch (Exception ex)
+        {
+            hasChanges = ex is Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException;
+            canEdit = !(ex is Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException);
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+    protected bool hasChanges = false;
+    protected bool canEdit = true;
+
+    [Inject]
+    protected SecurityService Security { get; set; }
+
+
+    protected async Task ReloadButtonClick(MouseEventArgs args)
+    {
+       ZarenService.Reset();
+        hasChanges = false;
+        canEdit = true;
+
+        bookingReservation = await ZarenService.GetBookingReservationById(Id);
+    }
+}

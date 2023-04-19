@@ -1,0 +1,118 @@
+@page "/add-agency-micro-site-setting-passenger-datum"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject zaren_prodService zaren_prodService
+
+<PageTitle>Add AgencyMicroSiteSettingPassengerDatum</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save AgencyMicroSiteSettingPassengerDatum</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum" Data="@agencyMicroSiteSettingPassengerDatum" Visible="@(agencyMicroSiteSettingPassengerDatum != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Required Passenger Data" Component="RequiredPassengerData" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingPassengerDatum.RequiredPassengerData" Name="RequiredPassengerData" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Exclude Mrs" Component="ExcludeMrs" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingPassengerDatum.ExcludeMrs" Name="ExcludeMrs" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Exclude Miss" Component="ExcludeMiss" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingPassengerDatum.ExcludeMiss" Name="ExcludeMiss" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Exclude Nie" Component="ExcludeNie" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingPassengerDatum.ExcludeNie" Name="ExcludeNie" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Search Customer" Component="SearchCustomer" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingPassengerDatum.SearchCustomer" Name="SearchCustomer" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency" Component="Agency" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agenciesForAgencyId" TextProperty="InvoiceName" ValueProperty="Id"
+                         Placeholder="Choose Agency" style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingPassengerDatum.AgencyId" Name="AgencyId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency Micro Site" Component="AgencyMicroSite" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agencyMicroSitesForMicroSiteId" TextProperty="Domain" ValueProperty="Id"
+                         Placeholder="Choose AgencyMicroSite" style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingPassengerDatum.MicroSiteId" Name="MicroSiteId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        agencyMicroSiteSettingPassengerDatum = new ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum();
+
+        agenciesForAgencyId = await zaren_prodService.GetAgencies();
+
+        agencyMicroSitesForMicroSiteId = await zaren_prodService.GetAgencyMicroSites();
+    }
+    protected bool errorVisible;
+    protected ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum agencyMicroSiteSettingPassengerDatum;
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_prod.Agency> agenciesForAgencyId;
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_prod.AgencyMicroSite> agencyMicroSitesForMicroSiteId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await zaren_prodService.CreateAgencyMicroSiteSettingPassengerDatum(agencyMicroSiteSettingPassengerDatum);
+            DialogService.Close(agencyMicroSiteSettingPassengerDatum);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+}

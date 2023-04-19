@@ -1,0 +1,138 @@
+@page "/edit-hotel-agency-markup"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit HotelAgencyMarkup</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save HotelAgencyMarkup</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.HotelAgencyMarkup" Data="@hotelAgencyMarkup" Visible="@(hotelAgencyMarkup != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Mark Up" Component="MarkUp" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@hotelAgencyMarkup.MarkUp" Name="MarkUp" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Start Date" Component="StartDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@hotelAgencyMarkup.StartDate" Name="StartDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="End Date" Component="EndDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@hotelAgencyMarkup.EndDate" Name="EndDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency" Component="Agency" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agenciesForAgencyId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasAgencyIdValue) Placeholder="Choose Agency" style="display: block; width: 100%" @bind-Value="@hotelAgencyMarkup.AgencyId" Name="AgencyId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Hotel" Component="Hotel" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@hotelsForHotelId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasHotelIdValue) Placeholder="Choose Hotel" style="display: block; width: 100%" @bind-Value="@hotelAgencyMarkup.HotelId" Name="HotelId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        hotelAgencyMarkup = await ZarenSoftService.GetHotelAgencyMarkupById(Id);
+
+        agenciesForAgencyId = await ZarenSoftService.GetAgencies();
+
+        hotelsForHotelId = await ZarenSoftService.GetHotels();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.HotelAgencyMarkup hotelAgencyMarkup;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Agency> agenciesForAgencyId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Hotel> hotelsForHotelId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateHotelAgencyMarkup(Id, hotelAgencyMarkup);
+            DialogService.Close(hotelAgencyMarkup);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasAgencyIdValue;
+
+    [Parameter]
+    public int? AgencyId { get; set; }
+
+    bool hasHotelIdValue;
+
+    [Parameter]
+    public int? HotelId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        hotelAgencyMarkup = new ZarenTravel.Models.ZarenSoft.HotelAgencyMarkup();
+
+        hasAgencyIdValue = parameters.TryGetValue<int?>("AgencyId", out var hasAgencyIdResult);
+
+        if (hasAgencyIdValue)
+        {
+            hotelAgencyMarkup.AgencyId = hasAgencyIdResult;
+        }
+
+        hasHotelIdValue = parameters.TryGetValue<int?>("HotelId", out var hasHotelIdResult);
+
+        if (hasHotelIdValue)
+        {
+            hotelAgencyMarkup.HotelId = hasHotelIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

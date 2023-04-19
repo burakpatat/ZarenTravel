@@ -1,0 +1,225 @@
+@page "/edit-agency-micro-site-settings-search-setting"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject zaren_prodService zaren_prodService
+
+<PageTitle>Edit AgencyMicroSiteSettingsSearchSetting</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save AgencyMicroSiteSettingsSearchSetting</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchSetting" Data="@agencyMicroSiteSettingsSearchSetting" Visible="@(agencyMicroSiteSettingsSearchSetting != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Search Box Dropdown Menu Format Auto Complete" Component="SearchBoxDropdownMenuFormatAutoComplete" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsSearchSetting.SearchBoxDropdownMenuFormatAutoComplete" Name="SearchBoxDropdownMenuFormatAutoComplete" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Show Themes Home Page Sliding Format" Component="ShowThemesHomePageSlidingFormat" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsSearchSetting.ShowThemesHomePageSlidingFormat" Name="ShowThemesHomePageSlidingFormat" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ask For Departure Location Holiday Package" Component="AskForDepartureLocationHolidayPackage" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsSearchSetting.AskForDepartureLocationHolidayPackage" Name="AskForDepartureLocationHolidayPackage" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="In Accommodation Search Engine Allow Search Hotel Name" Component="InAccommodationSearchEngineAllowSearchHotelName" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsSearchSetting.InAccommodationSearchEngineAllowSearchHotelName" Name="InAccommodationSearchEngineAllowSearchHotelName" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="In Accommodation Search Engine Allow Search Interest Point" Component="InAccommodationSearchEngineAllowSearchInterestPoint" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsSearchSetting.InAccommodationSearchEngineAllowSearchInterestPoint" Name="InAccommodationSearchEngineAllowSearchInterestPoint" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency Micro Site Settings Accommodation Sort Type" Component="AgencyMicroSiteSettingsAccommodationSortType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsSearchSetting.AgencyMicroSiteSettingsAccommodationSortType" Name="AgencyMicroSiteSettingsAccommodationSortType" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency Micro Site Settings Ticket Sort Type" Component="AgencyMicroSiteSettingsTicketSortType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsSearchSetting.AgencyMicroSiteSettingsTicketSortType" Name="AgencyMicroSiteSettingsTicketSortType" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Select Transport Sort Type" Component="SelectTransportSortType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsSearchSetting.SelectTransportSortType" Name="SelectTransportSortType" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Select Holiday Package Sort Type" Component="SelectHolidayPackageSortType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsSearchSetting.SelectHolidayPackageSortType" Name="SelectHolidayPackageSortType" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Accommodation Search Results" Component="AccommodationSearchResults" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsSearchSetting.AccommodationSearchResults" Name="AccommodationSearchResults" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ticket Search Results Use This View Result" Component="TicketSearchResultsUseThisViewResult" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsSearchSetting.TicketSearchResultsUseThisViewResult" Name="TicketSearchResultsUseThisViewResult" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Same List Origins List Destinations" Component="SameListOriginsListDestinations" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsSearchSetting.SameListOriginsListDestinations" Name="SameListOriginsListDestinations" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency Micro Site Setting Enable Multi Day" Component="AgencyMicroSiteSettingEnableMultiDay" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsSearchSetting.AgencyMicroSiteSettingEnableMultiDay" Name="AgencyMicroSiteSettingEnableMultiDay" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Enable Request Activities" Component="EnableRequestActivities" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsSearchSetting.EnableRequestActivities" Name="EnableRequestActivities" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="B2 B Users See Providers Quoting Service" Component="B2BUsersSeeProvidersQuotingService" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsSearchSetting.B2BUsersSeeProvidersQuotingService" Name="B2BUsersSeeProvidersQuotingService" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Donot Show Tour Provider B2 B Users" Component="DonotShowTourProviderB2BUsers" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsSearchSetting.DonotShowTourProviderB2BUsers" Name="DonotShowTourProviderB2BUsers" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Donot Show Tour Provider B2 C Users" Component="DonotShowTourProviderB2CUsers" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsSearchSetting.DonotShowTourProviderB2CUsers" Name="DonotShowTourProviderB2CUsers" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Show Location Searchbox" Component="ShowLocationSearchbox" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsSearchSetting.ShowLocationSearchbox" Name="ShowLocationSearchbox" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency" Component="Agency" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agenciesForAgencyId" TextProperty="InvoiceName" ValueProperty="Id"
+                         Placeholder="Choose Agency" style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsSearchSetting.AgencyId" Name="AgencyId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency Micro Site" Component="AgencyMicroSite" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agencyMicroSitesForMicroSiteId" TextProperty="Domain" ValueProperty="Id"
+                         Placeholder="Choose AgencyMicroSite" style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsSearchSetting.MicroSiteId" Name="MicroSiteId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        agencyMicroSiteSettingsSearchSetting = await zaren_prodService.GetAgencyMicroSiteSettingsSearchSettingById(Id);
+
+        agenciesForAgencyId = await zaren_prodService.GetAgencies();
+
+        agencyMicroSitesForMicroSiteId = await zaren_prodService.GetAgencyMicroSites();
+    }
+    protected bool errorVisible;
+    protected ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsSearchSetting agencyMicroSiteSettingsSearchSetting;
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_prod.Agency> agenciesForAgencyId;
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_prod.AgencyMicroSite> agencyMicroSitesForMicroSiteId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await zaren_prodService.UpdateAgencyMicroSiteSettingsSearchSetting(Id, agencyMicroSiteSettingsSearchSetting);
+            DialogService.Close(agencyMicroSiteSettingsSearchSetting);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+}

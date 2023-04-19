@@ -1,0 +1,240 @@
+@page "/sign-in"
+@page "/login"
+@attribute [Authorize]
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+<PageTitle>Login</PageTitle>
+<main>
+    <section class="vh-xxl-100">
+        <div class="container h-100 d-flex px-0 px-sm-4">
+            <div class="row justify-content-center align-items-center m-auto">
+                <div class="col-12">
+                    <div class="bg-mode shadow rounded-3 overflow-hidden">
+                        <div class="row g-0">
+                            <!-- Vector Image -->
+                            <div class="col-lg-6 d-flex align-items-center order-2 order-lg-1">
+                                <div class="p-3 p-lg-5">
+                                    <img src="assets/images/element/signin.svg" alt="">
+                                </div>
+                                <!-- Divider -->
+                                <div class="vr opacity-1 d-none d-lg-block"></div>
+                            </div>
+                            <!-- Information -->
+                            <div class="col-lg-6 order-1">
+                                <div class="p-4 p-sm-7">
+                                    <!-- Logo -->
+                                    <a href="/">
+                                        <img class="h-50px mb-4" src="/images/brand-primary-logo.png" alt="logo">
+                                    </a>
+                                    <h1 class="mb-2 h3" data-i18="sigin.welcome.back"></h1>
+                                    <!-- Title -->
+
+                                    <form class="mt-4 text-start" action="@($"account/login?redirectUrl={redirectUrl}")" method="post">
+                                        <div class="alert alert-danger" style="visibility:@resulterror;">@error</div>
+                                        <div class="alert alert-success" style="visibility:@resultinfo;">@info</div>
+                                        <!-- Email -->
+                                        <div class="mb-3">
+                                            <label class="form-label" data-i18="signin.email"></label>
+                                            <input name="Username" type="email" class="form-control" required>
+                                        </div>
+                                        <!-- Password -->
+                                        <div class="mb-3 position-relative">
+                                            <label class="form-label" data-i18="signin.password"></label>
+                                            <input name="Password" class="form-control fakepassword" type="password" id="psw-input" required>
+                                            <span class="position-absolute top-50 end-0 translate-middle-y p-0 mt-3">
+                                                <i class="fakepasswordicon fas fa-eye-slash cursor-pointer p-2"></i>
+                                            </span>
+                                        </div>
+                                        <!-- Remember me -->
+                                        <div class="mb-3 d-sm-flex justify-content-end">
+                                            <a href="forgot-password"><span data-i18="sigin.forgot.password"></span></a>
+                                        </div>
+                                        <!-- Button -->
+                                        <div><button type="submit" class="btn btn-primary w-100 mb-0" data-i18="register.a.login"></button></div>
+                                    </form>
+                                        <div>
+                                            <br />
+                                            <a href="/register" class="btn btn-light w-100 mb-0">
+                                                <i class="fa-solid fa-cog fa-spin"></i>
+                                                <span data-i18="page.register.application.user.title"></span>
+                                            </a>
+                                        </div>
+                                        <!-- Divider -->
+                                        <div class="position-relative my-4">
+                                            <hr>
+                                            <p class="small bg-mode position-absolute top-50 start-50 translate-middle px-2"><span data-i18="register.sigin.with"></span></p>
+                                        </div>
+                                        <!-- Google and facebook button -->
+                                        <form class="vstack gap-3" action="@($"account/googlelogin?redirectUrl={redirectUrl}")" method="post">
+                                           <button type="submit" class="btn btn-light mb-0"><i class="fab fa-fw fa-google text-google-icon me-2"></i><span data-i18="register.with.logingoogle"></span></button>
+                                            </form>
+                                            <br />
+                                    <form class="vstack gap-3" action="@($"account/facebooklogin?redirectUrl={redirectUrl}")" method="post">
+                                            <button type="submit" class="btn btn-light mb-0 btnfacebook"><i class="fab fa-fw fa-facebook-f text-facebook me-2"></i><span data-i18="register.with.loginfacebook"></span></button>
+                                            </form>
+                                        <!-- Copyright -->
+                                        <div class="text-primary-hover mt-3 text-center"> Copyrights ©@DateTime.Now.Year Zaren Travel </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+    Main Content END -->
+
+</main>
+<style>
+    header {
+        display: none !important
+    }
+
+    footer {
+        display: none !important
+    }
+
+    .signin .rz-textbox {
+        display: block;
+        width: 100%;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: var(--bs-gray-900);
+        background-color: var(--bs-body-bg);
+        background-clip: padding-box;
+        border: 1px solid var(--bs-gray-300);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0.5rem;
+        -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+        transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    }
+
+    .signin .form-check-input {
+        --bs-form-check-bg: var(--bs-gray-200);
+        width: 1em;
+        height: 1em;
+        margin-top: 0.25em;
+        vertical-align: top;
+        background-color: var(--bs-form-check-bg);
+        background-image: var(--bs-form-check-bg-image);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        border: 1px solid var(--bs-gray-200);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        print-color-adjust: exact;
+    }
+
+    .signin button {
+        width: 100%;
+        padding: 0.5rem 1rem;
+        --bs-btn-padding-y: 1rem;
+        --bs-btn-font-family:;
+        --bs-btn-font-size: 1rem;
+        --bs-btn-font-weight: 700;
+        --bs-btn-line-height: 1.5;
+        --bs-btn-color: #747579;
+        --bs-btn-bg: transparent;
+        --bs-btn-border-width: 5px;
+        --bs-btn-border-color: transparent;
+        --bs-btn-border-radius: 0.5rem;
+        --bs-btn-hover-border-color: transparent;
+        --bs-btn-box-shadow: none;
+        --bs-btn-disabled-opacity: 0.65;
+        --bs-btn-focus-box-shadow: 0 0 0 0 rgba(var(--bs-btn-focus-shadow-rgb), .5);
+        display: inline-block;
+        padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
+        font-family: var(--bs-btn-font-family);
+        font-size: var(--bs-btn-font-size);
+        font-weight: var(--bs-btn-font-weight);
+        line-height: var(--bs-btn-line-height);
+        color: var(--bs-btn-color);
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
+        border-radius: var(--bs-btn-border-radius);
+        background-color: var(--bs-btn-bg);
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .signin button {
+        --bs-btn-color: #fff;
+        --bs-btn-bg: #5143d9;
+        --bs-btn-border-color: #5143d9;
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: #4539b8;
+        --bs-btn-hover-border-color: #4136ae;
+        --bs-btn-focus-shadow-rgb: 107, 95, 223;
+        --bs-btn-active-color: #fff;
+        --bs-btn-active-bg: #4136ae;
+        --bs-btn-active-border-color: #3d32a3;
+        --bs-btn-active-shadow: none;
+        --bs-btn-disabled-color: #fff;
+        --bs-btn-disabled-bg: #5143d9;
+        --bs-btn-disabled-border-color: #5143d9;
+    }
+</style>
+@code {
+    protected string redirectUrl;
+    protected string error;
+    protected string info;
+    protected bool errorVisible;
+    protected bool infoVisible;
+    protected string resulterror;
+    protected string resultinfo;
+
+    [Inject]
+    protected SecurityService Security { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var query = System.Web.HttpUtility.ParseQueryString(new Uri(NavigationManager.ToAbsoluteUri(NavigationManager.Uri).ToString()).Query);
+
+        error = query.Get("error");
+
+        info = query.Get("info");
+
+        redirectUrl = query.Get("redirectUrl");
+
+        errorVisible = !string.IsNullOrEmpty(error);
+
+        infoVisible = !string.IsNullOrEmpty(info);
+
+        if (errorVisible == false)
+        {
+            resulterror = "hidden;position:absolute;";
+        }
+        else
+        {
+            resulterror = "visible;";
+        }
+
+        if (infoVisible == false)
+        {
+            resultinfo = "hidden;position:absolute;";
+        }
+        else
+        {
+            resultinfo = "visible;";
+        }
+    }
+}

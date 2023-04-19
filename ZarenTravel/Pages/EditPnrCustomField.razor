@@ -1,0 +1,138 @@
+@page "/edit-pnr-custom-field"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit PnrCustomField</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save PnrCustomField</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.PnrCustomField" Data="@pnrCustomField" Visible="@(pnrCustomField != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Pn Cu Value" Component="PnCuValue" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@pnrCustomField.PnCuValue" Name="PnCuValue" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Fi Ty Timestamp" Component="FiTyTimestamp" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@pnrCustomField.FiTyTimestamp" Name="FiTyTimestamp" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Fi Ty Active" Component="FiTyActive" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@pnrCustomField.FiTyActive" Name="FiTyActive" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Fields Type" Component="FieldsType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@fieldsTypesForFiTyId" TextProperty="FiTyCode" ValueProperty="Id"
+                        Disabled=@(hasFiTyIdValue) Placeholder="Choose FieldsType" style="display: block; width: 100%" @bind-Value="@pnrCustomField.FiTyId" Name="FiTyId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Pnr" Component="Pnr" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@pnRsForPNRId" TextProperty="PNRRecord" ValueProperty="Id"
+                        Disabled=@(hasPNRIdValue) Placeholder="Choose Pnr" style="display: block; width: 100%" @bind-Value="@pnrCustomField.PNRId" Name="PNRId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        pnrCustomField = await ZarenSoftService.GetPnrCustomFieldById(Id);
+
+        fieldsTypesForFiTyId = await ZarenSoftService.GetFieldsTypes();
+
+        pnRsForPNRId = await ZarenSoftService.GetPnRs();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.PnrCustomField pnrCustomField;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.FieldsType> fieldsTypesForFiTyId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.PnR> pnRsForPNRId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdatePnrCustomField(Id, pnrCustomField);
+            DialogService.Close(pnrCustomField);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasFiTyIdValue;
+
+    [Parameter]
+    public int? FiTyId { get; set; }
+
+    bool hasPNRIdValue;
+
+    [Parameter]
+    public int? PNRId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        pnrCustomField = new ZarenTravel.Models.ZarenSoft.PnrCustomField();
+
+        hasFiTyIdValue = parameters.TryGetValue<int?>("FiTyId", out var hasFiTyIdResult);
+
+        if (hasFiTyIdValue)
+        {
+            pnrCustomField.FiTyId = hasFiTyIdResult;
+        }
+
+        hasPNRIdValue = parameters.TryGetValue<int?>("PNRId", out var hasPNRIdResult);
+
+        if (hasPNRIdValue)
+        {
+            pnrCustomField.PNRId = hasPNRIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

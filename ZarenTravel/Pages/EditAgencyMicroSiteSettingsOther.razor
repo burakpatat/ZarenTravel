@@ -1,0 +1,133 @@
+@page "/edit-agency-micro-site-settings-other"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit AgencyMicroSiteSettingsOther</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save AgencyMicroSiteSettingsOther</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.AgencyMicroSiteSettingsOther" Data="@agencyMicroSiteSettingsOther" Visible="@(agencyMicroSiteSettingsOther != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ask For Id And Birthdate" Component="AskForIdAndBirthdate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsOther.AskForIdAndBirthdate" Name="AskForIdAndBirthdate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Idea Brochure Indexing" Component="IdeaBrochureIndexing" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsOther.IdeaBrochureIndexing" Name="IdeaBrochureIndexing" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Show Total Price In Brochure" Component="ShowTotalPriceInBrochure" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsOther.ShowTotalPriceInBrochure" Name="ShowTotalPriceInBrochure" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Show Image Payment Method In Footer" Component="ShowImagePaymentMethodInFooter" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsOther.ShowImagePaymentMethodInFooter" Name="ShowImagePaymentMethodInFooter" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Pending Payment Auto Cancellation" Component="PendingPaymentAutoCancellation" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsOther.PendingPaymentAutoCancellation" Name="PendingPaymentAutoCancellation" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Show Whats App Get Button" Component="ShowWhatsAppGetButton" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsOther.ShowWhatsAppGetButton" Name="ShowWhatsAppGetButton" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Whats App Number" Component="WhatsAppNumber" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsOther.WhatsAppNumber" Name="WhatsAppNumber" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Show Agency Id In Dropdown Instead Of Agency Name" Component="ShowAgencyIdInDropdownInsteadOfAgencyName" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsOther.ShowAgencyIdInDropdownInsteadOfAgencyName" Name="ShowAgencyIdInDropdownInsteadOfAgencyName" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency Id" Component="AgencyId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsOther.AgencyId" Name="AgencyId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Micro Site Id" Component="MicroSiteId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsOther.MicroSiteId" Name="MicroSiteId" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        agencyMicroSiteSettingsOther = await ZarenSoftService.GetAgencyMicroSiteSettingsOtherById(Id);
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.AgencyMicroSiteSettingsOther agencyMicroSiteSettingsOther;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateAgencyMicroSiteSettingsOther(Id, agencyMicroSiteSettingsOther);
+            DialogService.Close(agencyMicroSiteSettingsOther);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+}

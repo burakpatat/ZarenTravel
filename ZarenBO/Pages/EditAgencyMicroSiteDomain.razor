@@ -1,0 +1,217 @@
+@page "/edit-agency-micro-site-domain"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject zaren_prodService zaren_prodService
+
+<PageTitle>Edit AgencyMicroSiteDomain</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save AgencyMicroSiteDomain</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteDomain" Data="@agencyMicroSiteDomain" Visible="@(agencyMicroSiteDomain != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Domain Url" Component="DomainUrl" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.DomainUrl" Name="DomainUrl" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Default Language Id" Component="DefaultLanguageId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.DefaultLanguageId" Name="DefaultLanguageId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Domain Host I P" Component="DomainHostIP" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.DomainHostIP" Name="DomainHostIP" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Gtag Id" Component="GtagId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.GtagId" Name="GtagId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Facebook Pixel Id" Component="FacebookPixelId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.FacebookPixelId" Name="FacebookPixelId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Facebook Domain Verification" Component="FacebookDomainVerification" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.FacebookDomainVerification" Name="FacebookDomainVerification" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Google Tag Manager Id" Component="GoogleTagManagerId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.GoogleTagManagerId" Name="GoogleTagManagerId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Bing Ads" Component="BingAds" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.BingAds" Name="BingAds" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Adwords Id" Component="AdwordsId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.AdwordsId" Name="AdwordsId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Adwords Label" Component="AdwordsLabel" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.AdwordsLabel" Name="AdwordsLabel" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Kayak Partner Code" Component="KayakPartnerCode" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.KayakPartnerCode" Name="KayakPartnerCode" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Trade Tracker Client Id" Component="TradeTrackerClientId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.TradeTrackerClientId" Name="TradeTrackerClientId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ve Pixel Id" Component="VePixelId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.VePixelId" Name="VePixelId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Trade Tracker Product Only Accommodation" Component="TradeTrackerProductOnlyAccommodation" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.TradeTrackerProductOnlyAccommodation" Name="TradeTrackerProductOnlyAccommodation" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Trade Tracker Pid Others" Component="TradeTrackerPidOthers" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.TradeTrackerPidOthers" Name="TradeTrackerPidOthers" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Google Site Verification" Component="GoogleSiteVerification" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.GoogleSiteVerification" Name="GoogleSiteVerification" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Site Map Json" Component="SiteMapJson" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.SiteMapJson" Name="SiteMapJson" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency" Component="Agency" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agenciesForAgencyId" TextProperty="InvoiceName" ValueProperty="Id"
+                         Placeholder="Choose Agency" style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.AgencyId" Name="AgencyId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency Micro Site" Component="AgencyMicroSite" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agencyMicroSitesForMicroSiteId" TextProperty="Domain" ValueProperty="Id"
+                         Placeholder="Choose AgencyMicroSite" style="display: block; width: 100%" @bind-Value="@agencyMicroSiteDomain.MicroSiteId" Name="MicroSiteId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        agencyMicroSiteDomain = await zaren_prodService.GetAgencyMicroSiteDomainById(Id);
+
+        agenciesForAgencyId = await zaren_prodService.GetAgencies();
+
+        agencyMicroSitesForMicroSiteId = await zaren_prodService.GetAgencyMicroSites();
+    }
+    protected bool errorVisible;
+    protected ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteDomain agencyMicroSiteDomain;
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_prod.Agency> agenciesForAgencyId;
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_prod.AgencyMicroSite> agencyMicroSitesForMicroSiteId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await zaren_prodService.UpdateAgencyMicroSiteDomain(Id, agencyMicroSiteDomain);
+            DialogService.Close(agencyMicroSiteDomain);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+}

@@ -1,0 +1,130 @@
+@page "/edit-auto-complete"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit AutoComplete</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save AutoComplete</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.AutoComplete" Data="@autoComplete" Visible="@(autoComplete != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Name" Component="Name" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@autoComplete.Name" Name="Name" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Api System Id" Component="ApiSystemId" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@autoComplete.ApiSystemId" Name="ApiSystemId" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Api" Component="Api" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@apisForApiId" TextProperty="ApiName" ValueProperty="Id"
+                        Disabled=@(hasApiIdValue) Placeholder="Choose Api" style="display: block; width: 100%" @bind-Value="@autoComplete.ApiId" Name="ApiId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Auto Complete Type" Component="AutoCompleteType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@autoCompleteTypesForType" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasTypeValue) Placeholder="Choose AutoCompleteType" style="display: block; width: 100%" @bind-Value="@autoComplete.Type" Name="Type"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        autoComplete = await ZarenSoftService.GetAutoCompleteById(Id);
+
+        apisForApiId = await ZarenSoftService.GetApis();
+
+        autoCompleteTypesForType = await ZarenSoftService.GetAutoCompleteTypes();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.AutoComplete autoComplete;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Api> apisForApiId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.AutoCompleteType> autoCompleteTypesForType;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateAutoComplete(Id, autoComplete);
+            DialogService.Close(autoComplete);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasApiIdValue;
+
+    [Parameter]
+    public int? ApiId { get; set; }
+
+    bool hasTypeValue;
+
+    [Parameter]
+    public int? Type { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        autoComplete = new ZarenTravel.Models.ZarenSoft.AutoComplete();
+
+        hasApiIdValue = parameters.TryGetValue<int?>("ApiId", out var hasApiIdResult);
+
+        if (hasApiIdValue)
+        {
+            autoComplete.ApiId = hasApiIdResult;
+        }
+
+        hasTypeValue = parameters.TryGetValue<int?>("Type", out var hasTypeResult);
+
+        if (hasTypeValue)
+        {
+            autoComplete.Type = hasTypeResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

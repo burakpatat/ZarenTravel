@@ -1,0 +1,148 @@
+@inherits LayoutComponentBase
+@inject Microsoft.Extensions.Localization.IStringLocalizer<MainLayout> L
+@using Model.Concrete; 
+@using System.Globalization
+@inject NavigationManager Navigation
+<RadzenDialog />
+<RadzenNotification />
+<RadzenTooltip />
+<RadzenContextMenu />
+
+
+<header class="navbar-light header-sticky" data-aut="@SecurityService.IsAuthenticated()">
+		<!-- Logo Nav START -->
+		<nav class="navbar navbar-expand-xl">
+			<div class="container">
+				<!-- Logo START -->
+				<a class="navbar-brand" href="/">
+					<img class="light-mode-item navbar-brand-item" src="https://zarentravel.com/css/clientes/zarentravel/images/logo.gif" alt="logo">
+					<img class="dark-mode-item navbar-brand-item" src="https://zarentravel.com/css/clientes/zarentravel/images/logo.gif" alt="logo">
+				</a>
+				<!-- Logo END -->
+				<!-- Buttons START -->
+				<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto"> 
+					<!-- Language dropdown START -->
+					<li class="nav-item dropdown mx-3">
+					<a class="icon-md btn btn-light mb-0 p-0 noModal" href="#" id="languageDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+					
+						</a>
+						<ul class="dropdown-menu dropdown-animation dropdown-menu-end min-w-auto mt-2" aria-labelledby="languageDropdown">
+
+						@foreach (var item in AllCurrencies)
+						{
+							<li> <a class="dropdown-item me-4 selectedCurrency noModal" data-currency="@item.CurrencyCode" href="#">@item.CurrencyCode</a> </li>
+						}						 
+						</ul>
+					</li>
+					<!-- Language dropdown END -->
+					<!-- Language dropdown START -->
+					<li class="nav-item dropdown">
+					<a class="icon-md btn btn-light mb-0 p-0 noModal" href="#" id="languageDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="bi bi-globe"> </i> 
+						</a>
+						<ul class="dropdown-menu dropdown-animation dropdown-menu-end min-w-auto mt-2" aria-labelledby="languageDropdown">
+						@foreach (var item in AllLanguages)
+						{
+							<li> <a class="dropdown-item me-4 selectedLanguage noModal" data-id="@item.LanguageCode" data-culture="@item.CultureInfo" href="#"><img class="fa-fw me-2" src="@item.Icon" alt="">@item.LanguageName</a> </li>
+						} 
+						</ul>
+					</li>
+
+				@if (_tokenHelper.GetUserByToken() == null)
+				{
+					 
+					<li class="nav-item ms-3">
+						<a href="/sign-in" class="btn btn-sm btn-primary mb-0 border"><i class="fa-solid fa-right-to-bracket me-2"></i>
+							<span data-i18="signin.Login"></span></a>
+					</li>
+				 
+					<li class="nav-item ms-3">
+						<a href="/register" class="btn btn-sm btn-primary mb-0 border"><i class="fa-solid fa-right-to-bracket me-2"></i><span data-i18="register.Register"></span></a>
+					</li>
+				}
+				else
+				{
+					<li class="nav-item ms-3">
+						<a href="/account-profile" class="btn btn-sm btn-primary mb-0 border"><i class="fa-solid fa-user me-2"></i> <span data-i18="account.payment.details.myprofile"></span> </a>
+					</li>
+				}
+					
+					<!-- Login button END -->
+				</ul>
+				<!-- Buttons START -->
+
+			</div>
+		</nav>
+		<!-- Logo Nav END -->
+	</header>
+   
+		@Body 
+	<footer class="bg-dark pt-5">
+		<div class="container">
+			<!-- Row START -->
+			<div class="row g-4">
+
+				<!-- Widget 1 START -->
+				<div class="col-lg-3">
+					<!-- logo -->
+					<a href="/">
+						<img class="h-40px" src="https://zarentravel.com/css/clientes/zarentravel/images/logo.gif" alt="logo">
+					</a>
+					<p class="my-3 text-muted">Departure defective arranging rapturous did believe him all had supported.</p>
+					<p class="mb-2"><a href="#" class="text-muted text-primary-hover"><i class="bi bi-telephone me-2"></i>+1234 568 963</a> </p>
+					<p class="mb-0"><a href="#" class="text-muted text-primary-hover"><i class="bi bi-envelope me-2"></i>info@zarentravel.com</a></p>
+				</div>
+			 
+			</div><!-- Row END -->
+			<!-- Payment and card -->
+			<div class="row g-4 justify-content-between mt-0 mt-md-2">
+
+				<!-- Payment card -->
+				<div class="col-sm-7 col-md-6 col-lg-4">
+					<h5 class="text-white mb-2">Payment & Security</h5>
+					<ul class="list-inline mb-0 mt-3">
+						 
+						<li class="list-inline-item"> <a href="#"><img src="assets/images/element/visa.svg" class="h-30px" alt=""></a></li>
+						<li class="list-inline-item"> <a href="#"><img src="assets/images/element/mastercard.svg" class="h-30px" alt=""></a></li>
+						<li class="list-inline-item"> <a href="#"><img src="assets/images/element/expresscard.svg" class="h-30px" alt=""></a></li>
+					</ul>
+				</div>
+
+				<!-- Social media icon -->
+				<div class="col-sm-5 col-md-6 col-lg-3 text-sm-end">
+					<h5 class="text-white mb-2">Follow us on</h5>
+					<ul class="list-inline mb-0 mt-3">
+						<li class="list-inline-item"> <a class="btn btn-sm px-2 bg-facebook mb-0" href="#"><i class="fab fa-fw fa-facebook-f"></i></a> </li>
+						<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="#"><i class="fab fa-fw fa-instagram"></i></a> </li>
+						<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-twitter mb-0" href="#"><i class="fab fa-fw fa-twitter"></i></a> </li>
+						<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-linkedin mb-0" href="#"><i class="fab fa-fw fa-linkedin-in"></i></a> </li>
+					</ul>
+				</div>
+			</div>
+
+		 
+		</div>
+	</footer>
+		<!-- =======================
+		Footer END -->
+		<!-- Back to top -->
+		<div class="back-top"></div> 
+ @code{
+	List<Currencies> AllCurrencies;
+	List<Model.Concrete.Languages> AllLanguages;
+	[Inject]
+	protected AutoCompletesRepository AutoCompleteService { get; set; }  
+
+	[Inject]
+	protected TokenHelper _tokenHelper { get; set; }
+
+	[Inject]
+	protected SecurityService SecurityService { get; set; }
+	protected override void OnInitialized()
+	{
+
+		AllCurrencies =AutoCompleteService.GetAllCurrenciesByCache();
+		AllLanguages=AutoCompleteService.GetAllLanguagesByCache();		
+		base.OnInitialized();
+	}
+ }

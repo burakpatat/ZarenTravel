@@ -1,0 +1,53 @@
+<h1 mat-dialog-title>cartype</h1>
+<div mat-dialog-content>
+    <form fxLayout="column" #cartypeForm="ngForm">
+       <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Catycode" name="caTyCode"[(ngModel)]="cartypeObj.caTyCode"
+#caTyCode="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Catydescription" name="caTyDescription"[(ngModel)]="cartypeObj.caTyDescription"
+#caTyDescription="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Catytimestamp (dd-mm-yyyy)"
+                    [ngModel]="cartypeObj.caTyTimestamp | date:'dd-MM-yyyy'" name="caTyTimestamp"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="caTyTimestampPicker" name="hiddenawardDate"
+                    [(ngModel)]="cartypeObj.caTyTimestamp">
+                <mat-datepicker-toggle matSuffix [for]="caTyTimestampPicker"></mat-datepicker-toggle>
+                <mat-datepicker #caTyTimestampPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Catyactive" name="caTyActive"[(ngModel)]="cartypeObj.caTyActive"
+#caTyActive="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row wrap" fxFlex fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button mat-button mat-dialog-close tabindex="-1" cdkFocusInitial>Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!cartypeForm.valid || !cartypeForm.dirty"
+            (click)="savecartype(cartypeObj)">
+            Add/Update
+        </button>
+    </div>
+</div>

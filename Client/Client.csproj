@@ -1,0 +1,519 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+		<RootNamespace>WordyWellHero.Client</RootNamespace>
+		<AssemblyName>WordyWellHero.Client</AssemblyName>
+		<UserSecretsId>08873100-d781-4a3e-8eac-256c5a7e9d30</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Pages\Utilities\BlazorTable\**" />
+		<Compile Remove="Pages\Utilities\BlazTronic\**" />
+		<Compile Remove="Pages\Utilities\Diagram\**" />
+		<Compile Remove="Pages\Utilities\Table\**" />
+		<Compile Remove="Pages\Utilities\Upload\**" />
+		<Compile Remove="Shared\Components\Base\**" />
+		<Compile Remove="Shared\Components\Card\**" />
+		<Content Remove="Pages\Utilities\BlazorTable\**" />
+		<Content Remove="Pages\Utilities\BlazTronic\**" />
+		<Content Remove="Pages\Utilities\Diagram\**" />
+		<Content Remove="Pages\Utilities\Table\**" />
+		<Content Remove="Pages\Utilities\Upload\**" />
+		<Content Remove="Shared\Components\Base\**" />
+		<Content Remove="Shared\Components\Card\**" />
+		<EmbeddedResource Remove="Pages\Utilities\BlazorTable\**" />
+		<EmbeddedResource Remove="Pages\Utilities\BlazTronic\**" />
+		<EmbeddedResource Remove="Pages\Utilities\Diagram\**" />
+		<EmbeddedResource Remove="Pages\Utilities\Table\**" />
+		<EmbeddedResource Remove="Pages\Utilities\Upload\**" />
+		<EmbeddedResource Remove="Shared\Components\Base\**" />
+		<EmbeddedResource Remove="Shared\Components\Card\**" />
+		<None Remove="Pages\Utilities\BlazorTable\**" />
+		<None Remove="Pages\Utilities\BlazTronic\**" />
+		<None Remove="Pages\Utilities\Diagram\**" />
+		<None Remove="Pages\Utilities\Table\**" />
+		<None Remove="Pages\Utilities\Upload\**" />
+		<None Remove="Shared\Components\Base\**" />
+		<None Remove="Shared\Components\Card\**" />
+		<TypeScriptCompile Remove="Pages\Utilities\Diagram\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Remove="Shared\Components\BlazorHeroLogo.razor" />
+		<Content Remove="wwwroot\js\stickyfill.min.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Blazored.FluentValidation" Version="2.0.3" />
+		<PackageReference Include="Dapper" Version="2.0.123" />
+		<PackageReference Include="Dapper.Contrib" Version="2.0.78" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.7" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.7" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.7" />
+		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.7.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+		<PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<UpToDateCheckInput Remove="Shared\Components\BlazorHeroLogo.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<_ContentIncludedByDefault Remove="Shared\Components\BlazorHeroLogo.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="Shared\Components\BlazorHeroLogo.razor" />
+		<None Include="Shared\Components\Select\SelectCountry.razor" />
+		<None Include="wwwroot\js\.DS_Store" />
+		<None Include="wwwroot\js\BlazorFileSaver.min.js" />
+		<None Include="wwwroot\js\BlazorTable.min.js" />
+		<None Include="wwwroot\js\file.js" />
+		<None Include="wwwroot\js\inputfile.js" />
+		<None Include="wwwroot\js\main.js" />
+		<None Include="wwwroot\js\script.js" />
+		<None Include="wwwroot\js\scroll.js" />
+		<None Include="wwwroot\js\select2-wrapper.js" />
+		<None Include="wwwroot\js\sounds.js" />
+		<None Include="wwwroot\js\stickyfill.min.js" />
+		<None Include="wwwroot\plugins\bootstrap\.editorconfig" />
+		<None Include="wwwroot\plugins\bootstrap\.gitattributes" />
+		<None Include="wwwroot\plugins\bootstrap\.gitignore" />
+		<None Include="wwwroot\plugins\bootstrap\.hound.yml" />
+		<None Include="wwwroot\plugins\bootstrap\.travis.yml" />
+		<None Include="wwwroot\plugins\bootstrap\css\bootstrap-grid.css.map" />
+		<None Include="wwwroot\plugins\bootstrap\css\bootstrap-grid.min.css.map" />
+		<None Include="wwwroot\plugins\bootstrap\css\bootstrap-reboot.css.map" />
+		<None Include="wwwroot\plugins\bootstrap\css\bootstrap-reboot.min.css.map" />
+		<None Include="wwwroot\plugins\bootstrap\css\bootstrap.css.map" />
+		<None Include="wwwroot\plugins\bootstrap\css\bootstrap.min.css.map" />
+		<None Include="wwwroot\plugins\bootstrap\js\bootstrap.bundle.js" />
+		<None Include="wwwroot\plugins\bootstrap\js\bootstrap.bundle.js.map" />
+		<None Include="wwwroot\plugins\bootstrap\js\bootstrap.bundle.min.js" />
+		<None Include="wwwroot\plugins\bootstrap\js\bootstrap.bundle.min.js.map" />
+		<None Include="wwwroot\plugins\bootstrap\js\bootstrap.js" />
+		<None Include="wwwroot\plugins\bootstrap\js\bootstrap.js.map" />
+		<None Include="wwwroot\plugins\bootstrap\js\bootstrap.min.js" />
+		<None Include="wwwroot\plugins\bootstrap\js\bootstrap.min.js.map" />
+		<None Include="wwwroot\plugins\elegant_font\css\fonts\ElegantIcons.svg" />
+		<None Include="wwwroot\plugins\elegant_font\css\lte-ie7.js" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow-up-down.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_back.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-2down.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-2down_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-2dwnn_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-2left.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-2left_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-2left_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-2right.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-2right_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-2right_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-2up.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-2up_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-2up_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-down.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-down_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-down_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-left.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-left_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-left_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-right.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-right_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-right_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-up.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot-up_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_carrot_up_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_condense.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_condense_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_down.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_down_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_expand.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_expand_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_expand_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_expand_alt3.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_left-down.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_left-down_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_left-right.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_left-right_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_left-up.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_left-up_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_left.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_left_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_move.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_right-down.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_right-down_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_right-up.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_right-up_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_right.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_right_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_triangle-down.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_triangle-down_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_triangle-down_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_triangle-left.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_triangle-left_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_triangle-left_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_triangle-right.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_triangle-right_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_triangle-right_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_triangle-up.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_triangle-up_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_triangle-up_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_up-down_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_up.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\arrow_up_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_adjust-horiz.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_adjust-vert.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_archive.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_archive_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_bag.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_bag_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_balance.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_blocked.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_book.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_book_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_box-checked.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_box-empty.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_box-selected.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_briefcase.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_briefcase_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_building.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_building_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_calculator_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_calendar.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_calulator.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_camera.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_camera_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_cart.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_cart_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_chat.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_chat_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_check.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_check_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_check_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_circle-empty.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_circle-slelected.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_clipboard.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_clock.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_clock_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_close.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_close_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_close_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_cloud-download.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_cloud-download_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_cloud-upload.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_cloud-upload_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_cloud.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_cloud_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_cog.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_cogs.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_comment.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_comment_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_compass.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_compass_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_cone.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_cone_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_contacts.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_contacts_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_creditcard.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_currency.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_currency_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_cursor.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_cursor_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_datareport.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_datareport_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_desktop.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_dislike.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_dislike_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_document.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_documents.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_documents_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_document_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_download.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_drawer.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_drawer_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_drive.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_drive_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_easel.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_easel_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_error-circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_error-circle_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_error-oct.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_error-oct_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_error-triangle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_error-triangle_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_film.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_floppy.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_floppy_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_flowchart.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_flowchart_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_folder-add.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_folder-add_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_folder-alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_folder-open.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_folder-open_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_folder.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_folder_download.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_folder_upload.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_genius.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_gift.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_gift_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_globe-2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_globe.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_globe_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_grid-2x2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_grid-3x3.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_group.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_headphones.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_heart.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_heart_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_hourglass.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_house.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_house_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_id-2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_id-2_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_id.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_id_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_image.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_images.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_info.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_info_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_key.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_key_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_laptop.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_lifesaver.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_lightbulb.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_lightbulb_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_like.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_like_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_link.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_link_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_loading.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_lock-open.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_lock-open_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_lock.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_lock_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_mail.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_mail_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_map.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_map_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_menu-circle_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_menu-circle_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_menu-square_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_menu-square_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_menu.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_mic.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_mic_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_minus-06.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_minus-box.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_minus_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_minus_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_mobile.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_mug.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_mug_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_music.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_ol.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_paperclip.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_pause.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_pause_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_pause_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_pencil-edit.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_pencil-edit_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_pencil.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_pencil_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_pens.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_pens_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_percent.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_percent_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_phone.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_piechart.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_pin.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_pin_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_plus-box.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_plus.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_plus_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_plus_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_printer-alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_printer.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_profile.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_pushpin.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_pushpin_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_puzzle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_puzzle_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_question.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_question_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_question_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_quotations.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_quotations_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_quotations_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_refresh.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_ribbon.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_ribbon_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_rook.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_search.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_search2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_search_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_shield.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_shield_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_star-half.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_star-half_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_star.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_star_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_stop.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_stop_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_stop_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_table.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_tablet.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_tag.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_tags.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_tags_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_tag_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_target.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_tool.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_toolbox.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_toolbox_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_tools.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_trash.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_trash_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_ul.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_upload.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_vol-mute.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_vol-mute_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_volume-high.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_volume-high_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_volume-low.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_volume-low_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_wallet.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_wallet_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_zoom-in.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_zoom-in_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_zoom-out.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\icon_zoom-out_alt.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_blogger.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_blogger_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_blogger_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_delicious.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_delicious_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_delicious_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_deviantart.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_deviantart_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_deviantart_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_dribbble.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_dribbble_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_dribbble_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_facebook.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_facebook_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_facebook_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_flickr.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_flickr_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_flickr_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_googledrive.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_googledrive_alt2.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_googledrive_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_googleplus.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_googleplus_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_googleplus_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_instagram.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_instagram_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_instagram_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_linkedin.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_linkedin_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_linkedin_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_myspace.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_myspace_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_myspace_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_picassa.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_picassa_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_picassa_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_pinterest.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_pinterest_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_pinterest_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_rss.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_rss_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_rss_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_share.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_share_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_share_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_skype.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_skype_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_skype_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_spotify.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_spotify_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_spotify_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_stumbleupon_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_stumbleupon_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_tumbleupon.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_tumblr.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_tumblr_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_tumblr_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_twitter.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_twitter_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_twitter_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_vimeo.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_vimeo_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_vimeo_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_wordpress.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_wordpress_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_wordpress_square.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_youtube.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_youtube_circle.svg" />
+		<None Include="wwwroot\plugins\elegant_font\images\SVG\social_youtube_square.svg" />
+		<None Include="wwwroot\plugins\jquery-3.4.1.min.js" />
+		<None Include="wwwroot\plugins\jquery-scrollTo\.gitignore" />
+		<None Include="wwwroot\plugins\jquery-scrollTo\.jscsrc" />
+		<None Include="wwwroot\plugins\jquery-scrollTo\.jshintrc" />
+		<None Include="wwwroot\plugins\jquery-scrollTo\CHANGELOG.md" />
+		<None Include="wwwroot\plugins\jquery-scrollTo\jquery.scrollTo.js" />
+		<None Include="wwwroot\plugins\jquery-scrollTo\jquery.scrollTo.min.js" />
+		<None Include="wwwroot\plugins\jquery-scrollTo\LICENSE" />
+		<None Include="wwwroot\plugins\jquery-scrollTo\README.md" />
+		<None Include="wwwroot\plugins\jquery-scrollTo\tests\test.js" />
+		<None Include="wwwroot\plugins\lightbox\.gitignore" />
+		<None Include="wwwroot\plugins\lightbox\dist\ekko-lightbox.js" />
+		<None Include="wwwroot\plugins\lightbox\dist\ekko-lightbox.js.map" />
+		<None Include="wwwroot\plugins\lightbox\dist\ekko-lightbox.min.js" />
+		<None Include="wwwroot\plugins\lightbox\dist\ekko-lightbox.min.js.map" />
+		<None Include="wwwroot\plugins\lightbox\ekko-lightbox.js" />
+		<None Include="wwwroot\plugins\lightbox\ekko-lightbox.less" />
+		<None Include="wwwroot\plugins\lightbox\Gruntfile.js" />
+		<None Include="wwwroot\plugins\lightbox\ISSUE_TEMPLATE.md" />
+		<None Include="wwwroot\plugins\lightbox\LICENSE" />
+		<None Include="wwwroot\plugins\lightbox\README.md" />
+		<None Include="wwwroot\plugins\lightbox\webpack.config.js" />
+		<None Include="wwwroot\plugins\prism\min\prism-min.js" />
+		<None Include="wwwroot\plugins\prism\prism.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Client.Infrastructure\Client.Infrastructure.csproj" />
+		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+		<ProjectReference Include="..\Shared\Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Blazor.Diagrams">
+			<HintPath>bin\Debug\net5.0\Blazor.Diagrams.dll</HintPath>
+		</Reference>
+		<Reference Include="Blazor.Diagrams.Algorithms">
+			<HintPath>bin\Debug\net5.0\Blazor.Diagrams.Algorithms.dll</HintPath>
+		</Reference>
+		<Reference Include="Blazor.Diagrams.Core">
+			<HintPath>bin\Debug\net5.0\Blazor.Diagrams.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="BlazorFileSaver">
+			<HintPath>bin\Debug\net5.0\BlazorFileSaver.dll</HintPath>
+		</Reference>
+		<Reference Include="BlazorInputFile">
+			<HintPath>bin\Debug\net5.0\BlazorInputFile.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+</Project>

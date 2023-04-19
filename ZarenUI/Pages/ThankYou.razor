@@ -1,0 +1,155 @@
+﻿@inject Microsoft.Extensions.Localization.IStringLocalizer<Index> L@page "/thankyou/{process}"@using System.Globalization;@using Model.Concrete;@using Newtonsoft.Json;@using System.Net.Http.Headers;@using System.Security.Cryptography;@using System.Text;@using System.IO;@inject IJSRuntime JS<PageTitle>Payment</PageTitle><main>    <!-- =======================    Page Banner START -->    <section class="pt-4">        <div class="container">            <div class="row">                <div class="col-md-10 col-xl-8 mx-auto">                    <div class="card shadow">                        <!-- Image -->                        <img src="assets/images/gallery/04.jpg" class="rounded-top" alt="">                        <!-- Card body -->                        <div class="card-body text-center p-4">                            <!-- Title -->                            <h1 class="card-title fs-3" data-i18="thankyou.congratulations"> </h1>                            <p class="lead mb-3" data-i18="thankyou.your.trip"></p>                            <!-- Second title -->                            <h5 class="text-primary mb-4">Beautiful Bali with Malaysia</h5>                            <!-- List -->                            <div class="row justify-content-between text-start mb-4">                                <div class="col-lg-5">                                    <ul class="list-group list-group-borderless">                                        <li class="list-group-item d-sm-flex justify-content-between align-items-center">                                            <span class="mb-0"><i class="bi bi-vr fa-fw me-2"></i><span data-i18="thankyou.booking.Id"></span></span>                                            <span class="h6 fw-normal mb-0">BS-58678</span>                                        </li>                                        <li class="list-group-item d-sm-flex justify-content-between align-items-center">                                            <span class="mb-0"><i class="bi bi-person fa-fw me-2"></i><span data-i18="thankyou.bookedby"></span></span>                                            <span class="h6 fw-normal mb-0">Frances Guerrero</span>                                        </li>                                        <li class="list-group-item d-sm-flex justify-content-between align-items-center">                                            <span class="mb-0"><i class="bi bi-wallet2 fa-fw me-2"></i><span data-i18="thankyou.payment.method"></span></span>                                            <span class="h6 fw-normal mb-0">Credit card</span>                                        </li>                                        <li class="list-group-item d-sm-flex justify-content-between align-items-center">                                            <span class="mb-0"><i class="bi bi-currency-dollar fa-fw me-2"></i><span data-i18="thankyou.total.price"></span></span>                                            <span class="h6 fw-normal mb-0">$1200</span>                                        </li>                                    </ul>                                </div>                                <div class="col-lg-5">                                    <ul class="list-group list-group-borderless">                                        <li class="list-group-item d-sm-flex justify-content-between align-items-center">                                            <span class="mb-0"><i class="bi bi-calendar fa-fw me-2"></i><span data--i18="thankyou.date"></span></span>                                            <span class="h6 fw-normal mb-0">29 July 2022</span>                                        </li>                                        <li class="list-group-item d-sm-flex justify-content-between align-items-center">                                            <span class="mb-0"><i class="bi bi-calendar fa-fw me-2"></i><span data-i18="thankyou.tour.date"></span></span>                                            <span class="h6 fw-normal mb-0">15 Aug 2022</span>                                        </li>                                        <li class="list-group-item d-sm-flex justify-content-between align-items-center">                                            <span class="mb-0"><i class="bi bi-people fa-fw me-2"></i><span data-i18="thankyou.guests"></span></span>                                            <span class="h6 fw-normal mb-0">3</span>                                        </li>                                    </ul>                                </div>                            </div>                            <!-- Button -->                            <div class="d-sm-flex justify-content-sm-end d-grid">                                <!-- Share button with dropdown -->                                <div class="dropdown me-sm-2 mb-2 mb-sm-0">                                    <a href="#" class="btn btn-light mb-0 w-100" role="button" id="dropdownShare" data-bs-toggle="dropdown" aria-expanded="false">                                        <i class="bi bi-share me-2"><span data-i18="thankyou.share"></span></i>                                    </a>                                    <!-- dropdown button -->                                    <ul class="dropdown-menu dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare">                                        <li><a class="dropdown-item" href="#"><i class="fab fa-twitter-square me-2"></i>Twitter</a></li>                                        <li><a class="dropdown-item" href="#"><i class="fab fa-facebook-square me-2"></i>Facebook</a></li>                                        <li><a class="dropdown-item" href="#"><i class="fab fa-linkedin me-2"></i>LinkedIn</a></li>                                        <li><a class="dropdown-item" href="#"><i class="fas fa-copy me-2"></i>Copy link</a></li>                                    </ul>                                </div>                                <!-- Download button -->                                <a href="javascript:if(window.print)window.print()" class="btn btn-primary mb-0 noModal"><i class="bi bi-file-pdf me-2"><span data-i18="thankyou.download.pdf"></span></i></a>                            </div>                        </div>                    </div>                </div>            </div>        </div>    </section>    <!-- =======================    Page Banner END -->        </main>@code {
+    [ParameterAttribute]
+    public string process { get; set; }
+
+    [ParameterAttribute]
+    public string language { get; set; }
+
+    [Inject]
+    public PaymentRequestModel paymentRequestModel { get; set; }
+
+    [Inject]
+    protected TransactionsRepository TransactionsRepository { get; set; }
+    [Inject]
+    protected TransactionDetailsRepository TransactionDetailsRepository { get; set; }
+    [Inject]
+    protected PaymentConfigurationRepository PaymentConfigurationRepository { get; set; }
+
+    //search?location=antalya&systemId=10009&check_in=17.03.2023&check_out=18.03.2023&adult_1=5&child_1=3&childage_1_1=4&childage_1_2=4&childage_1_3=3--> <summary>
+    // search?location=antalya
+    //payment/184069f0-d0be-4292-8cd2-afb800aa45cf&l=3
+    public double money = 11.60;
+
+    public void OnPost()
+    {
+        var transaction = TransactionsRepository.GetByIdGuid(process).FirstOrDefault();
+        if (transaction != null)
+        {
+            var config = PaymentConfigurationRepository.GetByID(transaction.PaymentConfigurationId.ToInt32());
+            if (config != null)
+            {
+                string paymentUrl;
+                string text;
+                paymentUrl = config.TestPaymentUrl;
+                text = config.TestSecurityUrl;
+
+                string cardnumber = paymentRequestModel.CardNumber;
+                string ExpiryDateMonth = paymentRequestModel.ExpiryDateMonth;
+                string expiryDateYear = paymentRequestModel.ExpiryDateYear;
+                string cvv = paymentRequestModel.Cvv;
+                string cardHolderName = paymentRequestModel.CardHolderName;
+                string customerid = paymentRequestModel.CustomerId;
+
+
+                HttpClient client = new HttpClient();
+                var loginRequest = new
+                {
+                    email = config.Email,
+                    lang = config.Language,
+                    ApiKey = config.Password
+                };
+
+                string content = JsonConvert.SerializeObject(loginRequest);
+                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(content);
+                ByteArrayContent byteContent = new ByteArrayContent(buffer);
+                HttpResponseMessage req = client.PostAsync(text, byteContent).Result;
+                string contents = req.Content.ReadAsStringAsync().Result;
+                LoginResponse obj = JsonConvert.DeserializeObject<LoginResponse>(contents);
+
+                paymentRequestModel.CardNumber = cardnumber.Replace(" ", "");
+                paymentRequestModel.ExpiryDateMonth = ExpiryDateMonth;
+                paymentRequestModel.ExpiryDateYear = expiryDateYear;
+                paymentRequestModel.Cvv = cvv;
+                paymentRequestModel.CardHolderName = cardHolderName;
+                paymentRequestModel.TotalAmount = (money.ToInt32() * 100).ToString();
+
+                //TransactionDTO transactionDTO = new TransactionDTO();
+                //paymentRequestModel.Currency = transactionDTO.CurrencyInfo.Number;
+                paymentRequestModel.Currency = "233";
+
+                paymentRequestModel.MerchantId = long.Parse(config.MerchantId);
+
+                paymentRequestModel.Rnd = RandomWord(harf: true);
+                paymentRequestModel.OrderId = RandomWord(harf: false);
+                paymentRequestModel.InstallmentCount = "1";
+                paymentRequestModel.TxnType = config.TxnType;
+                paymentRequestModel.UserCode = config.Email;
+                paymentRequestModel.memberId = 1;
+                paymentRequestModel.Use3D = true;
+                paymentRequestModel.OkUrl = config.OkUrl + "&process=" + process + "&l=" + language;
+                paymentRequestModel.FailUrl = config.FailUrl + "&process=" + process + "&l=" + language;
+                PaymentRequestModel paymentRequestModel2 = paymentRequestModel;
+                string text3 = (paymentRequestModel2.Hash = CreateHash(paymentRequestModel2, config.HashPassword));
+                paymentRequestModel.Hash = text3;
+
+
+                Transactions transactions = new Transactions()                    {                        IdGuid = process,                        CreatedDate = DateTime.Now,                        TotalAmount = money.ToDecimal(),                        UserId = "",                        Email = "",                        Address = "",                        BillingAddress = "",                        Currency = 233,                        IsSuccess = true,                        NameSurname = "",                        Language = "1",                        City = "",                        CompanyName = "",                        HasKvkkPermission = true,                        HasPrivacy = true,                        Is3D = false,                        Phone = "",                        Provience = "",                        PaymentConfigurationId = 2,                        PaymentUrl = "https://payment3.zarentravel.com/?process=" + process + "&l=" + language.ToString()
+                        //CurrencyInfo=
+                    };
+                var result = TransactionsRepository.Insert(transactions);
+                paymentRequestModel.CustomerId = transactions.Email;
+
+                result.ToString();
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var transaction = TransactionsRepository.GetByIdGuid(process).FirstOrDefault();
+        if (transaction != null)
+        {
+
+            // cvv = transaction.NameSurname;
+        }
+
+        await base.OnInitializedAsync();
+        //	AutoCompletes = AutoCompleteService.GetByNameForLike(autoCompleteKey);
+    }
+
+    public string CreateHash(PaymentRequestModel request, string apiKey)
+    {
+        string s = apiKey + request.UserCode + request.Rnd + request.TxnType + request.TotalAmount + request.CustomerId + request.OrderId + request.OkUrl + request.FailUrl;
+        SHA512 sHA = SHA512.Create();
+        UnicodeEncoding unicodeEncoding = new UnicodeEncoding();
+        byte[] array = sHA.ComputeHash(unicodeEncoding.GetBytes(s));
+        return BitConverter.ToString(array).Replace("-", "");
+    }
+
+    public static string RandomWord(bool harf)
+    {
+        if (harf)
+        {
+            string text = "";
+            Random random = new Random();
+            for (int i = 0; i < 6; i++)
+            {
+                text += (char)random.Next(65, 90);
+            }
+            return text;
+        }
+        string text2 = "";
+        Random random2 = new Random();
+        for (int j = 0; j < 6; j++)
+        {
+            text2 += (char)random2.Next(48, 57);
+        }
+        return text2;
+    }    private Stream GetFileStream()
+    {
+        var randomBinaryData = new byte[50 * 1024];
+        var fileStream = new MemoryStream(randomBinaryData);
+
+        return fileStream;
+    }
+
+    private async Task DownloadFileFromStream()
+
+    {
+        var fileStream = GetFileStream();
+        var fileName = "log.pdf";
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }}

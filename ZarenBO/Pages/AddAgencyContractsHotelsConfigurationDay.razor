@@ -1,0 +1,106 @@
+@page "/add-agency-contracts-hotels-configuration-day"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject zaren_prodService zaren_prodService
+
+<PageTitle>Add AgencyContractsHotelsConfigurationDay</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save AgencyContractsHotelsConfigurationDay</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravelBO.Models.zaren_prod.AgencyContractsHotelsConfigurationDay" Data="@agencyContractsHotelsConfigurationDay" Visible="@(agencyContractsHotelsConfigurationDay != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Monday" Component="Monday" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyContractsHotelsConfigurationDay.Monday" Name="Monday" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Tuesday" Component="Tuesday" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyContractsHotelsConfigurationDay.Tuesday" Name="Tuesday" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Wednesday" Component="Wednesday" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyContractsHotelsConfigurationDay.Wednesday" Name="Wednesday" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Thursday" Component="Thursday" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyContractsHotelsConfigurationDay.Thursday" Name="Thursday" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Friday" Component="Friday" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyContractsHotelsConfigurationDay.Friday" Name="Friday" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Saturday" Component="Saturday" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyContractsHotelsConfigurationDay.Saturday" Name="Saturday" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Sunday" Component="Sunday" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyContractsHotelsConfigurationDay.Sunday" Name="Sunday" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        agencyContractsHotelsConfigurationDay = new ZarenTravelBO.Models.zaren_prod.AgencyContractsHotelsConfigurationDay();
+    }
+    protected bool errorVisible;
+    protected ZarenTravelBO.Models.zaren_prod.AgencyContractsHotelsConfigurationDay agencyContractsHotelsConfigurationDay;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await zaren_prodService.CreateAgencyContractsHotelsConfigurationDay(agencyContractsHotelsConfigurationDay);
+            DialogService.Close(agencyContractsHotelsConfigurationDay);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+}

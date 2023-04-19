@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Abstract\AdoNet\**" />
+    <Compile Remove="Abstract\Dapper\**" />
+    <Compile Remove="Concrete\AdoNet\**" />
+    <Compile Remove="Concrete\Dapper\**" />
+    <EmbeddedResource Remove="Abstract\AdoNet\**" />
+    <EmbeddedResource Remove="Abstract\Dapper\**" />
+    <EmbeddedResource Remove="Concrete\AdoNet\**" />
+    <EmbeddedResource Remove="Concrete\Dapper\**" />
+    <None Remove="Abstract\AdoNet\**" />
+    <None Remove="Abstract\Dapper\**" />
+    <None Remove="Concrete\AdoNet\**" />
+    <None Remove="Concrete\Dapper\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.Development.json" />
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Abstract\" />
+    <Folder Include="Concrete\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Zaren.Core.csproj" />
+    <ProjectReference Include="..\Data\Zaren.Data.csproj" />
+    <ProjectReference Include="..\Model\Zaren.Model.csproj" />
+  </ItemGroup>
+
+</Project>

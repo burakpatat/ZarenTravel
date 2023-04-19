@@ -1,0 +1,143 @@
+@page "/agency-micro-site-setting-passenger-data"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject zaren_prodService zaren_prodService
+
+<PageTitle>AgencyMicroSiteSettingPassengerData</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="AgencyMicroSiteSettingPassengerData" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"  AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@agencyMicroSiteSettingPassengerData"    TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum" RowDoubleClick="@EditRow" >
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum" Property="RequiredPassengerData" Title="Required Passenger Data">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum" Property="ExcludeMrs" Title="Exclude Mrs">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum" Property="ExcludeMiss" Title="Exclude Miss">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum" Property="ExcludeNie" Title="Exclude Nie">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum" Property="SearchCustomer" Title="Search Customer">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum" Property="Agency.InvoiceName" Title="Agency">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum" Property="AgencyMicroSite.Domain" Title="Agency Micro Site">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="agencyMicroSiteSettingPassengerDatum">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, agencyMicroSiteSettingPassengerDatum)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum> agencyMicroSiteSettingPassengerData;
+
+    protected RadzenDataGrid<ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        agencyMicroSiteSettingPassengerData = await zaren_prodService.GetAgencyMicroSiteSettingPassengerData(new Query { Expand = "Agency,AgencyMicroSite" });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        agencyMicroSiteSettingPassengerData = await zaren_prodService.GetAgencyMicroSiteSettingPassengerData(new Query { Expand = "Agency,AgencyMicroSite" });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddAgencyMicroSiteSettingPassengerDatum>("Add AgencyMicroSiteSettingPassengerDatum", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum> args)
+    {
+        await DialogService.OpenAsync<EditAgencyMicroSiteSettingPassengerDatum>("Edit AgencyMicroSiteSettingPassengerDatum", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingPassengerDatum agencyMicroSiteSettingPassengerDatum)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await zaren_prodService.DeleteAgencyMicroSiteSettingPassengerDatum(agencyMicroSiteSettingPassengerDatum.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete AgencyMicroSiteSettingPassengerDatum" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await zaren_prodService.ExportAgencyMicroSiteSettingPassengerDataToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "Agency,AgencyMicroSite", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "AgencyMicroSiteSettingPassengerData");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await zaren_prodService.ExportAgencyMicroSiteSettingPassengerDataToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "Agency,AgencyMicroSite", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "AgencyMicroSiteSettingPassengerData");
+        }
+    }
+}

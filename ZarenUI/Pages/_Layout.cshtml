@@ -1,0 +1,934 @@
+@using Microsoft.AspNetCore.Components.Web
+@namespace ZarenUI.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="~/" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/font-awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/glightbox/css/glightbox.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/choices/css/choices.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/flatpickr/css/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/tiny-slider/tiny-slider.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+</head>
+<body>
+    @RenderBody()
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <div class="preloader js-preloader">
+        <div class="preloader__wrap">
+            <div class="preloader__icon">
+                <img src="/images/loading.gif">
+            </div>
+        </div>
+    </div>
+</body>
+
+<div class="toast-container  p-3 top-0 end-0" id="toastPlacement">
+    <div class="toast align-items-center text-white bg-error border-0">
+        <div class="toast-header">
+            <i class="far fa-bell text-muted me-2" style="color: red!important;"></i>
+            <strong class="me-auto headerMsg"></strong>
+
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body ">
+        </div>
+
+
+    </div>
+</div>
+
+<script src="_framework/blazor.server.js" autostart="false"></script>
+<script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+<script type='text/javascript' src='assets/js/jquery-1.11.0.js'></script>
+<script type='text/javascript' src="assets/js/jquery.inputmask.bundle.js"></script>
+
+<script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="assets/vendor/glightbox/js/glightbox.js"></script>
+<script src="assets/vendor/flatpickr/js/flatpickr.min.js"></script>
+<script src="assets/vendor/choices/js/choices.min.js"></script>
+<script src="assets/vendor/tiny-slider/tiny-slider.js"></script>
+<script src="assets/vendor/sticky-js/sticky.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+    function ShowLoader() {
+        $(".preloader").show();
+    }
+    function HideLoader() {
+        $(".preloader").hide();
+    }
+    function DefaultSettings() {
+        var AccountSettings = {};
+        AccountSettings.Currency = "TRY";
+        AccountSettings.Language = "tr";
+        AccountSettings.CultureInfo = "tr-TR";
+        localStorage.setItem("AccountSettings", JSON.stringify(AccountSettings));
+    }
+    function Translate(culture) {
+        fetch('/api/i18/' + culture)
+            .then((response) => {
+                return response.json();
+            })
+            .then((_response) => {
+                window.translateList = _response;
+
+                for (var index = 0; index < _response.length; index++) {
+                    var itemTranslate = _response[index];
+                    var element = $('*[data-i18="' + itemTranslate.ResourceKey + '"]');
+                    if (element.length > 0) {
+
+                        for (var z = 0; z < element.length; z++) {
+                            console.log(itemTranslate.ResourceValue);
+                            var itemZ = element[z];
+                            if (itemZ.nodeName == "INPUT" && itemZ.type == "text") {
+                                $(itemZ).attr("placeholder", itemTranslate.ResourceValue);
+                            }
+                            else if (itemZ.nodeName == "INPUT" && itemZ.type == "email") {
+                                $(itemZ).attr("placeholder", itemTranslate.ResourceValue);
+                            }
+                            else if (itemZ.nodeName == "TEXTAREA") {
+                                $(itemZ).attr("placeholder", itemTranslate.ResourceValue);
+                            }
+                            else if (itemZ.nodeName == "SELECT") {
+                                var current = $(itemZ).html();
+                                $(itemZ).html("<option value='0'>" + itemTranslate.ResourceValue + "</option>" + current);
+                            }
+                            else {
+                                element.html(itemTranslate.ResourceValue);
+                            }
+
+                        }
+
+                    }
+                }
+            });
+
+    }
+
+    function FormatMoney(price, currency) {
+        var settings = JSON.parse(localStorage.getItem("AccountSettings"));
+        let USDollar = new Intl.NumberFormat(settings.CultureInfo, {
+            style: 'currency',
+            currency: currency,
+        });
+        return USDollar.format(price);
+    }
+
+    function ShowToast(message) {
+        $(".toast-body").html(message);
+        $(".headerMsg").html("System Message");
+        $('.toast').toast('show');
+    }
+
+    function ShowError(message) {
+        $(".toast-body").html(message);
+        $(".headerMsg").html("System Error");
+        $('.toast').toast('show');
+    }
+
+    function ShowWarning(message) {
+
+        let errorMessages = window.translateList.filter(function (e) {
+            return e.ResourceKey === message;
+        });
+        if (errorMessages != undefined && errorMessages != null && errorMessages[0] != undefined) {
+            $(".toast-body").html(errorMessages[0].ResourceValue);
+            $(".headerMsg").html("Alert");
+            $('.toast').toast('show');
+        }
+
+    }
+
+    function ShowSuccess(message) {
+        $(".toast-body").html(message);
+        $(".headerMsg").html("Success");
+        $('.toast').toast('show');
+    }
+
+    window.previewImage = (inputElem, imgElem) => {
+        const url = URL.createObjectURL(inputElem.files[0]);
+        imgElem.addEventListener('load', () => URL.revokeObjectURL(url), { once: true });
+        imgElem.src = url;
+    }
+
+    function GFG_Fun() {
+        if (file.files.length == 0) {
+            down.innerHTML = "No files selected";
+        } else {
+            down.innerHTML = "Some file is selected";
+        }
+    }
+
+    function ControlLikes() {
+        try {
+            fetch('/api/AddToWishList/')
+                .then((response) => {
+                    return response.json();
+                })
+                .then((_response) => {
+                    for (var index = 0; index < _response.length; index++) {
+                        var currentStatu = _response[index].ProductId;
+                        if (currentStatu == true) {
+                            $(".heart" + currentStatu).removeClass("btn-light").addClass("btn-danger");
+                        }
+                        else {
+                            $(".heart" + currentStatu).removeClass("btn-danger").addClass("btn-light");
+                        }
+
+                    }
+
+                });
+        } catch {
+
+        }
+
+    }
+
+    function AutoCompleteDeparture(query) {
+        fetch("DepartureAutoComplete?from=" + query + "&culture=" + $("body").data("culture") + "&serviceType=" + $("input[type='radio'][name='serviceType']:checked").val())
+            .then((response) => {
+                return response.json();
+            })
+            .then((_response) => {
+                let mainTemplate = "";
+
+                for (var index2 = 0; index2 < _response.body.items.length; index2++) {
+
+                    if (_response.header.success == true) {
+                        var item = _response.body.items[index2];
+                        let autoCompleteModel = {};
+
+                        if (item.airport != null && item.airport != undefined) {
+                            autoCompleteModel.airPortName = item.airport.name;
+                            autoCompleteModel.airPortId = item.airport.id;
+                            var optionTemplate = "<option value='" + autoCompleteModel.airPortId + "'>" + autoCompleteModel.airPortName + "</option>";
+                            mainTemplate += optionTemplate;
+                        }
+                        if (item.city != null && item.city != undefined) {
+                            autoCompleteModel.cityId = item.city.id;
+                            autoCompleteModel.cityName = item.city.name;
+                            var cityTemplate = "<option value='" + autoCompleteModel.cityId + "'>" + autoCompleteModel.cityName + "</option>";
+
+                            mainTemplate += cityTemplate;
+                        }
+                    }
+
+                    else {
+                        ShowWarning("error.flight");
+                    }
+                }
+                $(".flightCityfrom").html(mainTemplate)
+            });
+    }
+
+    function AutoCompleteArrival(query)
+    {
+        //+ $(".flightCityfrom option:selected").val() +
+        fetch("ArrivalAutoComplete?to=&from=" + query + "&culture=" + $("body").data("culture") + "&serviceType=" + $("input[type='radio'][name='serviceType']:checked").val())
+            .then((response) => {
+                return response.json();
+            })
+            .then((_response) => {
+                let arrivalTemplate = "";
+                debugger;
+                for (var index22 = 0; index22 < _response.body.items.length; index22++) {
+
+                    if (_response.header.success == true) {
+                        var item = _response.body.items[index22];
+                        let autoCompleteArrivalModel = {};
+
+                        if (item.airport != null && item.airport != undefined) {
+                            autoCompleteArrivalModel.airPortName = item.airport.name;
+                            autoCompleteArrivalModel.airPortId = item.airport.id;
+                            var optTemplate = "<option value='" + autoCompleteArrivalModel.airPortId + "'>" + autoCompleteArrivalModel.airPortName + "</option>";
+                            arrivalTemplate += optTemplate;
+                        }
+                        if (item.city != null && item.city != undefined) {
+                            autoCompleteArrivalModel.cityId = item.city.id;
+                            autoCompleteArrivalModel.cityName = item.city.name;
+                            var citiesTemplate = "<option value='" + autoCompleteArrivalModel.cityId + "'>" + autoCompleteArrivalModel.cityName + "</option>";
+                            arrivalTemplate += citiesTemplate;
+                        }
+                    }
+
+                    else {
+                        ShowWarning("error.flight");
+                    }
+                }
+                $(".flightCityto").html(arrivalTemplate)
+            });
+
+    }
+
+</script>
+<script src="assets/js/functions.js"></script>
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        try {
+            if ($(".changeImg").length > 0) {
+                $(".changeImg").on("click", function () {
+                    setInterval(function () {
+                        var file = document.getElementById("imageFile");
+                        if (file.files.length == 0) {
+                            $(".changeImgBtn").hide();
+                            $(".changeImg").show();
+                        }
+                        else {
+                            $(".changeImg").hide();
+                            $(".changeImgBtn").show();
+                        }
+
+                    }, 1000);
+
+                });
+
+                $(".avatar-img").on("click", function () {
+                    setInterval(function () {
+                        var file = document.getElementById("imageFile");
+                        if (file.files.length == 0) {
+                            $(".changeImgBtn").hide();
+                            $(".changeImg").show();
+                        }
+                        else {
+                            $(".changeImg").hide();
+                            $(".changeImgBtn").show();
+                        }
+
+                    }, 1000);
+
+                });
+
+            }
+            $("[data-mask='Phone']").inputmask("(999)9999999");
+            $("[data-mask='CreditCard']").inputmask("9999-9999-9999-9999");
+            $("[data-mask='Date']").inputmask("99/99/9999", { placeholder: "dd/mm/yyyy" }, { alias: "datetime" });
+            let lastAccountSettings = '';
+            var url = new URL(window.top.location.href);
+            if (localStorage.getItem("AccountSettings") == undefined || localStorage.getItem("AccountSettings") == null) {
+                DefaultSettings();
+            }
+            lastAccountSettings = JSON.parse(localStorage.getItem("AccountSettings"));
+            $("#languageDropdown").html(lastAccountSettings.Currency);
+            Translate(lastAccountSettings.Language);
+            lastSearchModel = JSON.parse(localStorage.getItem("lastSearch"));
+            //$(".rooms").html(lastSearchModel.rooms);
+            //$(".adults").html(lastSearchModel.adults);
+            //$(".child").html(lastSearchModel.children);
+            //$(".children").html(lastSearchModel.children);
+            //$(".hotelStart").val(lastSearchModel.hotelStart);
+            //$(".hotelEnd").val(lastSearchModel.hotelEnd);
+            //$(".hotelCity").val(lastSearchModel.arrivalLocId);
+            if ($("#step-3").length > 0) {
+
+                var query = $("#step-3").data("parameter");
+
+                fetch('/api/getpaymentoptions/' + query)
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((_response) => {
+
+                        debugger;
+                    });
+
+
+                fetch('/api/GetPaymentTypes/' + lastAccountSettings.CultureInfo + '/' + query)
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((_response) => {
+
+
+
+                    });
+            }
+            var element = document.querySelectorAll('.data');
+            if ($(".data").length > 0) {
+                var appender = "";
+                $(".data").each(function (i, item) {
+                    var dataModel = {};
+                    var dataItem = $(item);
+                    var jsonStr = $(item).data("json");
+                    var json = JSON.stringify(jsonStr);
+                    dataModel.id = dataItem.data("id");
+                    dataModel.json = json;
+
+                    if (json) {
+
+                        if (jsonStr.themes.length > 0) {
+                            for (var index = 0; index < jsonStr.themes.length; index++) {
+
+                                var itemThemes = jsonStr.themes[index];
+                                var ids = itemThemes.id + "";
+                                var name = itemThemes.name;
+                                let paramss = new URLSearchParams(document.location.search);
+                                let names = paramss.get(ids); // is the string "Jonathan"
+
+                                var isChecked = $("#popolarType" + ids).is(':checked');
+                                if (appender.indexOf("popolarType" + ids) == -1) {
+
+                                    if (isChecked != null && isChecked) {
+                                        appender += "<div class='form - check'> <input class='form-check-input filter' checkec='checked' data-search='" + ids + "'  data-searchtext='" + name + "'  data-model='themes' type = 'checkbox' value = '" + name + "' id = 'popolarType" + ids + "'><label class='form-check-label' for='popolarType" + ids + "'>" + name + "</label></div>";
+                                    }
+                                    else {
+                                        appender += "<div class='form - check'> <input class='form-check-input filter' data-search='" + ids + "'  data-searchtext='" + name + "'  data-model='themes' type = 'checkbox' value = '" + name + "' id = 'popolarType" + ids + "'><label class='form-check-label' for='popolarType" + ids + "'>" + name + "</label></div>";
+                                    }
+                                }
+                            }
+                        }
+
+                        if (jsonStr.offers.length > 0) {
+
+                            for (var index3 = 0; index3 < jsonStr.offers.length; index3++) {
+                                var itemoffers = jsonStr.offers[index3];
+                                if (itemoffers != null) {
+                                    if (itemoffers.price != null && itemoffers.price.amount != null) {
+                                        var offrPrice = itemoffers.price.amount + " " + itemoffers.price.currency;
+                                        $(".price" + dataItem.data("id")).html(FormatMoney(itemoffers.price.amount, itemoffers.price.currency));
+                                        $(".daily" + dataItem.data("id")).html(FormatMoney((parseFloat(itemoffers.price.amount) / itemoffers.night), itemoffers.price.currency));
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                });
+
+                $(".popolarTypeAppend").html(appender);
+
+            }
+            $(".payNow").on("click", function () {
+                ShowLoader();
+                let CardInfo = {};
+                CardInfo.ExpiryMonth = $(".ExpiryMonth").val();
+                CardInfo.ExpiryYear = $(".ExpiryYear").val();
+                CardInfo.CardNo = $(".CardNo").val();
+                CardInfo.CardHolderFirstName = $(".Name").val();
+                CardInfo.CardHolderLastName = $(".Surname").val();
+
+
+                CardInfo.CvvNo = $(".CvvNo").val();
+                fetch('/api/pay/' + $("main").data("parameter") + '/' + $("body").data("culture") + '/' + $("body").data("currency"),
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: '{ "CardInfo": ' + JSON.stringify(CardInfo) + '}'
+                    }
+                ).then(function (responses) {
+                    responses.json();
+                }).then((_responses) => {
+
+                    HideLoader();
+                });
+            });
+            $(".removeBasket").on("click", function (event) {
+                let dataId = $(this).data("id");
+                fetch('/api/basket/' + dataId,
+                    {
+                        method: 'PUT',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                ).then(function (responses) {
+                    responses.json();
+                }).then((_responses) => {
+                    window.location.reload();
+                });
+
+                event.preventDefault();
+            });
+            $(".goPayment").on("click", function () {
+                var BookingTravellersList = [];
+                let totalPersonInfo = parseInt($(".totalPersonInfo").data("count"));
+
+                let controlEmail = "";
+                for (var index = 0; index < totalPersonInfo; index++) {
+                    if (checkEmail($(".Email").eq(index).val()) && $(".FirstName").eq(index).val() != "" && $(".LastName").eq(index).val() != "") {
+                        controlEmail += "1";
+                        var BookingTravellers =
+                        {
+                            Gender: $(".Gender option:selected").eq(index).val(),
+                            FirstName: $(".FirstName").eq(index).val(),
+                            LastName: $(".LastName").eq(index).val(),
+                            Email: $(".Email").eq(index).val(),
+                            GovernmentId: $(".GovernmentId").eq(index).val(),
+                            BirthDate: $(".BirthDate").eq(index).val(),
+                            MobileNumber: $(".MobileNumber").eq(index).val(),
+                            Note: $("#Note").val()
+                        };
+                        BookingTravellersList.push(BookingTravellers);
+                    }
+                    else {
+                        controlEmail += "0";
+                    }
+                }
+                if (controlEmail.indexOf("0") != -1) {
+                    HideLoader();
+
+                }
+                else {
+                    ShowLoader();
+
+                    fetch('/api/Traveller/' + $(".totalPersonInfo").data("parameter"),
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: '{ "BookingTravellers": ' + JSON.stringify(BookingTravellersList) + '}'
+                        }
+                    ).then(function (responses) {
+                        responses.json();
+                    }).then((_responses) => {
+
+
+                        fetch('/api/SetReservationInfo/' + $(".totalPersonInfo").data("parameter"),
+                            {
+                                method: 'GET',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                }
+                            }).then(function (response) {
+                                response.json();
+
+                            }).then((_response) => {
+                                debugger;
+                                window.top.location.href = "/payment/" + $(".totalPersonInfo").data("parameter");
+
+                            });
+                    });
+
+                    return false;
+                }
+                HideLoader();
+            });
+            $(".selectedCurrency").on("click", function () {
+                let paramForLanguage = new URLSearchParams(document.location.search);
+                var rawAccountSettings = JSON.parse(localStorage.getItem("AccountSettings"));
+                rawAccountSettings.Currency = $(this).data("currency");
+                localStorage.setItem("AccountSettings", JSON.stringify(rawAccountSettings));
+                let replacedData = 'currency=' + paramForLanguage.get("currency");
+                let newData = 'currency=' + $(this).data("currency");
+                window.location.href = document.location.href.replace(replacedData, newData);
+                return false;
+            });
+            $(".selectedLanguage").on("click", function () {
+
+                let paramForLanguage = new URLSearchParams(document.location.search);
+                var rawAccountSettings = JSON.parse(localStorage.getItem("AccountSettings"));
+                let replacedData = 'culture=' + paramForLanguage.get("culture");
+                let newData = 'culture=' + $(this).data("culture");
+                rawAccountSettings.Language = $(this).data("id");
+                rawAccountSettings.CultureInfo = $(this).data("culture");
+                localStorage.setItem("AccountSettings", JSON.stringify(rawAccountSettings));
+                window.location.href = document.location.href.replace(replacedData, newData);
+                return false;
+            });
+            $(".hotelFilter").on("click", function (event) {
+                ShowLoader();
+                var rooms = $(".rooms").html();
+                var adults = $(".adults").html();
+                var children = $(".child").html();
+                var hotelStart = $(".hotelStart").val();
+                var hotelEnd = $(".hotelEnd").val();
+                var arrivalLocId = $(".hotelCity option:selected").val();
+                if (arrivalLocId !== "0") {
+                    var culture = $(this).data("culture");
+                    var currency = $(this).data("currency");
+                    var url = "/hotels?checkAllotment=false&checkStopSale=false&getOnlyDiscountedPrice=false&getOnlyBestOffers=true&productType=2&nationality=DE&checkIn=" + hotelStart + "&checkOut=" + hotelEnd + "&currency=" + currency + "&culture=" + culture + "&arrivalLocationId=" + arrivalLocId + "&arrivalLocationType=2&arrivalLocId=" + arrivalLocId + "&location=" + $(".hotelCity option").html() + "&rooms=" + rooms + "&adults=" + adults + "&children=" + children;
+                    var lastSearchModel = {};
+                    lastSearchModel.rooms = rooms;
+                    lastSearchModel.adults = adults;
+                    lastSearchModel.children = children;
+                    lastSearchModel.hotelStart = hotelStart;
+                    lastSearchModel.hotelEnd = hotelEnd;
+                    lastSearchModel.arrivalLocId = arrivalLocId;
+                    lastSearchModel.url = url;
+                    localStorage.setItem("lastSearch", JSON.stringify(lastSearchModel));
+                    window.top.location = url;
+                }
+                else {
+                    HideLoader();
+                    ShowWarning("error.nocity");
+                    event.preventDefault();
+
+                }
+                return false;
+            });
+            $(".flightFilterOneWay").on("click", function (event) {
+                ShowLoader();
+                var from = $(".flightCityfrom option:selected").val();
+                var to = $(".flightCityto option:selected").val();
+                var flightClass = $(".flightClass option:selected").val();
+                var passenger = $(".passenger").val();
+                var serviceType = $("input[type='radio'][name='serviceType']:checked").val();
+                var checkIn = $(".checkIn").val();
+                if (from !== "0") {
+                    var culture = $("body").data("culture");
+                    var currency = $("body").data("currency");
+                    var url = "/flights?from=" + from + "&To=" + to + "&culture=" + culture + "&currency=" + currency + "&flightClass=" + flightClass + "&passenger=" + passenger + "&serviceType=" + serviceType + "&checkIn=" + checkIn + "&flightBaggageGetOption=0";
+                    window.top.location = url;
+                }
+                else {
+                    HideLoader();
+                    ShowWarning("error.nocity");
+                    event.preventDefault();
+
+                }
+                return false;
+            });
+            $("#flightFilterRoundTrip").on("click", function (event) {
+                ShowLoader();
+                debugger;
+                var from = $(".flightCityfrom option:selected").val();
+                var to = $(".flightCityto option:selected").val();
+                var flightClass = $(".flightClass option:selected").val();
+                var passenger = $(".passengerRound").val();
+                var serviceType = $("input[type='radio'][name='serviceType']:checked").val();
+                var checkIn = $(".checkInRound").val();
+                var checkOut = $(".checkOutRound").val();
+
+                if (from !== "0") {
+                    var culture = $("body").data("culture");
+                    var currency = $("body").data("currency");
+                    var url = "/flights?from=" + from + "&To=" + to + "&culture=" + culture + "&currency=" + currency + "&flightClass=" + flightClass + "&passenger=" + passenger + "&serviceType=" + serviceType + "&checkIn=" + checkIn +"&checkOut="+checkOut+ "&flightBaggageGetOption=0";
+                    window.top.location = url;
+                }
+                else {
+                    HideLoader();
+                    ShowWarning("error.nocity");
+                    event.preventDefault();
+
+                }
+                return false;
+            });
+            $(".selectRoom").on("click", function () {
+                ShowLoader();
+                var jsonDat = $(this).data("json");
+                var offerId = $(this).data("offerid");
+                var roomId = $(this).data("roomid");
+                var culture = $(this).data("culture");
+                var currency = $(this).data("currency");
+                debugger;
+                fetch('/api/BeginTransaction/' + culture + '/' + currency + '?offerid=' + offerId)
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((_response) => {
+                        if (_response.header.success == true) {
+                            window.location.href = "/traveller/" + _response.body.transactionId + '?adults=' + _response.body.reservationData.travellers.length;
+                        }
+                        else {
+                            console.log(JSON.stringify(_response));
+                            HideLoader();
+                        }
+
+                    });
+
+
+            });
+            $(".href").on("click", function () {
+                ShowLoader();
+                window.location.href = $(this).data("href");
+            });
+            $("a").on("click", function (event) {
+                var thisItem = $(this);
+                if (!thisItem.hasClass("noModal")) {
+                    ShowLoader();
+                }
+                else if (thisItem.hasClass("roomDetail")) {
+                    ShowLoader();
+
+                    var jsonDat = thisItem.data("json");
+                    var offerId = thisItem.data("offerid");
+                    var roomId = thisItem.data("roomid");
+                    var culture = thisItem.data("culture");
+                    var currency = thisItem.data("currency");
+                    debugger;
+                    fetch('/api/BeginTransaction/' + culture + '/' + currency + '?offerid=' + offerId)
+                        .then((response) => {
+                            return response.json();
+                        })
+                        .then((_response) => {
+                            if (_response.header.success == true) {
+                                window.location.href = "/traveller/" + _response.body.transactionId + '?adults=' + _response.body.reservationData.travellers.length;
+                            }
+                            else {
+                                console.log(JSON.stringify(_response));
+                                HideLoader();
+                            }
+
+                        });
+
+                    event.preventDefault();
+                }
+
+
+            });
+            flatpickr("#dateTimeStart", {
+                enableTime: false,
+                dateFormat: "d.m.Y",
+                minDate: "today",
+                onChange: function (i, elem) {
+                    date = '/ConvertDate/' + elem + '/dd.MM.yyyy';
+                    fetch(date)
+                        .then((response) => {
+                            return response.json();
+                        })
+                        .then((_response) => {
+                            flatpickr("#dateTimeEnd", {
+                                enableTime: false,
+                                dateFormat: "d.m.Y",
+                                minDate: _response,
+                                //minTime: "09:00",
+                            });
+
+                        });
+                }
+            });
+            flatpickr("#dateTimeEnd", {
+                enableTime: false,
+                dateFormat: "d.m.Y",
+                minDate: "today",
+                //minTime: "09:00",
+            });
+            $(".filter").click(function () {
+                var rooms = $(".rooms").html();
+                var adults = $(".adults").html();
+                var children = $(".child").html();
+                var hotelStart = $(".hotelStart").val();
+                var hotelEnd = $(".hotelEnd").val();
+                var arrivalLocId = $(".hotelCity option:selected").val();
+                var culture = localStorage.getItem("i18nextLng");
+                var currency = "EUR";
+                var url = "/hotels?checkAllotment=true&checkStopSale=true&getOnlyDiscountedPrice=true&getOnlyBestOffers=true&productType=2&nationality=DE&checkIn=" + hotelStart + "&checkOut=" + hotelEnd + "&currency=" + currency + "&culture=" + culture + "&arrivalLocationId=" + arrivalLocId + "&arrivalLocationType=2&arrivalLocId=" + arrivalLocId + "&location=" + $(".hotelCity option").html() + "&rooms=" + rooms + "&adults=" + adults + "&children=" + children;
+                var paramUrl = '';
+                $(".filter").each(function (a, el) {
+
+                    if ($(this).is(':checked')) {
+                        $(this).prop('checked', true);
+                        var queryKey = $(this).data("model");
+                        var searchKey = $(this).data("search");
+                        var searchKeyText = $(this).data("searchtext");
+                        paramUrl += "&" + searchKey + "=" + searchKeyText;
+                    }
+                    else {
+                        $(this).prop('checked', false);
+                    }
+                });
+                url += paramUrl;
+                lastSearchModel = {};
+                lastSearchModel.rooms = rooms;
+                lastSearchModel.adults = adults;
+                lastSearchModel.children = children;
+                lastSearchModel.hotelStart = hotelStart;
+                lastSearchModel.hotelEnd = hotelEnd;
+                lastSearchModel.arrivalLocId = arrivalLocId;
+                lastSearchModel.url = url;
+                lastSearchModel.paramUrl = paramUrl;
+                localStorage.setItem("lastSearch", JSON.stringify(lastSearchModel));
+                window.top.location = url;
+            });
+            $(".roomDetail").attr("data-culture", lastAccountSettings.CultureInfo);
+            $(".roomDetail").attr("data-currency", lastAccountSettings.Currency);
+            $(".hotelFilter").attr("data-culture", lastAccountSettings.CultureInfo);
+            $(".hotelFilter").attr("data-currency", lastAccountSettings.Currency);
+            $(".selectRoom").attr("data-culture", lastAccountSettings.CultureInfo);
+            $(".selectRoom").attr("data-currency", lastAccountSettings.Currency);
+            $("body").attr("data-culture", lastAccountSettings.CultureInfo);
+            $("body").attr("data-currency", lastAccountSettings.Currency);
+
+            AutoCompleteDeparture("ist");
+            AutoCompleteArrival("antal");
+
+            $(".save").on("click", function () {
+                ShowLoader();
+                var user = {};
+                var fileName = $("[data-prop='ProfilePhoto']").val().split("\\").pop();
+                user = $("main").data("user");
+                user.FullName = $("[data-prop='FullName']").val();
+                user.Email = $("[data-prop='Email']").val();
+                user.PhoneNumber = $("[data-prop='PhoneNumber']").val();
+                user.Address = $("[data-prop='Address']").val();
+                user.ProfilePhoto = $("[data-prop='ProfilePhoto']").val();
+                user.CountryId = $("[data-prop='CountryId'] option:selected").val();
+                user.DateOfBirth = $("[data-prop='DateOfBirth']").val();
+                user.ProfilePhoto = fileName;
+                let GenderCount = $("[data-prop='Gender']");
+                for (var k = 0; k < GenderCount.length; k++) {
+                    var itemGender = GenderCount.eq(k);
+                    if (itemGender.is(":checked")) {
+                        user.Gender = k + 1;
+                    }
+                }
+
+
+                fetch('/api/profile',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: '{ "User": ' + JSON.stringify(user) + '}'
+                    }).then(function (responses) {
+                        responses.json();
+                    }).then((_responses) => {
+                        window.top.location.href = "/account-profile";
+                    });
+            });
+        }
+        catch {
+
+        }
+        setTimeout(function () {
+            ControlLikes();
+            HideLoader();
+        }, 300);
+    });
+
+
+    function addToWishList(id) {
+        var json = {};
+        json.id = id;
+        debugger;
+        fetch('/api/AddToWishList',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: '{ "json": ' + JSON.stringify(json) + '}'
+            }
+        ).then(function (responses) {
+            responses.json();
+        }).then((_responses) => {
+            if ($(".heart" + id).hasClass("btn-danger")) {
+                $(".heart" + id).removeClass("btn-danger").removeClass("btn-light").addClass("btn-light")
+            }
+            else {
+                $("#row" + id).remove();
+                $(".heart" + id).removeClass("btn-danger").removeClass("btn-light").addClass("btn-danger")
+            }
+
+        });
+
+        return false;
+    }
+
+
+</script>
+
+@*<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '988216838759151',
+            cookie: true,
+            xfbml: true,
+            version: 'v16.0'
+        });
+        FB.AppEvents.logPageView();
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    FB.getLoginStatus(function (response) {
+        debugger;
+        statusChangeCallback(response);
+    });
+    function checkLoginState() {
+        FB.getLoginStatus(function (response) {
+            debugger;
+            statusChangeCallback(response);
+        });
+    }
+</script>*@
+
+
+<style>
+
+    .href {
+        cursor: pointer !important;
+    }
+
+    #blazor-error-ui {
+        display: none
+    }
+
+    .flatpickr-day {
+        color: var(--bs-gray-700);
+        font-weight: bold;
+    }
+
+        .flatpickr-day.flatpickr-disabled, .flatpickr-day.flatpickr-disabled:hover, .flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay, .flatpickr-day.notAllowed, .flatpickr-day.notAllowed.prevMonthDay, .flatpickr-day.notAllowed.nextMonthDay {
+            color: var(--bs-gray-300);
+            font-weight: normal;
+        }
+
+    .red > .fa-heart {
+        color: red;
+    }
+
+    .black > .fa-heart {
+        color: black;
+    }
+
+    .likeButton {
+        cursor: pointer !important
+    }
+
+    .removeBasket {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        padding: 0;
+        width: 32px;
+        height: 32px;
+        text-align: center;
+        font-size: 18px;
+    }
+</style>
+</html>
+
+

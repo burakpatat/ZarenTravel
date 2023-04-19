@@ -1,0 +1,270 @@
+@page "/add-car-rent"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Add CarRent</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save CarRent</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.CarRent" Data="@carRent" Visible="@(carRent != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ca Re Pick Up Date" Component="CaRePickUpDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@carRent.CaRePickUpDate" Name="CaRePickUpDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ca Re Return Date" Component="CaReReturnDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@carRent.CaReReturnDate" Name="CaReReturnDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ca Re Rate" Component="CaReRate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@carRent.CaReRate" Name="CaReRate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ca Re Tax" Component="CaReTax" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@carRent.CaReTax" Name="CaReTax" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ca Re Book Date" Component="CaReBookDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@carRent.CaReBookDate" Name="CaReBookDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ca Re Timestamp" Component="CaReTimestamp" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@carRent.CaReTimestamp" Name="CaReTimestamp" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ca Re Active" Component="CaReActive" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@carRent.CaReActive" Name="CaReActive" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Airport" Component="Airport" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@airportsForAirportIdPickUp" TextProperty="AirportCode" ValueProperty="Id"
+                        Disabled=@(hasAirportIdPickUpValue) Placeholder="Choose Airport" style="display: block; width: 100%" @bind-Value="@carRent.AirportIdPickUp" Name="AirportIdPickUp"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Airport1" Component="Airport1" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@airportsForAirportIdReturn" TextProperty="AirportCode" ValueProperty="Id"
+                        Disabled=@(hasAirportIdReturnValue) Placeholder="Choose Airport1" style="display: block; width: 100%" @bind-Value="@carRent.AirportIdReturn" Name="AirportIdReturn"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Car Rental" Component="CarRental" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@carRentalsForCaRtId" TextProperty="CaRtCode" ValueProperty="Id"
+                        Disabled=@(hasCaRtIdValue) Placeholder="Choose CarRental" style="display: block; width: 100%" @bind-Value="@carRent.CaRtId" Name="CaRtId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Car Type" Component="CarType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@carTypesForCaTyId" TextProperty="CaTyCode" ValueProperty="Id"
+                        Disabled=@(hasCaTyIdValue) Placeholder="Choose CarType" style="display: block; width: 100%" @bind-Value="@carRent.CaTyId" Name="CaTyId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Currency1" Component="Currency1" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@currency1SForCurrencyId" TextProperty="CurrencyCode" ValueProperty="Id"
+                        Disabled=@(hasCurrencyIdValue) Placeholder="Choose Currency1" style="display: block; width: 100%" @bind-Value="@carRent.CurrencyId" Name="CurrencyId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Pnr" Component="Pnr" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@pnRsForPNRId" TextProperty="PNRRecord" ValueProperty="Id"
+                        Disabled=@(hasPNRIdValue) Placeholder="Choose Pnr" style="display: block; width: 100%" @bind-Value="@carRent.PNRId" Name="PNRId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        airportsForAirportIdPickUp = await ZarenSoftService.GetAirports();
+
+        airportsForAirportIdReturn = await ZarenSoftService.GetAirports();
+
+        carRentalsForCaRtId = await ZarenSoftService.GetCarRentals();
+
+        carTypesForCaTyId = await ZarenSoftService.GetCarTypes();
+
+        currency1SForCurrencyId = await ZarenSoftService.GetCurrency1S();
+
+        pnRsForPNRId = await ZarenSoftService.GetPnRs();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.CarRent carRent;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Airport> airportsForAirportIdPickUp;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Airport> airportsForAirportIdReturn;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.CarRental> carRentalsForCaRtId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.CarType> carTypesForCaTyId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Currency1> currency1SForCurrencyId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.PnR> pnRsForPNRId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.CreateCarRent(carRent);
+            DialogService.Close(carRent);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasAirportIdPickUpValue;
+
+    [Parameter]
+    public int? AirportIdPickUp { get; set; }
+
+    bool hasAirportIdReturnValue;
+
+    [Parameter]
+    public int? AirportIdReturn { get; set; }
+
+    bool hasCaRtIdValue;
+
+    [Parameter]
+    public int? CaRtId { get; set; }
+
+    bool hasCaTyIdValue;
+
+    [Parameter]
+    public int? CaTyId { get; set; }
+
+    bool hasCurrencyIdValue;
+
+    [Parameter]
+    public int? CurrencyId { get; set; }
+
+    bool hasPNRIdValue;
+
+    [Parameter]
+    public int? PNRId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        carRent = new ZarenTravel.Models.ZarenSoft.CarRent();
+
+        hasAirportIdPickUpValue = parameters.TryGetValue<int?>("AirportIdPickUp", out var hasAirportIdPickUpResult);
+
+        if (hasAirportIdPickUpValue)
+        {
+            carRent.AirportIdPickUp = hasAirportIdPickUpResult;
+        }
+
+        hasAirportIdReturnValue = parameters.TryGetValue<int?>("AirportIdReturn", out var hasAirportIdReturnResult);
+
+        if (hasAirportIdReturnValue)
+        {
+            carRent.AirportIdReturn = hasAirportIdReturnResult;
+        }
+
+        hasCaRtIdValue = parameters.TryGetValue<int?>("CaRtId", out var hasCaRtIdResult);
+
+        if (hasCaRtIdValue)
+        {
+            carRent.CaRtId = hasCaRtIdResult;
+        }
+
+        hasCaTyIdValue = parameters.TryGetValue<int?>("CaTyId", out var hasCaTyIdResult);
+
+        if (hasCaTyIdValue)
+        {
+            carRent.CaTyId = hasCaTyIdResult;
+        }
+
+        hasCurrencyIdValue = parameters.TryGetValue<int?>("CurrencyId", out var hasCurrencyIdResult);
+
+        if (hasCurrencyIdValue)
+        {
+            carRent.CurrencyId = hasCurrencyIdResult;
+        }
+
+        hasPNRIdValue = parameters.TryGetValue<int?>("PNRId", out var hasPNRIdResult);
+
+        if (hasPNRIdValue)
+        {
+            carRent.PNRId = hasPNRIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

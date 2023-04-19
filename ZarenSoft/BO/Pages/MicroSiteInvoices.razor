@@ -1,0 +1,71 @@
+@page "/micro-site-invoices"
+
+<PageTitle>MicroSiteInvoices</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="MicroSiteInvoices" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"  AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@microSiteInvoices"    TItem="Travel.Models.TravelCDb.MicroSiteInvoice" RowDoubleClick="@EditRow" >
+            <Columns>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="NumberPrefix" Title="Number Prefix">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="Name" Title="Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="Address" Title="Address">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="Email" Title="Email">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="VAT" Title="V A T">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="TaxesByPercentage" Title="Taxes By Percentage">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="BillingDetails" Title="Billing Details">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="BankDetails" Title="Bank Details">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="TaxesDetails" Title="Taxes Details">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="LegalFooter" Title="Legal Footer">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="DirectOperatorToAgencyBilling" Title="Direct Operator To Agency Billing">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="MailBody" Title="Mail Body">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="Agency.City" Title="Agency">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="City.Name" Title="City">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="Country.Name" Title="Country">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Property="MicroSite.Domain" Title="Micro Site">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.MicroSiteInvoice" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="microSiteInvoice">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, microSiteInvoice)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+</div>

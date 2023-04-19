@@ -1,0 +1,105 @@
+@page "/edit-agency-micro-site-settings-terms-condition"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject zaren_prodService zaren_prodService
+
+<PageTitle>Edit AgencyMicroSiteSettingsTermsCondition</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save AgencyMicroSiteSettingsTermsCondition</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsTermsCondition" Data="@agencyMicroSiteSettingsTermsCondition" Visible="@(agencyMicroSiteSettingsTermsCondition != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Package Terms" Component="PackageTerms" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsTermsCondition.PackageTerms" Name="PackageTerms" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Visa Terms" Component="VisaTerms" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsTermsCondition.VisaTerms" Name="VisaTerms" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="G D P R Check Boxes" Component="GDPRCheckBoxes" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@agencyMicroSiteSettingsTermsCondition.GDPRCheckBoxes" Name="GDPRCheckBoxes" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency" Component="Agency" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agenciesForAgencyId" TextProperty="InvoiceName" ValueProperty="Id"
+                         Placeholder="Choose Agency" style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsTermsCondition.AgencyId" Name="AgencyId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency Micro Site" Component="AgencyMicroSite" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agencyMicroSitesForMicroSiteId" TextProperty="Domain" ValueProperty="Id"
+                         Placeholder="Choose AgencyMicroSite" style="display: block; width: 100%" @bind-Value="@agencyMicroSiteSettingsTermsCondition.MicroSiteId" Name="MicroSiteId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        agencyMicroSiteSettingsTermsCondition = await zaren_prodService.GetAgencyMicroSiteSettingsTermsConditionById(Id);
+
+        agenciesForAgencyId = await zaren_prodService.GetAgencies();
+
+        agencyMicroSitesForMicroSiteId = await zaren_prodService.GetAgencyMicroSites();
+    }
+    protected bool errorVisible;
+    protected ZarenTravelBO.Models.zaren_prod.AgencyMicroSiteSettingsTermsCondition agencyMicroSiteSettingsTermsCondition;
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_prod.Agency> agenciesForAgencyId;
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_prod.AgencyMicroSite> agencyMicroSitesForMicroSiteId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await zaren_prodService.UpdateAgencyMicroSiteSettingsTermsCondition(Id, agencyMicroSiteSettingsTermsCondition);
+            DialogService.Close(agencyMicroSiteSettingsTermsCondition);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+}

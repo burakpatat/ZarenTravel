@@ -1,0 +1,130 @@
+@page "/edit-hotel-room-language"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit HotelRoomLanguage</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save HotelRoomLanguage</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.HotelRoomLanguage" Data="@hotelRoomLanguage" Visible="@(hotelRoomLanguage != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Name" Component="Name" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@hotelRoomLanguage.Name" Name="Name" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Description" Component="Description" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@hotelRoomLanguage.Description" Name="Description" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Hotel Room" Component="HotelRoom" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@hotelRoomsForHotelRoomId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasHotelRoomIdValue) Placeholder="Choose HotelRoom" style="display: block; width: 100%" @bind-Value="@hotelRoomLanguage.HotelRoomId" Name="HotelRoomId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Language" Component="Language" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@languagesForLanguageId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasLanguageIdValue) Placeholder="Choose Language" style="display: block; width: 100%" @bind-Value="@hotelRoomLanguage.LanguageId" Name="LanguageId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        hotelRoomLanguage = await ZarenSoftService.GetHotelRoomLanguageById(Id);
+
+        hotelRoomsForHotelRoomId = await ZarenSoftService.GetHotelRooms();
+
+        languagesForLanguageId = await ZarenSoftService.GetLanguages();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.HotelRoomLanguage hotelRoomLanguage;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.HotelRoom> hotelRoomsForHotelRoomId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Language> languagesForLanguageId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateHotelRoomLanguage(Id, hotelRoomLanguage);
+            DialogService.Close(hotelRoomLanguage);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasHotelRoomIdValue;
+
+    [Parameter]
+    public int? HotelRoomId { get; set; }
+
+    bool hasLanguageIdValue;
+
+    [Parameter]
+    public int? LanguageId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        hotelRoomLanguage = new ZarenTravel.Models.ZarenSoft.HotelRoomLanguage();
+
+        hasHotelRoomIdValue = parameters.TryGetValue<int?>("HotelRoomId", out var hasHotelRoomIdResult);
+
+        if (hasHotelRoomIdValue)
+        {
+            hotelRoomLanguage.HotelRoomId = hasHotelRoomIdResult;
+        }
+
+        hasLanguageIdValue = parameters.TryGetValue<int?>("LanguageId", out var hasLanguageIdResult);
+
+        if (hasLanguageIdValue)
+        {
+            hotelRoomLanguage.LanguageId = hasLanguageIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

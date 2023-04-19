@@ -1,0 +1,94 @@
+@inherits LayoutComponentBase
+<RadzenDialog />
+<RadzenNotification />
+<RadzenTooltip />
+<RadzenContextMenu />
+
+<RadzenLayout style="grid-template-areas: 'rz-sidebar rz-header' 'rz-sidebar rz-body';">
+    <RadzenHeader>
+        <div class="container-fluid">
+            <div class="row justify-content-start align-items-center">
+                <div class="col-6 d-flex align-items-center ps-0 pl-0">
+                    <RadzenSidebarToggle Click="@SidebarToggleClick"></RadzenSidebarToggle>
+                </div>
+                <div class="col-6 d-flex align-items-center justify-content-end pr-0 pe-0">
+                    <RadzenProfileMenu Visible="@Security.IsAuthenticated()" Click="@ProfileMenuClick">
+                        <ChildContent>
+                            <RadzenProfileMenuItem Path="profile" Icon="settings" Text="Profile" />
+                            <RadzenProfileMenuItem Path="application-users" Icon="person" Text="Users" />
+                            <RadzenProfileMenuItem Path="application-roles" Icon="security" Text="Roles" />
+                            <RadzenProfileMenuItem Text="Logout" Value="Logout" Icon="power_settings_new" />
+                        </ChildContent>
+                        <Template>
+                            @Security.User?.Name
+                            <RadzenGravatar Email="@Security.User?.Name" />
+                        </Template>
+                    </RadzenProfileMenu>
+                </div>
+            </div>
+        </div>
+    </RadzenHeader>
+    <RadzenBody Expanded="@sidebarExpanded">
+        <div class="container-fluid pt-2 pt-md-3 pt-lg-4 pt-xl-5 pb-2 pb-lg-5" style="max-width: 1440px;">
+            <div class="row">
+                <div class="col">
+                @Body
+                </div>
+            </div>
+        </div>
+    </RadzenBody>
+    <RadzenSidebar Expanded="@sidebarExpanded" style="z-index: 2; color: #12526a; background-color: #12526a">
+        <div class="py-3 py-lg-4" style="display: flex; flex-direction: column; gap: 1rem; align-items: center; color: #164c61; background-color: #164c61">
+            <img src="/images/v4.png" class="col-12">
+        </div>
+        <RadzenPanelMenu Style="background-color: #164c61">
+            <RadzenPanelMenuItem Text="Home" Path="/" />
+            <RadzenPanelMenuItem Text="Agency Management">
+            <RadzenPanelMenuItem Text="Agencies" Path="agencies" />
+            <RadzenPanelMenuItem Text="AgencyManagers" Path="agency-managers" />
+            <RadzenPanelMenuItem Text="AgencyUsers" Path="agency-users" />
+            <RadzenPanelMenuItem Text="Genders" Path="genders" />
+            </RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Api Management">
+            <RadzenPanelMenuItem Text="Apis" Path="apis" />
+             <RadzenPanelMenuItem Text="ApiProducts" Path="api-products" />
+            <RadzenPanelMenuItem Text="ApiResults" Path="api-results" />
+              <RadzenPanelMenuItem Text="MicroSiteApiProviders" Path="micro-site-api-providers" />
+            <RadzenPanelMenuItem Text="ProductTypes" Path="product-types" />
+             <RadzenPanelMenuItem Text="AutoCompletes" Path="auto-completes" />
+             <RadzenPanelMenuItem Text="AutoCompleteTypes" Path="auto-complete-types" />
+            </RadzenPanelMenuItem>
+   <RadzenPanelMenuItem Text="Hotel Management">  
+            <RadzenPanelMenuItem Text="HotelCategories" Path="hotel-categories" />
+            <RadzenPanelMenuItem Text="Hotels" Path="hotels" />
+            <RadzenPanelMenuItem Text="Descriptions" Path="descriptions" />        
+            <RadzenPanelMenuItem Text="HotelFacilities" Path="hotel-facilities" />
+            <RadzenPanelMenuItem Text="HotelFacilityCategories" Path="hotel-facility-categories" />
+            <RadzenPanelMenuItem Text="HotelPresentations" Path="hotel-presentations" />
+            <RadzenPanelMenuItem Text="Rooms" Path="rooms" />
+            <RadzenPanelMenuItem Text="RoomsSelectedHotels" Path="rooms-selected-hotels" />
+             </RadzenPanelMenuItem>
+              <RadzenPanelMenuItem Text="Microsite Management">
+            <RadzenPanelMenuItem Text="MicrositeCountries" Path="microsite-countries" />
+            <RadzenPanelMenuItem Text="MicroSiteCountriesFraudRisks" Path="micro-site-countries-fraud-risks" />
+            <RadzenPanelMenuItem Text="MicroSites" Path="micro-sites" />
+            <RadzenPanelMenuItem Text="MicroSiteInvoices" Path="micro-site-invoices" />
+         </RadzenPanelMenuItem>
+              <RadzenPanelMenuItem Text="Country Management">
+            <RadzenPanelMenuItem Text="Countries" Path="countries" />
+              <RadzenPanelMenuItem Text="Cities" Path="cities" />
+             <RadzenPanelMenuItem Text="FraudRisks" Path="fraud-risks" />
+              <RadzenPanelMenuItem Text="ManuelRegistrations" Path="manuel-registrations" />
+              </RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Currencies" Path="currencies" />
+            <RadzenPanelMenuItem Text="InvoiceTypes" Path="invoice-types" />
+            <RadzenPanelMenuItem Text="Languages" Path="languages" />
+            <RadzenPanelMenuItem Text="Product Categories" Path="product-types" />
+            <RadzenPanelMenuItem Text="Status" Path="status" />
+        </RadzenPanelMenu>
+        <div class="py-3 py-md-4" style="padding: var(--rz-panel-menu-item-padding);">
+            <RadzenText Text="Zaren Travel v1.0.0" TextStyle="Radzen.Blazor.TextStyle.Caption" style="color: var(--rz-text-disabled-color);" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" />
+            <RadzenText Text="Copyright Ⓒ 2023" TextStyle="Radzen.Blazor.TextStyle.Caption" class="mb-0" style="color: var(--rz-text-disabled-color);" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" />
+        </div>
+    </RadzenSidebar>
+</RadzenLayout>

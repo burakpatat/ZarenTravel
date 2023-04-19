@@ -1,0 +1,260 @@
+<h1 mat-dialog-title>customerınformation</h1>
+<div mat-dialog-content>
+    <form fxLayout="column" #customerınformationForm="ngForm">
+       <mat-tab-group mat-align-tabs="start">
+<mat-tab label="Tab 1">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Customerıd" name="customerId"[(ngModel)]="customerınformationObj.customerId"
+#customerId="ngModel"  required  >
+            <mat-error *ngIf="customerId.hasError('required')">
+                    Please enter the value..
+                </mat-error>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Emailıd" name="emailId"[(ngModel)]="customerınformationObj.emailId"
+#emailId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Title" name="title"[(ngModel)]="customerınformationObj.title"
+#title="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Firstname" name="firstName"[(ngModel)]="customerınformationObj.firstName"
+#firstName="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Lastname" name="lastName"[(ngModel)]="customerınformationObj.lastName"
+#lastName="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Gender" name="gender"[(ngModel)]="customerınformationObj.gender"
+#gender="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+<mat-tab label="Tab 2">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Alternativeemailıd" name="alternativeEmailId"[(ngModel)]="customerınformationObj.alternativeEmailId"
+#alternativeEmailId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Telephone" name="telephone"[(ngModel)]="customerınformationObj.telephone"
+#telephone="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Mobile" name="mobile"[(ngModel)]="customerınformationObj.mobile"
+#mobile="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Countrycode" name="countryCode"[(ngModel)]="customerınformationObj.countryCode"
+#countryCode="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Languagecode" name="languageCode"[(ngModel)]="customerınformationObj.languageCode"
+#languageCode="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Officetelephone" name="officeTelephone"[(ngModel)]="customerınformationObj.officeTelephone"
+#officeTelephone="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Dateofbirth (dd-mm-yyyy)"
+                    [ngModel]="customerınformationObj.dateOfBirth | date:'dd-MM-yyyy'" name="dateOfBirth"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="dateOfBirthPicker" name="hiddenawardDate"
+                    [(ngModel)]="customerınformationObj.dateOfBirth">
+                <mat-datepicker-toggle matSuffix [for]="dateOfBirthPicker"></mat-datepicker-toggle>
+                <mat-datepicker #dateOfBirthPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Fax" name="fax"[(ngModel)]="customerınformationObj.fax"
+#fax="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+<mat-tab label="Tab 3">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Nationalitycode" name="nationalityCode"[(ngModel)]="customerınformationObj.nationalityCode"
+#nationalityCode="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Agentcode" name="agentCode"[(ngModel)]="customerınformationObj.agentCode"
+#agentCode="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Customerıd_n" name="customerId_N"[(ngModel)]="customerınformationObj.customerId_N"
+#customerId_N="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex> 
+                <input matInput placeholder="Totalpaxcount" type="number" name="totalpaxcount"[(ngModel)]="customerınformationObj.totalpaxcount"
+#totalpaxcount="ngModel"   >
+               
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex> 
+                <input matInput placeholder="Totalınfantcount" type="number" name="totalInfantcount"[(ngModel)]="customerınformationObj.totalInfantcount"
+#totalInfantcount="ngModel"   >
+               
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex> 
+                <input matInput placeholder="Totalfare" type="number" name="totalFare"[(ngModel)]="customerınformationObj.totalFare"
+#totalFare="ngModel"   >
+               
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex> 
+                <input matInput placeholder="Totaltaxchg" type="number" name="totalTaxChg"[(ngModel)]="customerınformationObj.totalTaxChg"
+#totalTaxChg="ngModel"   >
+               
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Bookingstatus" name="bookingStatus"[(ngModel)]="customerınformationObj.bookingStatus"
+#bookingStatus="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+<mat-tab label="Tab 4">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Modificationdate (dd-mm-yyyy)"
+                    [ngModel]="customerınformationObj.modificationDate | date:'dd-MM-yyyy'" name="modificationDate"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="modificationDatePicker" name="hiddenawardDate"
+                    [(ngModel)]="customerınformationObj.modificationDate">
+                <mat-datepicker-toggle matSuffix [for]="modificationDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #modificationDatePicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Fıle_ıd" name="fILE_ID"[(ngModel)]="customerınformationObj.fILE_ID"
+#fILE_ID="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Fıle_name" name="fILE_NAME"[(ngModel)]="customerınformationObj.fILE_NAME"
+#fILE_NAME="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Recorddatestamp (dd-mm-yyyy)"
+                    [ngModel]="customerınformationObj.recordDateStamp | date:'dd-MM-yyyy'" name="recordDateStamp"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="recordDateStampPicker" name="hiddenawardDate"
+                    [(ngModel)]="customerınformationObj.recordDateStamp">
+                <mat-datepicker-toggle matSuffix [for]="recordDateStampPicker"></mat-datepicker-toggle>
+                <mat-datepicker #recordDateStampPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+
+</mat-tab-group>
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row wrap" fxFlex fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button mat-button mat-dialog-close tabindex="-1" cdkFocusInitial>Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!customerınformationForm.valid || !customerınformationForm.dirty"
+            (click)="savecustomerınformation(customerınformationObj)">
+            Add/Update
+        </button>
+    </div>
+</div>

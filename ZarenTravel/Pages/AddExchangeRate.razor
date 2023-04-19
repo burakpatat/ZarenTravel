@@ -1,0 +1,142 @@
+@page "/add-exchange-rate"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Add ExchangeRate</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save ExchangeRate</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.ExchangeRate" Data="@exchangeRate" Visible="@(exchangeRate != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ex Ra Value" Component="ExRaValue" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@exchangeRate.ExRaValue" Name="ExRaValue" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ex Ra Date" Component="ExRaDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@exchangeRate.ExRaDate" Name="ExRaDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ex Ra Timestamp" Component="ExRaTimestamp" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@exchangeRate.ExRaTimestamp" Name="ExRaTimestamp" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ex Ra Active" Component="ExRaActive" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@exchangeRate.ExRaActive" Name="ExRaActive" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Currency1" Component="Currency1" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@currency1SForCurrencyIdFrom" TextProperty="CurrencyCode" ValueProperty="Id"
+                        Disabled=@(hasCurrencyIdFromValue) Placeholder="Choose Currency1" style="display: block; width: 100%" @bind-Value="@exchangeRate.CurrencyIdFrom" Name="CurrencyIdFrom"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Currency11" Component="Currency11" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@currency1SForCurrencyIdTo" TextProperty="CurrencyCode" ValueProperty="Id"
+                        Disabled=@(hasCurrencyIdToValue) Placeholder="Choose Currency11" style="display: block; width: 100%" @bind-Value="@exchangeRate.CurrencyIdTo" Name="CurrencyIdTo"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        currency1SForCurrencyIdFrom = await ZarenSoftService.GetCurrency1S();
+
+        currency1SForCurrencyIdTo = await ZarenSoftService.GetCurrency1S();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.ExchangeRate exchangeRate;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Currency1> currency1SForCurrencyIdFrom;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Currency1> currency1SForCurrencyIdTo;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.CreateExchangeRate(exchangeRate);
+            DialogService.Close(exchangeRate);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasCurrencyIdFromValue;
+
+    [Parameter]
+    public int? CurrencyIdFrom { get; set; }
+
+    bool hasCurrencyIdToValue;
+
+    [Parameter]
+    public int? CurrencyIdTo { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        exchangeRate = new ZarenTravel.Models.ZarenSoft.ExchangeRate();
+
+        hasCurrencyIdFromValue = parameters.TryGetValue<int?>("CurrencyIdFrom", out var hasCurrencyIdFromResult);
+
+        if (hasCurrencyIdFromValue)
+        {
+            exchangeRate.CurrencyIdFrom = hasCurrencyIdFromResult;
+        }
+
+        hasCurrencyIdToValue = parameters.TryGetValue<int?>("CurrencyIdTo", out var hasCurrencyIdToResult);
+
+        if (hasCurrencyIdToValue)
+        {
+            exchangeRate.CurrencyIdTo = hasCurrencyIdToResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

@@ -1,0 +1,838 @@
+﻿@inject Microsoft.Extensions.Localization.IStringLocalizer<Index> L
+@inject NavigationManager NavigationManager
+@page "/flights"
+@using System.Globalization;
+@using Microsoft.AspNetCore.WebUtilities;
+@using Model.Concrete;
+@using OneWayRes;
+@using SanTsgHotelBooking.Application.Models.LocationHotelPriceResponse;
+@using SanTsgHotelBooking.Application.Services.IServices;
+@using SanTsgHotelBooking.Application.Services;
+@using Core.Entities;
+
+<PageTitle> Flights</PageTitle>
+<main>
+    <!-- =======================
+    Search START -->
+    <section class="pt-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Booking from START -->
+                    <form class="bg-mode border rounded position-relative px-4 pt-4 mb-4 mb-sm-0">
+                        <div class="row g-4">
+                            <!-- Nav tabs START -->
+                            <div class="col-lg-6">
+                                <ul class="nav nav-pills nav-pills-dark" id="pills-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link rounded-start rounded-0 mb-0 active" id="pills-one-way-tab" data-bs-toggle="pill" data-bs-target="#pills-one-way" type="button" role="tab" aria-selected="true">One Way</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link rounded-end rounded-0 mb-0" id="pills-round-trip-tab" data-bs-toggle="pill" data-bs-target="#pills-round-trip" type="button" role="tab" aria-selected="false">Round Trip</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Nav tabs END -->
+                            <!-- Ticket class -->
+                            <div class="col-lg-3 ms-auto">
+                                <div class="form-control-bg-light form-fs-md">
+                                    <select class="form-select js-choice">
+                                        <option value="">Select Class</option>
+                                        <option>Economy</option>
+                                        <option selected>Premium Economy</option>
+                                        <option>Business</option>
+                                        <option>First Class</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Ticket Passenger -->
+                            <div class="col-lg-3 ms-auto">
+                                <div class="form-control-bg-light form-fs-md">
+                                    <select class="form-select js-choice">
+                                        <option value="">Select Travelers</option>
+                                        <option>1</option>
+                                        <option selected>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab content START -->
+                        <div class="tab-content mt-4" id="pills-tabContent">
+                            <!-- One way tab START -->
+                            <div class="tab-pane fade show active" id="pills-one-way" role="tabpanel" aria-labelledby="pills-one-way-tab">
+                                <div class="row g-4">
+                                    <!-- Leaving From -->
+                                    <div class="col-md-6 col-lg-4 position-relative">
+                                        <div class="form-border-transparent form-fs-lg bg-light rounded-3 h-100 p-3">
+                                            <!-- Input field -->
+                                            <label class="mb-1"><i class="bi bi-geo-alt me-2"></i>From</label>
+                                            <select class="form-select js-choice" data-search-enabled="true">
+                                                <option value="">Select location</option>
+                                                <option selected>San Jacinto, USA</option>
+                                                <option>North Dakota, Canada</option>
+                                                <option>West Virginia, Paris</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Auto fill button -->
+                                        <div class="btn-flip-icon mt-3 mt-md-0">
+                                            <button class="btn btn-white shadow btn-round mb-0"><i class="fa-solid fa-right-left"></i></button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Going To -->
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="form-border-transparent form-fs-lg bg-light rounded-3 h-100 p-3">
+                                            <!-- Input field -->
+                                            <label class="mb-1"><i class="bi bi-send me-2"></i>To</label>
+                                            <select class="form-select js-choice" data-search-enabled="true">
+                                                <option value="">Select location</option>
+                                                <option>San Jacinto, USA</option>
+                                                <option selected>North Dakota, Canada</option>
+                                                <option>West Virginia, Paris</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Departure -->
+                                    <div class="col-lg-4">
+                                        <div class="form-border-transparent form-fs-lg bg-light rounded-3 h-100 p-3">
+                                            <label class="mb-1"><i class="bi bi-calendar me-2"></i>Departure</label>
+                                            <input type="text" class="form-control flatpickr" placeholder="Select date" data-date-format="d M Y" value="19 Nov 2022">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 text-end pt-0">
+                                        <a class="btn btn-primary mb-n4" href="#">Find ticket <i class="bi bi-arrow-right ps-3"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- One way tab END -->
+                            <!-- Round way tab END -->
+                            <div class="tab-pane fade" id="pills-round-trip" role="tabpanel" aria-labelledby="pills-round-trip-tab">
+                                <div class="row g-4">
+
+                                    <!-- Leaving From -->
+                                    <div class="col-md-6 col-xl-3 position-relative">
+                                        <div class="form-border-transparent form-fs-lg bg-light rounded-3 h-100 p-3">
+                                            <!-- Input field -->
+                                            <label class="mb-1"><i class="bi bi-geo-alt me-2"></i>From</label>
+                                            <select class="form-select js-choice" data-search-enabled="true">
+                                                <option value="">Select location</option>
+                                                <option>San Jacinto, USA</option>
+                                                <option>North Dakota, Canada</option>
+                                                <option>West Virginia, Paris</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Auto fill button -->
+                                        <div class="btn-flip-icon mt-3 mt-md-0">
+                                            <button class="btn btn-white shadow btn-round mb-0"><i class="fa-solid fa-right-left"></i></button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Going To -->
+                                    <div class="col-md-6 col-xl-3">
+                                        <div class="form-border-transparent form-fs-lg bg-light rounded-3 h-100 p-3">
+                                            <!-- Input field -->
+                                            <label class="mb-1"><i class="bi bi-send me-2"></i>To</label>
+                                            <select class="form-select js-choice" data-search-enabled="true">
+                                                <option value="">Select location</option>
+                                                <option>San Jacinto, USA</option>
+                                                <option>North Dakota, Canada</option>
+                                                <option>West Virginia, Paris</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Departure -->
+                                    <div class="col-md-6 col-xl-3">
+                                        <div class="form-border-transparent form-fs-lg bg-light rounded-3 h-100 p-3">
+                                            <label class="mb-1"><i class="bi bi-calendar me-2"></i>Departure</label>
+                                            <input type="text" class="form-control flatpickr" data-date-format="d M Y" placeholder="Select date">
+                                        </div>
+                                    </div>
+
+                                    <!-- Return -->
+                                    <div class="col-md-6 col-xl-3">
+                                        <div class="form-border-transparent form-fs-lg bg-light rounded-3 h-100 p-3">
+                                            <label class="mb-1"><i class="bi bi-calendar me-2"></i>Return</label>
+                                            <input type="text" class="form-control flatpickr" data-date-format="d M Y" placeholder="Select date">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 text-end pt-0">
+                                        <a class="btn btn-primary mb-n4" href="#">Find ticket <i class="bi bi-arrow-right ps-3"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Round way tab END -->
+                        </div>
+                        <!-- Tab content END -->
+                    </form>
+                    <!-- Booking from END -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+    Search START -->
+    <section class="pt-0">
+        <div class="container position-relative">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-sm-flex justify-content-sm-between align-items-center">
+                        <div class="mb-3 mb-sm-0">
+                            @if (Flights?.Count() > 0)
+                            {
+                                <h1 class="fs-3">@Flights?.Count() Flight Available</h1>
+                            }
+                            else if (FlightsRound?.Count() > 0)
+                            {
+                                <h1 class="fs-3">@FlightsRound?.Count() Flight Available</h1>
+                            }
+                            else
+                            {
+                                <h1 class="fs-3"> No Result</h1>
+                            }
+                            <ul class="nav nav-divider h6 mb-0">
+                                <li class="nav-item">@checkIn?.ToString()</li>
+                                @if (serviceType == "1")
+                                {
+                                    <li class="nav-item"> One Way</li>
+                                }
+                                else if (serviceType == "2")
+                                {
+                                    <li class="nav-item"> RoundTrip Way</li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item"> MultiCity Way</li>
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-primary bg-opacity-10 rounded-3 overflow-hidden mt-4 p-4">
+                <div class="row g-4 align-items-center">
+                    <div class="col-6 col-md-3 text-center order-1">
+                        <img src="assets/images/element/11.svg" class="mb-n5" alt="">
+                    </div>
+                    <div class="col-md-6 order-md-2">
+                        <h4>International Guideline</h4>
+                        <p class="mb-2">COVID safety measures adopted by various countries including VISA restrictions, quarantine rules, etc.</p>
+                        <a href="#" class="btn btn-sm btn-primary noModal mb-0">View Guidelines</a>
+                    </div>
+                    <div class="col-6 col-md-3 text-center order-3">
+                        <img src="assets/images/element/10.svg" class="mb-n5" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+    Title and notice board END -->
+    <!-- =======================
+    Flight list START -->
+    <section class="pt-0">
+        <div class="container">
+            <div class="row">
+                <!-- Left sidebar START -->
+                @{
+                    List<string> itemlist = new List<string>();
+                    List<string> airportlist = new List<string>();
+                    List<string> stopList = new List<string>();
+                    string stopName;
+                    if (Flights != null)
+                    {
+                        foreach (Flight flight in Flights)
+                        {
+                            foreach (Item item in flight?.Items)
+                            {
+                                string airline = item.Airline.Name;
+                                string airport = item.Departure.Airport.Name;
+                                if (item.Segments.Count == 1)
+                                {
+                                    stopName = "Direct";
+                                    stopList.Add(stopName);
+                                }
+                                else if (item.Segments.Count == 2)
+                                {
+                                    stopName = "1 Stop";
+                                    stopList.Add(stopName);
+                                }
+                                else if (item.Segments.Count > 2)
+                                {
+                                    stopName = "2+ Stop";
+                                    stopList.Add(stopName);
+                                }
+                                itemlist.Add(airline);
+                                airportlist.Add(airport);
+                            }
+                        }
+                    }
+                    else if (FlightsRound != null)
+                    {
+                        foreach (RoundTripRes.Flight flight in FlightsRound)
+                        {
+                            foreach (RoundTripRes.Item item in flight?.Items)
+                            {
+                                string airline = item.Airline.Name;
+                                string airport = item.Departure.Airport.Name;
+                                if (item.Segments.Count == 1)
+                                {
+                                    stopName = "Direct";
+                                    stopList.Add(stopName);
+                                }
+                                else if (item.Segments.Count == 2)
+                                {
+                                    stopName = "1 Stop";
+                                    stopList.Add(stopName);
+                                }
+                                else if (item.Segments.Count > 2)
+                                {
+                                    stopName = "2+ Stop";
+                                    stopList.Add(stopName);
+                                }
+                                itemlist.Add(airline);
+                                airportlist.Add(airport);
+                            }
+                        }
+                    }
+                    IEnumerable<string> airlineName = itemlist.Distinct();
+                    IEnumerable<string> airportName = airportlist.Distinct();
+                    IEnumerable<string> stopNames = stopList.Distinct();
+
+                }
+                <aside class="col-xl-4 col-xxl-3">
+                    <!-- Responsive offcanvas body START -->
+                    <div class="offcanvas-xl offcanvas-end" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+                        <!-- Offcanvas header -->
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Advance Filters</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar" aria-label="Close"></button>
+                        </div>
+
+                        <!-- Offcanvas body -->
+                        <div class="offcanvas-body flex-column p-3 p-xl-0">
+                            <form class="rounded-3 shadow">
+                                <hr class="my-0">
+                                <!-- Price START -->
+                                <div class="card card-body rounded-0 p-4">
+                                    <!-- Title -->
+                                    <h6 class="mb-2">Price</h6>
+                                    <!-- Price group -->
+                                    <div class="position-relative">
+                                        <div class="noui-wrapper">
+                                            <div class="d-flex justify-content-between">
+                                                <input type="text" placeholder="Min." class="text-body input-with-range-min">
+                                                <input type="text" placeholder="Max." class="text-body input-with-range-max">
+                                            </div>
+                                            <div class="noui-slider-range mt-2" data-range-min='500' data-range-max='2000' data-range-selected-min='700' data-range-selected-max='1500'></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Price END -->
+                                <hr class="my-0">
+                                <!-- Onward stops START -->
+                                <div class="card card-body rounded-0 p-4">
+                                    <!-- Title -->
+                                    <h6 class="mb-2">Onward Stops</h6>
+                                    <!-- Onward stops group -->
+                                    <ul class="list-inline mb-0 g-3">
+                                        <!-- Item -->
+                                        @foreach (string stop in stopNames)
+                                        {
+                                            <li class="list-inline-item mb-0">
+                                                <input type="checkbox" class="btn-check" id="btn-check-c1">
+                                                <label class="btn btn-sm btn-light btn-primary-soft-check" for="btn-check-c1">@stop</label>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </div>
+                                <!-- Onward stops END -->
+
+                                <hr class="my-0"> <!-- Divider -->
+                                <!-- Preferred Airline START -->
+                                <div class="card card-body rounded-0 p-4">
+                                    <!-- Title -->
+                                    <h6 class="mb-2">Preferred Airline</h6>
+                                    <!-- Preferred Airline group -->
+                                    <div class="col-12">
+
+                                        @foreach (string name in airlineName)
+                                        {
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="">
+                                                <label class="form-check-label">
+                                                    @name
+                                                </label>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                <!-- Preferred Airline END -->
+
+                                <hr class="my-0"> <!-- Divider -->
+                                <!-- Layover Airport START -->
+                                <div class="card card-body rounded-0 rounded-bottom p-4">
+                                    <!-- Title -->
+                                    <h6 class="mb-2">Layover Airport</h6>
+                                    <!-- Layover Airport group -->
+                                    <div class="col-12">
+                                        @foreach (string airport in airportName)
+                                        {
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="">
+                                                    <label class="form-check-label"> @airport</label>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                <!-- Layover Airport END -->
+                            </form><!-- Form End -->
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between p-2 p-xl-0 mt-xl-4">
+                            <button class="btn btn-link p-0 mb-0">Clear all</button>
+                            <button class="btn btn-primary mb-0">Filter Result</button>
+                        </div>
+
+                    </div>
+                    <!-- Responsive offcanvas body END -->
+                </aside>
+                <!-- Left sidebar END -->
+                <!-- Main content START -->
+                <div class="col-xl-8 col-xxl-9">
+                    <div class="vstack gap-4">
+                        @if (Flights != null)
+                        {
+                            @foreach (var flights in Flights)
+                            {
+                                <!-- Ticket item START -->
+                                <div class="card border" data-json="@flights.Offers.ToJson()">
+                                    @foreach (var item in flights.Items)
+                                    {
+                                        <div class="card-header d-sm-flex justify-content-sm-between align-items-center">
+                                            <div class="d-flex align-items-center mb-2 mb-sm-0">
+                                                <img src="@item.Airline.LogoFull" class="w-30px me-2" alt="">
+                                                <h6 class="fw-normal mb-0">@item.Airline.Name (@item.Airline.InternationalCode)</h6>
+                                            </div>
+                                            <h6 class="fw-normal mb-0"><span class="text-body" data-i18="flightlist.span.travelclass"></span> @item.FlightClass.Name</h6>
+                                        </div>
+
+                                        <!-- Card body -->
+                                        <div class="card-body p-4 pb-0">
+                                            <!-- Ticket item START -->
+                                            <div class="row g-4">
+                                                <!-- Airport detail -->
+                                                <div class="col-sm-4 col-md-3">
+                                                    <h4>@item.Departure.Date.ToShortTimeString() </h4>
+                                                    <p class="mb-0">@item.Departure.Airport.Code - @item.Departure.Airport.Name  @item.Departure.City.Name, @item.Departure.Country.Name</p>
+                                                </div>
+                                                <!-- Time -->
+                                                <div class="col-sm-4 col-md-3 my-sm-auto text-center">
+                                                    @{
+                                                        TimeSpan mesafesuresi = DateTime.Parse(item.Arrival.Date.ToShortTimeString()) - DateTime.Parse(item.Departure.Date.ToShortTimeString());
+
+                                                    }
+                                                    <h5>@mesafesuresi.Hours <span data-i18="flightlist.hour"></span> @mesafesuresi.Minutes <span data-i18="flightlist.minute"></span></h5>
+                                                    <div class="position-relative my-4">
+                                                        <hr class="bg-primary opacity-5 position-relative">
+                                                        <div class="icon-md bg-primary text-white rounded-circle position-absolute top-50 start-50 translate-middle">
+                                                            <i class="fa-solid fa-fw fa-plane rtl-flip"></i>
+                                                        </div>
+                                                    </div>
+                                                    <h6>@item.Departure.Date.ToShortDateTime("dd-MMM-yyyy")</h6>
+                                                </div>
+                                                <!-- Airport detail -->
+                                                <div class="col-sm-4 col-md-3">
+                                                    <h4>@item.Arrival.Date.ToShortTimeString() </h4>
+                                                    <p class="mb-0">@item.Arrival.Airport.Code - @item.Arrival.Airport.Name  @item.Arrival.City.Name, @item.Arrival.Country.Name</p>
+                                                </div>
+
+                                                <div class="col-md-3 text-md-end">
+                                                    @foreach (var offer in flights.Offers)
+                                                    {
+                                                        <h4>@offer.Price.Amount @offer.Price.Currency </h4>
+                                                        <a href="/@CultureInfo.CurrentCulture.ToString()/flight/@offer.OfferId" data-id="@offer.OfferId" data-i18="flightlist.a.booknow" class="btn btn-dark noModal mb-0 mb-sm-2"></a>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <!-- Ticket item END -->
+                                        </div>
+
+                                        <!-- Card footer -->
+                                        <div class="card-footer pt-4">
+                                            <ul class="list-inline bg-light rounded-2 d-sm-flex text-center justify-content-sm-between mb-0 px-4 py-2">
+                                                @foreach (var seat in flights.Offers)
+                                                {
+                                                    <li class="list-inline-item text-danger">Only @seat.SeatInfo.AvailableSeatCount Seat Left</li>
+                                                }
+                                                <li class="list-inline-item">
+                                                    <a data-i18="flightlist.a.flight" class="btn-more d-flex noModal align-items-center collapsed p-0 mb-0" data-bs-toggle="collapse" href="#@flights.Id-@flights.Offers[0].FlightBrandInfo.Id" role="button">
+                                                        <i class="fa-solid fa-angle-down ms-2"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="multi-collapse collapse" id="@flights.Id-@flights.Offers[0].FlightBrandInfo.Id">
+                                                @foreach (var offer in flights.Offers)
+                                                {
+                                                    <div class="tab-content mb-0">
+                                                        <!-- new card -->
+                                                        <div class="col-12 mt-2 border-top" data-box-role="alternative-prices">
+                                                            <div class="row">
+                                                                <div class="col my-2">
+                                                                    <div class="card cursor-pointer alternative-price" data-alternative-price-code="EF">
+                                                                        <div class="card-header">Uçuş Bilgileri</div>
+                                                                        <div class="row card-body mx-0">
+                                                                            <div class="col-12 col-lg-6">
+                                                                                @foreach (var services in offer.Services)
+                                                                                {
+                                                                                    <div class="features"><i class="fas fa-check-circle" aria-hidden="true"></i> @services.Name </div>
+                                                                                }
+                                                                            </div>
+                                                                            <div class="col-12 col-lg-6">
+                                                                                    <img src="@item.Airline.LogoFull" class="me-2" alt="">
+                                                                                <h5 class="card-title mb-0">@item.Departure.Airport.Code - @item.Arrival.Airport.Code</h5>
+                                                                                @foreach (var pricebreak in offer?.PriceBreakDown?.Items)
+                                                                                {
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-12 col-xs-12">
+                                                                                            <b data-i18="flightlist.b.basefare"></b> @pricebreak?.Price?.Amount @pricebreak?.Price?.Currency
+                                                                                        </div>
+                                                                                        <div class="col-md-12 col-xs-12">
+                                                                                            <b data-i18="flightlist.b.taxes"></b> @pricebreak?.AirportTax?.Amount @pricebreak?.AirportTax?.Currency<br>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="card-footer d-flex justify-content-between align-items-center">
+                                                                                    <div class="row">
+                                                                                            <div class="d-flex align-items-center">
+                                                                                                <span class="fake-radio me-2 active"></span>
+                                                                                                <span class="fw-600" currency="" currencydecorate="supped" currency_inited="true"><i data-i18="flightlist.b.totalfees"></i> @(pricebreak?.Price?.Amount.ToDecimal() + pricebreak?.AirportTax?.Amount.ToDecimal())<sup> @offer?.Price?.Currency</sup></span>
+                                                                                            </div>
+                                                                                            <div class="col-12 btn btn-success d-block w-100 rounded-15" data-i18="flightlist.a.booknow"></div>
+
+                                                                                        </div>   
+                                                                                    </div>
+
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+                                                                       
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- new card end-->
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        }
+                        else if (FlightsRound != null)
+                        {
+                            foreach (var flights in FlightsRound)
+                            {
+                                <!-- Ticket item START -->
+                                <div class="card border" data-json="@flights.Offers.ToJson()">
+                                    @foreach (var item in flights.Items)
+                                    {
+                                        <div class="card-header d-sm-flex justify-content-sm-between align-items-center">
+                                            <div class="d-flex align-items-center mb-2 mb-sm-0">
+                                                <img src="@item.Airline.LogoFull" class="w-30px me-2" alt="">
+                                                <h6 class="fw-normal mb-0">@item.Airline.Name (@item.Airline.InternationalCode)</h6>
+                                            </div>
+                                            <h6 class="fw-normal mb-0"><span class="text-body" data-i18="flightlist.span.travelclass"></span> @item.FlightClass.Name</h6>
+                                        </div>
+
+                                        <!-- Card body -->
+                                        <div class="card-body p-4 pb-0">
+                                            <!-- Ticket item START -->
+                                            <div class="row g-4">
+                                                <!-- Airport detail -->
+                                                <div class="col-sm-4 col-md-3">
+                                                    <h4>@item.Departure.Date.ToShortTimeString() </h4>
+                                                    <p class="mb-0">@item.Departure.Airport.Code - @item.Departure.Airport.Name  @item.Departure.City.Name, @item.Departure.Country.Name</p>
+                                                </div>
+                                                <!-- Time -->
+                                                <div class="col-sm-4 col-md-3 my-sm-auto text-center">
+                                                    @{
+                                                        TimeSpan mesafesuresi = DateTime.Parse(item.Arrival.Date.ToShortTimeString()) - DateTime.Parse(item.Departure.Date.ToShortTimeString());
+
+                                                    }
+                                                    <h5>@mesafesuresi.Hours <span data-i18="flightlist.hour"></span> @mesafesuresi.Minutes <span data-i18="flightlist.minute"></span></h5>
+                                                    <div class="position-relative my-4">
+                                                        <hr class="bg-primary opacity-5 position-relative">
+                                                        <div class="icon-md bg-primary text-white rounded-circle position-absolute top-50 start-50 translate-middle">
+                                                            <i class="fa-solid fa-fw fa-plane rtl-flip"></i>
+                                                        </div>
+                                                    </div>
+                                                    <h6>@item.Departure.Date.ToShortDateTime("dd-MMM-yyyy")</h6>
+                                                </div>
+                                                <!-- Airport detail -->
+                                                <div class="col-sm-4 col-md-3">
+                                                    <h4>@item.Arrival.Date.ToShortTimeString() </h4>
+                                                    <p class="mb-0">@item.Arrival.Airport.Code - @item.Arrival.Airport.Name  @item.Arrival.City.Name, @item.Arrival.Country.Name</p>
+                                                </div>
+
+                                                <div class="col-md-3 text-md-end">
+                                                    <h4>@flights.Offers[0].Price.Amount @flights.Offers[0].Price.Currency </h4>
+                                                    <a href="#flightDetail" data-i18="flightlist.a.booknow" class="btn btn-dark noModal mb-0 mb-sm-2"></a>
+                                                </div>
+                                            </div>
+                                            <!-- Ticket item END -->
+                                        </div>
+
+                                        <!-- Card footer -->
+                                        <div class="card-footer pt-4">
+                                            <ul class="list-inline bg-light rounded-2 d-sm-flex text-center justify-content-sm-between mb-0 px-4 py-2">
+                                                <li class="list-inline-item text-danger"></li>
+                                                <li class="list-inline-item">
+                                                    <a data-i18="flightlist.a.flight" class="btn-more d-flex noModal align-items-center collapsed p-0 mb-0" data-bs-toggle="collapse" href="#@flights.Id-@flights.Offers[0].FlightBrandInfo.Id" role="button">
+                                                        <i class="fa-solid fa-angle-down ms-2"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="multi-collapse collapse" id="@flights.Id-@flights.Offers[0].FlightBrandInfo.Id">
+                                                <!-- new card -->
+                                                <div class="col-12 mt-2 border-top" style="" data-box-role="alternative-prices">
+                                                    <div class="row">
+                                                        @foreach (var offer in flights.Offers)
+                                                        {
+                                                            foreach (var pricebreak in offer.PriceBreakDown?.Items)
+                                                            {
+                                                                if (flights.Offers.Count>3)
+                                                                {
+                                                                    <div class="col-12 col-md-12 col-lg-6 col-sm-6 my-2">
+                                                                        <div class="card cursor-pointer alternative-price" data-alternative-price-code="EF">
+                                                                            <div class="card-header">@offer.FlightBrandInfo.Name</div>
+                                                                            <div class="card-body align-items-stretch">
+                                                                                @foreach (var services in offer.Services)
+                                                                                {
+                                                                                    <div class="features"><i class="fas fa-check-circle" aria-hidden="true"></i> @services.Name </div>
+                                                                                }
+                                                                            </div>
+                                                                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                                                                <div class="row">
+                                                                                    <div class="col-12 d-flex align-items-center">
+                                                                                        <span class="fake-radio me-2 active"></span>
+                                                                                        <span class="fw-600" currency="" currencydecorate="supped" currency_inited="true"><i data-i18="flightlist.b.totalfees"></i> @(pricebreak?.Price?.Amount.ToDecimal() + pricebreak?.AirportTax?.Amount.ToDecimal())<sup> @offer?.Price?.Currency</sup></span>
+                                                                                    </div>
+                                                                                    <div class="col-12 align-items-center mt-2">
+                                                                                        <a href="data-i18=" flightlist.a.booknow" class="btn btn-success w-100 fs-14 rounded-15" data-i18="flightlist.a.booknow"></a>
+                                                                                    </div>
+
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                }else
+                                                                {
+                                                                    <div class="col-12 col-md-12 col-lg-4 col-sm-6 my-2">
+                                                                        <div class="card cursor-pointer alternative-price" data-alternative-price-code="EF">
+                                                                            <div class="card-header">@offer.FlightBrandInfo.Name</div>
+                                                                            <div class="card-body align-items-stretch">
+                                                                                @foreach (var services in offer.Services)
+                                                                                {
+                                                                                    <div class="features"><i class="fas fa-check-circle" aria-hidden="true"></i> @services.Name </div>
+                                                                                }
+                                                                            </div>
+                                                                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                                                                <div class="row">
+                                                                                    <div class="col-12 d-flex align-items-center">
+                                                                                        <span class="fake-radio me-2 active"></span>
+                                                                                        <span class="fw-600" currency="" currencydecorate="supped" currency_inited="true"><i data-i18="flightlist.b.totalfees"></i> @(pricebreak?.Price?.Amount.ToDecimal() + pricebreak?.AirportTax?.Amount.ToDecimal())<sup> @offer?.Price?.Currency</sup></span>
+                                                                                    </div>
+                                                                                    <div class="col-12 align-items-center mt-2">
+                                                                                        <a href="data-i18=" flightlist.a.booknow" class="btn btn-success w-100 fs-14 rounded-15" data-i18="flightlist.a.booknow"></a>
+                                                                                    </div>
+
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                               
+                                                            }
+                                                           
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>No Result</p>
+                        }
+
+                        <div class="bg-success bg-opacity-10 p-3 rounded-2 d-sm-flex justify-content-sm-between align-items-center">
+                            <div class="d-flex align-items-center mb-3 mb-sm-0">
+                                <div class="position-relative z-index-1 me-2">
+                                    <img src="assets/images/element/05.svg" class="position-relative h-40px" alt="">
+                                    <span class="smaller text-white position-absolute top-50 start-50 translate-middle">New</span>
+                                </div>
+                                <h6 class="mb-0 fw-normal">Get <strong class='text-success'>12% Off</strong> On Your First Flight</h6>
+                            </div>
+                            <a href="/login" class="btn btn-sm btn-success mb-0">Login / Signup</a>
+                        </div>
+                        <nav class="d-flex justify-content-center" aria-label="navigation">
+                            <ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                                <li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a></li>
+                                <li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item mb-0"><a class="page-link" href="#">..</a></li>
+                                <li class="page-item mb-0"><a class="page-link" href="#">6</a></li>
+                                <li class="page-item mb-0"><a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+@code {
+    List<Flight> Flights { get; set; }
+    List<RoundTripRes.Flight> FlightsRound { get; set; }
+    public string searchId { get; set; }
+    public string expireOn { get; set; }
+
+    public string from { get; set; }
+    public string to { get; set; }
+    public string currency { get; set; }
+    public string culture { get; set; }
+    public int flightBaggageGetOption { get; set; }
+    public string serviceType { get; set; }
+
+    public int flightClass { get; set; }
+    public int supportedFlightReponseListTypes { get; set; }
+    public string firstFromReturnTo { get; set; }
+    public string firstTosecondFrom { get; set; }
+    public string secondTo { get; set; }
+    public int passenger { get; set; }
+
+    public string nationality { get; set; }
+    public string checkIn { get; set; }
+    public string checkOut { get; set; }
+    public int night { get; set; }
+    CultureInfo provider = CultureInfo.InvariantCulture;
+    [Inject]
+    protected TokenHelper _tokenHelper { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("from", out var _from))
+            from = _from.ToString();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("to", out var _to))
+            to = _to.ToString();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("searchId", out var _searchId))
+            searchId = _searchId.ToString();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("expireOn", out var _expireOn))
+            expireOn = _expireOn.ToString();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("flightBaggageGetOption", out var _flightBaggageGetOption))
+            flightBaggageGetOption = _flightBaggageGetOption.ToInt32();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("flightClass", out var _flightClass))
+            flightClass = _flightClass.ToInt32();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("serviceType", out var _serviceType))
+            serviceType = _serviceType.ToString();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("supportedFlightReponseListTypes", out var _supportedFlightReponseListTypes))
+            supportedFlightReponseListTypes = _supportedFlightReponseListTypes.ToInt32();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("firstFromReturnTo", out var _firstFromReturnTo))
+            firstFromReturnTo = _firstFromReturnTo.ToString();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("firstTosecondFrom", out var _firstTosecondFrom))
+            firstTosecondFrom = _firstTosecondFrom.ToString();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("secondTo", out var _secondTo))
+            secondTo = _secondTo.ToString();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("passenger", out var _passenger))
+            passenger = _passenger.ToInt32();
+
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("checkIn", out var _checkIn))
+            checkIn = _checkIn;
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("checkOut", out var _checkOut))
+            checkOut = _checkOut;
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("currency", out var _currency))
+            currency = _currency;
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("culture", out var _culture))
+            culture = _culture;
+
+        List<OneWayReq.Passenger> passengers = new List<OneWayReq.Passenger>();
+        passengers.Add(new OneWayReq.Passenger
+            {
+                Count = passenger,
+                Type = 1
+            });
+        List<RoundTripReq.Passenger> passengers2 = new List<RoundTripReq.Passenger>();
+        passengers2.Add(new RoundTripReq.Passenger
+            {
+                Count = passenger,
+                Type = 1
+            });
+
+        DateTime datecheckIn = DateTime.ParseExact(checkIn, "dd.MM.yyyy", provider);
+
+        if (serviceType == "2")
+        {
+            DateTime datecheckOut = DateTime.ParseExact(checkOut, "dd.MM.yyyy", provider);
+            var diffOfDates = datecheckOut.Subtract(datecheckIn);
+
+            night = diffOfDates.Days;
+
+            var flightRoundtripResponse = _tokenHelper.RoundTripPriceSearch(from, to, datecheckIn.ToShortDateTime("yyyy-MM-dd"), flightBaggageGetOption, night, passengers2, currency, culture);
+            if (flightRoundtripResponse != null && flightRoundtripResponse.Body != null && flightRoundtripResponse.Body.Flights != null)
+            {
+                searchId = flightRoundtripResponse.Body?.SearchId;
+                expireOn = flightRoundtripResponse.Body?.ExpiresOn.ToString();
+                FlightsRound = flightRoundtripResponse.Body?.Flights;
+            }
+        }
+        else
+        {
+            var flightOneWayResponse = _tokenHelper.OneWayPriceSearch(from, to, datecheckIn.ToShortDateTime("yyyy-MM-dd"), flightBaggageGetOption, passengers, currency, culture, flightClass);
+
+            if (flightOneWayResponse != null && flightOneWayResponse.Body != null && flightOneWayResponse.Body.Flights != null)
+            {
+                searchId = flightOneWayResponse.Body?.SearchId;
+                expireOn = flightOneWayResponse.Body?.ExpiresOn.ToString();
+                Flights = flightOneWayResponse.Body?.Flights;
+            }
+        }
+        return base.OnInitializedAsync();
+    }
+}

@@ -1,0 +1,64 @@
+using Microsoft.EntityFrameworkCore;
+using ZarenBlazorAdmin.Data;
+using ZarenBlazorAdmin.Model;
+using ZarenBlazorAdmin.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace ZarenBlazorAdmin.Services
+{
+    public class DealsService
+    {
+        private readonly AppDBContext _appDBContext;
+        public DealsService(AppDBContext appDBContext)
+        {
+            _appDBContext = appDBContext;
+        }
+         public async Task<List<Deals>> GetAllDealsForDropDownAsync()
+        {
+            return await _appDBContext.Deals.OrderBy(i => i.Id).ToListAsync();
+        }
+        public async Task<List<Deals>> GetAllDealsAsync(int pageNo=1,int pageSize=20)
+        {
+            return await _appDBContext.Deals.OrderBy(i=>i.Id).Skip((pageNo - 1) * pageSize).Take(pageSize).ToListAsync(); 
+        }
+        public async Task<int> GetTotalCountDealsAsync()
+        {
+            return await _appDBContext.Deals.CountAsync();
+        }
+        public async Task<List<Deals>> SearchAllDealsAsync(string searchKey,int pageNo = 1, int pageSize = 20)
+        {
+            return await _appDBContext.Deals.Where(i=> i.Id== Convert.ToInt32(searchKey)).OrderBy(i => i.Id).Skip((pageNo - 1) * pageSize).Take(pageSize).ToListAsync();
+        }
+        public async Task<int> GetTotalSearchCountDealsAsync(string searchKey)
+        {
+            return await _appDBContext.Deals.Where(i=> i.Id== Convert.ToInt32(searchKey)).CountAsync();
+        }
+        public async Task<bool> InsertDealsAsync(Deals data)
+        {
+            await _appDBContext.Deals.AddAsync(data);
+            await _appDBContext.SaveChangesAsync();
+            return true;
+        }
+        public async Task<Deals> GetDealsAsync(int Id)
+        {
+            Deals data = await _appDBContext.Deals.FirstOrDefaultAsync(c => c.Id.Equals(Id));
+            return data;
+        }
+        public async Task<bool> UpdateDealsAsync(Deals data)
+        {
+            _appDBContext.Deals.Update(data);
+            await _appDBContext.SaveChangesAsync();
+            return true;
+        }
+        public async Task<bool> DeleteDealsAsync(Deals data)
+        {
+            _appDBContext.Remove(data);
+            await _appDBContext.SaveChangesAsync();
+            return true;
+        }
+    }
+}
+

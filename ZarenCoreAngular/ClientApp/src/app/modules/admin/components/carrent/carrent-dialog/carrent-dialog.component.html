@@ -1,0 +1,148 @@
+<h1 mat-dialog-title>carrent</h1>
+<div mat-dialog-content>
+    <form fxLayout="column" #carrentForm="ngForm">
+       <mat-tab-group mat-align-tabs="start">
+<mat-tab label="Tab 1">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Pnrıd" name="pNRId"[(ngModel)]="carrentObj.pNRId"
+#pNRId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Catyıd" name="caTyId"[(ngModel)]="carrentObj.caTyId"
+#caTyId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Cartıd" name="caRtId"[(ngModel)]="carrentObj.caRtId"
+#caRtId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airportıdpickup" name="airportIdPickUp"[(ngModel)]="carrentObj.airportIdPickUp"
+#airportIdPickUp="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airportıdreturn" name="airportIdReturn"[(ngModel)]="carrentObj.airportIdReturn"
+#airportIdReturn="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Carepickupdate (dd-mm-yyyy)"
+                    [ngModel]="carrentObj.caRePickUpDate | date:'dd-MM-yyyy'" name="caRePickUpDate"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="caRePickUpDatePicker" name="hiddenawardDate"
+                    [(ngModel)]="carrentObj.caRePickUpDate">
+                <mat-datepicker-toggle matSuffix [for]="caRePickUpDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #caRePickUpDatePicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+<mat-tab label="Tab 2">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Carereturndate (dd-mm-yyyy)"
+                    [ngModel]="carrentObj.caReReturnDate | date:'dd-MM-yyyy'" name="caReReturnDate"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="caReReturnDatePicker" name="hiddenawardDate"
+                    [(ngModel)]="carrentObj.caReReturnDate">
+                <mat-datepicker-toggle matSuffix [for]="caReReturnDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #caReReturnDatePicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex> 
+                <input matInput placeholder="Carerate" type="number" name="caReRate"[(ngModel)]="carrentObj.caReRate"
+#caReRate="ngModel"   >
+               
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex> 
+                <input matInput placeholder="Caretax" type="number" name="caReTax"[(ngModel)]="carrentObj.caReTax"
+#caReTax="ngModel"   >
+               
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Currencyıd" name="currencyId"[(ngModel)]="carrentObj.currencyId"
+#currencyId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Carebookdate (dd-mm-yyyy)"
+                    [ngModel]="carrentObj.caReBookDate | date:'dd-MM-yyyy'" name="caReBookDate"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="caReBookDatePicker" name="hiddenawardDate"
+                    [(ngModel)]="carrentObj.caReBookDate">
+                <mat-datepicker-toggle matSuffix [for]="caReBookDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #caReBookDatePicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Caretimestamp (dd-mm-yyyy)"
+                    [ngModel]="carrentObj.caReTimestamp | date:'dd-MM-yyyy'" name="caReTimestamp"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="caReTimestampPicker" name="hiddenawardDate"
+                    [(ngModel)]="carrentObj.caReTimestamp">
+                <mat-datepicker-toggle matSuffix [for]="caReTimestampPicker"></mat-datepicker-toggle>
+                <mat-datepicker #caReTimestampPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Careactive" name="caReActive"[(ngModel)]="carrentObj.caReActive"
+#caReActive="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+
+</mat-tab-group>
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row wrap" fxFlex fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button mat-button mat-dialog-close tabindex="-1" cdkFocusInitial>Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!carrentForm.valid || !carrentForm.dirty"
+            (click)="savecarrent(carrentObj)">
+            Add/Update
+        </button>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+
+@using System.Globalization
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+@inject Microsoft.Extensions.Localization.IStringLocalizer<CulturePicker> L
+<RadzenDropDown @bind-Value="@culture" TValue="string" Data="@(new [] { new { Text = "English", Value = "en" }, new { Text = "Türkçe", Value = "tr" }, new { Text = "español", Value = "es" }, new { Text = "Deutsch", Value = "de" }, new { Text = "русский", Value = "ru" }, new { Text = "العربية", Value = "ar" }, new { Text = "français", Value = "fr" }, new { Text = "italiano", Value = "it" } })"
+    TextProperty="Text" ValueProperty="Value" Change="@ChangeCulture" />
+@code {
+        protected string culture;
+
+        protected override void OnInitialized()
+        {
+            culture = CultureInfo.CurrentCulture.Name;
+        }
+
+        protected void ChangeCulture()
+        {
+            var redirect = new Uri(NavigationManager.Uri).GetComponents(UriComponents.PathAndQuery | UriComponents.Fragment, UriFormat.UriEscaped);
+
+            var query = $"?culture={Uri.EscapeDataString(culture)}&redirectUri={redirect}";
+
+            NavigationManager.NavigateTo("Culture/SetCulture" + query, forceLoad: true);
+        }
+}

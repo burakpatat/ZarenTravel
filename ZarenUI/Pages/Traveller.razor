@@ -1,0 +1,366 @@
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Index> L
+@inject DialogService DialogService
+@page "/traveller/{transactionId}"
+@using System.Globalization;
+@using Microsoft.AspNetCore.WebUtilities;
+@using Model.Concrete;
+@using Newtonsoft.Json;
+<PageTitle>Zaren Travel Traveller Information</PageTitle>
+<main> 
+    <section>
+        <div class="container">
+            <div class="row mt-4 align-items-center">
+                <div class="col-12">
+                    <!-- Card START -->
+                    <div class="card bg-light overflow-hidden px-sm-5">
+                        <div class="row align-items-center g-4">
+
+                            <!-- Content -->
+                            <div class="col-sm-9">
+                                <div class="card-body">
+                                    <!-- Breadcrumb -->
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb breadcrumb-dots mb-0">
+                                            <li class="breadcrumb-item"><a href="/"><i class="bi bi-house me-1"></i><span data-i18="traveller.link.home"></span></a></li>
+                                            <li class="breadcrumb-item" data-i18="traveller.link.hoteldetail"></li>
+                                            <li class="breadcrumb-item active" data-i18="traveller.link.booking"></li>
+                                        </ol>
+                                    </nav>
+                                    <!-- Title -->
+                                    <h1 class="m-0 h2 card-title" data-i18="traveller.title">Traveller</h1>
+                                </div>
+                            </div>
+
+                            <!-- Image -->
+                            <div class="col-sm-3 text-end d-none d-sm-block">
+                                <img src="/assets/images/element/17.svg" class="mb-n4" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card END -->
+                </div>
+            </div>
+            <div class="bs-stepper stepper-outline">
+                <div class="bs-stepper-content p-0 pt-4">
+                    <div class="row g-4">
+                        <!-- Main content START -->
+                        <div class="col-xl-8">
+                            <div role="tabpanel">
+                                <div class="vstack gap-4">
+                                    <!-- Title -->
+                                    @if (totalPerson > 0 && BookingTravellersList.Count == 0)
+                                    {
+                                        <div class="card border">
+                                            <!-- Card header -->
+                                            <div class="card-header border-bottom totalPersonInfo" data-count="@totalPerson" data-parameter="@transactionId">
+
+                                                <h5 class="mb-0"><span data-i18="traveller.passenger.informations"></span></h5>
+
+                                            </div>
+                                            @for (int i = 0; i < totalPerson; i++)
+                                            {
+                                                <!-- Card body START -->
+                                                <div class="card-body">
+                                                    <div class="row g-4">
+                                                        <div class="col-md-2">
+                                                            <div class="form-control-bg-light">
+
+                                                                <select class="form-control Gender" required>
+                                                                    <option class="form-control" value="0" disable data-i18="traveller.select.gender">Selected Gender</option>
+                                                                    <option value="1">Mr</option>
+                                                                    <option value="2">Ms</option>
+                                                                </select>
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- Title -->
+                                                        <div class="col-md-5">
+                                                            <div class="form-control-bg-light">
+                                                                <input type="text" required class="form-control FirstName" data-i18="travel.firstname.placeholder" placeholder="" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-control-bg-light">
+                                                                <input type="text" required class="form-control LastName" data-i18="travel.lastname.placeholder" placeholder="" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-control-bg-light">
+                                                                <input type="email" required class="form-control Email" data-i18="travel.email" placeholder="" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-control-bg-light">
+                                                                <input type="text" data-mask="Phone" class="form-control MobileNumber" required data-i18="travel.mobilenumber" placeholder="" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-control-bg-light">
+                                                                <input type="text" class="form-control GovernmentId" required data-i18="travel.governmentId" placeholder="" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-control-bg-light">
+                                                                <input type="text" required class="form-control BirthDate " data-mask="Date" data-i18="travel.dateofbirth" placeholder="" data-date-format="d.m.y" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                                <!-- Card body END -->
+                                            }
+                                            <div class="card-body">
+                                                <div class="row g-4">
+                                                    <!-- Title -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-control-bg-light">
+                                                            <textarea type="text" class="form-control validateText" id="Note" data-i18="travel.notes" placeholder=""></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else if (totalPerson > 0 && BookingTravellersList.Count != 0)
+                                    {
+                                        <div class="card border">
+                                            <!-- Card header -->
+                                            <div class="card-header border-bottom totalPersonInfo" data-count="@totalPerson" data-parameter="@transactionId">
+                                                <h5 class="mb-0">Passenger Informations (For @totalPerson people)</h5>
+                                            </div>
+                                            @foreach (var item in BookingTravellersList)
+
+                                            {
+                                                <!-- Card body START -->
+                                                <div class="card-body">
+                                                    <div class="row g-4">
+                                                        <div class="col-md-2">
+                                                            <div class="form-control-bg-light">
+                                                                <select class="form-control Gender" required data-i18="traveller.select.gender">
+
+                                                                    @if (item.Gender == 1)
+                                                                    {
+                                                                        <option value="1" selected>Mr</option>
+                                                                        <option value="2">Ms</option>
+                                                                    }
+                                                                    else if (item.Gender == 2)
+                                                                    {
+                                                                        <option value="1">Mr</option>
+                                                                        <option value="2" selected>Ms</option>
+                                                                    }
+
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Title -->
+                                                        <div class="col-md-5">
+                                                            <div class="form-control-bg-light">
+                                                                <input type="text" class="form-control FirstName validateText" placeholder="First Name" required value="@item.FirstName" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-control-bg-light">
+                                                                <input type="text" class="form-control LastName validateText" placeholder="Last Name" required value="@item.LastName" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-control-bg-light">
+                                                                <input type="text" class="form-control Email" placeholder="Email" value="@item.Email" required />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-control-bg-light">
+                                                                <input type="text" class="form-control MobileNumber" placeholder="Mobile Number" required value="@item.MobileNumber" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-control-bg-light">
+                                                                <input type="text" class="form-control GovernmentId" placeholder="Government Id" required value="@item.GovernmentId" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-control-bg-light">
+                                                                <input type="text" class="form-control BirthDate " data-mask="Date" placeholder="Birth Date" required value="@item.BirthDate" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                                <!-- Card body END -->
+                                            }
+                                            <div class="card-body">
+                                                <div class="row g-4">
+                                                    <!-- Title -->
+                                                    <div class="col-md-12">
+                                                        <div class="form-control-bg-light">
+                                                            <textarea type="text" class="form-control FirstName validateText" placeholder="Notes">@note</textarea>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <div class="hstack gap-2 flex-wrap justify-content-between">
+                                        <a class="btn btn-secondary prev-btn mb-0 historyBack" data-i18="btn.previous"></a>
+                                        <a class="btn btn-primary noModal  mb-0 goPayment" id="goPayment" data-i18="travel.payment.button">Continue to payment</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                       
+                        <aside class="col-xl-4">
+                            <div class="vstack gap-4">
+                                
+                                <div class="card border">
+                                    
+                                    <div class="card-header border-bottom">
+                                        <h5 class="card-title mb-0">Price Summary</h5>
+                                    </div>
+                                    <div class="card-body">
+                                       
+                                        @foreach (var item in BookingReservations)
+                                        {
+                                            if (item.JsonData != null && item.JsonData != "" && item.JsonData.Contains("hotelDetail"))
+                                            {
+                                                var deserializeItem = JsonConvert.DeserializeObject<List<ZarenUI.Services.Models.Reservation.ReservationDetail>>(item.JsonData);
+                                                if (deserializeItem != null)
+                                                {
+                                                    var i = 0;
+                                                    foreach (var itemDeserialize in deserializeItem)
+                                                    {
+                                                        totalPriceValue += itemDeserialize.Price.Amount;
+
+                                                        <div class="card  border p-3 mb-3  removeBasket@(item.Id)">
+                                                          @*  <a href="#" data-id="@item.Id" class="btn  removeBasket"><i class="bi bi-trash3-fill"></i></a>*@
+                                                            <div class="row align-items-center">
+                                                               
+                                                                <div class="col-sm-12 col-md-12">
+                                                                    <div class="card-body pt-3 pt-sm-0 p-0">
+                                                                       
+                                                                        <h5 class="card-title"><a href="#">@itemDeserialize.Name</a></h5>
+                                                                    </div>
+                                                                </div>
+                                                            </div><div class="row g-4">
+ 
+                                                                <div class="col-lg-6">
+                                                                    <div class="">
+                                                                        <h6 class="fw-light small mb-1">Check-in</h6>
+                                                                        <h5 class="mb-1">@itemDeserialize.BeginDate.ToShortDateTime("dd.MM.yyyy")</h5>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-lg-6">
+                                                                    <div class="">
+                                                                        <h6 class="fw-light small mb-1">Check out</h6>
+                                                                        <h5 class="mb-1">@itemDeserialize.EndDate.ToShortDateTime("dd.MM.yyyy")</h5>
+                                                                    </div>
+                                                                </div>
+                                                                @{
+                                                                    CultureInfo provider = CultureInfo.InvariantCulture;
+                                                                    DateTime datecheckIn = DateTime.ParseExact(itemDeserialize.BeginDate.ToString("dd.MM.yyyy"), "dd.MM.yyyy", provider);
+                                                                    DateTime datecheckOut = DateTime.ParseExact(itemDeserialize.EndDate.ToString("dd.MM.yyyy"), "dd.MM.yyyy", provider);
+
+                                                                    var diffOfDates = datecheckOut.Subtract(datecheckIn);
+                                                                }
+                                                                <!-- Item -->
+                                                                <div class="col-lg-12">
+                                                                    <div class="bg-light py-3 px-4 rounded-3">
+                                                                        <h5 class="mb-1">@(itemDeserialize.Adult + itemDeserialize.Child) Guests</h5>
+                                                                        <small><i class="bi bi-brightness-high me-1"></i>@(diffOfDates.Days) Nights - @(diffOfDates.Days + 1) Days</small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        if ((deserializeItem.Count - 1) == i)
+                                                        {
+                                                            totalPrice = totalPriceValue.ToMoneyString() + " " + itemDeserialize.Price.Currency;
+                                                        }
+                                                        i++;
+                                                    }
+
+                                                }
+                                            } 
+                                        } 
+                                    </div> 
+                                    @if (totalPrice != "")
+                                    {
+                                        <div class="card-footer border-top">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="h5 mb-0">Payable Now</span>
+                                                <span class="h5 mb-0">@totalPrice</span>
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div> 
+                            </div> <!-- Row END -->
+                        </aside> 
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+@code {
+
+    protected string error;
+    protected bool errorVisible;
+    public List<BookingTravellers> BookingTravellersList { get; set; }
+    public List<BookingReservations> BookingReservations { get; set; }
+
+    public int adult { get; set; }
+    public int child { get; set; }
+    public int totalPerson { get; set; }
+    public string totalPrice { get; set; }
+    public double totalPriceValue { get; set; }
+    public string note { get; set; }
+    [Parameter]
+    public string transactionId { get; set; }
+    [Inject]
+    protected AutoCompletesRepository AutoCompleteService { get; set; }
+    [Inject]
+    protected NavigationManager NavigationManager { get; set; }
+    [Inject]
+    protected BookingTravellersRepository BookingTravellersRepository { get; set; }
+    [Inject]
+    protected BookingReservationsRepository bookingReservationsRepository { get; set; }
+
+    [Inject]
+    protected TokenHelper _tokenHelper { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("adults", out var _adult))
+            adult = _adult.ToInt32();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("children", out var _child))
+            child = _child.ToInt32();
+
+
+        BookingReservations = _tokenHelper.GetBasket().Where(a=>a.TransactionId==transactionId).ToList();
+        if (!BookingReservations.Any())
+            NavigationManager.NavigateTo("/");
+        else
+        {
+            totalPerson = adult + child;
+
+            BookingTravellersList = BookingTravellersRepository.GetByReservationNumber(transactionId);
+            var currentReservation = bookingReservationsRepository.GetByTransactionId(transactionId).FirstOrDefault();
+            if (currentReservation != null)
+                note = currentReservation.Note;
+        }
+        await base.OnInitializedAsync();
+    }
+
+
+
+}

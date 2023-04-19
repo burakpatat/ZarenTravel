@@ -1,0 +1,53 @@
+<h1 mat-dialog-title>fieldstype</h1>
+<div mat-dialog-content>
+    <form fxLayout="column" #fieldstypeForm="ngForm">
+       <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Fitycode" name="fiTyCode"[(ngModel)]="fieldstypeObj.fiTyCode"
+#fiTyCode="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Fityname" name="fiTyName"[(ngModel)]="fieldstypeObj.fiTyName"
+#fiTyName="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Fitytimestamp (dd-mm-yyyy)"
+                    [ngModel]="fieldstypeObj.fiTyTimestamp | date:'dd-MM-yyyy'" name="fiTyTimestamp"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="fiTyTimestampPicker" name="hiddenawardDate"
+                    [(ngModel)]="fieldstypeObj.fiTyTimestamp">
+                <mat-datepicker-toggle matSuffix [for]="fiTyTimestampPicker"></mat-datepicker-toggle>
+                <mat-datepicker #fiTyTimestampPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Fityactive" name="fiTyActive"[(ngModel)]="fieldstypeObj.fiTyActive"
+#fiTyActive="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row wrap" fxFlex fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button mat-button mat-dialog-close tabindex="-1" cdkFocusInitial>Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!fieldstypeForm.valid || !fieldstypeForm.dirty"
+            (click)="savefieldstype(fieldstypeObj)">
+            Add/Update
+        </button>
+    </div>
+</div>

@@ -1,0 +1,248 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+		<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+		<EnableNETAnalyzers>false</EnableNETAnalyzers>
+		<TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+		<UserSecretsId>53636948-ddd4-4a4e-a805-5993ce12999d</UserSecretsId>
+		<AnalysisLevel>none</AnalysisLevel>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Chat\**" />
+		<Compile Remove="packages\**" />
+		<Compile Remove="StaticFiles\**" />
+		<Content Remove="Chat\**" />
+		<Content Remove="packages\**" />
+		<Content Remove="StaticFiles\**" />
+		<EmbeddedResource Remove="Chat\**" />
+		<EmbeddedResource Remove="packages\**" />
+		<EmbeddedResource Remove="StaticFiles\**" />
+		<None Remove="Chat\**" />
+		<None Remove="packages\**" />
+		<None Remove="StaticFiles\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="Color\ClickCommand.cs" />
+		<Compile Remove="Color\CommandManager.cs" />
+		<Compile Remove="Color\ICommand.cs" />
+		<Compile Remove="Color\UserClick.cs" />
+		<Compile Remove="Controllers\AccountActionsController.cs" />
+		<Compile Remove="Controllers\AccountBlockedCategoriesController.cs" />
+		<Compile Remove="Controllers\AccountBlockedPostsController.cs" />
+		<Compile Remove="Controllers\AccountBlockedProfilesController.cs" />
+		<Compile Remove="Controllers\AccountBlockedTagsController.cs" />
+		<Compile Remove="Controllers\AccountCategoryController.cs" />
+		<Compile Remove="Controllers\AccountCharacterV2Controller.cs" />
+		<Compile Remove="Controllers\AccountCoordinatesController.cs" />
+		<Compile Remove="Controllers\AccountDevicesController.cs" />
+		<Compile Remove="Controllers\AccountErrorsController.cs" />
+		<Compile Remove="Controllers\AccountFollowedCategoriesController.cs" />
+		<Compile Remove="Controllers\AccountFollowedPostsController.cs" />
+		<Compile Remove="Controllers\AccountFollowedProfilesController.cs" />
+		<Compile Remove="Controllers\AccountFollowedTagsController.cs" />
+		<Compile Remove="Controllers\AccountGoalResultsController.cs" />
+		<Compile Remove="Controllers\AccountGoalsController.cs" />
+		<Compile Remove="Controllers\AccountLikedPostsController.cs" />
+		<Compile Remove="Controllers\AccountLoginsController.cs" />
+		<Compile Remove="Controllers\AccountNewsletterInfoController.cs" />
+		<Compile Remove="Controllers\AccountProfileEncryptedController.cs" />
+		<Compile Remove="Controllers\AccountProfileInfoController.cs" />
+		<Compile Remove="Controllers\AccountProfilePaymentInfoEncryptedController.cs" />
+		<Compile Remove="Controllers\AccountProfilePinnedController.cs" />
+		<Compile Remove="Controllers\AccountProfileSavedPostsController.cs" />
+		<Compile Remove="Controllers\AccountProfileStatisticsController.cs" />
+		<Compile Remove="Controllers\AccountProfileStyleController.cs" />
+		<Compile Remove="Controllers\AccountProfileTop10Controller.cs" />
+		<Compile Remove="Controllers\AccountsController.cs" />
+		<Compile Remove="Controllers\AccountSearchHistoryController.cs" />
+		<Compile Remove="Controllers\AccountTokensController.cs" />
+		<Compile Remove="Controllers\AccountTypeV2Controller.cs" />
+		<Compile Remove="Controllers\AccountWalletEventsController.cs" />
+		<Compile Remove="Controllers\AccountWalletRequestsController.cs" />
+		<Compile Remove="Controllers\AccountWalletsController.cs" />
+		<Compile Remove="Controllers\ActivisionCodesController.cs" />
+		<Compile Remove="Controllers\AdvertorialPositionsController.cs" />
+		<Compile Remove="Controllers\AdvertorialsController.cs" />
+		<Compile Remove="Controllers\AdvertorialTypesController.cs" />
+		<Compile Remove="Controllers\AgeGroupV2Controller.cs" />
+		<Compile Remove="Controllers\AuthenticationController2.cs" />
+		<Compile Remove="Controllers\BannedWordsController.cs" />
+		<Compile Remove="Controllers\BlockedIPsController.cs" />
+		<Compile Remove="Controllers\BlockedTypesController.cs" />
+		<Compile Remove="Controllers\BrandTypeV2Controller.cs" />
+		<Compile Remove="Controllers\BriefIncomeLevelV2Controller.cs" />
+		<Compile Remove="Controllers\BriefInfGendersV2Controller.cs" />
+		<Compile Remove="Controllers\BriefOfferSmaCampaignTypeV2Controller.cs" />
+		<Compile Remove="Controllers\BriefOfferSmaV2Controller.cs" />
+		<Compile Remove="Controllers\BriefOfferV2Controller.cs" />
+		<Compile Remove="Controllers\BriefPlatformsV2Controller.cs" />
+		<Compile Remove="Controllers\BriefStatuV2Controller.cs" />
+		<Compile Remove="Controllers\BriefTargetGroupV2Controller.cs" />
+		<Compile Remove="Controllers\BriefV2Controller.cs" />
+		<Compile Remove="Controllers\CampaignController - Kopyala.cs" />
+		<Compile Remove="Controllers\CampaignSelectedBrandV2Controller.cs" />
+		<Compile Remove="Controllers\CampaignSelectedCategoryV2Controller.cs" />
+		<Compile Remove="Controllers\CampaignV2Controller.cs" />
+		<Compile Remove="Controllers\CampaingSelectedSharingReportV2Controller.cs" />
+		<Compile Remove="Controllers\ChildStatuV2Controller.cs" />
+		<Compile Remove="Controllers\CityController.cs" />
+		<Compile Remove="Controllers\CityV2Controller.cs" />
+		<Compile Remove="Controllers\ContentAccordionsController.cs" />
+		<Compile Remove="Controllers\ContentsController.cs" />
+		<Compile Remove="Controllers\ContinentController.cs" />
+		<Compile Remove="Controllers\CountryController.cs" />
+		<Compile Remove="Controllers\CountryV2Controller.cs" />
+		<Compile Remove="Controllers\CustomerRepresentetiveV2Controller.cs" />
+		<Compile Remove="Controllers\DatabaseController.cs" />
+		<Compile Remove="Controllers\DistrictV2Controller.cs" />
+		<Compile Remove="Controllers\GenderV2Controller.cs" />
+		<Compile Remove="Controllers\GenerateQueryV2Controller.cs" />
+		<Compile Remove="Controllers\HasManagerStatuV2Controller.cs" />
+		<Compile Remove="Controllers\IncomeLevelV2Controller.cs" />
+		<Compile Remove="Controllers\InfluencerDataHistoryV2Controller.cs" />
+		<Compile Remove="Controllers\ManagerControllerOld.cs" />
+		<Compile Remove="Controllers\ManagerControllerv2.cs" />
+		<Compile Remove="Controllers\ManagerUserV2Controller.cs" />
+		<Compile Remove="Controllers\MaritalStatuV2Controller.cs" />
+		<Compile Remove="Controllers\MyListCategoryV2Controller.cs" />
+		<Compile Remove="Controllers\MyListsController.cs" />
+		<Compile Remove="Controllers\MyListSocialMediaAccountV2Controller.cs" />
+		<Compile Remove="Controllers\MyListTagsV2Controller.cs" />
+		<Compile Remove="Controllers\OfferStatuV2Controller.cs" />
+		<Compile Remove="Controllers\ParameterControllerWithCache.cs" />
+		<Compile Remove="Controllers\ParameterV2Controller.cs" />
+		<Compile Remove="Controllers\PaymentInfoV2Controller.cs" />
+		<Compile Remove="Controllers\PostCategoryController.cs" />
+		<Compile Remove="Controllers\Posts2Controller.cs" />
+		<Compile Remove="Controllers\PostsController.cs" />
+		<Compile Remove="Controllers\PostSelectedCategoriesController.cs" />
+		<Compile Remove="Controllers\PostSelectedTagsController.cs" />
+		<Compile Remove="Controllers\PostSettingsController.cs" />
+		<Compile Remove="Controllers\PostStatisticsController.cs" />
+		<Compile Remove="Controllers\PostTypesController.cs" />
+		<Compile Remove="Controllers\PregnantStatuV2Controller.cs" />
+		<Compile Remove="Controllers\ProcedureLogController.cs" />
+		<Compile Remove="Controllers\RecordAttributesController.cs" />
+		<Compile Remove="Controllers\ReportsController.cs" />
+		<Compile Remove="Controllers\ResourcesController.cs" />
+		<Compile Remove="Controllers\RoleCategoryV2Controller.cs" />
+		<Compile Remove="Controllers\RoleV2Controller.cs" />
+		<Compile Remove="Controllers\SectorV2Controller.cs" />
+		<Compile Remove="Controllers\SharedListsV2Controller.cs" />
+		<Compile Remove="Controllers\SMSHistoryController.cs" />
+		<Compile Remove="Controllers\SocialMediaAccountCategoryV2Controller.cs" />
+		<Compile Remove="Controllers\SocialMediaAccountDataHistoryV2Controller.cs" />
+		<Compile Remove="Controllers\SocialMediaAccountDemographicV2Controller.cs" />
+		<Compile Remove="Controllers\SocialMediaAccountSelectedCategoryV2Controller.cs" />
+		<Compile Remove="Controllers\SocialMediaConnectionsController.cs" />
+		<Compile Remove="Controllers\TagRelationsController.cs" />
+		<Compile Remove="Controllers\TagsController.cs" />
+		<Compile Remove="Controllers\TagV2Controller.cs" />
+		<Compile Remove="Controllers\UserV2Controller - Kopya %282%29.cs" />
+		<Compile Remove="Controllers\UserV2Controller - Kopyala.cs" />
+		<Compile Remove="Helper\CampaignHelper.cs" />
+		<Compile Remove="Helper\ExcelExport.cs" />
+		<Compile Remove="Helper\WriteTools.cs" />
+		<Compile Remove="Logger\Logger.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Color\README.md" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Include="Chat\Hubs\ChatHub.cs" />
+	  <Compile Include="Chat\Interface\IChatClient.cs" />
+	  <Compile Include="Chat\Model\ChatMessage.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Connection.Identifier.Quoting" Version="1.0.2" />
+		<PackageReference Include="Dapper" Version="2.0.123" />
+		<PackageReference Include="Dapper.Contrib" Version="2.0.78" />
+		<PackageReference Include="FluentValidation" Version="11.0.3" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.0.3" />
+		<PackageReference Include="log4net" Version="2.0.14" />
+		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.5">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="6.0.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0-preview.1.22076.8" />
+		<PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="7.0.0-preview.1.22109.13" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.5" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.14" />
+		<PackageReference Include="NSwag.ApiDescription.Client" Version="13.16.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Reportity" Version="1.1.0" />
+		<PackageReference Include="Serilog" Version="2.11.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.3.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.3.1" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+		<PackageReference Include="Volo.Abp.Localization" Version="5.2.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Color\" />
+	  <Folder Include="Configuration\Database\" />
+	  <Folder Include="Controllers\" />
+	  <Folder Include="Helper\Validators\" />
+	  <Folder Include="Logger\" />
+	  <Folder Include="Keys\" />
+	  <Folder Include="HtmlFolder\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Business\Zaren.Business.csproj" />
+	  <ProjectReference Include="..\Core\Zaren.Core.csproj" />
+	  <ProjectReference Include="..\Model\Zaren.Model.csproj" />
+	</ItemGroup>
+
+	<ProjectExtensions>
+		<VisualStudio><UserProperties appsettings_1json__JsonSchema="https://typedoc.org/schema.json" /></VisualStudio>
+	</ProjectExtensions>
+
+	<PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+		<TypeScriptTarget>ES5</TypeScriptTarget>
+		<TypeScriptJSXEmit>React</TypeScriptJSXEmit>
+		<TypeScriptModuleKind />
+		<TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+		<TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+		<TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+		<TypeScriptOutFile />
+		<TypeScriptOutDir />
+		<TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
+		<TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+		<TypeScriptSourceMap>True</TypeScriptSourceMap>
+		<TypeScriptMapRoot />
+		<TypeScriptSourceRoot />
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<WarningsAsErrors />
+		<DocumentationFile></DocumentationFile>
+		<DefineConstants>TRACE</DefineConstants>
+	</PropertyGroup>
+
+</Project>

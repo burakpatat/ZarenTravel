@@ -1,0 +1,241 @@
+@page "/market-place-types"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>MarketPlaceTypes</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="MarketPlaceTypes" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px" Render=Grid0Render AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@marketPlaceTypes"    TItem="ZarenTravel.Models.ZarenSoft.MarketPlaceType" RowDoubleClick="@EditRow" RowSelect=@GetChildData>
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlaceType" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlaceType" Property="Name" Title="Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlaceType" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="marketPlaceType">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, marketPlaceType)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+                    <RadzenHeading Visible="@(marketPlaceType != null)" Size="H1" Text="MarketPlacesProfiles" />
+                    <RadzenButton Visible="@(marketPlaceType != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => MarketPlacesProfileAddButtonClick(args,marketPlaceType)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(marketPlaceType != null)" @ref=MarketPlacesProfileDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@marketPlaceType?.MarketPlacesProfiles" TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile"  RowSelect="@(args => MarketPlacesProfileRowSelect(args, marketPlaceType))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Property="Name" Title="Name">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Property="Descriptions" Title="Descriptions">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Property="Website" Title="Website">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Property="SourceMarketCountryId" Title="Source Market Country Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Property="Logo" Title="Logo">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Property="AcceptSupplier" Title="Accept Supplier">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Property="AcceptReseller" Title="Accept Reseller">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Property="AcceptProducts" Title="Accept Products">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Property="CreatedDate" Title="Created Date">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Property="UpdatedDate" Title="Updated Date">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Property="CreatedBy" Title="Created By">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Property="UpdatedBy" Title="Updated By">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Property="MarketPlaceType.Name" Title="Market Place Type">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Property="MarketPlacesProfile1.Name" Title="Market Places Profile1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.MarketPlacesProfile" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="marketPlacesProfileChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => MarketPlacesProfileDeleteButtonClick(args, marketPlacesProfileChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.MarketPlaceType> marketPlaceTypes;
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.MarketPlaceType> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        marketPlaceTypes = await ZarenSoftService.GetMarketPlaceTypes(new Query { Filter = $@"i => i.Name.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        marketPlaceTypes = await ZarenSoftService.GetMarketPlaceTypes(new Query { Filter = $@"i => i.Name.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddMarketPlaceType>("Add MarketPlaceType", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravel.Models.ZarenSoft.MarketPlaceType> args)
+    {
+        await DialogService.OpenAsync<EditMarketPlaceType>("Edit MarketPlaceType", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.MarketPlaceType marketPlaceType)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteMarketPlaceType(marketPlaceType.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete MarketPlaceType" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await ZarenSoftService.ExportMarketPlaceTypesToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "MarketPlaceTypes");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await ZarenSoftService.ExportMarketPlaceTypesToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "MarketPlaceTypes");
+        }
+    }
+
+    protected ZarenTravel.Models.ZarenSoft.MarketPlaceType marketPlaceType;
+    protected async Task GetChildData(ZarenTravel.Models.ZarenSoft.MarketPlaceType args)
+    {
+        marketPlaceType = args;
+        var MarketPlacesProfileResult = await ZarenSoftService.GetMarketPlacesProfiles(new Query { Filter = $"i => i.MarketPlaceTypeId == {args.Id}", Expand = "MarketPlaceType,MarketPlacesProfile1" });
+        if (MarketPlacesProfileResult != null)
+        {
+            args.MarketPlacesProfiles = MarketPlacesProfileResult.ToList();
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.MarketPlacesProfile> MarketPlacesProfileDataGrid;
+
+    protected async Task MarketPlacesProfileAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.MarketPlaceType data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddMarketPlacesProfile>("Add MarketPlacesProfile", new Dictionary<string, object> { {"MarketPlaceTypeId" , data.Id} });
+        await GetChildData(data);
+        await MarketPlacesProfileDataGrid.Reload();
+    }
+
+    protected async Task MarketPlacesProfileRowSelect(ZarenTravel.Models.ZarenSoft.MarketPlacesProfile args, ZarenTravel.Models.ZarenSoft.MarketPlaceType data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditMarketPlacesProfile>("Edit MarketPlacesProfile", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await MarketPlacesProfileDataGrid.Reload();
+    }
+
+    protected async Task MarketPlacesProfileDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.MarketPlacesProfile marketPlacesProfile)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteMarketPlacesProfile(marketPlacesProfile.Id);
+
+                if (deleteResult != null)
+                {
+                    await MarketPlacesProfileDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete MarketPlacesProfile" 
+            });
+        }
+    }
+
+    string lastFilter;
+    protected async void Grid0Render(DataGridRenderEventArgs<ZarenTravel.Models.ZarenSoft.MarketPlaceType> args)
+    {
+        if (grid0.Query.Filter != lastFilter) {
+            marketPlaceType = grid0.View.FirstOrDefault();
+        }
+
+        if (grid0.Query.Filter != lastFilter)
+        {
+            await grid0.SelectRow(marketPlaceType);
+        }
+
+        lastFilter = grid0.Query.Filter;
+    }
+}

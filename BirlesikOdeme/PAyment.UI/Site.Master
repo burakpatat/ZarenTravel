@@ -1,0 +1,105 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="PAyment.UI.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zaren Payment Services</title>
+
+    <meta name="description">
+    <meta name="author">
+    <meta name="keywords">
+
+    <!-- ================== BEGIN core-css ================== -->
+    <link href="/Content/css/vendor.min.css" rel="stylesheet">
+    <link href="/Content/css/app.min.css" rel="stylesheet">
+    <link href="/Content/css/site.css?v=8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U"
+        rel="stylesheet">
+    <!-- ================== END core-css ================== -->
+
+    <link href="/Content/lib/jvectormap-next/jquery-jvectormap.css" rel="stylesheet">
+</head>
+
+
+<body class="pace-done app-init"> 
+    <form clientidmode="static" id="Form1" runat="server"> 
+        <!-- BEGIN #app -->
+        <div b-k1t0mrplc2="" id="app" class="app  app-content-full-width"> 
+            <div id="content" class="app-content">
+                <asp:ContentPlaceHolder ID="MainContent" ClientIDMode="Static" runat="server">
+                </asp:ContentPlaceHolder>
+                <!-- BEGIN btn-scroll-top -->
+                <a href="#" data-click="scroll-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up">
+                </i></a>
+                <!-- END btn-scroll-top -->
+                <div class="footer" style="text-align: center; padding: 0px;">
+                    <div class="col-md-12 textaligncenter">
+                        <a href="javascript:void(0)" onclick="LoadRemote2('page')" title="Kullanım Koşulları / Gizlilik Güvenlik"
+                            style="padding: 21px; display: inline-block;">Kullanım Koşulları / Gizlilik Güvenlik</a>
+                        <div class="space20px"></div>
+                        <p>
+                            Zaren Travel - Ataköy 7-8-9-10 Mh. Çobançeşme E-5 Yanyol No:16/1/A Selenium Retro-9
+                            A Blok K:18 D:130 34158 - Istanbul - Turkey<br>
+                            <br>
+                            0850 380 00 34 
+                            <br>
+                            <a href="https://wa.me/905425523685" style="color: inherit; font-weight: normal"
+                                target="_blank">+90 542 552 36 85</a>
+                            <br>
+                            info@zarengroup.com
+                        </p> 
+                    </div>
+                    <!--9-->
+                    <!--
+                                    <div class="col-md-3 textaligncenter">
+                                        <span id="ss_img_wrapper_115-55_image_en"><a href="http://www.alphassl.com/ssl-certificates/wildcard-ssl.html" target="_blank" title="SSL Certificates"><img alt="Wildcard SSL Certificates" border=0 id="ss_img" src="//seal.alphassl.com/SiteSeal/images/alpha_noscript_115-55_en.gif" title="SSL Certificate"></a></span><script type="text/javascript" src="//seal.alphassl.com/SiteSeal/alpha_image_115-55_en.js"></script>
+                                     </div>
+                                     --> 
+                </div>
+            </div> 
+            <!-- BEGIN row -->
+
+            <!-- END card -->
+
+            <!-- END col-3 -->
+        </div>
+        <!-- END row -->
+        <style>
+            .nav.nav-tabs.nav-tabs-v2 > .nav-item > .nav-link {
+                padding: 1rem 30px;
+            }
+        </style>
+
+        <!-- BEGIN btn-scroll-top -->
+        <a b-k1t0mrplc2="" href="#" data-toggle="scroll-to-top" class="btn-scroll-top fade">
+            <i b-k1t0mrplc2="" class="fa fa-arrow-up"></i></a>
+        <!-- END btn-scroll-top -->
+
+        <!-- END #app -->
+
+        <!-- ================== BEGIN core-js ================== -->
+
+        <script src="/Content/js/vendor.min.js"></script>
+        <script src="/Content/js/app.min.js"></script>
+        <script src="/Content/js/site.js?v=8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U"></script>
+        <!-- ================== END core-js ================== -->
+
+
+        <script src="/Content/lib/jvectormap-next/jquery-jvectormap.min.js"></script>
+        <script src="/Content/lib/jvectormap-content/world-mill.js"></script>
+        <script src="/Content/lib/apexcharts/dist/apexcharts.min.js"></script>
+        <script src="/Content/js/demo/dashboard.demo.js"></script>
+
+
+    </form>
+</body>
+
+
+
+
+
+
+
+</html>

@@ -1,0 +1,732 @@
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Index> L
+@page "/hotels"
+@using System.Globalization;
+@using Microsoft.AspNetCore.WebUtilities;
+@using Model.Concrete;
+@using SanTsgHotelBooking.Application.Models.LocationHotelPriceResponse;
+@using SanTsgHotelBooking.Application.Services.IServices;
+@using SanTsgHotelBooking.Application.Services;
+@using Core.Entities;
+
+<PageTitle> Hotel</PageTitle>
+<main>
+
+    <!-- =======================
+    Main Banner START -->
+    <section class="pt-0">
+        <div class="container">
+            <!-- Background image -->
+            <div class="rounded-3 p-3 p-sm-5 mt-5" style="background-image: url(assets/images/bg/05.jpg); background-position: center center; background-repeat: no-repeat; background-size: cover;">
+                <!-- Banner title -->
+                <div class="row my-2 my-xl-5">
+                    <div class="col-md-8 mx-auto">
+                        <h1 class="text-center text-white">
+                            <span class="hotelCount">
+                                @hotelCount
+                            </span> Hotels in @location
+                        </h1>
+                    </div>
+                </div>
+
+                <!-- Booking from START -->
+                <form class="bg-mode shadow rounded-3 position-relative p-4 pe-md-5 pb-5 pb-md-4 mb-4">
+                    <div class="row g-4 align-items-center">
+                        <!-- Location -->
+                        <div class="col-lg-3">
+                            <div class="form-control-border form-control-transparent form-fs-md d-flex">
+                                <!-- Icon -->
+                                <i class="bi bi-geo-alt fs-3 me-2 mt-2"></i>
+                                <!-- Select input -->
+                                <div class="flex-grow-1">
+                                    <label class="form-label"><span data-i18="hotellist.location"></span></label>
+                                    <select class="form-select js-choice hotelCity" data-search-enabled="true">
+                                        @{
+                                            if (AutoCompletes != null)
+                                            {
+                                                if (arrivalLocId != null)
+                                                {
+                                                    <option value="@arrivalLocId" selected="selected">@location</option>
+                                                    foreach (var item in AutoCompletes.Where(a => a.SystemId != arrivalLocId))
+                                                    {
+                                                        <option value="@item.SystemId">@item.Name</option>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    foreach (var item in AutoCompletes)
+                                                    {
+                                                        <option value="@item.SystemId">@item.Name</option>
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="d-flex">
+                                <!-- Icon -->
+                                <i class="bi bi-calendar fs-3 me-2 mt-2"></i>
+                                <!-- Date input -->
+                                <div class="form-control-border form-control-transparent form-fs-md">
+                                    <label class="form-label"><span data-i18="hotellist.check.in"></span></label>
+                                    <input type="text" class="form-control flatpickr hotelStart" data-date-format="d.m.y" id="dateTimeStart" placeholder="Select date" value="@checkIn">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Check in -->
+                        <div class="col-lg-3">
+                            <div class="d-flex">
+                                <!-- Icon -->
+                                <i class="bi bi-calendar fs-3 me-2 mt-2"></i>
+                                <!-- Date input -->
+                                <div class="form-control-border form-control-transparent form-fs-md">
+                                    <label class="form-label"><span data-i18="hotellist.check.out"></span></label>
+                                    <input type="text" class="form-control flatpickr hotelEnd" placeholder="Select date" id="dateTimeEnd" value="@checkOut" data-date-format="d.m.y">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Guest -->
+                        <div class="col-lg-3">
+                            <div class="form-control-border form-control-transparent form-fs-md d-flex">
+                                <!-- Icon -->
+                                <i class="bi bi-person fs-3 me-2 mt-2"></i>
+                                <!-- Dropdown input -->
+                                <div class="w-100">
+                                    <label class="form-label"><span data-i18="hotellist.guest.rooms"></span></label>
+                                    <div class="dropdown guest-selector me-2">
+                                        <input type="text" class="form-guest-selector form-control selection-result" id="dropdownGuest" data-bs-auto-close="outside" data-bs-toggle="dropdown" value="@(adults+" "+"guest".T()+" "+rooms+" "+"night".T())">
+                                        <!-- dropdown items -->
+                                        <ul class="dropdown-menu guest-selector-dropdown" aria-labelledby="dropdownGuest">
+                                            <!-- Adult -->
+                                            <li class="d-flex justify-content-between">
+                                                <div>
+                                                    <h6 class="mb-0"><span data-i18="adults"></span></h6>
+                                                    <small><span data-i18="ages.13.or.above"></span></small>
+                                                </div>
+
+                                                <div class="hstack gap-1 align-items-center">
+                                                    <button type="button" class="btn btn-link adult-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
+                                                    <h6 class="guest-selector-count mb-0 adults">@adults</h6>
+                                                    <button type="button" class="btn btn-link adult-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
+                                                </div>
+                                            </li>
+
+                                            <!-- Divider -->
+                                            <li class="dropdown-divider"></li>
+
+                                            <!-- Child -->
+                                            <li class="d-flex justify-content-between">
+                                                <div>
+                                                    <h6 class="mb-0"><span data-i18="child"></span></h6>
+                                                    <small><span data-i18="ages.13.or.below"></span></small>
+                                                </div>
+
+                                                <div class="hstack gap-1 align-items-center">
+                                                    <button type="button" class="btn btn-link child-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
+                                                    <h6 class="guest-selector-count mb-0 child children">@children</h6>
+                                                    <button type="button" class="btn btn-link child-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
+                                                </div>
+                                            </li>
+
+                                            <!-- Divider -->
+                                            <li class="dropdown-divider"></li>
+
+                                            <!-- Rooms -->
+                                            <li class="d-flex justify-content-between">
+                                                <div>
+                                                    <h6 class="mb-0"><span data-i18="rooms"></span></h6>
+                                                    <small><span data-i18="max.room.8"></span></small>
+                                                </div>
+
+                                                <div class="hstack gap-1 align-items-center">
+                                                    <button type="button" class="btn btn-link room-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
+                                                    <h6 class="guest-selector-count mb-0 rooms">@rooms</h6>
+                                                    <button type="button" class="btn btn-link room-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Button -->
+                    <div class="btn-position-md-middle">
+                        <a class="icon-lg btn btn-round btn-primary mb-0 hotelFilter" href=""><i class="bi bi-search fa-fw"></i></a>
+                    </div>
+                </form>
+                <!-- Booking from END -->
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+    Main Banner END -->
+    <!-- =======================
+    Hotel list START -->
+    <section class="pt-0">
+        <div class="container">
+            <!-- Tabs and alert START -->
+            <!-- Tabs and alert END -->
+
+            <div class="row">
+                <!-- Left sidebar START -->
+                <aside class="col-xl-4 col-xxl-3">
+                    <!-- Responsive offcanvas body START -->
+                    <div class="offcanvas-xl offcanvas-end" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasSidebarLabel"><span data-i18="advanced.filters"></span></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar" aria-label="Close"></button>
+                        </div>
+                         <div class="offcanvas-body flex-column p-3 p-xl-0">
+                            <form class="rounded-3 shadow">
+                                <!-- Hotel type START -->
+                                <div class="card card-body rounded-0 rounded-top p-4">
+                                    <!-- Title -->
+                                    <h6 class="mb-2">Hotel Type</h6>
+                                    <!-- Hotel Type group -->
+                                    <div class="col-12">
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="hotelType1">
+                                            <label class="form-check-label" for="hotelType1">All</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="hotelType2">
+                                            <label class="form-check-label" for="hotelType2">Hotel</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="hotelType3">
+                                            <label class="form-check-label" for="hotelType3">Apartment</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="hotelType4">
+                                            <label class="form-check-label" for="hotelType4">Resort</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="hotelType5">
+                                            <label class="form-check-label" for="hotelType5">Villa</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="hotelType6">
+                                            <label class="form-check-label" for="hotelType6">Lodge</label>
+                                        </div>
+
+                                        <!-- Collapse body -->
+                                        <div class="multi-collapse collapse" id="hotelType">
+                                            <!-- Checkbox -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="hotelType7">
+                                                <label class="form-check-label" for="hotelType7">Guest House</label>
+                                            </div>
+                                            <!-- Checkbox -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="hotelType10">
+                                                <label class="form-check-label" for="hotelType10">Cottage</label>
+                                            </div>
+                                            <!-- Checkbox -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="hotelType8">
+                                                <label class="form-check-label" for="hotelType8">Beach Hut</label>
+                                            </div>
+                                            <!-- Checkbox -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="hotelType9">
+                                                <label class="form-check-label" for="hotelType9">Farm house</label>
+                                            </div>
+                                        </div>
+                                        <!-- Collapse button -->
+                                        <a class="p-0 mb-0 mt-2 btn-more d-flex align-items-center collapsed" data-bs-toggle="collapse" href="#hotelType" role="button" aria-expanded="false" aria-controls="hotelType">
+                                            See <span class="see-more ms-1">more</span><span class="see-less ms-1">less</span><i class="fa-solid fa-angle-down ms-2"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Hotel type END -->
+
+                                <hr class="my-0"> <!-- Divider -->
+                                <!-- Price range START -->
+                                <div class="card card-body rounded-0 p-4">
+                                    <!-- Title -->
+                                    <h6 class="mb-2">Price range</h6>
+                                    <!-- Price range group -->
+                                    <div class="col-12">
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="priceRange1">
+                                            <label class="form-check-label" for="priceRange1">Up to $500</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="priceRange2">
+                                            <label class="form-check-label" for="priceRange2">$500 - $1000</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="priceRange3">
+                                            <label class="form-check-label" for="priceRange3">$1000 - $1500</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="priceRange4">
+                                            <label class="form-check-label" for="priceRange4">$1500 - $2000</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="priceRange5">
+                                            <label class="form-check-label" for="priceRange5">$2000+</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Price range END -->
+
+                                <hr class="my-0"> <!-- Divider -->
+                                <!-- Popular type START -->
+                                <div class="card card-body rounded-0 p-4">
+                                    <!-- Title -->
+                                    <h6 class="mb-2">Popular Type</h6>
+                                    <!-- Popular Type group -->
+                                    <div class="col-12">
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="popolarType1">
+                                            <label class="form-check-label" for="popolarType1">Free Breakfast Included</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="popolarType2">
+                                            <label class="form-check-label" for="popolarType2">Pay At Hotel Available</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="popolarType3">
+                                            <label class="form-check-label" for="popolarType3">Free Cancellation Available</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Popular type END -->
+
+                                <hr class="my-0"> <!-- Divider -->
+                                <!-- Customer Rating START -->
+                                <div class="card card-body rounded-0 p-4">
+                                    <!-- Title -->
+                                    <h6 class="mb-2">Customer Rating</h6>
+                                    <!-- Customer Rating group -->
+                                    <ul class="list-inline mb-0 g-3">
+                                        <!-- Item -->
+                                        <li class="list-inline-item mb-0">
+                                            <input type="checkbox" class="btn-check" id="btn-check-c1">
+                                            <label class="btn btn-sm btn-light btn-primary-soft-check" for="btn-check-c1">3+</label>
+                                        </li>
+                                        <!-- Item -->
+                                        <li class="list-inline-item mb-0">
+                                            <input type="checkbox" class="btn-check" id="btn-check-c2">
+                                            <label class="btn btn-sm btn-light btn-primary-soft-check" for="btn-check-c2">3.5+</label>
+                                        </li>
+                                        <!-- Item -->
+                                        <li class="list-inline-item mb-0">
+                                            <input type="checkbox" class="btn-check" id="btn-check-c3">
+                                            <label class="btn btn-sm btn-light btn-primary-soft-check" for="btn-check-c3">4+</label>
+                                        </li>
+                                        <!-- Item -->
+                                        <li class="list-inline-item mb-0">
+                                            <input type="checkbox" class="btn-check" id="btn-check-c4">
+                                            <label class="btn btn-sm btn-light btn-primary-soft-check" for="btn-check-c4">4.5+</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- Customer Rating END -->
+
+                                <hr class="my-0"> <!-- Divider -->
+                                <!-- Rating Star START -->
+                                <div class="card card-body rounded-0 p-4">
+                                    <!-- Title -->
+                                    <h6 class="mb-2">Rating Star</h6>
+                                    <!-- Rating Star group -->
+                                    <ul class="list-inline mb-0 g-3">
+                                        <!-- Item -->
+                                        <li class="list-inline-item mb-0">
+                                            <input type="checkbox" class="btn-check" id="btn-check-6">
+                                            <label class="btn btn-sm btn-light btn-primary-soft-check" for="btn-check-6">1<i class="bi bi-star-fill"></i></label>
+                                        </li>
+                                        <!-- Item -->
+                                        <li class="list-inline-item mb-0">
+                                            <input type="checkbox" class="btn-check" id="btn-check-7">
+                                            <label class="btn btn-sm btn-light btn-primary-soft-check" for="btn-check-7">2<i class="bi bi-star-fill"></i></label>
+                                        </li>
+                                        <!-- Item -->
+                                        <li class="list-inline-item mb-0">
+                                            <input type="checkbox" class="btn-check" id="btn-check-8">
+                                            <label class="btn btn-sm btn-light btn-primary-soft-check" for="btn-check-8">3<i class="bi bi-star-fill"></i></label>
+                                        </li>
+                                        <!-- Item -->
+                                        <li class="list-inline-item mb-0">
+                                            <input type="checkbox" class="btn-check" id="btn-check-15">
+                                            <label class="btn btn-sm btn-light btn-primary-soft-check" for="btn-check-15">4<i class="bi bi-star-fill"></i></label>
+                                        </li>
+                                        <!-- Item -->
+                                        <li class="list-inline-item mb-0">
+                                            <input type="checkbox" class="btn-check" id="btn-check-16">
+                                            <label class="btn btn-sm btn-light btn-primary-soft-check" for="btn-check-16">5<i class="bi bi-star-fill"></i></label>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- Rating Star END -->
+
+                                <hr class="my-0"> <!-- Divider -->
+                                <!-- Amenities START -->
+                                <div class="card card-body rounded-0 rounded-bottom p-4">
+                                    <!-- Title -->
+                                    <h6 class="mb-2">Amenities</h6>
+                                    <!-- Amenities group -->
+                                    <div class="col-12">
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="amenitiesType1">
+                                            <label class="form-check-label" for="amenitiesType1">All</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="amenitiesType2">
+                                            <label class="form-check-label" for="amenitiesType2">Air Conditioning</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="amenitiesType3">
+                                            <label class="form-check-label" for="amenitiesType3">Bar</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="amenitiesType4">
+                                            <label class="form-check-label" for="amenitiesType4">Bonfire</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="amenitiesType5">
+                                            <label class="form-check-label" for="amenitiesType5">Business Services</label>
+                                        </div>
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="amenitiesType6">
+                                            <label class="form-check-label" for="amenitiesType6">Caretaker</label>
+                                        </div>
+
+                                        <!-- Collapse body -->
+                                        <div class="multi-collapse collapse" id="amenitiesCollapes">
+                                            <!-- Checkbox -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="amenitiesType7">
+                                                <label class="form-check-label" for="amenitiesType7">Dining</label>
+                                            </div>
+                                            <!-- Checkbox -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="amenitiesType8">
+                                                <label class="form-check-label" for="amenitiesType8">Free Internet</label>
+                                            </div>
+                                            <!-- Checkbox -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="amenitiesType9">
+                                                <label class="form-check-label" for="amenitiesType9">Hair nets</label>
+                                            </div>
+                                            <!-- Checkbox -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="amenitiesType10">
+                                                <label class="form-check-label" for="amenitiesType10">Masks</label>
+                                            </div>
+                                        </div>
+                                        <!-- Collapse button -->
+                                        <a class="p-0 mb-0 mt-2 btn-more d-flex align-items-center collapsed" data-bs-toggle="collapse" href="#amenitiesCollapes" role="button" aria-expanded="false" aria-controls="amenitiesCollapes">
+                                            See <span class="see-more ms-1">more</span><span class="see-less ms-1">less</span><i class="fa-solid fa-angle-down ms-2"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Amenities END -->
+                            </form>
+                            <form class="rounded-3 shadow">
+                                <hr class="my-0"> <!-- Divider -->
+                                <!-- Popular type START -->
+                                <div class="card card-body rounded-0 p-4 popolarType">
+                                    <!-- Title -->
+                                    <h6 class="mb-2"><span data-i18="popular.types"></span></h6>
+                                    <!-- Popular Type group -->
+                                    <div class="col-12 popolarTypeAppend">
+                                    </div>
+                                </div>
+
+                            </form><!-- Form End -->
+                        </div>
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between p-2 p-xl-0 mt-xl-4">
+                            <button class="btn btn-link p-0 mb-0"><span data-i18="clear.all"></span></button>
+                            <button class="btn btn-primary mb-0"><span data-i18="filter.result"></span></button>
+                        </div>
+                    </div>
+                    <!-- Responsive offcanvas body END -->
+                </aside>
+                <!-- Left sidebar END -->
+                <!-- Main content START -->
+                <div class="col-xl-8 col-xxl-9">
+
+                    <div class="vstack gap-4">
+
+                        @if (hotels != null)
+                        {
+                            foreach (var item in hotels)
+                            {
+                                <div class="card shadow p-2 data" data-currency="@currency" data-href="/@CultureInfo.CurrentCulture.ToString()/hotel/@item.id/@item.name.ClearTextFilter()?offerId =@item.offers[0]?.offerId&expire=@expireOn&searchid=@searchId&checkIn=@checkIn&night=@night&checkOut=@checkOut&location=@location" data-searchid="@searchId" data-expireon="@expireOn" data-culture="@CultureInfo.CurrentCulture.ToString()" data-id="@item.id" data-json="@item.ToJson()">
+                                    <div class="row g-0">
+
+                                        <div data-href="/@CultureInfo.CurrentCulture.ToString()/hotel/@item.id/@item.name.ClearTextFilter()?offerId=@item.offers[0]?.offerId&expire=@expireOn&searchid=@searchId&checkIn=@checkIn&night=@night&checkOut=@checkOut&location=@location" class="col-md-5 position-relative href">
+                                            <div class="tiny-slider arrow-round arrow-xs arrow-dark overflow-hidden rounded-2">
+                                                <div class="tiny-slider-inner" data-autoplay="false" data-arrow="true" data-dots="false" data-items="1">
+                                                    @if (item.thumbnailFull != null && item.thumbnail != "")
+                                                    {
+                                                        <div>
+                                                            <a href="/@CultureInfo.CurrentCulture.ToString()/hotel/@item.id/@item.name.ClearTextFilter()?offerId=@item.offers[0]?.offerId&expire=@expireOn&searchid=@searchId&checkIn=@checkIn&night=@night&checkOut=@checkOut&location=@location"> <img src="@item.thumbnailFull"></a>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div style="background: #164c61;height: 100%;padding: 42px;padding-top: 92px;">
+                                                            <a href="/@CultureInfo.CurrentCulture.ToString()/hotel/@item.id/@item.name.ClearTextFilter()?offerId=@item.offers[0]?.offerId&expire=@expireOn&searchid=@searchId&checkIn=@checkIn&night=@night&checkOut=@checkOut&location=@location">  <img class="light-mode-item navbar-brand-item" src="https://zarentravel.com/css/clientes/zarentravel/images/logo.gif" alt="logo"></a>
+                                                        </div>
+
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Card body -->
+                                        <div class="col-md-7">
+                                            <div class="card-body py-md-2 d-flex flex-column h-100 position-relative">
+                                                <!-- Rating and buttons -->
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <ul class="list-inline mb-0">
+                                                        @if (item.stars.Contains("."))
+                                                        {
+                                                            for (int i = 0; i < item.stars.Split('.')[0].ToInt32(); i++)
+                                                            {
+                                                                <li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
+                                                            }
+                                                            <li class="list-inline-item me-0 small"><i class="fa-solid fa-star-half-alt text-warning"></i></li>
+                                                        }
+                                                        else
+                                                        {
+                                                            for (int i = 0; i < item.stars.ToInt32(); i++)
+                                                            {
+                                                                <li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
+                                                            }
+                                                        }
+                                                    </ul>
+                                                </div>
+
+                                                <!-- Title -->
+                                                <div class="d-sm-flex justify-content-sm-between">
+                                                    <h5 class="d-flex align-items-center">
+                                                        <a href="/@CultureInfo.CurrentCulture.ToString()/hotel/@item.id/@item.name.ClearTextFilter()?offerId=@item.offers[0]?.offerId&expire=@expireOn&searchid=@searchId">@item.name</a>
+                                                    </h5>
+
+                                                    <div class="d-flex align-items-center">
+
+                                                        @if (SecurityService.IsAuthenticated())
+                                                        {
+                                                            <a data-id="@item.id" class="heart@(item.id) btn btn-sm btn-light px-2 mb-0 likeButton noModal " id="likeButton" onClick="addToWishList(@item.id)"><i class="fa-solid fa-fw fa-heart"></i></a>
+                                                        }
+
+                                                        else
+                                                        {
+                                                            <a href="/login" data-id="@item.id" class="btn btn-sm btn-round btn-light px-2 " id="likeButton"><i class="fa-solid fa fw fa-heart"></i></a>
+                                                        }
+
+                                                    </div>
+
+                                                </div>
+                                                <small ><i class="bi bi-geo-alt me-2"></i>@item.address</small>
+
+                                                <ul class="list-group list-group-borderless small mb-0 mt-2">
+                                                    @foreach (var itemoffers in item.offers)
+                                                    {
+                                                        @foreach (var itemrooms in itemoffers.rooms)
+                                                        {
+                                                            <li class="list-group-item d-flex text-success p-0">
+                                                                <i class="bi bi-patch-check-fill me-2"></i>@itemrooms.boardName
+                                                            </li>
+                                                        }
+                                                    }
+                                                </ul>
+
+                                                <!-- Price and Button -->
+                                                <div class="d-sm-flex justify-content-sm-between align-items-center mt-3 mt-md-auto href" data-href="/@CultureInfo.CurrentCulture.ToString()/hotel/@item.id/@item.name.ClearTextFilter()?offerId=@item.offers[0]?.offerId&expire=@expireOn&searchid=@searchId" >
+                                                    <!-- Button -->
+                                                    <div class="d-flex align-items-center">
+                                                        @*<span class="mb-0 me-2">@night <span data-i18="night"></span></span>*@
+                                                        <h5 class="fw-bold mb-0 me-1 price price@(item.id)" id="price(@item.id)" data-id="@item.id"></h5>
+                                                        <div class="fw-bold">
+                                                            (<span data-i18="per.night"></span> <span class="hotel-daily daily@(item.id)"></span><span>)</span>
+
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+
+                        else
+                        {
+                            <div class="card shadow p-2">
+                                <div class="row g-0">
+                                    <!-- Card img -->
+                                    <div class="col-md-12 position-relative">
+                                        <p>Kayýt Bulunamadý</p>
+                                        <!-- Slider END -->
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+                <!-- Main content END -->
+            </div> <!-- Row END -->
+        </div>
+    </section>
+    <!-- =======================
+    Hotel list END -->
+
+</main>
+<style>
+    .tiny-slider-inner {
+        height: 250px;
+        width: 100%;
+    }
+</style>
+@code {
+    public List<ZarenUI.Models.HotelDTO> Hotels;
+    protected string error;
+    protected bool errorVisible;
+    public string location { get; set; }
+    public bool checkAllotment { get; set; }
+    public bool checkStopSale { get; set; }
+    public bool getOnlyDiscountedPrice { get; set; }
+    public bool getOnlyBestOffers { get; set; }
+    public int productType { get; set; }
+    public string nationality { get; set; }
+    public string checkIn { get; set; }
+    public string checkOut { get; set; }
+    public int night { get; set; }
+    public string currency { get; set; }
+    public string culture { get; set; }
+    public string arrivalLocationId { get; set; }
+    public int arrivalLocationType { get; set; }
+    public string arrivalLocId { get; set; }
+    public string searchId { get; set; }
+    public string expireOn { get; set; }
+    public string adults { get; set; }
+    public string children { get; set; }
+    public string rooms { get; set; }
+    public int hotelCount { get; set; }
+    public List<Hotel> hotels { get; set; }
+    public List<AutoCompletes> AutoCompletes { get; set; }
+
+    [Inject]
+    protected NavigationManager NavigationManager { get; set; }
+    [Inject]
+    protected SecurityService SecurityService { get; set; }
+    [Inject]
+    protected TokenHelper _tokenHelper { get; set; }
+
+    [Inject]
+    protected AutoCompletesRepository AutoCompleteService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("adults", out var _adults))
+            adults = _adults;
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("children", out var _children))
+            children = _children.ToString();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("rooms", out var _rooms))
+            rooms = _rooms.ToString();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("location", out var _location))
+            location = _location.ToString().ToTitleCase();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("checkAllotment", out var _checkAllotment))
+            checkAllotment = _checkAllotment.ToBool();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("arrivalLocId", out var _arrivalLocId))
+            arrivalLocId = _arrivalLocId;
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("checkStopSale", out var _checkStopSale))
+            checkStopSale = _checkStopSale.ToBool();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("getOnlyDiscountedPrice", out var _getOnlyDiscountedPrice))
+            getOnlyDiscountedPrice = _getOnlyDiscountedPrice.ToBool();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("getOnlyBestOffers", out var _getOnlyBestOffers))
+            getOnlyBestOffers = _getOnlyBestOffers.ToBool();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("productType", out var _productType))
+            productType = _productType.ToInt32();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("arrivalLocationId", out var _arrivalLocationsId))
+            arrivalLocationId = _arrivalLocationsId;
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("arrivalLocationType", out var _arrivalLocationsType))
+            arrivalLocationType = _arrivalLocationsType.ToInt32();
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("nationality", out var _nationality))
+            nationality = _nationality;
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("checkIn", out var _checkIn))
+            checkIn = _checkIn;
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("checkOut", out var _checkOut))
+            checkOut = _checkOut;
+
+        CultureInfo provider = CultureInfo.InvariantCulture;
+        DateTime datecheckIn = DateTime.ParseExact(checkIn, "dd.MM.yyyy", provider);
+        DateTime datecheckOut = DateTime.ParseExact(checkOut, "dd.MM.yyyy", provider);
+
+        var diffOfDates = datecheckOut.Subtract(datecheckIn);
+
+        night = diffOfDates.Days;
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("currency", out var _currency))
+            currency = _currency;
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("culture", out var _culture))
+            culture = _culture;
+
+        var token = await _tokenHelper.GetSanTsgTourVisioToken();
+        var hotelResponse = await _tokenHelper.LocationHotelPriceSearch(arrivalLocId.ToInt32(), token, adults, children, rooms, checkIn, night, currency, culture, nationality: "TR", 2, getOnlyDiscountedPrice, getOnlyBestOffers, 2, checkAllotment, checkStopSale);
+        if (hotelResponse != null && hotelResponse.body != null && hotelResponse.body.hotels != null)
+        {
+            searchId = hotelResponse.body.searchId;
+            hotels = hotelResponse.body.hotels;
+            expireOn = hotelResponse.body.expiresOn.ToString();
+
+            hotelCount = hotels.Count;
+        }
+        AutoCompletes = AutoCompleteService.GetAllByCache();
+    }
+
+
+
+}

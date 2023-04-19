@@ -1,0 +1,61 @@
+<h1 mat-dialog-title>hotel</h1>
+<div mat-dialog-content>
+    <form fxLayout="column" #hotelForm="ngForm">
+       <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Hotelname" name="hotelName"[(ngModel)]="hotelObj.hotelName"
+#hotelName="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Cityıd" name="cityId"[(ngModel)]="hotelObj.cityId"
+#cityId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Chainıd" name="chainId"[(ngModel)]="hotelObj.chainId"
+#chainId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Hoteltimestamp (dd-mm-yyyy)"
+                    [ngModel]="hotelObj.hotelTimestamp | date:'dd-MM-yyyy'" name="hotelTimestamp"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="hotelTimestampPicker" name="hiddenawardDate"
+                    [(ngModel)]="hotelObj.hotelTimestamp">
+                <mat-datepicker-toggle matSuffix [for]="hotelTimestampPicker"></mat-datepicker-toggle>
+                <mat-datepicker #hotelTimestampPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Hotelactive" name="hotelActive"[(ngModel)]="hotelObj.hotelActive"
+#hotelActive="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row wrap" fxFlex fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button mat-button mat-dialog-close tabindex="-1" cdkFocusInitial>Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!hotelForm.valid || !hotelForm.dirty"
+            (click)="savehotel(hotelObj)">
+            Add/Update
+        </button>
+    </div>
+</div>

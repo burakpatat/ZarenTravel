@@ -1,0 +1,298 @@
+@page "/deal-types"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>DealTypes</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="DealTypes" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px" Render=Grid0Render AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@dealTypes"    TItem="ZarenTravel.Models.ZarenSoft.DealType" RowDoubleClick="@EditRow" RowSelect=@GetChildData>
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.DealType" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.DealType" Property="Name" Title="Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.DealType" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="dealType">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, dealType)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+                    <RadzenHeading Visible="@(dealType != null)" Size="H1" Text="Deals" />
+                    <RadzenButton Visible="@(dealType != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => DealAddButtonClick(args,dealType)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(dealType != null)" @ref=DealDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@dealType?.Deals" TItem="ZarenTravel.Models.ZarenSoft.Deal"  RowSelect="@(args => DealRowSelect(args, dealType))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Deal" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Deal" Property="Release" Title="Release">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Deal" Property="Discount" Title="Discount">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Deal" Property="FreeNights" Title="Free Nights">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Deal" Property="StartDate" Title="Start Date">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Deal" Property="EndDate" Title="End Date">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Deal" Property="BoardType.Name" Title="Board Type">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Deal" Property="DealType" Title="Deal Type">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Deal" Property="HotelRoom.Name" Title="Hotel Room">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Deal" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="dealChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => DealDeleteButtonClick(args, dealChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(dealType != null)" Size="H1" Text="DealTypeLanguages" />
+                    <RadzenButton Visible="@(dealType != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => DealTypeLanguageAddButtonClick(args,dealType)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(dealType != null)" @ref=DealTypeLanguageDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@dealType?.DealTypeLanguages" TItem="ZarenTravel.Models.ZarenSoft.DealTypeLanguage"  RowSelect="@(args => DealTypeLanguageRowSelect(args, dealType))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.DealTypeLanguage" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.DealTypeLanguage" Property="Name" Title="Name">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.DealTypeLanguage" Property="Description" Title="Description">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.DealTypeLanguage" Property="DealType" Title="Deal Type">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.DealTypeLanguage" Property="Language.Name" Title="Language">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.DealTypeLanguage" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="dealTypeLanguageChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => DealTypeLanguageDeleteButtonClick(args, dealTypeLanguageChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.DealType> dealTypes;
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.DealType> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        dealTypes = await ZarenSoftService.GetDealTypes();
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        dealTypes = await ZarenSoftService.GetDealTypes();
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddDealType>("Add DealType", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravel.Models.ZarenSoft.DealType> args)
+    {
+        await DialogService.OpenAsync<EditDealType>("Edit DealType", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.DealType dealType)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteDealType(dealType.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete DealType" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await ZarenSoftService.ExportDealTypesToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "DealTypes");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await ZarenSoftService.ExportDealTypesToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "DealTypes");
+        }
+    }
+
+    protected ZarenTravel.Models.ZarenSoft.DealType dealType;
+    protected async Task GetChildData(ZarenTravel.Models.ZarenSoft.DealType args)
+    {
+        dealType = args;
+        var DealResult = await ZarenSoftService.GetDeals(new Query { Filter = $"i => i.DealTypeId == {args.Id}", Expand = "BoardType,DealType,HotelRoom" });
+        if (DealResult != null)
+        {
+            args.Deals = DealResult.ToList();
+        }
+        var DealTypeLanguageResult = await ZarenSoftService.GetDealTypeLanguages(new Query { Filter = $"i => i.DealTypeId == {args.Id}", Expand = "DealType,Language" });
+        if (DealTypeLanguageResult != null)
+        {
+            args.DealTypeLanguages = DealTypeLanguageResult.ToList();
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.Deal> DealDataGrid;
+
+    protected async Task DealAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.DealType data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddDeal>("Add Deal", new Dictionary<string, object> { {"DealTypeId" , data.Id} });
+        await GetChildData(data);
+        await DealDataGrid.Reload();
+    }
+
+    protected async Task DealRowSelect(ZarenTravel.Models.ZarenSoft.Deal args, ZarenTravel.Models.ZarenSoft.DealType data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditDeal>("Edit Deal", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await DealDataGrid.Reload();
+    }
+
+    protected async Task DealDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Deal deal)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteDeal(deal.Id);
+
+                if (deleteResult != null)
+                {
+                    await DealDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete Deal" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.DealTypeLanguage> DealTypeLanguageDataGrid;
+
+    protected async Task DealTypeLanguageAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.DealType data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddDealTypeLanguage>("Add DealTypeLanguage", new Dictionary<string, object> { {"DealTypeId" , data.Id} });
+        await GetChildData(data);
+        await DealTypeLanguageDataGrid.Reload();
+    }
+
+    protected async Task DealTypeLanguageRowSelect(ZarenTravel.Models.ZarenSoft.DealTypeLanguage args, ZarenTravel.Models.ZarenSoft.DealType data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditDealTypeLanguage>("Edit DealTypeLanguage", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await DealTypeLanguageDataGrid.Reload();
+    }
+
+    protected async Task DealTypeLanguageDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.DealTypeLanguage dealTypeLanguage)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteDealTypeLanguage(dealTypeLanguage.Id);
+
+                if (deleteResult != null)
+                {
+                    await DealTypeLanguageDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete DealTypeLanguage" 
+            });
+        }
+    }
+
+    string lastFilter;
+    protected async void Grid0Render(DataGridRenderEventArgs<ZarenTravel.Models.ZarenSoft.DealType> args)
+    {
+        if (grid0.Query.Filter != lastFilter) {
+            dealType = grid0.View.FirstOrDefault();
+        }
+
+        if (grid0.Query.Filter != lastFilter)
+        {
+            await grid0.SelectRow(dealType);
+        }
+
+        lastFilter = grid0.Query.Filter;
+    }
+}

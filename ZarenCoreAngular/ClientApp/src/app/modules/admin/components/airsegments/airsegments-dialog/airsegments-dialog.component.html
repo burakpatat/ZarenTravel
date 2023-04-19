@@ -1,0 +1,136 @@
+<h1 mat-dialog-title>airsegments</h1>
+<div mat-dialog-content>
+    <form fxLayout="column" #airsegmentsForm="ngForm">
+       <mat-tab-group mat-align-tabs="start">
+<mat-tab label="Tab 1">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airıd" name="airId"[(ngModel)]="airsegmentsObj.airId"
+#airId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airlineıd" name="airlineId"[(ngModel)]="airsegmentsObj.airlineId"
+#airlineId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Aisedeparture (dd-mm-yyyy)"
+                    [ngModel]="airsegmentsObj.aiSeDeparture | date:'dd-MM-yyyy'" name="aiSeDeparture"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="aiSeDeparturePicker" name="hiddenawardDate"
+                    [(ngModel)]="airsegmentsObj.aiSeDeparture">
+                <mat-datepicker-toggle matSuffix [for]="aiSeDeparturePicker"></mat-datepicker-toggle>
+                <mat-datepicker #aiSeDeparturePicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Aisearrival (dd-mm-yyyy)"
+                    [ngModel]="airsegmentsObj.aiSeArrival | date:'dd-MM-yyyy'" name="aiSeArrival"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="aiSeArrivalPicker" name="hiddenawardDate"
+                    [(ngModel)]="airsegmentsObj.aiSeArrival">
+                <mat-datepicker-toggle matSuffix [for]="aiSeArrivalPicker"></mat-datepicker-toggle>
+                <mat-datepicker #aiSeArrivalPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airportıdorigin" name="airportIdOrigin"[(ngModel)]="airsegmentsObj.airportIdOrigin"
+#airportIdOrigin="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airportıddestination" name="airportIdDestination"[(ngModel)]="airsegmentsObj.airportIdDestination"
+#airportIdDestination="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+<mat-tab label="Tab 2">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Aiseflightnumber" name="aiSeFlightNumber"[(ngModel)]="airsegmentsObj.aiSeFlightNumber"
+#aiSeFlightNumber="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Aiseclass" name="aiSeClass"[(ngModel)]="airsegmentsObj.aiSeClass"
+#aiSeClass="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Terminalıdorigin" name="terminalIdOrigin"[(ngModel)]="airsegmentsObj.terminalIdOrigin"
+#terminalIdOrigin="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Terminalıddestination" name="terminalIdDestination"[(ngModel)]="airsegmentsObj.terminalIdDestination"
+#terminalIdDestination="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Aisetimestamp (dd-mm-yyyy)"
+                    [ngModel]="airsegmentsObj.aiSeTimestamp | date:'dd-MM-yyyy'" name="aiSeTimestamp"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="aiSeTimestampPicker" name="hiddenawardDate"
+                    [(ngModel)]="airsegmentsObj.aiSeTimestamp">
+                <mat-datepicker-toggle matSuffix [for]="aiSeTimestampPicker"></mat-datepicker-toggle>
+                <mat-datepicker #aiSeTimestampPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Aiseactive" name="aiSeActive"[(ngModel)]="airsegmentsObj.aiSeActive"
+#aiSeActive="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+
+</mat-tab-group>
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row wrap" fxFlex fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button mat-button mat-dialog-close tabindex="-1" cdkFocusInitial>Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!airsegmentsForm.valid || !airsegmentsForm.dirty"
+            (click)="saveairsegments(airsegmentsObj)">
+            Add/Update
+        </button>
+    </div>
+</div>

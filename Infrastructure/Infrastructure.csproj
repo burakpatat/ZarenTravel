@@ -1,0 +1,111 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>WordyWellHero.Infrastructure</RootNamespace>
+    <AssemblyName>WordyWellHero.Infrastructure</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Caching\**" />
+    <Compile Remove="Entities\**" />
+    <Compile Remove="Helpers\**" />
+    <Compile Remove="HtmlBuilder\**" />
+    <Compile Remove="IP2Region.Models\**" />
+    <Compile Remove="IP2Region\**" />
+    <Compile Remove="JsonGenerate\**" />
+    <Compile Remove="Model\**" />
+    <Compile Remove="MSSQL\**" />
+    <Compile Remove="PostmanJson\**" />
+    <Compile Remove="ProtoBuf\**" />
+    <Compile Remove="Repositories\Db\**" />
+    <Compile Remove="Repositories\Log\**" />
+    <Compile Remove="Templates\**" />
+    <EmbeddedResource Remove="Caching\**" />
+    <EmbeddedResource Remove="Entities\**" />
+    <EmbeddedResource Remove="Helpers\**" />
+    <EmbeddedResource Remove="HtmlBuilder\**" />
+    <EmbeddedResource Remove="IP2Region.Models\**" />
+    <EmbeddedResource Remove="IP2Region\**" />
+    <EmbeddedResource Remove="JsonGenerate\**" />
+    <EmbeddedResource Remove="Model\**" />
+    <EmbeddedResource Remove="MSSQL\**" />
+    <EmbeddedResource Remove="PostmanJson\**" />
+    <EmbeddedResource Remove="ProtoBuf\**" />
+    <EmbeddedResource Remove="Repositories\Db\**" />
+    <EmbeddedResource Remove="Repositories\Log\**" />
+    <EmbeddedResource Remove="Templates\**" />
+    <None Remove="Caching\**" />
+    <None Remove="Entities\**" />
+    <None Remove="Helpers\**" />
+    <None Remove="HtmlBuilder\**" />
+    <None Remove="IP2Region.Models\**" />
+    <None Remove="IP2Region\**" />
+    <None Remove="JsonGenerate\**" />
+    <None Remove="Model\**" />
+    <None Remove="MSSQL\**" />
+    <None Remove="PostmanJson\**" />
+    <None Remove="ProtoBuf\**" />
+    <None Remove="Repositories\Db\**" />
+    <None Remove="Repositories\Log\**" />
+    <None Remove="Templates\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Contexts\BlazorHeroContext.cs" />
+    <Compile Remove="Extensions\ConnectionWhitelistingExtensions.cs" />
+    <Compile Remove="Filter\ClientIPCheckActionFilter.cs" />
+    <Compile Remove="Filter\PolicyBasedAuthorize.cs" />
+  </ItemGroup>
+
+  <!--<ItemGroup>
+    <Compile Remove="Constants\**" />
+    <Compile Remove="Identity\**" />
+    <Compile Remove="Persistence\**" />
+    <EmbeddedResource Remove="Constants\**" />
+    <EmbeddedResource Remove="Identity\**" />
+    <EmbeddedResource Remove="Persistence\**" />
+    <None Remove="Constants\**" />
+    <None Remove="Identity\**" />
+    <None Remove="Persistence\**" />
+  </ItemGroup>-->
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
+    <PackageReference Include="dnlib" Version="3.5.0" />
+    <PackageReference Include="EPPlus" Version="6.0.6" />
+    <PackageReference Include="Hangfire.Core" Version="1.7.30" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.43" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="RestSharp" Version="108.0.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\..\..\..\DragBuilderDropGenerate\Bin\System.Web.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Filter\" />
+  </ItemGroup>
+
+</Project>

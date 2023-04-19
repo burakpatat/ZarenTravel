@@ -1,0 +1,357 @@
+﻿@page "/payment/{guid}"
+@model Trx
+@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["AppClass"] = " app-content-full-width";
+    ViewData["AppHeaderNone"] = false;
+    ViewData["AppSidebarNone"] = false;
+
+    string page = Context.Request.Query["page"];
+    string currency = Context.Request.Query["c"];
+    string language = Context.Request.Query["l"];
+    string totalPrice = Context.Request.Query["p"];
+    string paymentProcess = Context.Request.Query["process"]; 
+
+    if (paymentProcess == null)
+    {
+        if (page == null)
+            page = "personal";
+
+        if (currency == null)
+            currency = "TL";
+
+        if (language == null)
+            language = "tr";
+
+        if (totalPrice == null)
+            totalPrice = "personal";
+    }
+    else
+    {
+        if (page == null)
+            page = "personal";
+
+        if (currency == null)
+            currency = "TL";
+
+        if (language == null)
+            language = "tr";
+
+        if (totalPrice == null)
+            totalPrice = "personal";
+    }
+
+}
+
+@section Styles {
+    <link href="~/lib/jvectormap-next/jquery-jvectormap.css" rel="stylesheet" />
+}
+
+    @section Scripts {
+    <script src="~/lib/jvectormap-next/jquery-jvectormap.min.js"></script>
+    <script src="~/lib/jvectormap-content/world-mill.js"></script>
+    <script src="~/lib/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="~/js/demo/dashboard.demo.js"></script>
+}
+
+    <div class="row ">
+        <div class="col-xl-12 text-center">
+            <a href="/"><img src="~/img/logo.png" /></a>
+        </div>
+    </div>
+
+    <!-- BEGIN row -->
+    <div class="row justify-content-center">
+        <!-- BEGIN col-3 -->
+        <div class="col-xl-8">
+            <!-- BEGIN card -->
+            <div class="card mb-3">
+                <!-- BEGIN card-body -->
+                <div class="card-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-10 mb-3">
+                                    @{
+
+                                    if (page != null && page != "" && page == "personal")
+                                    {
+                                        <div class="nav-wizards-container">
+                                            <nav class="nav nav-wizards-1 mb-2">
+                                                <!-- active -->
+                                                <div class="nav-item col">
+                                                    <a class="nav-link active" href="?page=personal">
+                                                        <div class="nav-no">1</div>
+                                                        <div class="nav-text">Kişisel Bilgiler</div>
+                                                    </a>
+                                                </div>
+                                                <!-- disabled -->
+                                                <div class="nav-item col">
+                                                    <a class="nav-link " href="?page=address">
+                                                        <div class="nav-no">2</div>
+                                                        <div class="nav-text">Adres ve Fatura Bilgileri</div>
+                                                    </a>
+                                                </div>
+
+                                                <div class="nav-item col">
+                                                    <a class="nav-link " href="?page=cardinfo">
+                                                        <div class="nav-no">3</div>
+                                                        <div class="nav-text">Kart Bilgileri</div>
+                                                    </a>
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    }
+                                    else if (page != null && page != "" && page == "address")
+                                    {
+                                        <div class="nav-wizards-container">
+                                            <nav class="nav nav-wizards-1 mb-2">
+
+
+                                                <!-- active -->
+                                                <div class="nav-item col">
+                                                    <a class="nav-link completed" href="?page=personal">
+                                                        <div class="nav-no">2</div>
+                                                        <div class="nav-text">Kişisel Bilgiler</div>
+                                                    </a>
+                                                </div>
+
+                                                <!-- disabled -->
+                                                <div class="nav-item col">
+                                                    <a class="nav-link active" href="?page=address">
+                                                        <div class="nav-no">3</div>
+                                                        <div class="nav-text">Adres ve Fatura Bilgileri</div>
+                                                    </a>
+                                                </div>
+
+                                                <div class="nav-item col">
+                                                    <a class="nav-link " href="?page=cardinfo">
+                                                        <div class="nav-no">4</div>
+                                                        <div class="nav-text">Kart Bilgileri</div>
+                                                    </a>
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    }
+                                    else if (page != null && page != "" && page == "cardinfo")
+                                    {
+                                        <div class="nav-wizards-container">
+                                            <nav class="nav nav-wizards-1 mb-2">
+
+
+                                                <!-- active -->
+                                                <div class="nav-item col">
+                                                    <a class="nav-link completed" href="?page=personal">
+                                                        <div class="nav-no">2</div>
+                                                        <div class="nav-text">Kişisel Bilgiler</div>
+                                                    </a>
+                                                </div>
+
+                                                <!-- disabled -->
+                                                <div class="nav-item col">
+                                                    <a class="nav-link completed" href="?page=address">
+                                                        <div class="nav-no">3</div>
+                                                        <div class="nav-text">Adres ve Fatura Bilgileri</div>
+                                                    </a>
+                                                </div>
+
+                                                <div class="nav-item col">
+                                                    <a class="nav-link active" href="?page=cardinfo">
+                                                        <div class="nav-no">4</div>
+                                                        <div class="nav-text">Kart Bilgileri</div>
+                                                    </a>
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    }
+
+                                }
+
+                            </div>
+                            <div class="col-xl-10">
+                                @if (page != null && page != "" && page == "personal")
+                                {
+                                    <div class="row justify-content-center">
+                                        <div class="col-xl-8">
+                                            <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                <div class="form-floating mb-3">
+                                                    <input asp-for="Input.Email" class="form-control" autocomplete="email" />
+                                                    <label asp-for="Input.Email" class="form-label"></label>
+                                                    <span asp-validation-for="Input.Email" class="text-danger d-block pt-1"></span>
+                                                </div>
+                                                <button type="submit" class="w-100 btn btn-lg btn-outline-theme">Register</button>
+                                            </form>
+
+                                            <form action="/" method="POST" name="register_form">
+                                                <div class="row justify-content-center">
+                                                    <div class="col-xl-8">
+                                                        <h4 class=" text-white text-center">
+                                                            Kişisel Bilgiler
+                                                        </h4>
+                                                        <div class="mb-3 form-group">
+                                                            <label class="form-label">Ad/Soyad <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control form-control-lg bg-white bg-opacity-5" name="NameSurname" id="txtNameSurname" value="" />
+                                                        </div>
+                                                        <div class="mb-3 form-group">
+                                                            <label class="form-label">E-Mail <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control form-control-lg bg-white bg-opacity-5" name="Email" id="txtEmail" value="" />
+                                                        </div>
+                                                        <div class="mb-3 form-group">
+                                                            <label class="form-label">Telefon <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control form-control-lg bg-white bg-opacity-5" name="Phone" id="txtPhone" value="" />
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <button type="submit" class="btn btn-outline-theme btn-lg d-block w-100">DEVAM</button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                }
+                                else if (page != null && page != "" && page == "address")
+                                {
+                                    <div class="row justify-content-center">
+                                        <div class="col-xl-8">
+                                            <form action="/" method="POST" name="register_form">
+
+                                                <div class="row justify-content-center">
+                                                    <div class="col-xl-8 form-group">
+                                                        <h4 class=" text-white text-center">
+                                                            Adres ve Fatura Bilgileri
+                                                        </h4>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Adres<span class="text-danger">*</span></label>
+                                                            <textarea class="form-control" rows="3" name="Address" id="txtAddress"></textarea>
+                                                        </div>
+                                                        <div class="mb-3 form-group">
+                                                            <label class="form-label">Fatura Adresi<span class="text-danger">*</span></label>
+                                                            <textarea class="form-control" rows="3" name="TaxAddress" id="txtTaxAddress"></textarea>
+                                                        </div>
+                                                        <div class="mb-3 form-group">
+                                                            <label class="form-label">İl<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control form-control-lg bg-white bg-opacity-5" name="City" id="txtCity" value="" />
+                                                        </div>
+                                                        <div class="mb-3 form-group">
+                                                            <label class="form-label">İlçe<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control form-control-lg bg-white bg-opacity-5" name="Provience" id="txtProvience" value="" />
+                                                        </div>
+                                                        <div class="mb-3 form-group">
+                                                            <label class="form-label">Firma Adı<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control form-control-lg bg-white bg-opacity-5" name="Company" id="txtCompany" value="" />
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <button type="submit" class="btn btn-outline-theme btn-lg d-block w-100">DEVAM</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                }
+                                else if (page != null && page != "" && page == "card")
+                                {
+                                    <div class="row justify-content-center">
+                                        <div class="col-xl-8">
+                                            <form action="/" method="POST" name="register_form">
+
+                                                <div class="row justify-content-center">
+                                                    <div class="col-xl-8 form-group">
+                                                        <h4 class=" text-white text-center">
+                                                            Kart Bilgileri
+                                                        </h4>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Kart üzerindeki İsim<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control form-control-lg bg-white bg-opacity-5" name="CardNameSurname" id="txtCardNameSurname" value="" />
+                                                        </div>
+                                                        <div class="mb-3 form-group">
+                                                            <label class="form-label">Kart Numarası<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control form-control-lg bg-white bg-opacity-5" name="CardNumber" id="txtCardNumber" value="" />
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Son Kullanma Tarihi <span class="text-danger">*</span></label>
+                                                            <div class="row gx-2">
+                                                                <div class="col-6">
+                                                                    <select class="form-select form-select-lg bg-white bg-opacity-5" name="Month" id="drMonth">
+                                                                        <option>Ay</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-3">
+                                                                    <select class="form-select form-select-lg bg-white bg-opacity-5" name="Year" id="drYear">
+                                                                        <option>Yıl</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3 form-group">
+                                                            <label class="form-label">Güvenlik Numarası (CVC)<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control form-control-lg bg-white bg-opacity-5" value="" name="CVC" id="txtCVC" />
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="ch3D" name="ch3D" />
+                                                                <label class="form-check-label" for="customCheck1">3D ÖDEME</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3 form-group">
+                                                            <p class="text-white text-opacity-50 text-center">
+                                                                Toplam Tutar : <strong>
+                                                                    100 TL
+                                                                </strong>
+                                                            </p>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="chPrivacy" name="Privacy" />
+                                                                <label class="form-check-label" for="customCheck1">I have read and agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <button type="submit" class="btn btn-outline-theme btn-lg d-block w-100">ÖDEMEYİ TAMAMLA</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                }
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- END card-body -->
+    <!-- BEGIN card-arrow -->
+    <div class="card-arrow">
+        <div class="card-arrow-top-left"></div>
+        <div class="card-arrow-top-right"></div>
+        <div class="card-arrow-bottom-left"></div>
+        <div class="card-arrow-bottom-right"></div>
+    </div>
+    <!-- END card-arrow -->
+</div>
+<!-- END card -->
+<!-- END col-3 -->
+<!-- END row -->
+<style>
+            .nav.nav-tabs.nav-tabs-v2>.nav-item>.nav-link {
+
+        padding: 1rem 30px;
+
+    }
+</style>

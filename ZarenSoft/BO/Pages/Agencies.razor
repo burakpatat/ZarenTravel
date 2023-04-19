@@ -1,0 +1,101 @@
+@page "/agencies"
+
+<PageTitle>Agencies</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="Agencies" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"  AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@agencies"    TItem="Travel.Models.TravelCDb.Agency" RowDoubleClick="@EditRow" >
+            <Columns>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="City" Title="City">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="WhatsAppNo" Title="Whats App No">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="Email" Title="Email">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="Taxes" Title="Taxes">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="ExternalId" Title="External Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="Address" Title="Address">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="Provience" Title="Provience">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="DocumentNumber" Title="Document Number">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="ContactPersonName" Title="Contact Person Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="BillingEmails" Title="Billing Emails">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="BusinessName" Title="Business Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="PostalCode" Title="Postal Code">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="Region" Title="Region">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="PhoneNo" Title="Phone No">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="ContactPersonLastName" Title="Contact Person Last Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="ManagementGroup" Title="Management Group">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="Remarks" Title="Remarks">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="WinterHours" Title="Winter Hours">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="SummerHours" Title="Summer Hours">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="DeferredPaymentAllowed" Title="Deferred Payment Allowed">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="DeferredPaymentDays" Title="Deferred Payment Days">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="DeferredPaymentLimit" Title="Deferred Payment Limit">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="DeferredPaymentLimitCurrency" Title="Deferred Payment Limit Currency">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="MinimumFirstPaymentAmount" Title="Minimum First Payment Amount">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="MinimumFirstPaymentIsByPercentage" Title="Minimum First Payment Is By Percentage">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="GDSIdentifierForGalileo" Title="G D S Identifier For Galileo">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="HasCreditOrDepositPaymentAllowed" Title="Has Credit Or Deposit Payment Allowed">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="AgencyManager" Title="Agency Manager">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="Country.Name" Title="Country">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="InvoiceType.Name" Title="Invoice Type">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Property="Statu1.Name" Title="Statu1">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Travel.Models.TravelCDb.Agency" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="agency">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, agency)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+</div>

@@ -1,0 +1,130 @@
+@page "/edit-cancelation-language"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit CancelationLanguage</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save CancelationLanguage</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.CancelationLanguage" Data="@cancelationLanguage" Visible="@(cancelationLanguage != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Name" Component="Name" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@cancelationLanguage.Name" Name="Name" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Description" Component="Description" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@cancelationLanguage.Description" Name="Description" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Cancellation Rule" Component="CancellationRule" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@cancellationRulesForCancelationRulesId" TextProperty="" ValueProperty="Id"
+                        Disabled=@(hasCancelationRulesIdValue) Placeholder="Choose CancellationRule" style="display: block; width: 100%" @bind-Value="@cancelationLanguage.CancelationRulesId" Name="CancelationRulesId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Language" Component="Language" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@languagesForLanguageId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasLanguageIdValue) Placeholder="Choose Language" style="display: block; width: 100%" @bind-Value="@cancelationLanguage.LanguageId" Name="LanguageId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        cancelationLanguage = await ZarenSoftService.GetCancelationLanguageById(Id);
+
+        cancellationRulesForCancelationRulesId = await ZarenSoftService.GetCancellationRules();
+
+        languagesForLanguageId = await ZarenSoftService.GetLanguages();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.CancelationLanguage cancelationLanguage;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.CancellationRule> cancellationRulesForCancelationRulesId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Language> languagesForLanguageId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateCancelationLanguage(Id, cancelationLanguage);
+            DialogService.Close(cancelationLanguage);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasCancelationRulesIdValue;
+
+    [Parameter]
+    public int? CancelationRulesId { get; set; }
+
+    bool hasLanguageIdValue;
+
+    [Parameter]
+    public int? LanguageId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        cancelationLanguage = new ZarenTravel.Models.ZarenSoft.CancelationLanguage();
+
+        hasCancelationRulesIdValue = parameters.TryGetValue<int?>("CancelationRulesId", out var hasCancelationRulesIdResult);
+
+        if (hasCancelationRulesIdValue)
+        {
+            cancelationLanguage.CancelationRulesId = hasCancelationRulesIdResult;
+        }
+
+        hasLanguageIdValue = parameters.TryGetValue<int?>("LanguageId", out var hasLanguageIdResult);
+
+        if (hasLanguageIdValue)
+        {
+            cancelationLanguage.LanguageId = hasLanguageIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

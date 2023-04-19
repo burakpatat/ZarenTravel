@@ -1,0 +1,134 @@
+﻿<!-- HEADER -->
+<div class="header-margin"></div>
+<header data-add-bg="" class="header bg-white shadow-3 js-header" data-x="header" data-x-toggle="is-menu-opened">
+    <div class="container ">
+        <div class="row justify-between items-center">
+            <div class="col-auto">
+                <div class="d-flex items-center">
+                    <!-- LOGO -->
+                    <a href="/" class="header-logo mr-30" data-x="header-logo" data-x-toggle="is-logo-dark">
+                        <img src="img/brand-primary.png?v1" alt="logo icon" />
+                        <img src="img/brand-primary.png?v1" alt="logo icon" />
+                    </a>
+                    <!-- LOGO END-->
+                </div>
+            </div>
+
+            <div class="col-auto">
+                <div class="d-flex items-center">
+                    <div class="row x-gap-20 items-center">
+                        <div class="header-menu " data-x="mobile-menu" data-x-toggle="is-menu-active">
+                            <div class="mobile-overlay"></div>
+                            <div class="header-menu__content">
+                                <div class="mobile-bg js-mobile-bg"></div>
+                                <div class="menu js-navList">
+                                    <ul class="menu__nav text-dark-1 -is-active">
+                                        <!-- currenty unit -->
+                                        <li class="menu-item-has-children">
+                                            <a data-barba href="">
+                                                <span class="mr-10">USD $</span>
+                                                <i class="icon icon-chevron-sm-down"></i>
+                                            </a>
+                                            <ul class="subnav">
+                                                <li class="subnav__backBtn js-nav-list-back">
+                                                    <a href="#"><i class="icon icon-chevron-sm-down"></i> USD $</a>
+                                                </li>
+                                                <li><a href="#">TL ₺</a></li>
+                                                <li><a href="#">USD $</a></li>
+                                                <li><a href="#">EU €</a></li>
+                                                <li><a href="#">GBP £</a></li>
+                                            </ul>
+                                        </li>
+                                        <!-- currenty unit end -->
+                                        <li class="menu-item-has-children">
+                                            <a data-barba href="">
+                                                <span class="mr-10"><img width="26" src="img/general/tr.svg" alt="image" class="rounded-4 mr-10"> Turkey</span>
+                                                <i class="icon icon-chevron-sm-down"></i>
+                                            </a>
+
+                                            <!-- language content -->
+                                            <ul class="subnav">
+                                                <li class="subnav__backBtn js-nav-list-back">
+                                                    <a href="#">Turkey <i class="icon icon-chevron-sm-down"></i> Home</a>
+                                                </li>
+                                                <li><a href="#"><img width="26" src="img/general/tr.svg" alt="image" class="rounded-4 mr-10"> Turkey</a></li>
+                                                <li><a href="#"><img width="26" src="img/general/de.svg" alt="image" class="rounded-4 mr-10"> German</a></li>
+                                                <li><a href="#"><img width="26" src="img/general/ru.svg" alt="image" class="rounded-4 mr-10"> Russian</a></li>
+                                                <li><a href="#"><img width="26" src="img/general/en.svg" alt="image" class="rounded-4 mr-10"> English</a></li>
+                                                <li><a href="#"><img width="26" src="img/general/es.svg" alt="image" class="rounded-4 mr-10"> Español</a></li>
+                                                <li><a href="#"><img width="26" src="img/general/fr.svg" alt="image" class="rounded-4 mr-10"> Français</a></li>
+                                                <li><a href="#"><img width="26" src="img/general/it.svg" alt="image" class="rounded-4 mr-10"> Italiano</a></li>
+                                            </ul>
+                                            <!-- language content end -->
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="mobile-footer px-20 py-20 border-top-light js-mobile-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex items-center ml-20 is-menu-opened-hide md:d-none">
+                        <a href="login.html" class="button -outline-blue-1 px-30 fw-400 text-14 h-40 text-blue-1 mr-20">
+                            Giriş
+                            Yap
+                        </a>
+                        <a href="signup.html" class="button -white bg-blue-1 px-30 fw-400 text-14 h-40 text-white">Kayıt Ol</a>
+                    </div>
+
+                    <div class="d-none xl:d-flex x-gap-20 items-center pl-30" data-x="header-mobile-icons"
+                         data-x-toggle="text-white">
+                        <div>
+                            <a href="login.html" class="d-flex items-center icon-user text-inherit text-22"></a>
+                        </div>
+                        <div>
+                            <button class="d-flex items-center icon-menu text-inherit text-20"
+                                    data-x-click="header, header-logo, header-mobile-icons, mobile-menu"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- HEADER END -->
+@*<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Zaren.Blazor</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="counter">
+                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="fetchdata">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            </NavLink>
+        </div>
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}*@

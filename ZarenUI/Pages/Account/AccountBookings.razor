@@ -1,0 +1,583 @@
+﻿@inject Microsoft.Extensions.Localization.IStringLocalizer<Index> L
+@using System.Globalization;
+@using SanTsgHotelBooking.Application.Models.GetProductInfoResponse;
+@page "/account-bookings"
+
+@if (user != null)
+{
+    <main>
+        <!-- =======================
+        Content START -->
+        <section class="pt-3">
+            <div class="container">
+                <div class="row g-2 g-lg-4">
+
+                    <!-- Sidebar START -->
+                    <div class="col-lg-4 col-xl-3">
+                        <!-- Responsive offcanvas body START -->
+                        <div class="offcanvas-lg offcanvas-end" tabindex="-1" id="offcanvasSidebar">
+                            <!-- Offcanvas header -->
+                            <div class="offcanvas-header justify-content-end pb-2">
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar" aria-label="Close"></button>
+                            </div>
+
+                            <!-- Offcanvas body -->
+                            <div class="offcanvas-body p-3 p-lg-0">
+                                <div class="card bg-light w-100">
+
+                                    <!-- Edit profile button -->
+                                    <div class="position-absolute top-0 end-0 p-3">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </div>
+                                    <!-- Card body START -->
+                                    <div class="card-body p-3">
+                                        <!-- Avatar and content -->
+                                        <div class="text-center mb-3">
+                                            <!-- Avatar -->
+                                            <div class="avatar avatar-xl mb-2">
+                                                <img class="avatar-img rounded-circle border border-2 border-white" src="@user.ProfilePhoto" alt="">
+                                            </div>
+                                            <h6 class="mb-0">@user.FullName</h6>
+                                            <a href="#" class="text-reset text-primary-hover small">@user.Email</a>
+                                            <hr>
+                                        </div>
+
+                                        <!-- Sidebar menu item START -->
+                                        <ul class="nav nav-pills-primary-soft flex-column">
+                                            <li class="nav-item">
+                                                <a class="nav-link " href="account-profile"><i class="bi bi-person fa-fw me-2"></i><span data-i18="account.profile.myprofile"></span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="account-bookings"><i class="bi bi-ticket-perforated fa-fw me-2"></i><span data-i18="account.profile.mybookings"></span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="account-payment-details"><i class="bi bi-wallet fa-fw me-2"></i><span data-i18="account.profile.payment.details"></span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="account-wishlist"><i class="bi bi-heart fa-fw me-2"></i><span data-i18="account.profile.wishlist"></span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="account-settings"><i class="bi bi-gear fa-fw me-2"></i><span data-i18="account.profile.settings"></span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-danger bg-danger-soft-hover" href="account/logout"><i class="fas fa-sign-out-alt fa-fw me-2"></i><span data-i18="account.profile.signout"></span></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sidebar END -->
+                    <!-- Main content START -->
+                    <div class="col-lg-8 col-xl-9 ps-xl-5">
+
+                        <!-- Offcanvas menu button -->
+                        <div class="d-grid mb-0 d-lg-none w-100">
+                            <button class="btn btn-primary mb-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+                                <i class="fas fa-sliders-h"></i> <span data-i18="accountsbookings.menu"></span>
+                            </button>
+                        </div>
+
+                        <div class="card border bg-transparent">
+                            <!-- Card header -->
+                            <div class="card-header bg-transparent border-bottom">
+                                <h4 class="card-header-title"><span data-i18="accountsbookings.my.bookings"></span></h4>
+                            </div>
+
+                            <!-- Card body START -->
+                            <div class="card-body p-0">
+
+                                <!-- Tabs -->
+                                <ul class="nav nav-tabs nav-bottom-line nav-responsive nav-justified">
+                                    <li class="nav-item">
+                                        <a class="nav-link mb-0 active noModal" data-bs-toggle="tab" href="#tab-1"><i class="bi bi-briefcase-fill fa-fw me-1"></i><span data-i18="accountsbookings.upcoming.booking"></span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link mb-0 noModal" data-bs-toggle="tab" href="#tab-2"><i class="bi bi-x-octagon fa-fw me-1"></i><span data-i18="accountsbookings.canceled.booking"></span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link mb-0 noModal" data-bs-toggle="tab" href="#tab-3"><i class="bi bi-patch-check fa-fw me-1"></i><span data-i18="accountsbookings.completed.booking"></span></a>
+                                    </li>
+                                </ul>
+
+                                <!-- Tabs content START -->
+                                <div class="tab-content p-2 p-sm-4" id="nav-tabContent">
+
+                                    <!-- Tab content item START -->
+                                    <div class="tab-pane fade show active" id="tab-1">
+
+                                        <h6>
+                                            <span data-i18="accountsbookings.upcoming.booking"></span><span>
+                                                (@bookingReservationsDto.Where(a => a.ReservationStatus == 0).Count())
+                                            </span>
+                                        </h6>
+                                        
+                                        @if (bookingReservationsDto != null && bookingReservationsDto.Any())
+                                        {
+                                            @foreach (var reservation in bookingReservationsDto)
+                                            {
+                                                @if (reservation.GetReservationDetailResponse?.body?.reservationData?.reservationInfo?.reservationStatus == 0) 
+                                                {
+
+                                                    //var _jsonData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(reservation.JsonData);
+                                                    <!-- Card item START -->
+                                                    <div class="card border">
+                                                        <!-- Card header -->
+                                                        <div class="card-header border-bottom d-md-flex justify-content-md-between align-items-center">
+
+
+                                                            <!-- Card body START -->
+                                                            <div class="card-body p-4">
+                                                                <!-- Icon and Title -->
+                                                                <div class="d-flex align-items-center">
+                                                                    @if (reservation.ProductType == 2)
+                                                                    {
+                                                                        <div class="icon-lg bg-light rounded-circle flex-shrink-0"><i class="fa-solid fa-hotel"></i></div>
+                                                                    }
+                                                                    @if (reservation.ProductType == 1)
+                                                                    {
+                                                                        <div class="icon-lg bg-light rounded-circle flex-shrink-0"><i class="fa-solid fa-plane"></i></div>
+                                                                    }
+                                                                    @foreach (var resService in reservation.GetReservationDetailResponse.body?.reservationData.services)
+                                                                    {
+                                                                        <div class="ms-2">
+
+                                                                            <ul class="nav nav-divider small">
+                                                                                <li class="nav-item">Booking ID: @reservation.GetReservationDetailResponse.body?.reservationData.reservationInfo.bookingNumber</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    }
+                                                                </div>
+                                                                @foreach (var resService in reservation.GetReservationDetailResponse.body?.reservationData.services)
+                                                                {
+                                                                    <!-- Card list START -->
+                                                                    <div class="card mb-4">
+                                                                        <div class="row align-items-center">
+                                                                            <!-- Image -->
+                                                                            <div class=" col-sm-1 col-md-1">
+                                                                            </div>
+
+                                                                            <!-- Card Body -->
+                                                                            <div class="col-sm-6 col-md-9">
+                                                                                <div class="card-body pt-3 pt-sm-0 p-0">
+                                                                                    <!-- Title -->
+                                                                                    <h5 class="card-title"><a href="#">@resService.name</a></h5>
+                                                                                    <p class="small mb-2"><i class="bi bi-geo-alt me-2"></i>@reservation.GetReservationDetailResponse.body?.reservationData.reservationInfo.agency.address.address</p>
+
+                                                                                    <h6 class="card-title mt-1"><i class="bi bi-cash me-1"></i>@reservation.GetReservationDetailResponse.body?.reservationData.reservationInfo.passengerAmountToPay.amount.ToMoneyString() @reservation.GetReservationDetailResponse.body?.reservationData.reservationInfo.passengerAmountToPay.currency</h6>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- Card list END -->
+                                                                    <!-- Information START -->
+                                                                    <div class="row g-4">
+                                                                        <!-- Item -->
+                                                                        <div class="col-lg-4">
+                                                                            <div class="bg-light py-3 px-4 rounded-3">
+                                                                                <h6 class="fw-light small mb-1">Check-in</h6>
+                                                                                <h5 class="mb-1">@Datee(resService.beginDate.ToString())</h5>
+                                                                                <small><i class="bi bi-alarm me-1"></i>12:30 pm</small>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Item -->
+                                                                        <div class="col-lg-4">
+                                                                            <div class="bg-light py-3 px-4 rounded-3">
+                                                                                <h6 class="fw-light small mb-1">Check out</h6>
+                                                                                <h5 class="mb-1">@Datee(resService.endDate.ToString())</h5>
+                                                                                <small><i class="bi bi-alarm me-1"></i>4:30 pm</small>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Item -->
+                                                                        <div class="col-lg-4">
+                                                                            <div class="bg-light py-3 px-4 rounded-3">
+                                                                                <h6 class="fw-light small mb-1">Rooms & Guests</h6>
+                                                                                <h5 class="mb-1">2 G - 1 R</h5>
+                                                                                <small><i class="bi bi-brightness-high me-1"></i>3 Nights - 4 Days</small>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- Information END -->
+                                                                }
+
+
+
+
+                                                                <a href="#" class="btn btn-primary-soft mb-2 mt-3">Manage Booking</a>
+                                                                <a href="#" class="btn btn-primary-soft text-md-end mb-0">Pay Now</a>
+                                                                <p class="text-danger text-md-end mb-0"><span data-i18="accountsbookings.booking.canceled"></span></p>
+                                                                <!-- Card END -->
+                                                            </div>
+                                                            <!-- Card body END -->
+
+
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <br />
+
+                                                    <!-- Card item END -->
+                                                }
+                                            }
+                                        }
+
+                                    </div>
+                                    <!-- Tabs content item END -->
+                                    <!-- Tab content item START -->
+                                    <div class="tab-pane fade" id="tab-2">
+                                        <h6>
+                                            <span data-i18="accountsbookings.upcoming.booking"></span><span>
+                                                (@bookingReservationsDto.Where(a => a.ReservationStatus == 1).Count())
+                                            </span>
+                                        </h6>
+                                        
+                                        @if (bookingReservationsDto != null && bookingReservationsDto.Any())
+                                        {
+                                            @foreach (var reservation in bookingReservationsDto)
+                                            {
+                                                @if (reservation.GetReservationDetailResponse?.body?.reservationData?.reservationInfo?.reservationStatus == 1)
+                                                {
+                                                    //var _jsonData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(reservation.JsonData);
+                                                    <!-- Card item START -->
+                                                    <div class="card border">
+                                                        <!-- Card header -->
+                                                        <div class="card-header border-bottom d-md-flex justify-content-md-between align-items-center">
+
+
+                                                            <!-- Card body START -->
+                                                            <div class="card-body p-4">
+                                                                <!-- Icon and Title -->
+                                                                <div class="d-flex align-items-center">
+                                                                    @if (reservation.ProductType == 2)
+                                                                    {
+                                                                        <div class="icon-lg bg-light rounded-circle flex-shrink-0"><i class="fa-solid fa-hotel"></i></div>
+                                                                    }
+                                                                    @if (reservation.ProductType == 1)
+                                                                    {
+                                                                        <div class="icon-lg bg-light rounded-circle flex-shrink-0"><i class="fa-solid fa-plane"></i></div>
+                                                                    }
+                                                                    @foreach (var resService in reservation.GetReservationDetailResponse.body?.reservationData.services)
+                                                                    {
+                                                                        <div class="ms-2">
+
+                                                                            <ul class="nav nav-divider small">
+                                                                                <li class="nav-item">Booking ID: @reservation.GetReservationDetailResponse.body?.reservationData.reservationInfo.bookingNumber</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    }
+                                                                </div>
+                                                                @foreach (var resService in reservation.GetReservationDetailResponse.body?.reservationData.services)
+                                                                {
+                                                                    <!-- Card list START -->
+                                                                    <div class="card mb-4">
+                                                                        <div class="row align-items-center">
+                                                                            <!-- Image -->
+                                                                            <div class=" col-sm-1 col-md-1">
+                                                                            </div>
+
+                                                                            <!-- Card Body -->
+                                                                            <div class="col-sm-6 col-md-9">
+                                                                                <div class="card-body pt-3 pt-sm-0 p-0">
+                                                                                    <!-- Title -->
+                                                                                    <h5 class="card-title"><a href="#">@resService.name</a></h5>
+                                                                                    <p class="small mb-2"><i class="bi bi-geo-alt me-2"></i>@reservation.GetReservationDetailResponse.body?.reservationData.reservationInfo.agency.address.address</p>
+
+                                                                                    <h6 class="card-title mt-1"><i class="bi bi-cash me-1"></i>@reservation.GetReservationDetailResponse.body?.reservationData.reservationInfo.passengerAmountToPay.amount.ToMoneyString() @reservation.GetReservationDetailResponse.body?.reservationData.reservationInfo.passengerAmountToPay.currency</h6>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- Card list END -->
+                                                                    <!-- Information START -->
+                                                                    <div class="row g-4">
+                                                                        <!-- Item -->
+                                                                        <div class="col-lg-4">
+                                                                            <div class="bg-light py-3 px-4 rounded-3">
+                                                                                <h6 class="fw-light small mb-1">Check-in</h6>
+                                                                                <h5 class="mb-1">@Datee(resService.beginDate.ToString())</h5>
+                                                                                <small><i class="bi bi-alarm me-1"></i>12:30 pm</small>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Item -->
+                                                                        <div class="col-lg-4">
+                                                                            <div class="bg-light py-3 px-4 rounded-3">
+                                                                                <h6 class="fw-light small mb-1">Check out</h6>
+                                                                                <h5 class="mb-1">@Datee(resService.endDate.ToString())</h5>
+                                                                                <small><i class="bi bi-alarm me-1"></i>4:30 pm</small>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Item -->
+                                                                        <div class="col-lg-4">
+                                                                            <div class="bg-light py-3 px-4 rounded-3">
+                                                                                <h6 class="fw-light small mb-1">Rooms & Guests</h6>
+                                                                                <h5 class="mb-1">2 G - 1 R</h5>
+                                                                                <small><i class="bi bi-brightness-high me-1"></i>3 Nights - 4 Days</small>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- Information END -->
+                                                                }
+
+
+
+
+                                                                <a href="#" class="btn btn-primary-soft mb-2 mt-3">Manage Booking</a>
+                                                                <a href="#" class="btn btn-primary-soft text-md-end mb-0">Manage Booking</a>
+                                                                <p class="text-danger text-md-end mb-0"><span data-i18="accountsbookings.booking.canceled"></span></p>
+                                                                <!-- Card END -->
+                                                            </div>
+                                                            <!-- Card body END -->
+
+
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <br />
+
+                                                    <!-- Card item END -->
+                                                }
+                                            }
+                                        }
+
+                                    </div>
+                                    <!-- Tabs content item END -->
+                                    <!-- Tab content item START -->
+                                    <div class="tab-pane fade" id="tab-3">
+                                        <div class="bg-mode shadow p-4 rounded overflow-hidden">
+                                            <div class="row g-4 align-items-center">
+                                                <h6>
+                                                    <span data-i18="accountsbookings.upcoming.booking"></span><span>
+                                                        (@bookingReservationsDto.Where(a => a.ReservationStatus == 2).Count())
+                                                    </span>
+                                                </h6>
+                                                <!-- Content -->
+                                                @if (bookingReservationsDto != null && bookingReservationsDto.Any())
+                                                {
+                                                    @foreach (var reservation in bookingReservationsDto)
+                                                    {
+                                                        @if (reservation.GetReservationDetailResponse?.body?.reservationData?.reservationInfo?.reservationStatus == 2)
+                                                        {
+                                                            //var _jsonData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(reservation.JsonData);
+                                                            <!-- Card item START -->
+                                                            <div class="card border">
+                                                                <!-- Card header -->
+                                                                <div class="card-header border-bottom d-md-flex justify-content-md-between align-items-center">
+
+
+                                                                    <!-- Card body START -->
+                                                                    <div class="card-body p-4">
+                                                                        <!-- Icon and Title -->
+                                                                        <div class="d-flex align-items-center">
+                                                                            @if (reservation.ProductType == 2)
+                                                                            {
+                                                                                <div class="icon-lg bg-light rounded-circle flex-shrink-0"><i class="fa-solid fa-hotel"></i></div>
+                                                                            }
+                                                                            @if (reservation.ProductType == 1)
+                                                                            {
+                                                                                <div class="icon-lg bg-light rounded-circle flex-shrink-0"><i class="fa-solid fa-plane"></i></div>
+                                                                            }
+                                                                            @foreach (var resService in reservation.GetReservationDetailResponse.body?.reservationData.services)
+                                                                            {
+                                                                                <div class="ms-2">
+
+                                                                                    <ul class="nav nav-divider small">
+                                                                                        <li class="nav-item">Booking ID: @reservation.GetReservationDetailResponse.body?.reservationData.reservationInfo.bookingNumber</li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            }
+                                                                        </div>
+                                                                        @foreach (var resService in reservation.GetReservationDetailResponse.body?.reservationData.services)
+                                                                        {
+                                                                            <!-- Card list START -->
+                                                                            <div class="card mb-4">
+                                                                                <div class="row align-items-center">
+                                                                                    <!-- Image -->
+                                                                                    <div class=" col-sm-1 col-md-1">
+                                                                                    </div>
+
+                                                                                    <!-- Card Body -->
+                                                                                    <div class="col-sm-6 col-md-9">
+                                                                                        <div class="card-body pt-3 pt-sm-0 p-0">
+                                                                                            <!-- Title -->
+                                                                                            <h5 class="card-title"><a href="#">@resService.name</a></h5>
+                                                                                            <p class="small mb-2"><i class="bi bi-geo-alt me-2"></i>@reservation.GetReservationDetailResponse.body?.reservationData.reservationInfo.agency.address.address</p>
+
+                                                                                            <h6 class="card-title mt-1"><i class="bi bi-cash me-1"></i>@reservation.GetReservationDetailResponse.body?.reservationData.reservationInfo.passengerAmountToPay.amount.ToMoneyString() @reservation.GetReservationDetailResponse.body?.reservationData.reservationInfo.passengerAmountToPay.currency</h6>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- Card list END -->
+                                                                            <!-- Information START -->
+                                                                            <div class="row g-4">
+                                                                                <!-- Item -->
+                                                                                <div class="col-lg-4">
+                                                                                    <div class="bg-light py-3 px-4 rounded-3">
+                                                                                        <h6 class="fw-light small mb-1">Check-in</h6>
+                                                                                        <h5 class="mb-1">@Datee(resService.beginDate.ToString())</h5>
+                                                                                        <small><i class="bi bi-alarm me-1"></i>12:30 pm</small>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <!-- Item -->
+                                                                                <div class="col-lg-4">
+                                                                                    <div class="bg-light py-3 px-4 rounded-3">
+                                                                                        <h6 class="fw-light small mb-1">Check out</h6>
+                                                                                        <h5 class="mb-1">@Datee(resService.endDate.ToString())</h5>
+                                                                                        <small><i class="bi bi-alarm me-1"></i>4:30 pm</small>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <!-- Item -->
+                                                                                <div class="col-lg-4">
+                                                                                    <div class="bg-light py-3 px-4 rounded-3">
+                                                                                        <h6 class="fw-light small mb-1">Rooms & Guests</h6>
+                                                                                        <h5 class="mb-1">2 G - 1 R</h5>
+                                                                                        <small><i class="bi bi-brightness-high me-1"></i>3 Nights - 4 Days</small>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- Information END -->
+                                                                        }
+
+
+
+
+                                                                        <a href="#" class="btn btn-primary-soft mb-2 mt-3">Manage Booking</a>
+                                                                        <a href="#" class="btn btn-primary-soft text-md-end mb-0">Manage Booking</a>
+                                                                        <p class="text-danger text-md-end mb-0"><span data-i18="accountsbookings.booking.canceled"></span></p>
+                                                                        <!-- Card END -->
+                                                                    </div>
+                                                                    <!-- Card body END -->
+
+
+                                                                </div>
+
+
+                                                            </div>
+
+
+                                                            <br />
+                                                            <!-- Card item END -->
+                                                        }
+                                                    }
+                                                }
+                                                <!-- Image -->
+                                                <div class="col-md-3 text-end">
+                                                    <img src="assets/images/element/17.svg" class="mb-n5" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- Tabs content item END -->
+                                </div>
+
+                            </div>
+                            <!-- Card body END -->
+                        </div>
+
+                    </div>
+                    <!-- Main content END -->
+                </div>
+            </div>
+        </section>
+        <!-- =======================
+        Content END -->
+
+    </main>
+}
+
+
+@code {
+    public AspNetUsers user;
+    protected bool isBusy;
+    protected bool errorVisible;
+    protected string error;
+    protected string countryName;
+    [Inject]
+    protected NavigationManager NavigationManager { get; set; }
+    [Inject]
+    protected SecurityService Security { get; set; }
+    [Inject]
+    protected CountryRepository CountryRepository { get; set; }
+    [Inject]
+    protected AspNetUsersRepository AspNetUsersRepository { get; set; }
+    [Inject]
+    protected BookingReservationsRepository bookingReservationsRepositories { get; set; }
+
+    [Inject]
+    protected TokenHelper _tokenHelper { get; set; }
+    protected List<Model.Concrete.BookingReservations> bookingReservations;
+    protected List<Model.Concrete.BookingReservationsDTO> bookingReservationsDto;
+    enum Gender
+    {
+        Mr = 1,
+        Mrs = 2,
+        Others = 3
+    };
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (Security.IsAuthenticated())
+        {
+            base.OnAfterRender(firstRender);
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/login", true);
+        }
+    }
+
+    protected override async void OnInitialized()
+    {
+        user = Security.Current();
+        if (user != null)
+        {
+            bookingReservationsDto = new List<Model.Concrete.BookingReservationsDTO>();
+            bookingReservations = new List<Model.Concrete.BookingReservations>();
+            bookingReservations = bookingReservationsRepositories.GetByUserId(user.Id).Where(a => a.TransactionId != null && a.ReservationNumber != null).ToList();
+
+            foreach (var reservation in bookingReservations)
+            {
+                bookingReservationsDto.Add(new Model.Concrete.BookingReservationsDTO()
+                    {
+                        GetReservationDetailResponse = _tokenHelper.GetReservationDetail(reservation.ReservationNumber),
+                        BeginDate = reservation.BeginDate,
+                        Status = reservation.Status,
+                        ProductType = reservation.ProductType,
+                        JsonData = reservation.JsonData,
+
+                    });
+                
+                var token = await _tokenHelper.GetSanTsgTourVisioToken();
+                var getCancellationPenalty = _tokenHelper.GetCancellationPenalty(reservation.ReservationNumber, token);
+            }
+        }
+
+        
+
+        base.OnInitialized();
+
+    }
+    public string Datee(string _date)
+    {
+        DateTime date = DateTime.Parse(_date);
+        string day = date.ToString("dd MMM yyyy");
+        return day;
+    }
+
+}
+

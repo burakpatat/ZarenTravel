@@ -1,0 +1,231 @@
+@page "/extras-types"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>ExtrasTypes</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="ExtrasTypes" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px" Render=Grid0Render AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@extrasTypes"    TItem="ZarenTravel.Models.ZarenSoft.ExtrasType" RowDoubleClick="@EditRow" RowSelect=@GetChildData>
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExtrasType" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExtrasType" Property="ExTyCode" Title="Ex Ty Code">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExtrasType" Property="ExTyName" Title="Ex Ty Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExtrasType" Property="ExTyTimestamp" Title="Ex Ty Timestamp">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExtrasType" Property="ExTyActive" Title="Ex Ty Active">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ExtrasType" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="extrasType">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, extrasType)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+                    <RadzenHeading Visible="@(extrasType != null)" Size="H1" Text="AirExtras" />
+                    <RadzenButton Visible="@(extrasType != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => AirExtraAddButtonClick(args,extrasType)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(extrasType != null)" @ref=AirExtraDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@extrasType?.AirExtras" TItem="ZarenTravel.Models.ZarenSoft.AirExtra"  RowSelect="@(args => AirExtraRowSelect(args, extrasType))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirExtra" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirExtra" Property="AiExDescription" Title="Ai Ex Description">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirExtra" Property="AiExFare" Title="Ai Ex Fare">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirExtra" Property="AiExTimestamp" Title="Ai Ex Timestamp">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirExtra" Property="AiExActive" Title="Ai Ex Active">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirExtra" Property="Air.AirRecordAirline" Title="Air">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirExtra" Property="ExtrasType.ExTyCode" Title="Extras Type">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.AirExtra" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="airExtraChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => AirExtraDeleteButtonClick(args, airExtraChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.ExtrasType> extrasTypes;
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.ExtrasType> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        extrasTypes = await ZarenSoftService.GetExtrasTypes(new Query { Filter = $@"i => i.ExTyCode.Contains(@0) || i.ExTyName.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        extrasTypes = await ZarenSoftService.GetExtrasTypes(new Query { Filter = $@"i => i.ExTyCode.Contains(@0) || i.ExTyName.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddExtrasType>("Add ExtrasType", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravel.Models.ZarenSoft.ExtrasType> args)
+    {
+        await DialogService.OpenAsync<EditExtrasType>("Edit ExtrasType", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.ExtrasType extrasType)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteExtrasType(extrasType.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete ExtrasType" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await ZarenSoftService.ExportExtrasTypesToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "ExtrasTypes");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await ZarenSoftService.ExportExtrasTypesToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "ExtrasTypes");
+        }
+    }
+
+    protected ZarenTravel.Models.ZarenSoft.ExtrasType extrasType;
+    protected async Task GetChildData(ZarenTravel.Models.ZarenSoft.ExtrasType args)
+    {
+        extrasType = args;
+        var AirExtraResult = await ZarenSoftService.GetAirExtras(new Query { Filter = $"i => i.ExTyId == {args.Id}", Expand = "Air,ExtrasType" });
+        if (AirExtraResult != null)
+        {
+            args.AirExtras = AirExtraResult.ToList();
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.AirExtra> AirExtraDataGrid;
+
+    protected async Task AirExtraAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.ExtrasType data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddAirExtra>("Add AirExtra", new Dictionary<string, object> { {"ExTyId" , data.Id} });
+        await GetChildData(data);
+        await AirExtraDataGrid.Reload();
+    }
+
+    protected async Task AirExtraRowSelect(ZarenTravel.Models.ZarenSoft.AirExtra args, ZarenTravel.Models.ZarenSoft.ExtrasType data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditAirExtra>("Edit AirExtra", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await AirExtraDataGrid.Reload();
+    }
+
+    protected async Task AirExtraDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.AirExtra airExtra)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteAirExtra(airExtra.Id);
+
+                if (deleteResult != null)
+                {
+                    await AirExtraDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete AirExtra" 
+            });
+        }
+    }
+
+    string lastFilter;
+    protected async void Grid0Render(DataGridRenderEventArgs<ZarenTravel.Models.ZarenSoft.ExtrasType> args)
+    {
+        if (grid0.Query.Filter != lastFilter) {
+            extrasType = grid0.View.FirstOrDefault();
+        }
+
+        if (grid0.Query.Filter != lastFilter)
+        {
+            await grid0.SelectRow(extrasType);
+        }
+
+        lastFilter = grid0.Query.Filter;
+    }
+}

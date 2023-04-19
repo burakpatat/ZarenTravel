@@ -1,0 +1,61 @@
+@page "/edit-agency-manager"
+
+<PageTitle>Edit AgencyManager</PageTitle>
+<div  class="row">
+    <div class="col-md-9">
+        <RadzenLabel style="font-weight: bold" Text="Item no longer available." Visible="@(!canEdit)" />
+    </div>
+    <div class="col-md-3">
+        <RadzenButton ButtonStyle="ButtonStyle.Secondary" style="margin-bottom: 20px" Text="Close" Visible="@(!canEdit)" Click="@CancelButtonClick" />
+    </div>
+</div>
+<div  class="row">
+    <div class="col-md-9">
+        <RadzenLabel style="font-weight: bold" Text="Another user has made conflicting changes to one or more of the fields you have modified. Please reload." Visible="@hasChanges" />
+    </div>
+    <div class="col-md-3">
+        <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="autorenew" style="margin-bottom: 20px" Text="Reload" Visible="@hasChanges" Click="@ReloadButtonClick" />
+    </div>
+</div>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save AgencyManager</RadzenAlert>
+        <RadzenTemplateForm TItem="Travel.Models.TravelCDb.AgencyManager" Data="@agencyManager" Visible="@(agencyManager != null && canEdit)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Micro Site" Component="MicroSite" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@microSitesForMicrositeId" TextProperty="Domain" ValueProperty="Id"
+                         Placeholder="Choose MicroSite" style="display: block; width: 100%" @bind-Value="@agencyManager.MicrositeId" Name="MicrositeId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Statu1" Component="Statu1" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@statusForStatu" TextProperty="Name" ValueProperty="Id"
+                         Placeholder="Choose Statu1" style="display: block; width: 100%" @bind-Value="@agencyManager.Statu" Name="Statu"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency User" Component="AgencyUser" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agencyUsersForUserId" TextProperty="UserName" ValueProperty="Id"
+                         Placeholder="Choose AgencyUser" style="display: block; width: 100%" @bind-Value="@agencyManager.UserId" Name="UserId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+

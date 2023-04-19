@@ -1,0 +1,677 @@
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Index> L
+@page "/{culture?}"
+@using System.Globalization;
+@using Core.Entities;
+@using Model.Concrete;
+
+
+<PageTitle>Zaren Travel Home</PageTitle>
+<main>
+    <!-- =======================
+    Main banner START -->
+    <section class="pt-0">
+        <!-- Background and title -->
+        <div class="container-fluid" style="background-image:url(assets/images/bg/08.jpg); background-position: center left; background-size: cover;">
+            <div class="row">
+                <!-- Title -->
+                <div class="col-md-6 mx-auto text-center pt-7 pb-9">
+                    <h1 data-i18="index.Hello" class="text-white"></h1>
+
+                    <p class="lead text-white mb-0"><span data-i18="index.Hello.p"></span></p>
+                </div>
+            </div> <!-- Row END -->
+        </div>
+
+        <!-- Search START -->
+        <div class="container mt-n8">
+            <div class="row">
+                <!-- Tabs START HOTEL -->
+                <div class="col-12 col-lg-8 col-xl-6 mx-auto px-0">
+                    <ul class="nav nav-tabs nav-bottom-line nav-justified nav-responsive bg-mode rounded-top z-index-9 position-relative pt-2 pb-0 px-4">
+                        <li class="nav-item">
+                            <a class="nav-link mb-0 active noModal" data-bs-toggle="tab" href="#tab-1-1"><i class="fa-solid fa-hotel fa-fw me-2"></i><span data-i18="index.tab.hotel"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mb-0 noModal" data-bs-toggle="tab" href="#tab-1-2"><i class="fa-solid fa-plane fa-fw me-2"></i><span data-i18="index.tab.flight"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mb-0 noModal" data-bs-toggle="tab" href="#tab-1-3"><i class="fa-solid fa-globe-americas fa-fw me-2"></i><span data-i18="index.tab.hotelflight"></span></a>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- Tabs END HOTEL -->
+                <!-- Tab content START FLIGHT -->
+                <div class="col-12 px-0">
+                    <form class="card shadow p-0">
+                        <div class="tab-content" id="nav-tabContent">
+
+                            <!-- Tab content item START -->
+                            <div class="tab-pane fade show active" id="tab-1-1">
+
+                                <!-- Card header -->
+                                <div class="card-header p-4">
+                                    <h5 class="mb-0"><i class="fa-solid fa-hotel fa-fw me-2"></i><span data-i18="index.hotel.booking"></span></h5>
+                                </div>
+
+                                <!-- Card body -->
+                                <div class="card-body p-4 pt-0">
+                                    <div class="row g-4">
+                                        <!-- Location -->
+                                        <div class="col-12">
+                                            <div class="form-icon-input form-size-lg form-fs-lg">
+                                                @{
+                                                    if (AutoCompletes != null && AutoCompletes.Count > 0)
+                                                    {
+                                                        <select class="form-select js-choice hotelCity " data-search-enabled="true" data-i18="index.where">
+                                                            @{
+                                                                foreach (var item in AutoCompletes)
+                                                                {
+                                                                    <option value="@item.SystemId">@item.Name</option>
+                                                                }
+                                                            }
+                                                            }
+                                                        </select>
+                                                    }
+                                                }
+                                                <span class="form-icon"><i class="bi bi-search fs-5"></i></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-icon-input form-fs-lg">
+                                                <div class="dropdown guest-selector me-2">
+                                                    <input type="text" class="form-guest-selector form-control form-control-lg selection-result" data-i18="defaultroom" data-bs-auto-close="outside" data-bs-toggle="dropdown">
+
+                                                    <!-- dropdown items -->
+                                                    <ul class="dropdown-menu guest-selector-dropdown">
+                                                        <!-- Adult -->
+                                                        <li class="d-flex justify-content-between">
+                                                            <div>
+                                                                <h6 class="mb-0" data-i18="index.adults"></h6>
+                                                                <small data-i18="index.ages13orabove"></small>
+                                                            </div>
+
+                                                            <div class="hstack gap-1 align-items-center">
+                                                                <button type="button" class="btn btn-link adult-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
+                                                                <h6 class="guest-selector-count mb-0 adults">2</h6>
+                                                                <button type="button" class="btn btn-link adult-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
+                                                            </div>
+                                                        </li>
+
+                                                        <!-- Divider -->
+                                                        <li class="dropdown-divider"></li>
+
+                                                        <!-- Child -->
+                                                        <li class="d-flex justify-content-between">
+                                                            <div>
+                                                                <h6 class="mb-0" data-i18="index.child"></h6>
+                                                                <small data-i18="index.ages13below"></small>
+                                                            </div>
+
+                                                            <div class="hstack gap-1 align-items-center">
+                                                                <button type="button" class="btn btn-link child-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
+                                                                <h6 class="guest-selector-count mb-0 child">0</h6>
+                                                                <button type="button" class="btn btn-link child-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
+                                                            </div>
+                                                        </li>
+
+                                                        <!-- Divider -->
+                                                        <li class="dropdown-divider"></li>
+
+                                                        <!-- Rooms -->
+                                                        <li class="d-flex justify-content-between">
+                                                            <div>
+                                                                <h6 class="mb-0" data-i18="index.rooms"></h6>
+                                                                <small data-i18="index.Maxroom8"></small>
+                                                            </div>
+
+                                                            <div class="hstack gap-1 align-items-center">
+                                                                <button type="button" class="btn btn-link room-remove p-0 mb-0"><i class="bi bi-dash-circle fs-5 fa-fw"></i></button>
+                                                                <h6 class="guest-selector-count mb-0 rooms">1</h6>
+                                                                <button type="button" class="btn btn-link room-add p-0 mb-0"><i class="bi bi-plus-circle fs-5 fa-fw"></i></button>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <span class="form-icon"><i class="bi bi-people fs-5"></i></span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Date -->
+                                        <div class="col-lg-4">
+                                            <div class="form-icon-input form-fs-lg">
+                                                <input type="text" class="form-control form-control-lg flatpickr hotelStart" id="dateTimeStart" data-date-format="d.m.y" value="@(DateTime.Now.ToShortDateTime("dd.MM.yyyy"))" data-i18="index.select.checkin.date" placeholder="">
+                                                <span class="form-icon"><i class="bi bi-calendar fs-5"></i></span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Date -->
+                                        <div class="col-lg-4">
+                                            <div class="form-icon-input form-fs-lg">
+                                                <input type="text" class="form-control form-control-lg flatpickr hotelEnd" id="dateTimeEnd" data-date-format="d.m.y" value="@(DateTime.Now.AddDays(1).ToShortDateTime("dd.MM.yyyy"))" data-i18="index.select.checkout.date" placeholder="">
+                                                <span class="form-icon"><i class="bi bi-calendar fs-5"></i></span>
+                                            </div>
+                                        </div>
+
+                                    </div> <!-- Row END -->
+                                    <!-- Button -->
+                                    <div class="text-center pt-0">
+                                        <a class="btn btn-lg btn-primary mb-n7 hotelFilter noModal" href="#" id="hotelFilter"><span data-i18="index.search.hotel"></span> <i class="bi bi-arrow-right ps-3"></i></a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Tab content item END -->
+                            <!-- Tab content item START -->
+                            <div class="tab-pane fade" id="tab-1-2">
+
+                                <!-- Card header -->
+                                <div class="card-header p-4">
+                                    <div class="row g-4 align-items-center">
+                                        <!-- Title -->
+                                        <div class="col-lg-4 col-xl-6">
+                                            <h5 class="mb-0"><i class="fa-solid fa-hotel fa-fw me-2"></i><span data-i18="index.flight.booking"></span></h5>
+                                        </div>
+                                        <!-- Radio tab -->
+                                        <div class="col-md-6 col-lg-4 col-xl-3 ms-auto">
+                                            <div class="nav nav-pills" id="pills-tab" role="tablist">
+                                                <div class="form-check form-check-inline active" id="flight-one-way-tab" data-bs-toggle="pill" data-bs-target="#flight-one-way" role="tab" aria-controls="flight-one-way" aria-selected="true">
+                                                    <input class="form-check-input" type="radio" name="serviceType" id="serviceType1" checked value="1">
+                                                    <label class="form-check-label" for="serviceType1" data-i18="index.flight.tab.oneway"></label>
+                                                </div>
+                                                <div class="form-check form-check-inline" id="flight-round-way-tab" data-bs-toggle="pill" data-bs-target="#flight-round-way" role="tab" aria-controls="flight-round-way" aria-selected="false">
+                                                    <input class="form-check-input" type="radio" name="serviceType" id="serviceType2" value="2">
+                                                    <label class="form-check-label" for="serviceType2" data-i18="index.flight.tab.roundtrip"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Select -->
+                                        <div class="col-md-6 col-lg-4 col-xl-3 ms-auto">
+                                            <div class="form-control-bg-light border rounded form-fs-md">
+                                                <select class="form-select js-choice flightClass" data-i18="index.flight.class.select" aria-label=".form-select-sm">
+                                                    <option value="0">Promo</option>
+                                                    <option value="1">Economy</option>
+                                                    <option value="2">Business</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card body -->
+                                <div class="card-body p-4 pt-0">
+                                    <!-- Tab content START -->
+                                    <div class="tab-content" id="pills-tabContent">
+                                        <!-- One way tab START -->
+                                        <div class="tab-pane fade show active" id="flight-one-way" role="tabpanel" aria-labelledby="flight-one-way-tab">
+                                            <div class="row g-4">
+                                                <!-- From -->
+                                                <div class="col-md-6 position-relative">
+                                                    <div class="form-icon-input form-size-lg form-fs-lg">
+                                                        <select class="form-select flightCityfrom" data-search-enabled="true" data-i18="index.flight.from">
+                                                        </select>
+                                                        <span class="form-icon"><i class="bi bi-geo-alt fs-5"></i></span>
+                                                    </div>
+
+                                                    <!-- Auto fill button -->
+                                                    <div class="btn-flip-icon z-index-9">
+                                                        <button class="btn btn-dark shadow btn-round mb-0 noModal"><i class="fa-solid fa-right-left"></i></button>
+                                                    </div>
+                                                </div>
+
+                                                <!-- To -->
+                                                <div class="col-md-6">
+                                                    <div class="form-icon-input form-size-lg form-fs-lg">
+                                                        <select class="form-select flightCityto" data-search-enabled="true" data-i18="index.flight.from">
+                                                            <option value="0">Nereye ?</option>
+                                                        </select>
+                                                        <span class="form-icon"><i class="bi bi-send fs-5"></i></span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Date -->
+                                                <div class="col-md-6">
+                                                    <div class="form-icon-input form-fs-lg">
+                                                        <input type="text" class="form-control form-control-lg flatpickr checkIn" id="dateTimeStart" data-date-format="d.m.y" value="@(DateTime.Now.ToShortDateTime("dd.MM.yyyy"))" data-i18="index.select.checkin.date" placeholder="">
+                                                        <span class="form-icon"><i class="bi bi-calendar fs-5"></i></span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Guest -->
+                                                <div class="col-md-6">
+                                                    <div class="form-icon-input form-fs-lg">
+                                                        <input type="text" class="form-control passenger form-control-lg" placeholder="" data-i18="index.select.occupant">
+                                                        <span class="form-icon"><i class="bi bi-people fs-5"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Button -->
+                                            <div class="text-center pt-0">
+                                                <a class="btn btn-lg btn-primary mb-n7 flightFilterOneWay noModal" href="#">
+                                                    <span data-i18="index.search.flight"></span>
+                                                    <i class="bi bi-arrow-right ps-3"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!-- One way trip END -->
+                                        <!-- Round way tab START -->
+                                        <div class="tab-pane fade" id="flight-round-way" role="tabpanel" aria-labelledby="flight-round-way-tab">
+                                            <!-- One way trip START -->
+                                            <div class="row g-4">
+                                                <!-- From -->
+                                                <div class="col-md-6 position-relative">
+                                                    <div class="form-icon-input form-size-lg form-fs-lg">
+                                                            <select class="form-select flightCityfrom" data-search-enabled="true" data-i18="index.flight.from">
+                                                            </select>
+                                                        <span class="form-icon"><i class="bi bi-geo-alt fs-5"></i></span>
+                                                    </div>
+
+                                                    <!-- Auto fill button -->
+                                                    <div class="btn-flip-icon z-index-9">
+                                                        <button class="btn btn-dark shadow btn-round mb-0"><i class="fa-solid fa-right-left"></i></button>
+                                                    </div>
+                                                </div>
+
+                                                <!-- To -->
+                                                <div class="col-md-6">
+                                                    <div class="form-icon-input form-size-lg form-fs-lg">
+                                                            <select class="form-select flightCityto " data-search-enabled="true" data-i18="index.flight.to">
+                                                            </select>
+                                                        <span class="form-icon"><i class="bi bi-send fs-5"></i></span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Date -->
+                                                <div class="col-lg-4">
+                                                    <div class="form-icon-input form-fs-lg">
+                                                        <input type="text" class="form-control form-control-lg flatpickr checkInRound" id="dateTimeStart" data-date-format="d.m.y" value="@(DateTime.Now.ToShortDateTime("dd.MM.yyyy"))" data-i18="index.select.checkin.date" placeholder="">
+                                                        <span class="form-icon"><i class="bi bi-calendar fs-5"></i></span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Date -->
+                                                <div class="col-lg-4">
+                                                    <div class="form-icon-input form-fs-lg">
+                                                        <input type="text" class="form-control form-control-lg flatpickr checkOutRound" id="dateTimeEnd" data-date-format="d.m.y" value="@(DateTime.Now.AddDays(1).ToShortDateTime("dd.MM.yyyy"))" data-i18="index.select.checkout.date" placeholder="">
+                                                        <span class="form-icon"><i class="bi bi-calendar fs-5"></i></span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Guest -->
+                                                <div class="col-md-4">
+                                                    <div class="form-icon-input form-fs-lg">
+                                                        <input type="text" class="form-control passengerRound form-control-lg" placeholder="" data-i18="index.select.occupant">
+                                                        <span class="form-icon"><i class="bi bi-people fs-5"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Button -->
+                                            <div class="col-12 text-center pt-0">
+                                                <a class="btn btn-lg btn-primary mb-n7 noModal" href="#" id="flightFilterRoundTrip"><span data-i18="index.search.flight"></span> <i class="bi bi-arrow-right ps-3"></i></a>
+                                            </div>
+                                            <!-- One way trip END -->
+                                        </div>
+                                        <!-- Round way tab END -->
+                                    </div>
+                                    <!-- Tab content END -->
+                                </div>
+
+                            </div>
+                            <!-- Tab content item END FLIGHT -->
+
+                        </div>
+                    </form>
+                </div>
+                <!-- Tab content END -->
+            </div>
+        </div>
+        <!-- Search END -->
+    </section>
+    <!-- =======================
+    Main banner START -->
+    <!-- =======================
+    Category START -->
+    <!-- =======================
+    Category END -->
+    <!-- =======================
+    Featured Hotels START -->
+    <section>
+        <div class="container">
+
+            <!-- Title -->
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <h4 class="mb-0">Featured Hotels</h4>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Hotel item -->
+                <div class="col-sm-6 col-xl-3">
+                    <!-- Card START -->
+                    <div class="card card-img-scale overflow-hidden bg-transparent">
+                        <!-- Image and overlay -->
+                        <div class="card-img-scale-wrapper rounded-3">
+                            <!-- Image -->
+                            <img src="assets/images/category/hotel/01.jpg" class="card-img" alt="hotel image">
+                            <!-- Badge -->
+                            <div class="position-absolute bottom-0 start-0 p-3">
+                                <div class="badge text-bg-dark fs-6 rounded-pill stretched-link"><i class="bi bi-geo-alt me-2"></i>New York</div>
+                            </div>
+                        </div>
+
+                        <!-- Card body -->
+                        <div class="card-body px-2">
+                            <!-- Title -->
+                            <h5 class="card-title"><a href="hotel-detail.html" class="stretched-link">Baga Comfort</a></h5>
+                            <!-- Price and rating -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="text-success mb-0">$455 <small class="fw-light">/starting at</small> </h6>
+                                <h6 class="mb-0">4.5<i class="fa-solid fa-star text-warning ms-1"></i></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card END -->
+                </div>
+
+                <!-- Hotel item -->
+                <div class="col-sm-6 col-xl-3">
+                    <!-- Card START -->
+                    <div class="card card-img-scale overflow-hidden bg-transparent">
+                        <!-- Image and overlay -->
+                        <div class="card-img-scale-wrapper rounded-3">
+                            <!-- Image -->
+                            <img src="assets/images/category/hotel/02.jpg" class="card-img" alt="hotel image">
+                            <!-- Badge -->
+                            <div class="position-absolute bottom-0 start-0 p-3">
+                                <div class="badge text-bg-dark fs-6 rounded-pill stretched-link"><i class="bi bi-geo-alt me-2"></i>California</div>
+                            </div>
+                        </div>
+
+                        <!-- Card body -->
+                        <div class="card-body px-2">
+                            <!-- Title -->
+                            <h5 class="card-title"><a href="hotel-detail.html" class="stretched-link">New Apollo Hotel</a></h5>
+                            <!-- Price and rating -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="text-success mb-0">$585 <small class="fw-light">/starting at</small> </h6>
+                                <h6 class="mb-0">4.8<i class="fa-solid fa-star text-warning ms-1"></i></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card END -->
+                </div>
+
+                <!-- Hotel item -->
+                <div class="col-sm-6 col-xl-3">
+                    <!-- Card START -->
+                    <div class="card card-img-scale overflow-hidden bg-transparent">
+                        <!-- Image and overlay -->
+                        <div class="card-img-scale-wrapper rounded-3">
+                            <!-- Image -->
+                            <img src="assets/images/category/hotel/03.jpg" class="card-img" alt="hotel image">
+                            <!-- Badge -->
+                            <div class="position-absolute bottom-0 start-0 p-3">
+                                <div class="badge text-bg-dark fs-6 rounded-pill stretched-link"><i class="bi bi-geo-alt me-2"></i>Los Angeles</div>
+                            </div>
+                        </div>
+
+                        <!-- Card body -->
+                        <div class="card-body px-2">
+                            <!-- Title -->
+                            <h5 class="card-title"><a href="hotel-detail.html" class="stretched-link">New Age Hotel</a></h5>
+                            <!-- Price and rating -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="text-success mb-0">$385 <small class="fw-light">/starting at</small> </h6>
+                                <h6 class="mb-0">4.6<i class="fa-solid fa-star text-warning ms-1"></i></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card END -->
+                </div>
+
+                <!-- Hotel item -->
+                <div class="col-sm-6 col-xl-3">
+                    <!-- Card START -->
+                    <div class="card card-img-scale overflow-hidden bg-transparent">
+                        <!-- Image and overlay -->
+                        <div class="card-img-scale-wrapper rounded-3">
+                            <!-- Image -->
+                            <img src="assets/images/category/hotel/04.jpg" class="card-img" alt="hotel image">
+                            <!-- Badge -->
+                            <div class="position-absolute bottom-0 start-0 p-3">
+                                <div class="badge text-bg-dark fs-6 rounded-pill stretched-link"><i class="bi bi-geo-alt me-2"></i>Chicago</div>
+                            </div>
+                        </div>
+
+                        <!-- Card body -->
+                        <div class="card-body px-2">
+                            <!-- Title -->
+                            <h5 class="card-title"><a href="hotel-detail.html" class="stretched-link">Helios Beach Resort</a></h5>
+                            <!-- Price and rating -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="text-success mb-0">$665 <small class="fw-light">/starting at</small> </h6>
+                                <h6 class="mb-0">4.8<i class="fa-solid fa-star text-warning ms-1"></i></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card END -->
+                </div>
+            </div> <!-- Row END -->
+        </div>
+    </section>
+    <!-- =======================
+    Featured Hotels END -->
+    <!-- =======================
+    Near by START -->
+    <section>
+        <div class="container">
+            <!-- Title -->
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <h4 class="mb-0">Discover Asia</h4>
+                </div>
+            </div>
+
+            <div class="row g-4 g-md-5">
+
+                <!-- Card item START -->
+                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                    <div class="card bg-transparent text-center p-1 h-100">
+                        <!-- Image -->
+                        <img src="assets/images/category/hotel/nearby/07.jpg" class="rounded-circle" alt="">
+
+                        <div class="card-body p-0 pt-3">
+                            <h5 class="card-title"><a href="#" class="stretched-link">Rio</a></h5>
+                            <span>20 min drive</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card item END -->
+                <!-- Card item START -->
+                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                    <div class="card bg-transparent text-center p-1 h-100">
+                        <!-- Image -->
+                        <img src="assets/images/category/hotel/nearby/08.jpg" class="rounded-circle" alt="">
+
+                        <div class="card-body p-0 pt-3">
+                            <h5 class="card-title"><a href="#" class="stretched-link">Las Vegas</a></h5>
+                            <span>3-hour drive</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card item END -->
+                <!-- Card item START -->
+                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                    <div class="card bg-transparent text-center p-1 h-100">
+                        <!-- Image -->
+                        <img src="assets/images/category/hotel/nearby/09.jpg" class="rounded-circle" alt="">
+
+                        <div class="card-body p-0 pt-3">
+                            <h5 class="card-title"><a href="#" class="stretched-link">Texas</a></h5>
+                            <span>55 min drive</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card item END -->
+                <!-- Card item START -->
+                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                    <div class="card bg-transparent text-center p-1 h-100">
+                        <!-- Image -->
+                        <img src="assets/images/category/hotel/nearby/10.jpg" class="rounded-circle" alt="">
+
+                        <div class="card-body p-0 pt-3">
+                            <h5 class="card-title"><a href="#" class="stretched-link">Chicago</a></h5>
+                            <span>13 min drive</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card item END -->
+                <!-- Card item START -->
+                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                    <div class="card bg-transparent text-center p-1 h-100">
+                        <!-- Image -->
+                        <img src="assets/images/category/hotel/nearby/11.jpg" class="rounded-circle" alt="">
+
+                        <div class="card-body p-0 pt-3">
+                            <h5 class="card-title"><a href="#" class="stretched-link">New Keagan</a></h5>
+                            <span>35 min drive</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card item END -->
+                <!-- Card item START -->
+                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                    <div class="card bg-transparent text-center p-1 h-100">
+                        <!-- Image -->
+                        <img src="assets/images/category/hotel/nearby/01.jpg" class="rounded-circle" alt="">
+
+                        <div class="card-body p-0 pt-3">
+                            <h5 class="card-title"><a href="#" class="stretched-link">Oslo</a></h5>
+                            <span>1 hour 13 min drive</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card item END -->
+            </div> <!-- Row END -->
+            <!-- Title -->
+            <div class="row mb-4 mt-4">
+                <div class="col-12 text-center">
+                    <h4 class="mb-0">Discover Europe</h4>
+                </div>
+            </div>
+            <div class="row g-4 g-md-5">
+                <!-- Card item START -->
+                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                    <div class="card bg-transparent text-center p-1 h-100">
+                        <!-- Image -->
+                        <img src="assets/images/category/hotel/nearby/01.jpg" class="rounded-circle" alt="">
+
+                        <div class="card-body p-0 pt-3">
+                            <h5 class="card-title"><a href="#" class="stretched-link">San Francisco</a></h5>
+                            <span>13 min drive</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card item END -->
+                <!-- Card item START -->
+                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                    <div class="card bg-transparent text-center p-1 h-100">
+                        <!-- Image -->
+                        <img src="assets/images/category/hotel/nearby/02.jpg" class="rounded-circle" alt="">
+
+                        <div class="card-body p-0 pt-3">
+                            <h5 class="card-title"><a href="#" class="stretched-link">Los Angeles</a></h5>
+                            <span>25 min drive</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card item END -->
+                <!-- Card item START -->
+                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                    <div class="card bg-transparent text-center p-1 h-100">
+                        <!-- Image -->
+                        <img src="assets/images/category/hotel/nearby/03.jpg" class="rounded-circle" alt="">
+
+                        <div class="card-body p-0 pt-3">
+                            <h5 class="card-title"><a href="#" class="stretched-link">Miami</a></h5>
+                            <span>45 min drive</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card item END -->
+                <!-- Card item START -->
+                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                    <div class="card bg-transparent text-center p-1 h-100">
+                        <!-- Image -->
+                        <img src="assets/images/category/hotel/nearby/04.jpg" class="rounded-circle" alt="">
+
+                        <div class="card-body p-0 pt-3">
+                            <h5 class="card-title"><a href="#" class="stretched-link">Sanjosh</a></h5>
+                            <span>55 min drive</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card item END -->
+                <!-- Card item START -->
+                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                    <div class="card bg-transparent text-center p-1 h-100">
+                        <!-- Image -->
+                        <img src="assets/images/category/hotel/nearby/05.jpg" class="rounded-circle" alt="">
+
+                        <div class="card-body p-0 pt-3">
+                            <h5 class="card-title"><a href="#" class="stretched-link">New York</a></h5>
+                            <span>1-hour drive</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card item END -->
+                <!-- Card item START -->
+                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                    <div class="card bg-transparent text-center p-1 h-100">
+                        <!-- Image -->
+                        <img src="assets/images/category/hotel/nearby/06.jpg" class="rounded-circle" alt="">
+
+                        <div class="card-body p-0 pt-3">
+                            <h5 class="card-title"><a href="#" class="stretched-link">North Justen</a></h5>
+                            <span>2-hour drive</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card item END -->
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+    Near by END -->
+</main>
+
+@code {
+
+
+    protected string error;
+    protected bool errorVisible;
+    List<OneWayDepartureResponse.Item> Departures;
+    List<ArrivalAutoComplete.Item> Arrivals;
+    [Parameter]
+    public string culture { get; set; }
+
+    [Inject]
+    protected TokenHelper _tokenHelper { get; set; }
+
+    [Inject]
+    protected AutoCompletesRepository AutoCompleteService { get; set; }
+    List<AutoCompletes> AutoCompletes;
+
+    protected override void OnInitialized()
+    {
+        _tokenHelper.GetSanTsgTourVisioToken();
+        AutoCompletes = AutoCompleteService.GetAllByCache();
+        base.OnInitialized();
+    }
+
+
+
+}

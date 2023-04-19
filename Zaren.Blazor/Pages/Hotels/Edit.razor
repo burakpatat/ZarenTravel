@@ -1,0 +1,162 @@
+@page "/Hotels/Edit/{Id}"
+@using ZarenBlazorAdmin.Services
+@using ZarenBlazorAdmin.Model
+@inject HotelsService serviceInstance
+@inject HotelchainsService HotelChainsInstance
+@inject HoteltypesService HotelTypesInstance
+@inject CountriesService CountriesInstance
+@inject RegionsService RegionsInstance
+@inject ZonesService ZonesInstance
+@inject CitiesService CitiesInstance
+@inject ContactsService ContactsInstance
+@inject NavigationManager NavigationManager
+<h2>Edit Hotels</h2>
+<hr />
+
+<form>
+@{ if (isPageInit)
+    {
+    <div class="row">
+        <div class="col-md-8">
+         <div class="card-body">
+             <div class='form-group'>
+<label for='brand_id' class='control-label'>Hotelchainıd</label>
+<select name='brand_id' class='form-control' @bind='@obj.HotelChainId'>
+    @{
+        foreach (var b in HotelChains)
+        {
+            <option value='@b.Id'>@b.Name</option>
+        }
+    }
+</select>
+</div>
+<div class='form-group'> <label for='Name' class='control-label'>Name</label> <input type='text' form='Name' class='form-control' @bind='@obj.Name' /> </div>
+<div class='form-group'>
+<label for='brand_id' class='control-label'>Hoteltypeıd</label>
+<select name='brand_id' class='form-control' @bind='@obj.HotelTypeId'>
+    @{
+        foreach (var b in HotelTypes)
+        {
+            <option value='@b.Id'>@b.Name</option>
+        }
+    }
+</select>
+</div>
+<div class='form-group'>
+<label for='brand_id' class='control-label'>Countryıd</label>
+<select name='brand_id' class='form-control' @bind='@obj.CountryId'>
+    @{
+        foreach (var b in Countries)
+        {
+            <option value='@b.Id'>@b.Name</option>
+        }
+    }
+</select>
+</div>
+<div class='form-group'>
+<label for='brand_id' class='control-label'>Regionıd</label>
+<select name='brand_id' class='form-control' @bind='@obj.RegionId'>
+    @{
+        foreach (var b in Regions)
+        {
+            <option value='@b.Id'>@b.Name</option>
+        }
+    }
+</select>
+</div>
+<div class='form-group'>
+<label for='brand_id' class='control-label'>Zoneıd</label>
+<select name='brand_id' class='form-control' @bind='@obj.ZoneId'>
+    @{
+        foreach (var b in Zones)
+        {
+            <option value='@b.Id'>@b.Name</option>
+        }
+    }
+</select>
+</div>
+<div class='form-group'>
+<label for='brand_id' class='control-label'>Cityıd</label>
+<select name='brand_id' class='form-control' @bind='@obj.CityId'>
+    @{
+        foreach (var b in Cities)
+        {
+            <option value='@b.Id'>@b.Name</option>
+        }
+    }
+</select>
+</div>
+<div class='form-group'> <label for='Address' class='control-label'>Address</label> <input type='text' form='Address' class='form-control' @bind='@obj.Address' /> </div>
+<div class='form-group'> <label for='ZipCode' class='control-label'>Zipcode</label> <input type='text' form='ZipCode' class='form-control' @bind='@obj.ZipCode' /> </div>
+<div class='form-group'> <label for='Latitude' class='control-label'>Latitude</label> <input type='text' form='Latitude' class='form-control number' @bind='@obj.Latitude' /> </div>
+<div class='form-group'> <label for='Longitude' class='control-label'>Longitude</label> <input type='text' form='Longitude' class='form-control number' @bind='@obj.Longitude' /> </div>
+<div class='form-group'>
+<label for='brand_id' class='control-label'>Commercialcontactıd</label>
+<select name='brand_id' class='form-control' @bind='@obj.CommercialContactId'>
+    @{
+        foreach (var b in Contacts)
+        {
+            <option value='@b.Id'>@b.Name</option>
+        }
+    }
+</select>
+</div>
+<div class='form-group'> <label for='ReservationContactId' class='control-label'>Reservationcontactıd</label> <input type='number' form='ReservationContactId' class='form-control' @bind='@obj.ReservationContactId' /> </div>
+<div class='form-group'> <label for='FinanceContactId' class='control-label'>Financecontactıd</label> <input type='number' form='FinanceContactId' class='form-control' @bind='@obj.FinanceContactId' /> </div>
+<div class='form-group'> <label for='Release' class='control-label'>Release</label> <input type='number' form='Release' class='form-control' @bind='@obj.Release' /> </div>
+<div class='form-group'> <label for='NumberRooms' class='control-label'>Numberrooms</label> <input type='number' form='NumberRooms' class='form-control' @bind='@obj.NumberRooms' /> </div>
+
+             <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@Update" value="Update" />
+                <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+            </div>
+        </div>
+    </div>
+             </div>
+        </div>
+    </div>
+     
+    }else{
+      <p><em>Loading... !</em></p>
+      }
+    }
+</form>
+
+@code { [Parameter]
+    public string Id { get; set; }
+    Hotels obj = new Hotels();
+    bool isPageInit = false;
+    List<Hotelchains> HotelChains;
+List<Hoteltypes> HotelTypes;
+List<Countries> Countries;
+List<Regions> Regions;
+List<Zones> Zones;
+List<Cities> Cities;
+List<Contacts> Contacts;
+    protected override async Task OnInitializedAsync()
+    {
+        obj = await Task.Run(() => serviceInstance.GetHotelsAsync(Convert.ToInt32(Id)));
+        HotelChains= await Task.Run(() => HotelChainsInstance.GetAllHotelchainsForDropDownAsync());
+HotelTypes= await Task.Run(() => HotelTypesInstance.GetAllHoteltypesForDropDownAsync());
+Countries= await Task.Run(() => CountriesInstance.GetAllCountriesForDropDownAsync());
+Regions= await Task.Run(() => RegionsInstance.GetAllRegionsForDropDownAsync());
+Zones= await Task.Run(() => ZonesInstance.GetAllZonesForDropDownAsync());
+Cities= await Task.Run(() => CitiesInstance.GetAllCitiesForDropDownAsync());
+Contacts= await Task.Run(() => ContactsInstance.GetAllContactsForDropDownAsync());
+        if(HotelChains is not null && HotelTypes is not null && Countries is not null && Regions is not null && Zones is not null && Cities is not null && Contacts is not null)
+            isPageInit = true;
+    
+    }
+    protected async void Update()
+    {
+        await serviceInstance.UpdateHotelsAsync(obj);
+        NavigationManager.NavigateTo("Hotels/List");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Hotels/List");
+    } 
+    }
+

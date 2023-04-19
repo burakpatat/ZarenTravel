@@ -1,0 +1,229 @@
+@page "/cancellation-rules"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>CancellationRules</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="CancellationRules" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px" Render=Grid0Render AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@cancellationRules"    TItem="ZarenTravel.Models.ZarenSoft.CancellationRule" RowDoubleClick="@EditRow" RowSelect=@GetChildData>
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancellationRule" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancellationRule" Property="Cost" Title="Cost">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancellationRule" Property="CostType" Title="Cost Type">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancellationRule" Property="FromDays" Title="From Days">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancellationRule" Property="ToDays" Title="To Days">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancellationRule" Property="CancellationSeason" Title="Cancellation Season">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancellationRule" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="cancellationRule">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, cancellationRule)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+                    <RadzenHeading Visible="@(cancellationRule != null)" Size="H1" Text="CancelationLanguages" />
+                    <RadzenButton Visible="@(cancellationRule != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => CancelationLanguageAddButtonClick(args,cancellationRule)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(cancellationRule != null)" @ref=CancelationLanguageDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@cancellationRule?.CancelationLanguages" TItem="ZarenTravel.Models.ZarenSoft.CancelationLanguage"  RowSelect="@(args => CancelationLanguageRowSelect(args, cancellationRule))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancelationLanguage" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancelationLanguage" Property="Name" Title="Name">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancelationLanguage" Property="Description" Title="Description">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancelationLanguage" Property="CancellationRule" Title="Cancellation Rule">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancelationLanguage" Property="Language.Name" Title="Language">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.CancelationLanguage" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="cancelationLanguageChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => CancelationLanguageDeleteButtonClick(args, cancelationLanguageChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.CancellationRule> cancellationRules;
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.CancellationRule> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        cancellationRules = await ZarenSoftService.GetCancellationRules(new Query { Expand = "CancellationSeason" });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        cancellationRules = await ZarenSoftService.GetCancellationRules(new Query { Expand = "CancellationSeason" });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddCancellationRule>("Add CancellationRule", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravel.Models.ZarenSoft.CancellationRule> args)
+    {
+        await DialogService.OpenAsync<EditCancellationRule>("Edit CancellationRule", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.CancellationRule cancellationRule)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteCancellationRule(cancellationRule.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete CancellationRule" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await ZarenSoftService.ExportCancellationRulesToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "CancellationSeason", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "CancellationRules");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await ZarenSoftService.ExportCancellationRulesToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "CancellationSeason", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "CancellationRules");
+        }
+    }
+
+    protected ZarenTravel.Models.ZarenSoft.CancellationRule cancellationRule;
+    protected async Task GetChildData(ZarenTravel.Models.ZarenSoft.CancellationRule args)
+    {
+        cancellationRule = args;
+        var CancelationLanguageResult = await ZarenSoftService.GetCancelationLanguages(new Query { Filter = $"i => i.CancelationRulesId == {args.Id}", Expand = "CancellationRule,Language" });
+        if (CancelationLanguageResult != null)
+        {
+            args.CancelationLanguages = CancelationLanguageResult.ToList();
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.CancelationLanguage> CancelationLanguageDataGrid;
+
+    protected async Task CancelationLanguageAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.CancellationRule data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddCancelationLanguage>("Add CancelationLanguage", new Dictionary<string, object> { {"CancelationRulesId" , data.Id} });
+        await GetChildData(data);
+        await CancelationLanguageDataGrid.Reload();
+    }
+
+    protected async Task CancelationLanguageRowSelect(ZarenTravel.Models.ZarenSoft.CancelationLanguage args, ZarenTravel.Models.ZarenSoft.CancellationRule data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditCancelationLanguage>("Edit CancelationLanguage", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await CancelationLanguageDataGrid.Reload();
+    }
+
+    protected async Task CancelationLanguageDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.CancelationLanguage cancelationLanguage)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteCancelationLanguage(cancelationLanguage.Id);
+
+                if (deleteResult != null)
+                {
+                    await CancelationLanguageDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete CancelationLanguage" 
+            });
+        }
+    }
+
+    string lastFilter;
+    protected async void Grid0Render(DataGridRenderEventArgs<ZarenTravel.Models.ZarenSoft.CancellationRule> args)
+    {
+        if (grid0.Query.Filter != lastFilter) {
+            cancellationRule = grid0.View.FirstOrDefault();
+        }
+
+        if (grid0.Query.Filter != lastFilter)
+        {
+            await grid0.SelectRow(cancellationRule);
+        }
+
+        lastFilter = grid0.Query.Filter;
+    }
+}

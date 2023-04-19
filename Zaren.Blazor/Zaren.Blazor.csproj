@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\Hotels\Add.razor" />
+    <Content Remove="Pages\Hotels\Delete.razor" />
+    <Content Remove="Pages\Hotels\Edit.razor" />
+    <Content Remove="Pages\Hotels\List.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Hotels\" />
+    <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\fonts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazored.Typeahead" Version="4.7.0" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.12" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Business\Zaren.Business.csproj" />
+    <ProjectReference Include="..\..\Core\Zaren.Core.csproj" />
+    <ProjectReference Include="..\..\Data\Zaren.Data.csproj" />
+    <ProjectReference Include="..\..\Model\Zaren.Model.csproj" />
+  </ItemGroup>
+
+</Project>

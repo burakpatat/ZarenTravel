@@ -1,0 +1,392 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WordyWellHero.Server</name>
+    </assembly>
+    <members>
+        <member name="T:WordyWellHero.Server.Controllers.BaseApiController`1">
+            <summary>
+            Abstract BaseApi Controller Class
+            </summary>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Communication.ChatsController.GetChatHistoryAsync(System.String)">
+            <summary>
+            Get user wise chat history
+            </summary>
+            <param name="contactId"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Communication.ChatsController.GetChatUsersAsync">
+            <summary>
+            get available users
+            </summary>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Communication.ChatsController.SaveMessageAsync(WordyWellHero.Application.Models.Chat.ChatHistory{WordyWellHero.Application.Interfaces.Chat.IChatUser})">
+            <summary>
+            Save Chat Message
+            </summary>
+            <param name="message"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.AccountController.UpdateProfile(WordyWellHero.Application.Requests.Identity.UpdateProfileRequest)">
+            <summary>
+            Update Profile
+            </summary>
+            <param name="model"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.AccountController.ChangePassword(WordyWellHero.Application.Requests.Identity.ChangePasswordRequest)">
+            <summary>
+            Change Password
+            </summary>
+            <param name="model"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.AccountController.GetProfilePictureAsync(System.String)">
+            <summary>
+            Get Profile picture by Id
+            </summary>
+            <param name="userId"></param>
+            <returns>Status 200 OK </returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.AccountController.UpdateProfilePictureAsync(WordyWellHero.Application.Requests.Identity.UpdateProfilePictureRequest)">
+            <summary>
+            Update Profile Picture
+            </summary>
+            <param name="request"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.TokenController.Get(WordyWellHero.Application.Requests.Identity.TokenRequest)">
+            <summary>
+            Get Token (Email, Password)
+            </summary>
+            <param name="model"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.TokenController.Refresh(WordyWellHero.Application.Requests.Identity.RefreshTokenRequest)">
+            <summary>
+            Refresh Token
+            </summary>
+            <param name="model"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.UserController.GetAll">
+            <summary>
+            Get User Details
+            </summary>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.UserController.GetById(System.String)">
+            <summary>
+            Get User By Id
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.UserController.GetRolesAsync(System.String)">
+            <summary>
+            Get User Roles By Id
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.UserController.UpdateRolesAsync(WordyWellHero.Application.Requests.Identity.UpdateUserRolesRequest)">
+            <summary>
+            Update Roles for User
+            </summary>
+            <param name="request"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.UserController.RegisterAsync(WordyWellHero.Application.Requests.Identity.RegisterRequest)">
+            <summary>
+            Register a User
+            </summary>
+            <param name="request"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.UserController.ConfirmEmailAsync(System.String,System.String)">
+            <summary>
+            Confirm Email
+            </summary>
+            <param name="userId"></param>
+            <param name="code"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.UserController.ToggleUserStatusAsync(WordyWellHero.Application.Requests.Identity.ToggleUserStatusRequest)">
+            <summary>
+            Toggle User Status (Activate and Deactivate)
+            </summary>
+            <param name="request"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.UserController.ForgotPasswordAsync(WordyWellHero.Application.Requests.Identity.ForgotPasswordRequest)">
+            <summary>
+            Forgot Password
+            </summary>
+            <param name="request"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.UserController.ResetPasswordAsync(WordyWellHero.Application.Requests.Identity.ResetPasswordRequest)">
+            <summary>
+            Reset Password
+            </summary>
+            <param name="request"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Identity.UserController.Export(System.String)">
+            <summary>
+            Export to Excel
+            </summary>
+            <param name="searchString"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.RoleClaimController.GetAll">
+            <summary>
+            Get All Role Claims(e.g. Product Create Permission)
+            </summary>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.RoleClaimController.GetAllByRoleId(System.String)">
+            <summary>
+            Get All Role Claims By Id
+            </summary>
+            <param name="roleId"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.RoleClaimController.Post(WordyWellHero.Application.Requests.Identity.RoleClaimRequest)">
+            <summary>
+            Add a Role Claim
+            </summary>
+            <param name="request"></param>
+            <returns>Status 200 OK </returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.RoleClaimController.Delete(System.Int32)">
+            <summary>
+            Delete a Role Claim
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.RoleController.GetAll">
+            <summary>
+            Get All Roles (basic, admin etc.)
+            </summary>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.RoleController.Post(WordyWellHero.Application.Requests.Identity.RoleRequest)">
+            <summary>
+            Add a Role
+            </summary>
+            <param name="request"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.RoleController.Delete(System.String)">
+            <summary>
+            Delete a Role
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.RoleController.GetPermissionsByRoleId(System.String)">
+            <summary>
+            Get Permissions By Role Id
+            </summary>
+            <param name="roleId"></param>
+            <returns>Status 200 Ok</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.RoleController.Update(WordyWellHero.Application.Requests.Identity.PermissionRequest)">
+            <summary>
+            Edit a Role Claim
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.AuditsController.GetUserTrailsAsync">
+            <summary>
+            Get Current User Audit Trails
+            </summary>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.AuditsController.ExportExcel(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Search Audit Trails and Export to Excel
+            </summary>
+            <param name="searchString"></param>
+            <param name="searchInOldValues"></param>
+            <param name="searchInNewValues"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="T:WordyWellHero.Server.Controllers.Utilities.ExtendedAttributes.Base.ExtendedAttributesController`4">
+            <summary>
+            Abstract Extended Attributes Controller Class
+            </summary>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.ExtendedAttributes.Base.ExtendedAttributesController`4.GetAll">
+            <summary>
+            Get All Entity Extended Attributes
+            </summary>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.ExtendedAttributes.Base.ExtendedAttributesController`4.GetAllByEntityId(`1)">
+            <summary>
+            Get All Entity Extended Attributes by entity id
+            </summary>
+            <param name="entityId"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.ExtendedAttributes.Base.ExtendedAttributesController`4.GetById(`0)">
+            <summary>
+            Get Entity Extended Attribute By Id
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 Ok</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.ExtendedAttributes.Base.ExtendedAttributesController`4.Post(WordyWellHero.Application.Features.ExtendedAttributes.Commands.AddEdit.AddEditExtendedAttributeCommand{`0,`1,`2,`3})">
+            <summary>
+            Create/Update a Entity Extended Attribute
+            </summary>
+            <param name="command"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.ExtendedAttributes.Base.ExtendedAttributesController`4.Delete(`0)">
+            <summary>
+            Delete a Entity Extended Attribute
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.ExtendedAttributes.Base.ExtendedAttributesController`4.Export(System.String,`1,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            Search Entity Extended Attribute and Export to Excel
+            </summary>
+            <param name="searchString"></param>
+            <param name="entityId"></param>
+            <param name="includeEntity"></param>
+            <param name="onlyCurrentGroup"></param>
+            <param name="currentGroup"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.Misc.DocumentsController.GetAll(System.Int32,System.Int32,System.String)">
+            <summary>
+            Get All Documents
+            </summary>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
+            <param name="searchString"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.Misc.DocumentsController.GetById(System.Int32)">
+            <summary>
+            Get Document By Id
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 Ok</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.Misc.DocumentsController.Post(WordyWellHero.Application.Features.Documents.Commands.AddEdit.AddEditDocumentCommand)">
+            <summary>
+            Add/Edit Document
+            </summary>
+            <param name="command"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.Misc.DocumentsController.Delete(System.Int32)">
+            <summary>
+            Delete a Document
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.Misc.DocumentTypesController.GetAll">
+            <summary>
+            Get All Document Types
+            </summary>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.Misc.DocumentTypesController.GetById(System.Int32)">
+            <summary>
+            Get Document Type By Id
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 Ok</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.Misc.DocumentTypesController.Post(WordyWellHero.Application.Features.DocumentTypes.Commands.AddEdit.AddEditDocumentTypeCommand)">
+            <summary>
+            Create/Update a Document Type
+            </summary>
+            <param name="command"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.Misc.DocumentTypesController.Delete(System.Int32)">
+            <summary>
+            Delete a Document Type
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.Misc.DocumentTypesController.Export(System.String)">
+            <summary>
+            Search Document Types and Export to Excel
+            </summary>
+            <param name="searchString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.Utilities.PreferencesController.ChangeLanguageAsync(System.String)">
+            <summary>
+            Change Language Preference
+            </summary>
+            <param name="languageCode"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:WordyWellHero.Server.Controllers.v1.DashboardController.GetDataAsync">
+            <summary>
+            Get Dashboard Data
+            </summary>
+            <returns>Status 200 OK </returns>
+        </member>
+        <member name="M:StringExtentions.IsNotNull(System.Object)">
+            <summary>
+                Determines if the object is not null
+            </summary>
+            <param name="objectToCall">The object to check</param>
+            <returns>False if it is null, true otherwise</returns>
+        </member>
+        <member name="M:StringExtentions.IsNull(System.Object)">
+            <summary>
+                Determines if the object is null
+            </summary>
+            <param name="objectToCall">The object to check</param>
+            <returns>True if it is null, false otherwise</returns>
+        </member>
+        <member name="M:StringExtentions.IsNotNullOrEmpty``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+                Determines if a list is not null or empty
+            </summary>
+            <typeparam name="T">Data type</typeparam>
+            <param name="value">List to check</param>
+            <returns>True if it is not null or empty, false otherwise</returns>
+        </member>
+        <member name="M:StringExtentions.IsNullOrEmpty``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+                Determines if a list is null or empty
+            </summary>
+            <typeparam name="T">Data type</typeparam>
+            <param name="value">List to check</param>
+            <returns>True if it is null or empty, false otherwise</returns>
+        </member>
+        <member name="M:StringExtentions.IsNullOrWhiteSpace(System.String)">
+            <summary>
+                Checks if it is null or whitespace
+            </summary>
+            <param name="str1"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StringExtentions.IsNotNullOrNotWhiteSpace(System.String)">
+            <summary>
+                Checks if it is not null or not whitespace
+            </summary>
+            <param name="str1"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

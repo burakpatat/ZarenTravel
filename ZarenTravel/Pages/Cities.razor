@@ -1,0 +1,433 @@
+@page "/cities"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Cities</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="Cities" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px" Render=Grid0Render AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@cities"    TItem="ZarenTravel.Models.ZarenSoft.City" RowDoubleClick="@EditRow" RowSelect=@GetChildData>
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.City" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.City" Property="Name" Title="Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.City" Property="Latitude" Title="Latitude">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.City" Property="Longitude" Title="Longitude">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.City" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="city">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, city)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+                    <RadzenHeading Visible="@(city != null)" Size="H1" Text="Hotels" />
+                    <RadzenButton Visible="@(city != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => HotelAddButtonClick(args,city)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(city != null)" @ref=HotelDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@city?.Hotels" TItem="ZarenTravel.Models.ZarenSoft.Hotel"  RowSelect="@(args => HotelRowSelect(args, city))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="Name" Title="Name">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="Address" Title="Address">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="ZipCode" Title="Zip Code">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="Latitude" Title="Latitude">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="Longitude" Title="Longitude">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="Release" Title="Release">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="NumberRooms" Title="Number Rooms">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="City.Name" Title="City">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="Contact.Name" Title="Contact">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="Country.Name" Title="Country">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="Contact1.Name" Title="Contact1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="HotelChain.Name" Title="Hotel Chain">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="HotelType.Name" Title="Hotel Type">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="Region.Name" Title="Region">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="Contact2.Name" Title="Contact2">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Property="Zone.Name" Title="Zone">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="hotelChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => HotelDeleteButtonClick(args, hotelChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(city != null)" Size="H1" Text="ZonesCities" />
+                    <RadzenButton Visible="@(city != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => ZonesCityAddButtonClick(args,city)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(city != null)" @ref=ZonesCityDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@city?.ZonesCities" TItem="ZarenTravel.Models.ZarenSoft.ZonesCity"  RowSelect="@(args => ZonesCityRowSelect(args, city))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ZonesCity" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ZonesCity" Property="MainZone" Title="Main Zone">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ZonesCity" Property="City.Name" Title="City">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ZonesCity" Property="Zone.Name" Title="Zone">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.ZonesCity" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="zonesCityChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => ZonesCityDeleteButtonClick(args, zonesCityChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>
+                    <RadzenHeading Visible="@(city != null)" Size="H1" Text="Hotel1S" />
+                    <RadzenButton Visible="@(city != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => Hotel1AddButtonClick(args,city)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(city != null)" @ref=Hotel1DataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@city?.Hotel1S" TItem="ZarenTravel.Models.ZarenSoft.Hotel1"  RowSelect="@(args => Hotel1RowSelect(args, city))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="Id" Title="Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="Name" Title="Name">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="ApiId" Title="Api Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="SystemId" Title="System Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="GiataId" Title="Giata Id">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="FaxNumber" Title="Fax Number">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="PhoneNumber" Title="Phone Number">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="HomePage" Title="Home Page">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="StopSaleGuaranteed" Title="Stop Sale Guaranteed">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="StopSaleStandart" Title="Stop Sale Standart">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="Stars" Title="Stars">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="Rating" Title="Rating">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="Provider" Title="Provider">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="Thumbnail" Title="Thumbnail">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="ThumbnailFull" Title="Thumbnail Full">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="CreatedDate" Title="Created Date">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="UpdatedDate" Title="Updated Date">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="CreatedBy" Title="Created By">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="UpdatedBy" Title="Updated By">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="Statu" Title="Statu">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="City.Name" Title="City">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="Contact.Name" Title="Contact">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="Country.Name" Title="Country">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="Contact1.Name" Title="Contact1">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="HotelChain.Name" Title="Hotel Chain">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="HotelType.Name" Title="Hotel Type">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="Region.Name" Title="Region">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="Contact2.Name" Title="Contact2">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Property="Zone.Name" Title="Zone">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.Hotel1" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="hotel1Child">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => Hotel1DeleteButtonClick(args, hotel1Child)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.City> cities;
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.City> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        cities = await ZarenSoftService.GetCities(new Query { Filter = $@"i => i.Name.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        cities = await ZarenSoftService.GetCities(new Query { Filter = $@"i => i.Name.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddCity>("Add City", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravel.Models.ZarenSoft.City> args)
+    {
+        await DialogService.OpenAsync<EditCity>("Edit City", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.City city)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteCity(city.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete City" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await ZarenSoftService.ExportCitiesToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "Cities");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await ZarenSoftService.ExportCitiesToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "Cities");
+        }
+    }
+
+    protected ZarenTravel.Models.ZarenSoft.City city;
+    protected async Task GetChildData(ZarenTravel.Models.ZarenSoft.City args)
+    {
+        city = args;
+        var HotelResult = await ZarenSoftService.GetHotels(new Query { Filter = $"i => i.CityId == {args.Id}", Expand = "City,Contact,Country,Contact1,HotelChain,HotelType,Region,Contact2,Zone" });
+        if (HotelResult != null)
+        {
+            args.Hotels = HotelResult.ToList();
+        }
+        var ZonesCityResult = await ZarenSoftService.GetZonesCities(new Query { Filter = $"i => i.CityId == {args.Id}", Expand = "City,Zone" });
+        if (ZonesCityResult != null)
+        {
+            args.ZonesCities = ZonesCityResult.ToList();
+        }
+        var Hotel1Result = await ZarenSoftService.GetHotel1S();
+        if (Hotel1Result != null)
+        {
+            args.Hotel1S = Hotel1Result.ToList();
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.Hotel> HotelDataGrid;
+
+    protected async Task HotelAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.City data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddHotel>("Add Hotel", new Dictionary<string, object> { {"CityId" , data.Id} });
+        await GetChildData(data);
+        await HotelDataGrid.Reload();
+    }
+
+    protected async Task HotelRowSelect(ZarenTravel.Models.ZarenSoft.Hotel args, ZarenTravel.Models.ZarenSoft.City data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditHotel>("Edit Hotel", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await HotelDataGrid.Reload();
+    }
+
+    protected async Task HotelDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Hotel hotel)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteHotel(hotel.Id);
+
+                if (deleteResult != null)
+                {
+                    await HotelDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete Hotel" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.ZonesCity> ZonesCityDataGrid;
+
+    protected async Task ZonesCityAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.City data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddZonesCity>("Add ZonesCity", new Dictionary<string, object> { {"CityId" , data.Id} });
+        await GetChildData(data);
+        await ZonesCityDataGrid.Reload();
+    }
+
+    protected async Task ZonesCityRowSelect(ZarenTravel.Models.ZarenSoft.ZonesCity args, ZarenTravel.Models.ZarenSoft.City data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditZonesCity>("Edit ZonesCity", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await ZonesCityDataGrid.Reload();
+    }
+
+    protected async Task ZonesCityDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.ZonesCity zonesCity)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteZonesCity(zonesCity.Id);
+
+                if (deleteResult != null)
+                {
+                    await ZonesCityDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete ZonesCity" 
+            });
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.Hotel1> Hotel1DataGrid;
+
+    protected async Task Hotel1AddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.City data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddHotel1>("Add Hotel1", new Dictionary<string, object> {  });
+        await GetChildData(data);
+        await Hotel1DataGrid.Reload();
+    }
+
+    protected async Task Hotel1RowSelect(ZarenTravel.Models.ZarenSoft.Hotel1 args, ZarenTravel.Models.ZarenSoft.City data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditHotel1>("Edit Hotel1", new Dictionary<string, object> { {"Id", args.Id} });
+        await GetChildData(data);
+        await Hotel1DataGrid.Reload();
+    }
+
+    protected async Task Hotel1DeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.Hotel1 hotel1)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteHotel1(hotel1.Id);
+
+                if (deleteResult != null)
+                {
+                    await Hotel1DataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete Hotel1" 
+            });
+        }
+    }
+
+    string lastFilter;
+    protected async void Grid0Render(DataGridRenderEventArgs<ZarenTravel.Models.ZarenSoft.City> args)
+    {
+        if (grid0.Query.Filter != lastFilter) {
+            city = grid0.View.FirstOrDefault();
+        }
+
+        if (grid0.Query.Filter != lastFilter)
+        {
+            await grid0.SelectRow(city);
+        }
+
+        lastFilter = grid0.Query.Filter;
+    }
+}

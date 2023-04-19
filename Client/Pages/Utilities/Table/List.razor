@@ -1,0 +1,162 @@
+@page "/List/{TableName}/{page?}"
+@using BlazorTable
+
+@inject NavigationManager NavigationManager
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="font-weight-bold text-primary">AccountActions (@total)</h5>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group mb-3">
+                    <input type="text" @bind="@searchKey" class="form-control" placeholder="Search AccountActions..." aria-label="Search AccountActions..." aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" @onclick="@Reset">Reset</button>
+                        <button class="btn btn-outline-secondary" type="button" @onclick="@Search">Search</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <NavLink class="btn btn-primary float-right" href="/AccountActions/Add">
+                    <span class="oi oi-plus" aria-hidden="true">Add New</span>
+                </NavLink>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <Table TableItem="PersonData" Items="data" PageSize="15">
+                <Column TableItem="PersonData" Title="Id" Field="@(x => x.id)" Sortable="true" Filterable="true" Width="10%" />
+                <Column TableItem="PersonData" Title="First Name" Field="@(x => x.first_name)" Sortable="true" Filterable="true" Width="20%" />
+                <Column TableItem="PersonData" Title="Last Name" Field="@(x => x.last_name)" Sortable="true" Filterable="true" Width="20%" />
+                <Column TableItem="PersonData" Title="Email" Field="@(x => x.email)" Sortable="true" Filterable="true" Width="20%">
+                    <Template>
+                        <a href="mailto:@context.email">@context.email</a>
+                    </Template>
+                </Column>
+                <Column TableItem="PersonData" Title="Confirmed" Field="@(x => x.confirmed)" Sortable="true" Filterable="true" Width="10%" />
+                <Column TableItem="PersonData" Title="Price" Field="@(x => x.price)" Sortable="true" Filterable="true" Width="10%" Format="C" Align="Align.Right" />
+                <Column TableItem="PersonData" Title="Created Date" Field="@(x => x.created_date)" Sortable="true" Width="10%">
+                    <Template>
+                        @context.created_date.ToShortDateString()
+                    </Template>
+                </Column>
+                <Pager ShowPageNumber="true" ShowTotalCount="true" />
+            </Table>
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <td>Id</td>
+
+                    </tr>
+                </thead>
+                <tfoot>
+                </tfoot>
+                <tbody>
+                    <tr hidden>
+                        <td class="image">
+                            <div class="img-as-background rounded-circle square border">
+                                <img style="width: 25px; height: 25px;" src="./images/phonebook/@((data["image"])).png" />
+                            </div>
+                        </td>
+                        <td>@data["name"]</td>
+                        <td>@data["company"]</td>
+                        <td>@data["email"]</td>
+                        <td>
+                            <a class="nav-link" href="AccountActions/Edit/@d.Id/@d.AccountId">
+                                <span class="oi oi-pencil" aria-hidden="true">Edit</span>
+                            </a>
+                            <a class="nav-link" href="AccountActions/Delete/@d.Id/@d.AccountId">
+                                <span class="oi oi-trash" aria-hidden="true">Delete</span>
+                            </a>
+                        </td>
+                    </tr>
+
+
+
+                </tbody>
+            </table>
+
+        </div>
+
+
+    </div>
+    <div class="card-arrow">
+        <div class="card-arrow-top-left"></div>
+        <div class="card-arrow-top-right"></div>
+        <div class="card-arrow-bottom-left"></div>
+        <div class="card-arrow-bottom-right"></div>
+    </div>
+</div>
+
+
+@code {
+
+
+    [Parameter]
+    public string TableName { get; set; }
+
+
+    public int pageSize = 20;
+    public string searchKey { get; set; }
+    public int total { get; set; }
+    public int totalPage { get; set; }
+    [Parameter]
+    public string page { get; set; }
+    public int pageNo { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+
+        pageNo = page == null ? 1 : Convert.ToInt32(page);
+        localObj = await Task.Run(() => serviceInstance.GetAllAccountActionsAsync(pageNo, pageSize));
+        total = await Task.Run(() => serviceInstance.GetTotalCountAccountActionsAsync());
+        totalPage = (int)(total / pageSize);
+
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+        pageNo = page == null ? 1 : Convert.ToInt32(page);
+        localObj = await Task.Run(() => serviceInstance.GetAllAccountActionsAsync(pageNo, pageSize));
+        total = await Task.Run(() => serviceInstance.GetTotalCountAccountActionsAsync());
+        totalPage = (int)(total / pageSize);
+    }
+    protected async void Reset()
+    {
+        pageNo = 1;
+        searchKey = "";
+        localObj = await Task.Run(() => serviceInstance.GetAllAccountActionsAsync(pageNo, pageSize));
+        total = await Task.Run(() => serviceInstance.GetTotalCountAccountActionsAsync());
+        totalPage = (int)(total / pageSize);
+        StateHasChanged();
+
+    }
+    protected async void Search()
+    {
+        if (!string.IsNullOrEmpty(searchKey))
+        {
+            pageNo = 1;
+            localObj = await Task.Run(() => serviceInstance.SearchAllAccountActionsAsync(searchKey, pageNo, pageSize));
+            total = await Task.Run(() => serviceInstance.GetTotalSearchCountAccountActionsAsync(searchKey));
+            totalPage = (int)(total / pageSize);
+            StateHasChanged();
+        }
+        else
+        {
+            pageNo = 1;
+            localObj = await Task.Run(() => serviceInstance.GetAllAccountActionsAsync(pageNo, pageSize));
+            total = await Task.Run(() => serviceInstance.GetTotalCountAccountActionsAsync());
+            totalPage = (int)(total / pageSize);
+            StateHasChanged();
+        }
+
+    }
+
+}
+

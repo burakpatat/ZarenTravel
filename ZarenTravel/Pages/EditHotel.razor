@@ -1,0 +1,352 @@
+@page "/edit-hotel"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit Hotel</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Hotel</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.Hotel" Data="@hotel" Visible="@(hotel != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Name" Component="Name" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@hotel.Name" Name="Name" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Address" Component="Address" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@hotel.Address" Name="Address" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Zip Code" Component="ZipCode" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@hotel.ZipCode" Name="ZipCode" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Latitude" Component="Latitude" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@hotel.Latitude" Name="Latitude" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Longitude" Component="Longitude" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@hotel.Longitude" Name="Longitude" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Release" Component="Release" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@hotel.Release" Name="Release" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Number Rooms" Component="NumberRooms" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@hotel.NumberRooms" Name="NumberRooms" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="City" Component="City" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@citiesForCityId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasCityIdValue) Placeholder="Choose City" style="display: block; width: 100%" @bind-Value="@hotel.CityId" Name="CityId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Contact" Component="Contact" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@contactsForCommercialContactId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasCommercialContactIdValue) Placeholder="Choose Contact" style="display: block; width: 100%" @bind-Value="@hotel.CommercialContactId" Name="CommercialContactId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Country" Component="Country" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@countriesForCountryId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasCountryIdValue) Placeholder="Choose Country" style="display: block; width: 100%" @bind-Value="@hotel.CountryId" Name="CountryId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Contact1" Component="Contact1" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@contactsForFinanceContactId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasFinanceContactIdValue) Placeholder="Choose Contact1" style="display: block; width: 100%" @bind-Value="@hotel.FinanceContactId" Name="FinanceContactId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Hotel Chain" Component="HotelChain" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@hotelChainsForHotelChainId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasHotelChainIdValue) Placeholder="Choose HotelChain" style="display: block; width: 100%" @bind-Value="@hotel.HotelChainId" Name="HotelChainId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Hotel Type" Component="HotelType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@hotelTypesForHotelTypeId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasHotelTypeIdValue) Placeholder="Choose HotelType" style="display: block; width: 100%" @bind-Value="@hotel.HotelTypeId" Name="HotelTypeId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Region" Component="Region" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@regionsForRegionId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasRegionIdValue) Placeholder="Choose Region" style="display: block; width: 100%" @bind-Value="@hotel.RegionId" Name="RegionId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Contact2" Component="Contact2" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@contactsForReservationContactId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasReservationContactIdValue) Placeholder="Choose Contact2" style="display: block; width: 100%" @bind-Value="@hotel.ReservationContactId" Name="ReservationContactId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Zone" Component="Zone" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@zonesForZoneId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasZoneIdValue) Placeholder="Choose Zone" style="display: block; width: 100%" @bind-Value="@hotel.ZoneId" Name="ZoneId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        hotel = await ZarenSoftService.GetHotelById(Id);
+
+        citiesForCityId = await ZarenSoftService.GetCities();
+
+        contactsForCommercialContactId = await ZarenSoftService.GetContacts();
+
+        countriesForCountryId = await ZarenSoftService.GetCountries();
+
+        contactsForFinanceContactId = await ZarenSoftService.GetContacts();
+
+        hotelChainsForHotelChainId = await ZarenSoftService.GetHotelChains();
+
+        hotelTypesForHotelTypeId = await ZarenSoftService.GetHotelTypes();
+
+        regionsForRegionId = await ZarenSoftService.GetRegions();
+
+        contactsForReservationContactId = await ZarenSoftService.GetContacts();
+
+        zonesForZoneId = await ZarenSoftService.GetZones();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.Hotel hotel;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.City> citiesForCityId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Contact> contactsForCommercialContactId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Country> countriesForCountryId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Contact> contactsForFinanceContactId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.HotelChain> hotelChainsForHotelChainId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.HotelType> hotelTypesForHotelTypeId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Region> regionsForRegionId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Contact> contactsForReservationContactId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Zone> zonesForZoneId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateHotel(Id, hotel);
+            DialogService.Close(hotel);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasCityIdValue;
+
+    [Parameter]
+    public int? CityId { get; set; }
+
+    bool hasCommercialContactIdValue;
+
+    [Parameter]
+    public int? CommercialContactId { get; set; }
+
+    bool hasCountryIdValue;
+
+    [Parameter]
+    public int? CountryId { get; set; }
+
+    bool hasFinanceContactIdValue;
+
+    [Parameter]
+    public int? FinanceContactId { get; set; }
+
+    bool hasHotelChainIdValue;
+
+    [Parameter]
+    public int? HotelChainId { get; set; }
+
+    bool hasHotelTypeIdValue;
+
+    [Parameter]
+    public int? HotelTypeId { get; set; }
+
+    bool hasRegionIdValue;
+
+    [Parameter]
+    public int? RegionId { get; set; }
+
+    bool hasReservationContactIdValue;
+
+    [Parameter]
+    public int? ReservationContactId { get; set; }
+
+    bool hasZoneIdValue;
+
+    [Parameter]
+    public int? ZoneId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        hotel = new ZarenTravel.Models.ZarenSoft.Hotel();
+
+        hasCityIdValue = parameters.TryGetValue<int?>("CityId", out var hasCityIdResult);
+
+        if (hasCityIdValue)
+        {
+            hotel.CityId = hasCityIdResult;
+        }
+
+        hasCommercialContactIdValue = parameters.TryGetValue<int?>("CommercialContactId", out var hasCommercialContactIdResult);
+
+        if (hasCommercialContactIdValue)
+        {
+            hotel.CommercialContactId = hasCommercialContactIdResult;
+        }
+
+        hasCountryIdValue = parameters.TryGetValue<int?>("CountryId", out var hasCountryIdResult);
+
+        if (hasCountryIdValue)
+        {
+            hotel.CountryId = hasCountryIdResult;
+        }
+
+        hasFinanceContactIdValue = parameters.TryGetValue<int?>("FinanceContactId", out var hasFinanceContactIdResult);
+
+        if (hasFinanceContactIdValue)
+        {
+            hotel.FinanceContactId = hasFinanceContactIdResult;
+        }
+
+        hasHotelChainIdValue = parameters.TryGetValue<int?>("HotelChainId", out var hasHotelChainIdResult);
+
+        if (hasHotelChainIdValue)
+        {
+            hotel.HotelChainId = hasHotelChainIdResult;
+        }
+
+        hasHotelTypeIdValue = parameters.TryGetValue<int?>("HotelTypeId", out var hasHotelTypeIdResult);
+
+        if (hasHotelTypeIdValue)
+        {
+            hotel.HotelTypeId = hasHotelTypeIdResult;
+        }
+
+        hasRegionIdValue = parameters.TryGetValue<int?>("RegionId", out var hasRegionIdResult);
+
+        if (hasRegionIdValue)
+        {
+            hotel.RegionId = hasRegionIdResult;
+        }
+
+        hasReservationContactIdValue = parameters.TryGetValue<int?>("ReservationContactId", out var hasReservationContactIdResult);
+
+        if (hasReservationContactIdValue)
+        {
+            hotel.ReservationContactId = hasReservationContactIdResult;
+        }
+
+        hasZoneIdValue = parameters.TryGetValue<int?>("ZoneId", out var hasZoneIdResult);
+
+        if (hasZoneIdValue)
+        {
+            hotel.ZoneId = hasZoneIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

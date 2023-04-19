@@ -1,0 +1,180 @@
+@page "/edit-deal"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit Deal</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Deal</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.Deal" Data="@deal" Visible="@(deal != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Release" Component="Release" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@deal.Release" Name="Release" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Discount" Component="Discount" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@deal.Discount" Name="Discount" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Free Nights" Component="FreeNights" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@deal.FreeNights" Name="FreeNights" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Start Date" Component="StartDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@deal.StartDate" Name="StartDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="End Date" Component="EndDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@deal.EndDate" Name="EndDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Board Type" Component="BoardType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@boardTypesForBoardTypeId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasBoardTypeIdValue) Placeholder="Choose BoardType" style="display: block; width: 100%" @bind-Value="@deal.BoardTypeId" Name="BoardTypeId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Deal Type" Component="DealType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@dealTypesForDealTypeId" TextProperty="" ValueProperty="Id"
+                        Disabled=@(hasDealTypeIdValue) Placeholder="Choose DealType" style="display: block; width: 100%" @bind-Value="@deal.DealTypeId" Name="DealTypeId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Hotel Room" Component="HotelRoom" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@hotelRoomsForHotelRoomId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasHotelRoomIdValue) Placeholder="Choose HotelRoom" style="display: block; width: 100%" @bind-Value="@deal.HotelRoomId" Name="HotelRoomId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        deal = await ZarenSoftService.GetDealById(Id);
+
+        boardTypesForBoardTypeId = await ZarenSoftService.GetBoardTypes();
+
+        dealTypesForDealTypeId = await ZarenSoftService.GetDealTypes();
+
+        hotelRoomsForHotelRoomId = await ZarenSoftService.GetHotelRooms();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.Deal deal;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.BoardType> boardTypesForBoardTypeId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.DealType> dealTypesForDealTypeId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.HotelRoom> hotelRoomsForHotelRoomId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateDeal(Id, deal);
+            DialogService.Close(deal);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasBoardTypeIdValue;
+
+    [Parameter]
+    public int? BoardTypeId { get; set; }
+
+    bool hasDealTypeIdValue;
+
+    [Parameter]
+    public int? DealTypeId { get; set; }
+
+    bool hasHotelRoomIdValue;
+
+    [Parameter]
+    public int? HotelRoomId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        deal = new ZarenTravel.Models.ZarenSoft.Deal();
+
+        hasBoardTypeIdValue = parameters.TryGetValue<int?>("BoardTypeId", out var hasBoardTypeIdResult);
+
+        if (hasBoardTypeIdValue)
+        {
+            deal.BoardTypeId = hasBoardTypeIdResult;
+        }
+
+        hasDealTypeIdValue = parameters.TryGetValue<int?>("DealTypeId", out var hasDealTypeIdResult);
+
+        if (hasDealTypeIdValue)
+        {
+            deal.DealTypeId = hasDealTypeIdResult;
+        }
+
+        hasHotelRoomIdValue = parameters.TryGetValue<int?>("HotelRoomId", out var hasHotelRoomIdResult);
+
+        if (hasHotelRoomIdValue)
+        {
+            deal.HotelRoomId = hasHotelRoomIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

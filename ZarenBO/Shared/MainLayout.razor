@@ -1,0 +1,191 @@
+@inherits LayoutComponentBase
+<RadzenDialog />
+<RadzenNotification />
+<RadzenTooltip />
+<RadzenContextMenu />
+
+<RadzenLayout style="grid-template-areas: 'rz-sidebar rz-header' 'rz-sidebar rz-body';">
+    <RadzenHeader>
+        <div class="container-fluid">
+            <div class="row justify-content-start align-items-center">
+                <div class="col-6 d-flex align-items-center ps-0 pl-0">
+                    <RadzenSidebarToggle Click="@SidebarToggleClick"></RadzenSidebarToggle>
+                </div>
+                <div class="col-6 d-flex align-items-center justify-content-end pr-0 pe-0">
+                </div>
+            </div>
+        </div>
+    </RadzenHeader>
+    <RadzenBody Expanded="@sidebarExpanded">
+        <div class="container-fluid pt-2 pt-md-3 pt-lg-4 pt-xl-5 pb-2 pb-lg-5" style="max-width: 1440px;">
+            <div class="row">
+                <div class="col">
+                @Body
+                </div>
+            </div>
+        </div>
+    </RadzenBody>
+    <RadzenSidebar Expanded="@sidebarExpanded" style="z-index: 2">
+        <div class="py-3 py-lg-4" style="color: var(--rz-primary-light); padding: var(--rz-panel-menu-item-padding); border-bottom: var(--rz-panel-menu-item-border); display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+            <svg width="48" height="48" viewBox="0 0 64 64">
+                <use href="/images/logo.svg#logo"></use>
+            </svg>
+            <RadzenText Text="ZarenTravelBO" TextStyle="Radzen.Blazor.TextStyle.Subtitle1" class="mb-0" style="color: var(--rz-primary-light);" />
+        </div>
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Home" Path="/" />
+            <RadzenPanelMenuItem Text="Agencies" Path="agencies" />
+            <RadzenPanelMenuItem Text="AgencyCmsDevices" Path="agency-cms-devices" />
+            <RadzenPanelMenuItem Text="AgencyCmsSectionTypes" Path="agency-cms-section-types" />
+            <RadzenPanelMenuItem Text="AgencyCmsSocialMediaUrls" Path="agency-cms-social-media-urls" />
+            <RadzenPanelMenuItem Text="AgencyCmsThemes" Path="agency-cms-themes" />
+            <RadzenPanelMenuItem Text="AgencyCommisions" Path="agency-commisions" />
+            <RadzenPanelMenuItem Text="AgencyContractsClosedTours" Path="agency-contracts-closed-tours" />
+            <RadzenPanelMenuItem Text="AgencyContractsHotelCategories" Path="agency-contracts-hotel-categories" />
+            <RadzenPanelMenuItem Text="AgencyContractsHotelInformations" Path="agency-contracts-hotel-informations" />
+            <RadzenPanelMenuItem Text="AgencyContractsHotelInformationImages" Path="agency-contracts-hotel-information-images" />
+            <RadzenPanelMenuItem Text="AgencyContractsHotelsConfigurations" Path="agency-contracts-hotels-configurations" />
+            <RadzenPanelMenuItem Text="AgencyContractsHotelsConfigurationDays" Path="agency-contracts-hotels-configuration-days" />
+            <RadzenPanelMenuItem Text="AgencyContractsHotelsMenus" Path="agency-contracts-hotels-menus" />
+            <RadzenPanelMenuItem Text="AgencyContractsInsuranceBasicData" Path="agency-contracts-insurance-basic-data" />
+            <RadzenPanelMenuItem Text="AgencyContractsInsuranceSelectedLanguages" Path="agency-contracts-insurance-selected-languages" />
+            <RadzenPanelMenuItem Text="AgencyContractsInsuranceSelectedProductTypes" Path="agency-contracts-insurance-selected-product-types" />
+            <RadzenPanelMenuItem Text="AgencyContractsInsuranceTypes" Path="agency-contracts-insurance-types" />
+            <RadzenPanelMenuItem Text="AgencyCreditDeposits" Path="agency-credit-deposits" />
+            <RadzenPanelMenuItem Text="AgencyManagers" Path="agency-managers" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteApiProductProviders" Path="agency-micro-site-api-product-providers" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteDesigns" Path="agency-micro-site-designs" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteDomainLanguageSettings" Path="agency-micro-site-domain-language-settings" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteDomains" Path="agency-micro-site-domains" />
+            <RadzenPanelMenuItem Text="AgencyMicroSitePaymentProviders" Path="agency-micro-site-payment-providers" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteProperties" Path="agency-micro-site-properties" />
+            <RadzenPanelMenuItem Text="AgencyMicroSites" Path="agency-micro-sites" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingPassengerData" Path="agency-micro-site-setting-passenger-data" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsAccommodationSearchResults" Path="agency-micro-site-settings-accommodation-search-results" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsBookingProcesses" Path="agency-micro-site-settings-booking-processes" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsBookingReplicatorModes" Path="agency-micro-site-settings-booking-replicator-modes" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsEmailVouchers" Path="agency-micro-site-settings-email-vouchers" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsEnableMultiDays" Path="agency-micro-site-settings-enable-multi-days" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsGenerals" Path="agency-micro-site-settings-generals" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsHelpSupports" Path="agency-micro-site-settings-help-supports" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsInvoices" Path="agency-micro-site-settings-invoices" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsOthers" Path="agency-micro-site-settings-others" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsPaymetOptions" Path="agency-micro-site-settings-paymet-options" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsRequestInvoices" Path="agency-micro-site-settings-request-invoices" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsRequiredPassengers" Path="agency-micro-site-settings-required-passengers" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsSearchEngines" Path="agency-micro-site-settings-search-engines" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsSearchSettings" Path="agency-micro-site-settings-search-settings" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsSortTypes" Path="agency-micro-site-settings-sort-types" />
+            <RadzenPanelMenuItem Text="AgencyMicroSiteSettingsTermsConditions" Path="agency-micro-site-settings-terms-conditions" />
+            <RadzenPanelMenuItem Text="AgencyMicroSitesSettingsEmailConfigurations" Path="agency-micro-sites-settings-email-configurations" />
+            <RadzenPanelMenuItem Text="AgencySupplementCommissions" Path="agency-supplement-commissions" />
+            <RadzenPanelMenuItem Text="AgencyUsers" Path="agency-users" />
+            <RadzenPanelMenuItem Text="ApiProducts" Path="api-products" />
+            <RadzenPanelMenuItem Text="ApiResults" Path="api-results" />
+            <RadzenPanelMenuItem Text="AutoCompletes" Path="auto-completes" />
+            <RadzenPanelMenuItem Text="AutoCompleteTypes" Path="auto-complete-types" />
+            <RadzenPanelMenuItem Text="Boards" Path="boards" />
+            <RadzenPanelMenuItem Text="CancellationPolicies" Path="cancellation-policies" />
+            <RadzenPanelMenuItem Text="Cities" Path="cities" />
+            <RadzenPanelMenuItem Text="Countries" Path="countries" />
+            <RadzenPanelMenuItem Text="Country1S" Path="country1-s" />
+            <RadzenPanelMenuItem Text="Currencies" Path="currencies" />
+            <RadzenPanelMenuItem Text="Currency1S" Path="currency1-s" />
+            <RadzenPanelMenuItem Text="Facilities" Path="facilities" />
+            <RadzenPanelMenuItem Text="FacilitiesSelectedCategories" Path="facilities-selected-categories" />
+            <RadzenPanelMenuItem Text="FacilityCategories" Path="facility-categories" />
+            <RadzenPanelMenuItem Text="Geolocations" Path="geolocations" />
+            <RadzenPanelMenuItem Text="GiataInfos" Path="giata-infos" />
+            <RadzenPanelMenuItem Text="HotelBoards" Path="hotel-boards" />
+            <RadzenPanelMenuItem Text="HotelCategories" Path="hotel-categories" />
+            <RadzenPanelMenuItem Text="HotelOffers" Path="hotel-offers" />
+            <RadzenPanelMenuItem Text="HotelPaymentPlans" Path="hotel-payment-plans" />
+            <RadzenPanelMenuItem Text="Hotels" Path="hotels" />
+            <RadzenPanelMenuItem Text="HotelSeasons" Path="hotel-seasons" />
+            <RadzenPanelMenuItem Text="HotelSelectedSeasons" Path="hotel-selected-seasons" />
+            <RadzenPanelMenuItem Text="HotelThemes" Path="hotel-themes" />
+            <RadzenPanelMenuItem Text="Informations" Path="informations" />
+            <RadzenPanelMenuItem Text="Items" Path="items" />
+            <RadzenPanelMenuItem Text="Languages" Path="languages" />
+            <RadzenPanelMenuItem Text="LimitTypes" Path="limit-types" />
+            <RadzenPanelMenuItem Text="MediaFiles" Path="media-files" />
+            <RadzenPanelMenuItem Text="OfferCancellationPolicies" Path="offer-cancellation-policies" />
+            <RadzenPanelMenuItem Text="OfferPriceBreakDowns" Path="offer-price-break-downs" />
+            <RadzenPanelMenuItem Text="Offers" Path="offers" />
+            <RadzenPanelMenuItem Text="PassengerAmounts" Path="passenger-amounts" />
+            <RadzenPanelMenuItem Text="PaymentPlanInfos" Path="payment-plan-infos" />
+            <RadzenPanelMenuItem Text="PaymentTypes" Path="payment-types" />
+            <RadzenPanelMenuItem Text="PossibleQueries" Path="possible-queries" />
+            <RadzenPanelMenuItem Text="Presentations" Path="presentations" />
+            <RadzenPanelMenuItem Text="PriceBreakDowns" Path="price-break-downs" />
+            <RadzenPanelMenuItem Text="Prices" Path="prices" />
+            <RadzenPanelMenuItem Text="ProductTypes" Path="product-types" />
+            <RadzenPanelMenuItem Text="Resources" Path="resources" />
+            <RadzenPanelMenuItem Text="RoomFacilities" Path="room-facilities" />
+            <RadzenPanelMenuItem Text="RoomInfoFacilities" Path="room-info-facilities" />
+            <RadzenPanelMenuItem Text="RoomInfos" Path="room-infos" />
+            <RadzenPanelMenuItem Text="RoomInfosMediaFiles" Path="room-infos-media-files" />
+            <RadzenPanelMenuItem Text="RoomMediaFiles" Path="room-media-files" />
+            <RadzenPanelMenuItem Text="RoomPresentations" Path="room-presentations" />
+            <RadzenPanelMenuItem Text="Rooms" Path="rooms" />
+            <RadzenPanelMenuItem Text="SeasonMediaFiles" Path="season-media-files" />
+            <RadzenPanelMenuItem Text="Seasons" Path="seasons" />
+            <RadzenPanelMenuItem Text="SeasonTextCategories" Path="season-text-categories" />
+            <RadzenPanelMenuItem Text="SeasonThemes" Path="season-themes" />
+            <RadzenPanelMenuItem Text="States" Path="states" />
+            <RadzenPanelMenuItem Text="TextCategories" Path="text-categories" />
+            <RadzenPanelMenuItem Text="Themes" Path="themes" />
+            <RadzenPanelMenuItem Text="Towns" Path="towns" />
+            <RadzenPanelMenuItem Text="Villages" Path="villages" />
+            <RadzenPanelMenuItem Text="Resource1S" Path="resource1-s" />
+            <RadzenPanelMenuItem Text="Tests" Path="tests" />
+            <RadzenPanelMenuItem Text="AgencyContractsConfigurationByHotels" Path="agency-contracts-configuration-by-hotels" />
+            <RadzenPanelMenuItem Text="AirLines" Path="air-lines" />
+            <RadzenPanelMenuItem Text="AirPorts" Path="air-ports" />
+            <RadzenPanelMenuItem Text="AirPortTaxes" Path="air-port-taxes" />
+            <RadzenPanelMenuItem Text="Apis" Path="apis" />
+            <RadzenPanelMenuItem Text="Arrivals" Path="arrivals" />
+            <RadzenPanelMenuItem Text="BaggageInformations" Path="baggage-informations" />
+            <RadzenPanelMenuItem Text="BaggageTypes" Path="baggage-types" />
+            <RadzenPanelMenuItem Text="BaggageUnitTypes" Path="baggage-unit-types" />
+            <RadzenPanelMenuItem Text="CityModels" Path="city-models" />
+            <RadzenPanelMenuItem Text="Dates" Path="dates" />
+            <RadzenPanelMenuItem Text="Departures" Path="departures" />
+            <RadzenPanelMenuItem Text="Explanations" Path="explanations" />
+            <RadzenPanelMenuItem Text="Features" Path="features" />
+            <RadzenPanelMenuItem Text="FlightBrands" Path="flight-brands" />
+            <RadzenPanelMenuItem Text="FlightClasses" Path="flight-classes" />
+            <RadzenPanelMenuItem Text="FlightFees" Path="flight-fees" />
+            <RadzenPanelMenuItem Text="FlightGeoLocations" Path="flight-geo-locations" />
+            <RadzenPanelMenuItem Text="FlightItems" Path="flight-items" />
+            <RadzenPanelMenuItem Text="FlightOffers" Path="flight-offers" />
+            <RadzenPanelMenuItem Text="FlightProviders" Path="flight-providers" />
+            <RadzenPanelMenuItem Text="Flights" Path="flights" />
+            <RadzenPanelMenuItem Text="Genders" Path="genders" />
+            <RadzenPanelMenuItem Text="GroupKeys" Path="group-keys" />
+            <RadzenPanelMenuItem Text="HotelFacilities" Path="hotel-facilities" />
+            <RadzenPanelMenuItem Text="HotelFacilityCategories" Path="hotel-facility-categories" />
+            <RadzenPanelMenuItem Text="HotelFacilityCategorySelectedFacilities" Path="hotel-facility-category-selected-facilities" />
+            <RadzenPanelMenuItem Text="HotelPresentations" Path="hotel-presentations" />
+            <RadzenPanelMenuItem Text="HotelSeasonMediaFiles" Path="hotel-season-media-files" />
+            <RadzenPanelMenuItem Text="HotelSeasonSelectedTextCategories" Path="hotel-season-selected-text-categories" />
+            <RadzenPanelMenuItem Text="HotelSelectedCategories" Path="hotel-selected-categories" />
+            <RadzenPanelMenuItem Text="HotelTextCategories" Path="hotel-text-categories" />
+            <RadzenPanelMenuItem Text="HotelTextCategoriesSelectedPresentations" Path="hotel-text-categories-selected-presentations" />
+            <RadzenPanelMenuItem Text="InsuranceSelectedLangs" Path="insurance-selected-langs" />
+            <RadzenPanelMenuItem Text="InvoiceTypes" Path="invoice-types" />
+            <RadzenPanelMenuItem Text="Language1S" Path="language1-s" />
+            <RadzenPanelMenuItem Text="Passengers" Path="passengers" />
+            <RadzenPanelMenuItem Text="PassengerTypes" Path="passenger-types" />
+            <RadzenPanelMenuItem Text="SeatInfos" Path="seat-infos" />
+            <RadzenPanelMenuItem Text="Segments" Path="segments" />
+            <RadzenPanelMenuItem Text="ServiceFees" Path="service-fees" />
+            <RadzenPanelMenuItem Text="Services" Path="services" />
+            <RadzenPanelMenuItem Text="Status" Path="status" />
+        </RadzenPanelMenu>
+        <div class="py-3 py-md-4" style="padding: var(--rz-panel-menu-item-padding);">
+            <RadzenText Text="ZarenTravelBO v1.0.0" TextStyle="Radzen.Blazor.TextStyle.Caption" style="color: var(--rz-text-disabled-color);" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" />
+            <RadzenText Text="Copyright Ⓒ 2023" TextStyle="Radzen.Blazor.TextStyle.Caption" class="mb-0" style="color: var(--rz-text-disabled-color);" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" />
+        </div>
+    </RadzenSidebar>
+</RadzenLayout>

@@ -1,0 +1,304 @@
+@page "/add-booking"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Add Booking</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Booking</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.Booking" Data="@booking" Visible="@(booking != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Reference" Component="Reference" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@booking.Reference" Name="Reference" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="From Date" Component="FromDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@booking.FromDate" Name="FromDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="To Date" Component="ToDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@booking.ToDate" Name="ToDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Date Booked" Component="DateBooked" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@booking.DateBooked" Name="DateBooked" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Nights" Component="Nights" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@booking.Nights" Name="Nights" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Num Rooms" Component="NumRooms" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@booking.NumRooms" Name="NumRooms" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Total Cost" Component="TotalCost" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@booking.TotalCost" Name="TotalCost" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Total Price" Component="TotalPrice" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@booking.TotalPrice" Name="TotalPrice" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Status" Component="Status" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@booking.Status" Name="Status" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Paid Status" Component="PaidStatus" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@booking.PaidStatus" Name="PaidStatus" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Client Title" Component="ClientTitle" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@booking.ClientTitle" Name="ClientTitle" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Client Name" Component="ClientName" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@booking.ClientName" Name="ClientName" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Client Surname" Component="ClientSurname" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@booking.ClientSurname" Name="ClientSurname" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Client Email" Component="ClientEmail" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@booking.ClientEmail" Name="ClientEmail" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Client Notes" Component="ClientNotes" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@booking.ClientNotes" Name="ClientNotes" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Client Address" Component="ClientAddress" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@booking.ClientAddress" Name="ClientAddress" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Client Contact" Component="ClientContact" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@booking.ClientContact" Name="ClientContact" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Adults" Component="Adults" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@booking.Adults" Name="Adults" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Children" Component="Children" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@booking.Children" Name="Children" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Infants" Component="Infants" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@booking.Infants" Name="Infants" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Children Ages" Component="ChildrenAges" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@booking.ChildrenAges" Name="ChildrenAges" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Agency" Component="Agency" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@agenciesForAgencyId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasAgencyIdValue) Placeholder="Choose Agency" style="display: block; width: 100%" @bind-Value="@booking.AgencyId" Name="AgencyId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Hotel" Component="Hotel" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@hotelsForHotelId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasHotelIdValue) Placeholder="Choose Hotel" style="display: block; width: 100%" @bind-Value="@booking.HotelId" Name="HotelId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Provider" Component="Provider" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@providersForProviderId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasProviderIdValue) Placeholder="Choose Provider" style="display: block; width: 100%" @bind-Value="@booking.ProviderId" Name="ProviderId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        agenciesForAgencyId = await ZarenSoftService.GetAgencies();
+
+        hotelsForHotelId = await ZarenSoftService.GetHotels();
+
+        providersForProviderId = await ZarenSoftService.GetProviders();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.Booking booking;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Agency> agenciesForAgencyId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Hotel> hotelsForHotelId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Provider> providersForProviderId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.CreateBooking(booking);
+            DialogService.Close(booking);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasAgencyIdValue;
+
+    [Parameter]
+    public int? AgencyId { get; set; }
+
+    bool hasHotelIdValue;
+
+    [Parameter]
+    public int? HotelId { get; set; }
+
+    bool hasProviderIdValue;
+
+    [Parameter]
+    public int? ProviderId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        booking = new ZarenTravel.Models.ZarenSoft.Booking();
+
+        hasAgencyIdValue = parameters.TryGetValue<int?>("AgencyId", out var hasAgencyIdResult);
+
+        if (hasAgencyIdValue)
+        {
+            booking.AgencyId = hasAgencyIdResult;
+        }
+
+        hasHotelIdValue = parameters.TryGetValue<int?>("HotelId", out var hasHotelIdResult);
+
+        if (hasHotelIdValue)
+        {
+            booking.HotelId = hasHotelIdResult;
+        }
+
+        hasProviderIdValue = parameters.TryGetValue<int?>("ProviderId", out var hasProviderIdResult);
+
+        if (hasProviderIdValue)
+        {
+            booking.ProviderId = hasProviderIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

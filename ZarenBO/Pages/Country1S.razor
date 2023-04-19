@@ -1,0 +1,201 @@
+@page "/country1-s"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject zaren_prodService zaren_prodService
+
+<PageTitle>Country1S</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="Country1S" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"  AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@country1S"    TItem="ZarenTravelBO.Models.zaren_prod.Country1" RowDoubleClick="@EditRow" >
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Name" Title="Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="ShortName" Title="Short Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Temperature" Title="Temperature">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Area" Title="Area">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Religion" Title="Religion">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Location" Title="Location">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Population" Title="Population">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Density" Title="Density">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Symbol" Title="Symbol">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Abbreviation" Title="Abbreviation">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="FlagBase64" Title="Flag Base64">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Expectancy" Title="Expectancy">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Dish" Title="Dish">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="LanguagesJSON" Title="Languages J S O N">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Landlocked" Title="Landlocked">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Iso" Title="Iso">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Independence" Title="Independence">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Government" Title="Government">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="North" Title="North">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="South" Title="South">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="West" Title="West">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="East" Title="East">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Elevation" Title="Elevation">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="DomainTld" Title="Domain Tld">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="CurrencyName" Title="Currency Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="CurrencyCode" Title="Currency Code">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="CostLine" Title="Cost Line">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Continent" Title="Continent">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="City" Title="City">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="CallingCode" Title="Calling Code">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Barcode" Title="Barcode">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Height" Title="Height">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="DefaultLanguageId" Title="Default Language Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="HasFraudRisk" Title="Has Fraud Risk">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="HasManuelRegistration" Title="Has Manuel Registration">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Property="Logo" Title="Logo">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravelBO.Models.zaren_prod.Country1" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="country1">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, country1)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravelBO.Models.zaren_prod.Country1> country1S;
+
+    protected RadzenDataGrid<ZarenTravelBO.Models.zaren_prod.Country1> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        country1S = await zaren_prodService.GetCountry1S(new Query { Filter = $@"i => i.Name.Contains(@0) || i.ShortName.Contains(@0) || i.Temperature.Contains(@0) || i.Area.Contains(@0) || i.Religion.Contains(@0) || i.Location.Contains(@0) || i.Density.Contains(@0) || i.Symbol.Contains(@0) || i.Abbreviation.Contains(@0) || i.FlagBase64.Contains(@0) || i.Expectancy.Contains(@0) || i.Dish.Contains(@0) || i.LanguagesJSON.Contains(@0) || i.Landlocked.Contains(@0) || i.Iso.Contains(@0) || i.Independence.Contains(@0) || i.Government.Contains(@0) || i.North.Contains(@0) || i.South.Contains(@0) || i.West.Contains(@0) || i.East.Contains(@0) || i.Elevation.Contains(@0) || i.DomainTld.Contains(@0) || i.CurrencyName.Contains(@0) || i.CurrencyCode.Contains(@0) || i.CostLine.Contains(@0) || i.Continent.Contains(@0) || i.City.Contains(@0) || i.CallingCode.Contains(@0) || i.Barcode.Contains(@0) || i.Height.Contains(@0) || i.Logo.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        country1S = await zaren_prodService.GetCountry1S(new Query { Filter = $@"i => i.Name.Contains(@0) || i.ShortName.Contains(@0) || i.Temperature.Contains(@0) || i.Area.Contains(@0) || i.Religion.Contains(@0) || i.Location.Contains(@0) || i.Density.Contains(@0) || i.Symbol.Contains(@0) || i.Abbreviation.Contains(@0) || i.FlagBase64.Contains(@0) || i.Expectancy.Contains(@0) || i.Dish.Contains(@0) || i.LanguagesJSON.Contains(@0) || i.Landlocked.Contains(@0) || i.Iso.Contains(@0) || i.Independence.Contains(@0) || i.Government.Contains(@0) || i.North.Contains(@0) || i.South.Contains(@0) || i.West.Contains(@0) || i.East.Contains(@0) || i.Elevation.Contains(@0) || i.DomainTld.Contains(@0) || i.CurrencyName.Contains(@0) || i.CurrencyCode.Contains(@0) || i.CostLine.Contains(@0) || i.Continent.Contains(@0) || i.City.Contains(@0) || i.CallingCode.Contains(@0) || i.Barcode.Contains(@0) || i.Height.Contains(@0) || i.Logo.Contains(@0)", FilterParameters = new object[] { search } });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddCountry1>("Add Country1", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravelBO.Models.zaren_prod.Country1> args)
+    {
+        await DialogService.OpenAsync<EditCountry1>("Edit Country1", new Dictionary<string, object> { {"Id", args.Data.Id} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravelBO.Models.zaren_prod.Country1 country1)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await zaren_prodService.DeleteCountry1(country1.Id);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete Country1" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await zaren_prodService.ExportCountry1SToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "Country1S");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await zaren_prodService.ExportCountry1SToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "Country1S");
+        }
+    }
+}

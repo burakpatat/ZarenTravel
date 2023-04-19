@@ -1,0 +1,120 @@
+@page "/edit-terminal"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit Terminal</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Terminal</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.Terminal" Data="@terminal" Visible="@(terminal != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Terminal Name" Component="TerminalName" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@terminal.TerminalName" Name="TerminalName" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Terminal Code" Component="TerminalCode" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@terminal.TerminalCode" Name="TerminalCode" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Terminal Timestamp" Component="TerminalTimestamp" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@terminal.TerminalTimestamp" Name="TerminalTimestamp" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Terminal Active" Component="TerminalActive" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@terminal.TerminalActive" Name="TerminalActive" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Airport" Component="Airport" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@airportsForAirportId" TextProperty="AirportCode" ValueProperty="Id"
+                        Disabled=@(hasAirportIdValue) Placeholder="Choose Airport" style="display: block; width: 100%" @bind-Value="@terminal.AirportId" Name="AirportId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        terminal = await ZarenSoftService.GetTerminalById(Id);
+
+        airportsForAirportId = await ZarenSoftService.GetAirports();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.Terminal terminal;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Airport> airportsForAirportId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateTerminal(Id, terminal);
+            DialogService.Close(terminal);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasAirportIdValue;
+
+    [Parameter]
+    public int? AirportId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        terminal = new ZarenTravel.Models.ZarenSoft.Terminal();
+
+        hasAirportIdValue = parameters.TryGetValue<int?>("AirportId", out var hasAirportIdResult);
+
+        if (hasAirportIdValue)
+        {
+            terminal.AirportId = hasAirportIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

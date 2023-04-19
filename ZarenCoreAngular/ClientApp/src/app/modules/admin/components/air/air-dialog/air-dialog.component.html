@@ -1,0 +1,189 @@
+<h1 mat-dialog-title>air</h1>
+<div mat-dialog-content>
+    <form fxLayout="column" #airForm="ngForm">
+       <mat-tab-group mat-align-tabs="start">
+<mat-tab label="Tab 1">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airlineıd" name="airlineId"[(ngModel)]="airObj.airlineId"
+#airlineId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airrecordairline" name="airRecordAirline"[(ngModel)]="airObj.airRecordAirline"
+#airRecordAirline="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airticket" name="airTicket"[(ngModel)]="airObj.airTicket"
+#airTicket="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airbookeddate (dd-mm-yyyy)"
+                    [ngModel]="airObj.airBookedDate | date:'dd-MM-yyyy'" name="airBookedDate"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="airBookedDatePicker" name="hiddenawardDate"
+                    [(ngModel)]="airObj.airBookedDate">
+                <mat-datepicker-toggle matSuffix [for]="airBookedDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #airBookedDatePicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airıssueddate (dd-mm-yyyy)"
+                    [ngModel]="airObj.airIssueddate | date:'dd-MM-yyyy'" name="airIssueddate"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="airIssueddatePicker" name="hiddenawardDate"
+                    [(ngModel)]="airObj.airIssueddate">
+                <mat-datepicker-toggle matSuffix [for]="airIssueddatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #airIssueddatePicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airreıssued" name="airReIssued"[(ngModel)]="airObj.airReIssued"
+#airReIssued="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+<mat-tab label="Tab 2">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airoriginalticket" name="airOriginalTicket"[(ngModel)]="airObj.airOriginalTicket"
+#airOriginalTicket="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Pnrıd" name="pNRId"[(ngModel)]="airObj.pNRId"
+#pNRId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Currencyıd" name="currencyId"[(ngModel)]="airObj.currencyId"
+#currencyId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex> 
+                <input matInput placeholder="Airfare" type="number" name="airFare"[(ngModel)]="airObj.airFare"
+#airFare="ngModel"   >
+               
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex> 
+                <input matInput placeholder="Airtax" type="number" name="airTax"[(ngModel)]="airObj.airTax"
+#airTax="ngModel"   >
+               
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex> 
+                <input matInput placeholder="Airlowestfare" type="number" name="airLowestFare"[(ngModel)]="airObj.airLowestFare"
+#airLowestFare="ngModel"   >
+               
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex> 
+                <input matInput placeholder="Airhighestfare" type="number" name="airHighestFare"[(ngModel)]="airObj.airHighestFare"
+#airHighestFare="ngModel"   >
+               
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airfarebases" name="airFareBases"[(ngModel)]="airObj.airFareBases"
+#airFareBases="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+<mat-tab label="Tab 3">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Brokerıd" name="brokerId"[(ngModel)]="airObj.brokerId"
+#brokerId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airıncludebags" name="airIncludeBags"[(ngModel)]="airObj.airIncludeBags"
+#airIncludeBags="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airtimestamp (dd-mm-yyyy)"
+                    [ngModel]="airObj.airTimestamp | date:'dd-MM-yyyy'" name="airTimestamp"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="airTimestampPicker" name="hiddenawardDate"
+                    [(ngModel)]="airObj.airTimestamp">
+                <mat-datepicker-toggle matSuffix [for]="airTimestampPicker"></mat-datepicker-toggle>
+                <mat-datepicker #airTimestampPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Airactive" name="airActive"[(ngModel)]="airObj.airActive"
+#airActive="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+
+</mat-tab-group>
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row wrap" fxFlex fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button mat-button mat-dialog-close tabindex="-1" cdkFocusInitial>Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!airForm.valid || !airForm.dirty"
+            (click)="saveair(airObj)">
+            Add/Update
+        </button>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+﻿@inject Microsoft.Extensions.Localization.IStringLocalizer<Index> L
+@page "/{language}/flight/{Id}"
+<h3>FlightDetail</h3>
+
+@code {
+    protected string error;
+    protected bool errorVisible;
+    public string currency { get; set; }
+    public string culture { get; set; }
+    public string offerId { get; set; }
+    public string searchId { get; set; }
+    public string expireOn { get; set; }
+
+    [ParameterAttribute]
+    public string Id { get; set; }
+
+    [ParameterAttribute]
+    public string language { get; set; }
+   
+}

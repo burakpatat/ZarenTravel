@@ -1,0 +1,71 @@
+<h1 mat-dialog-title>agentınformation</h1>
+<div mat-dialog-content>
+    <form fxLayout="column" #agentınformationForm="ngForm">
+       <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Agentcode" name="agentCode"[(ngModel)]="agentınformationObj.agentCode"
+#agentCode="ngModel"  required  >
+            <mat-error *ngIf="agentCode.hasError('required')">
+                    Please enter the value..
+                </mat-error>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Agentname" name="agentName"[(ngModel)]="agentınformationObj.agentName"
+#agentName="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Agentstation" name="agentStation"[(ngModel)]="agentınformationObj.agentStation"
+#agentStation="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Fıle_ıd" name="fILE_ID"[(ngModel)]="agentınformationObj.fILE_ID"
+#fILE_ID="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Fıle_name" name="fILE_NAME"[(ngModel)]="agentınformationObj.fILE_NAME"
+#fILE_NAME="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Recorddatestamp (dd-mm-yyyy)"
+                    [ngModel]="agentınformationObj.recordDateStamp | date:'dd-MM-yyyy'" name="recordDateStamp"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="recordDateStampPicker" name="hiddenawardDate"
+                    [(ngModel)]="agentınformationObj.recordDateStamp">
+                <mat-datepicker-toggle matSuffix [for]="recordDateStampPicker"></mat-datepicker-toggle>
+                <mat-datepicker #recordDateStampPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+
+
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row wrap" fxFlex fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button mat-button mat-dialog-close tabindex="-1" cdkFocusInitial>Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!agentınformationForm.valid || !agentınformationForm.dirty"
+            (click)="saveagentınformation(agentınformationObj)">
+            Add/Update
+        </button>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>WordyWellHero.Domain</RootNamespace>
+    <AssemblyName>WordyWellHero.Domain</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Entities\Catalog\" />
+  </ItemGroup>
+
+</Project>

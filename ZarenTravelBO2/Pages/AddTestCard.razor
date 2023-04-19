@@ -1,0 +1,137 @@
+@page "/add-test-card"
+@attribute [Authorize]
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenService ZarenService
+@inject Microsoft.Extensions.Localization.IStringLocalizer<AddTestCard> L
+
+<PageTitle>Add TestCard</PageTitle>
+    <RadzenColumn SizeMD=12>
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save TestCard</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenBO2.Models.Zaren.TestCard" Data="@testCard" Visible="@(testCard != null && canEdit)" Submit="@FormSubmit">
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Text="Bank Name" Component="BankName" style="width: 100%" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@testCard.BankName" Name="BankName" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Text="Card No" Component="CardNo" style="width: 100%" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@testCard.CardNo" Name="CardNo" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Text="Valid Date" Component="ValidDate" style="width: 100%" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@testCard.ValidDate" Name="ValidDate" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Text="C V V" Component="CVV" style="width: 100%" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@testCard.CVV" Name="CVV" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Text="Three D Password" Component="ThreeDPassword" style="width: 100%" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@testCard.ThreeDPassword" Name="ThreeDPassword" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Text="Card Type" Component="CardType" style="width: 100%" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@testCard.CardType" Name="CardType" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Text="Card Scheme" Component="CardScheme" style="width: 100%" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@testCard.CardScheme" Name="CardScheme" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Text="Response Type" Component="ResponseType" style="width: 100%" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@testCard.ResponseType" Name="ResponseType" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Text="Payment Configuration" Component="PaymentConfiguration" style="width: 100%" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenDropDownDataGrid Data="@paymentConfigurationsForPaymentConfigurationId" TextProperty="PaymentCompany" ValueProperty="Id"
+                         Placeholder="Choose PaymentConfiguration" style="display: block; width: 100%" @bind-Value="@testCard.PaymentConfigurationId" Name="PaymentConfigurationId"
+                           />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+            </RadzenStack>
+        </RadzenTemplateForm>
+    </RadzenColumn>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        testCard = new ZarenBO2.Models.Zaren.TestCard();
+
+        paymentConfigurationsForPaymentConfigurationId = await ZarenService.GetPaymentConfigurations();
+    }
+    protected bool errorVisible;
+    protected ZarenBO2.Models.Zaren.TestCard testCard;
+
+    protected IEnumerable<ZarenBO2.Models.Zaren.PaymentConfiguration> paymentConfigurationsForPaymentConfigurationId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenService.CreateTestCard(testCard);
+            DialogService.Close(testCard);
+        }
+        catch (Exception ex)
+        {
+            hasChanges = ex is Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException;
+            canEdit = !(ex is Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException);
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+    protected bool hasChanges = false;
+    protected bool canEdit = true;
+
+    [Inject]
+    protected SecurityService Security { get; set; }
+}

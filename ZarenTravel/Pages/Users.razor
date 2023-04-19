@@ -1,0 +1,255 @@
+@page "/users"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Users</PageTitle>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12 col-md-6">
+        <RadzenText Text="Users" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+    </div>
+    <div class="col-12 col-md-6 justify-content-start justify-content-md-end" style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem">
+    <RadzenSplitButton Icon="get_app" style="margin-left: 10px; margin-bottom: 10px" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+        <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+        <RadzenSplitButtonItem Text="CSV" Value="csv" />
+    </RadzenSplitButton>
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+    </div>
+</div>
+<div class="row" style="margin-bottom: 1rem">
+    <div class="col-12">
+        <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px" Render=Grid0Render AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true"
+            Data="@users"    TItem="ZarenTravel.Models.ZarenSoft.User" RowDoubleClick="@EditRow" RowSelect=@GetChildData>
+            <Columns>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="ID" Title="I D">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="GovernmentID" Title="Government I D">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="Name" Title="Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="Surname" Title="Surname">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="Status" Title="Status">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="UserName" Title="User Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="Password" Title="Password">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="Email" Title="Email">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="IsMaster" Title="Is Master">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="Gender" Title="Gender">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="CreateDate" Title="Create Date">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="BirthPlace" Title="Birth Place">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="MaritalStatus" Title="Marital Status">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="BirthDate" Title="Birth Date">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="MotherName" Title="Mother Name">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="IsSuperAdmin" Title="Is Super Admin">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="Products" Title="Products">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Property="UserType1.Name" Title="User Type1">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.User" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="user">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, user)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+                    <RadzenHeading Visible="@(user != null)" Size="H1" Text="UserPreferences" />
+                    <RadzenButton Visible="@(user != null)" Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click=@(args => UserPreferenceAddButtonClick(args,user)) />
+                    <RadzenDataGrid ColumnWidth="200px" Visible="@(user != null)" @ref=UserPreferenceDataGrid AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" 
+                      Data="@user?.UserPreferences" TItem="ZarenTravel.Models.ZarenSoft.UserPreference"  RowSelect="@(args => UserPreferenceRowSelect(args, user))">
+                      <Columns>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.UserPreference" Property="ID" Title="I D">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.UserPreference" Property="ThemeStyle" Title="Theme Style">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.UserPreference" Property="Products" Title="Products">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.UserPreference" Property="HeaderColor" Title="Header Color">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.UserPreference" Property="SideBarColor" Title="Side Bar Color">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.UserPreference" Property="User.GovernmentID" Title="User">
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="ZarenTravel.Models.ZarenSoft.UserPreference" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                            <Template Context="userPreferenceChild">
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" 
+                                    Click=@(args => UserPreferenceDeleteButtonClick(args, userPreferenceChild)) @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                      </Columns>
+                </RadzenDataGrid>    </div>
+</div>
+@code {
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.User> users;
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.User> grid0;
+
+    protected string search = "";
+
+    protected async Task Search(ChangeEventArgs args)
+    {
+        search = $"{args.Value}";
+
+        await grid0.GoToPage(0);
+
+        users = await ZarenSoftService.GetUsers(new Query { Filter = $@"i => i.GovernmentID.Contains(@0) || i.Name.Contains(@0) || i.Surname.Contains(@0) || i.UserName.Contains(@0) || i.Password.Contains(@0) || i.Email.Contains(@0) || i.BirthPlace.Contains(@0) || i.MotherName.Contains(@0)", FilterParameters = new object[] { search }, Expand = "UserType1" });
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        users = await ZarenSoftService.GetUsers(new Query { Filter = $@"i => i.GovernmentID.Contains(@0) || i.Name.Contains(@0) || i.Surname.Contains(@0) || i.UserName.Contains(@0) || i.Password.Contains(@0) || i.Email.Contains(@0) || i.BirthPlace.Contains(@0) || i.MotherName.Contains(@0)", FilterParameters = new object[] { search }, Expand = "UserType1" });
+    }
+
+    protected async Task AddButtonClick(MouseEventArgs args)
+    {
+        await DialogService.OpenAsync<AddUser>("Add User", null);
+        await grid0.Reload();
+    }
+
+    protected async Task EditRow(DataGridRowMouseEventArgs<ZarenTravel.Models.ZarenSoft.User> args)
+    {
+        await DialogService.OpenAsync<EditUser>("Edit User", new Dictionary<string, object> { {"ID", args.Data.ID} });
+    }
+
+    protected async Task GridDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.User user)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteUser(user.ID);
+
+                if (deleteResult != null)
+                {
+                    await grid0.Reload();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete User" 
+            });
+        }
+    }
+
+    protected async Task ExportClick(RadzenSplitButtonItem args)
+    {
+        if (args?.Value == "csv")
+        {
+            await ZarenSoftService.ExportUsersToCSV(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "UserType1", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "Users");
+        }
+
+        if (args == null || args.Value == "xlsx")
+        {
+            await ZarenSoftService.ExportUsersToExcel(new Query
+{ 
+    Filter = $@"{(string.IsNullOrEmpty(grid0.Query.Filter)? "true" : grid0.Query.Filter)}", 
+    OrderBy = $"{grid0.Query.OrderBy}", 
+    Expand = "UserType1", 
+    Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible()).Select(c => c.Property))
+}, "Users");
+        }
+    }
+
+    protected ZarenTravel.Models.ZarenSoft.User user;
+    protected async Task GetChildData(ZarenTravel.Models.ZarenSoft.User args)
+    {
+        user = args;
+        var UserPreferenceResult = await ZarenSoftService.GetUserPreferences(new Query { Filter = $"i => i.UserID == {args.ID}", Expand = "User" });
+        if (UserPreferenceResult != null)
+        {
+            args.UserPreferences = UserPreferenceResult.ToList();
+        }
+    }
+
+    protected RadzenDataGrid<ZarenTravel.Models.ZarenSoft.UserPreference> UserPreferenceDataGrid;
+
+    protected async Task UserPreferenceAddButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.User data)
+    {
+        var dialogResult = await DialogService.OpenAsync<AddUserPreference>("Add UserPreference", new Dictionary<string, object> { {"UserID" , data.ID} });
+        await GetChildData(data);
+        await UserPreferenceDataGrid.Reload();
+    }
+
+    protected async Task UserPreferenceRowSelect(ZarenTravel.Models.ZarenSoft.UserPreference args, ZarenTravel.Models.ZarenSoft.User data)
+    {
+        var dialogResult = await DialogService.OpenAsync<EditUserPreference>("Edit UserPreference", new Dictionary<string, object> { {"ID", args.ID} });
+        await GetChildData(data);
+        await UserPreferenceDataGrid.Reload();
+    }
+
+    protected async Task UserPreferenceDeleteButtonClick(MouseEventArgs args, ZarenTravel.Models.ZarenSoft.UserPreference userPreference)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await ZarenSoftService.DeleteUserPreference(userPreference.ID);
+
+                if (deleteResult != null)
+                {
+                    await UserPreferenceDataGrid.Reload();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            { 
+                Severity = NotificationSeverity.Error,
+                Summary = $"Error", 
+                Detail = $"Unable to delete UserPreference" 
+            });
+        }
+    }
+
+    string lastFilter;
+    protected async void Grid0Render(DataGridRenderEventArgs<ZarenTravel.Models.ZarenSoft.User> args)
+    {
+        if (grid0.Query.Filter != lastFilter) {
+            user = grid0.View.FirstOrDefault();
+        }
+
+        if (grid0.Query.Filter != lastFilter)
+        {
+            await grid0.SelectRow(user);
+        }
+
+        lastFilter = grid0.Query.Filter;
+    }
+}

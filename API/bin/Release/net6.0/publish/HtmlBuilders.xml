@@ -1,0 +1,758 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HtmlBuilders</name>
+    </assembly>
+    <members>
+        <member name="T:HtmlBuilders.HtmlTag">
+            <summary>
+              Represents an html tag that can have a parent, children, attributes, etc.
+              This is a wrapper around the built in <see cref="T:Microsoft.AspNetCore.Mvc.Rendering.TagBuilder"/> class but with a lot more convenience and builder style patterns.
+            </summary>
+        </member>
+        <member name="F:HtmlBuilders.HtmlTag._tagName">
+            <summary>
+              The inner <see cref="T:Microsoft.AspNetCore.Mvc.Rendering.TagBuilder" />
+            </summary>
+        </member>
+        <member name="F:HtmlBuilders.HtmlTag._attributes">
+            <summary>
+              The attributes of this tag
+            </summary>
+        </member>
+        <member name="F:HtmlBuilders.HtmlTag._contents">
+            <summary>
+              The inner list of contents
+            </summary>
+        </member>
+        <member name="F:HtmlBuilders.HtmlTag._tagRenderMode">
+            <summary>
+              The inner <see cref="T:Microsoft.AspNetCore.Mvc.Rendering.TagRenderMode" />
+            </summary>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.#ctor(System.String)">
+            <summary>
+              Initializes a new instance of <see cref="T:HtmlBuilders.HtmlTag" />
+            </summary>
+            <param name="tagName">The tag name</param>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.WithAttributes(System.Collections.Immutable.IImmutableDictionary{System.String,System.String})">
+            <summary>
+              Creates a new HtmlTag replacing the inner TagBuilder
+            </summary>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.WithContents(System.Collections.Immutable.IImmutableList{HtmlBuilders.IHtmlElement})">
+            <summary>
+              Creates a new HtmlTag replacing the inner Contents
+            </summary>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.WithTagRenderMode(System.Nullable{Microsoft.AspNetCore.Mvc.Rendering.TagRenderMode})">
+            <summary>
+              Creates a new HtmlTag replacing the inner TagRenderMode
+            </summary>
+        </member>
+        <member name="P:HtmlBuilders.HtmlTag.TagName">
+            <summary>
+              Gets the tag name
+            </summary>
+        </member>
+        <member name="P:HtmlBuilders.HtmlTag.Attributes">
+            <summary>
+              Gets the attributes as an immutable dictionary
+            </summary>
+        </member>
+        <member name="P:HtmlBuilders.HtmlTag.Contents">
+            <summary>
+              Gets the contents.
+              This property is very similar to the <see cref="P:Microsoft.AspNetCore.Mvc.Rendering.TagBuilder.InnerHtml" /> property, save for the fact that instead of
+              just a string
+              this is now a collection of elements. This allows for more extensive manipulation and DOM traversal similar to what
+              can be done with jQuery.
+            </summary>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.ToggleAttribute(System.String,System.Boolean)">
+            <summary>
+              Triggers an attribute on this tag. Common examples include "checked", "selected", "disabled", ...
+            </summary>
+            <param name="attribute">The name of the attribute</param>
+            <param name="value">A value indicating whether this attribute should be set on this tag or not.</param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.ToString">
+            <inheritdoc />
+        </member>
+        <member name="P:HtmlBuilders.HtmlTag.Children">
+            <summary>
+              Gets the children in the order that they were added.
+              <br /><strong>WARNING</strong>: Text nodes (<see cref="T:HtmlBuilders.HtmlText" />) do not count as children and will not be
+              included in this property.
+              See <see cref="P:HtmlBuilders.HtmlTag.Contents" /> if you want the text nodes to be included.
+            </summary>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Find(System.Func{HtmlBuilders.HtmlTag,System.Boolean})">
+            <summary>
+              Finds the children or the children of those children, etc. that match the <paramref name="filter" />
+            </summary>
+            <param name="filter">The filter that specifies the conditions that each subnode must satisfy</param>
+            <returns>The sub elements that satisfied the filter</returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Prepend(Microsoft.AspNetCore.Html.IHtmlContent[])">
+            <summary>
+              Prepends <see cref="T:Microsoft.AspNetCore.Html.IHtmlContent" /> to the <see cref="P:HtmlBuilders.HtmlTag.Contents" />
+            </summary>
+            <param name="htmlContents">
+              The html contents that will be inserted at the beginning of the contents of this tag, before all other content 
+            </param>
+            <returns>this <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Prepend(System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Html.IHtmlContent})">
+            <summary>
+              Prepends <see cref="T:Microsoft.AspNetCore.Html.IHtmlContent" /> to the <see cref="P:HtmlBuilders.HtmlTag.Contents" />
+            </summary>
+            <param name="htmlContents">
+              The html contents that will be inserted at the beginning of the contents of this tag, before all other content
+            </param>
+            <returns>this <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Prepend(HtmlBuilders.IHtmlElement[])">
+            <summary>
+              Prepends an <see cref="T:HtmlBuilders.IHtmlElement" /> to the <see cref="P:HtmlBuilders.HtmlTag.Contents" />
+            </summary>
+            <param name="elements">
+              The elements that will be inserted at the beginning of the contents of this tag, before all
+              other content elements
+            </param>
+            <returns>this <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Prepend(System.Collections.Generic.IEnumerable{HtmlBuilders.IHtmlElement})">
+            <summary>
+              Prepends an <see cref="T:HtmlBuilders.IHtmlElement" /> to the <see cref="P:HtmlBuilders.HtmlTag.Contents" />
+            </summary>
+            <param name="elements">
+              The elements that will be inserted at the beginning of the contents of this tag, before all
+              other content elements
+            </param>
+            <returns>this <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Prepend(System.String)">
+            <summary>
+              Prepends an <see cref="T:HtmlBuilders.HtmlText" /> to the <see cref="P:HtmlBuilders.HtmlTag.Contents" />
+            </summary>
+            <param name="text">
+              The text that will be inserted as a <see cref="T:HtmlBuilders.HtmlText" /> at the beginning of the contents of this
+              tag, before all other content elements
+            </param>
+            <returns>this <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Insert(System.Int32,HtmlBuilders.IHtmlElement[])">
+            <summary>
+              Inserts an <see cref="T:HtmlBuilders.IHtmlElement" /> to the <see cref="P:HtmlBuilders.HtmlTag.Contents" /> at the given <paramref name="index" />
+            </summary>
+            <param name="index">The index at which the <paramref name="elements" /> should be inserted</param>
+            <param name="elements">
+              The elements that will be inserted at the specifix <paramref name="index" /> of the contents of
+              this tag
+            </param>
+            <returns>this <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Insert(System.Int32,System.Collections.Generic.IEnumerable{HtmlBuilders.IHtmlElement})">
+            <summary>
+              Inserts an <see cref="T:HtmlBuilders.IHtmlElement" /> to the <see cref="P:HtmlBuilders.HtmlTag.Contents" /> at the given <paramref name="index" />
+            </summary>
+            <param name="index">The index at which the <paramref name="elements" /> should be inserted</param>
+            <param name="elements">
+              The elements that will be inserted at the specifix <paramref name="index" /> of the contents of
+              this tag
+            </param>
+            <returns>this <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Append(Microsoft.AspNetCore.Html.IHtmlContent[])">
+            <summary>
+              Appends <see cref="T:Microsoft.AspNetCore.Html.IHtmlContent" /> to the <see cref="P:HtmlBuilders.HtmlTag.Contents" />
+            </summary>
+            <param name="htmlContents">
+              The html contents that will be inserted at the end of the contents of this tag, after all other
+              content elements
+            </param>
+            <returns>this <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Append(System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Html.IHtmlContent})">
+            <summary>
+              Appends <see cref="T:Microsoft.AspNetCore.Html.IHtmlContent" /> to the <see cref="P:HtmlBuilders.HtmlTag.Contents" />
+            </summary>
+            <param name="htmlContents">
+              The html contents that will be inserted at the end of the contents of this tag, after all other content
+            </param>
+            <returns>this <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Insert(System.Int32,System.String)">
+            <summary>
+              Inserts an <see cref="T:HtmlBuilders.IHtmlElement" /> to the <see cref="P:HtmlBuilders.HtmlTag.Contents" /> at the given <paramref name="index" />
+            </summary>
+            <param name="index">The index at which the <paramref name="text" /> should be inserted</param>
+            <param name="text">
+              The text that will be inserted as a <see cref="T:HtmlBuilders.HtmlText" /> at the specifix
+              <paramref name="index" /> of the contents of this tag
+            </param>
+            <returns>this <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Append(HtmlBuilders.IHtmlElement[])">
+            <summary>
+              Appends an <see cref="T:HtmlBuilders.IHtmlElement" /> to the <see cref="P:HtmlBuilders.HtmlTag.Contents" />
+            </summary>
+            <param name="elements">
+              The elements that will be inserted at the end of the contents of this tag, after all other
+              content elements
+            </param>
+            <returns>this <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Append(System.Collections.Generic.IEnumerable{HtmlBuilders.IHtmlElement})">
+            <summary>
+              Appends an <see cref="T:HtmlBuilders.IHtmlElement" /> to the <see cref="P:HtmlBuilders.HtmlTag.Contents" />
+            </summary>
+            <param name="elements">
+              The elements that will be inserted at the end of the contents of this tag, after all other
+              content elements
+            </param>
+            <returns>this <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Append(System.String)">
+            <summary>
+              Appends an <see cref="T:HtmlBuilders.IHtmlElement" /> to the <see cref="P:HtmlBuilders.HtmlTag.Contents" />
+            </summary>
+            <param name="text">
+              The text that will be inserted as a <see cref="T:HtmlBuilders.HtmlText" /> at the end of the contents of this tag,
+              after all other content elements
+            </param>
+            <returns>this <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="P:HtmlBuilders.HtmlTag.Item(System.String)">
+            <summary>
+              Safely reads an attribute or returns null when the attribute is absent
+            </summary>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.HasAttribute(System.String)">
+            <summary>
+              True when the attribute is known by this HtmlTag
+            </summary>
+            <param name="attribute">The attribute</param>
+            <returns>True if the attribute was present in the attributes dictionary or false otherwise</returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Attribute(System.String,System.String,System.Boolean)">
+            <summary>
+              Sets an attribute on this tag
+            </summary>
+            <param name="attribute">The attribute to set</param>
+            <param name="value">The value to set</param>
+            <param name="replaceExisting">
+              A value indicating whether the <paramref name="value" /> should override the existing value for the
+              <paramref name="attribute" />, if any.
+            </param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.RemoveAttribute(System.String)">
+            <summary>
+              Removes an attribute from this tag
+            </summary>
+            <param name="attribute">The attribute to remove</param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Data(System.String,System.String,System.Boolean)">
+            <summary>
+              Sets a data attribute. This method will automatically prepend 'data-' to the attribute name if the attribute name
+              does not start with 'data-'.
+            </summary>
+            <param name="attribute">The name of the attribute</param>
+            <param name="value">The value</param>
+            <param name="replaceExisting">
+              A value indicating whether the existing data attribute, if any, should have its value
+              replace by the <paramref name="value" /> provided.
+            </param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Data(System.Object,System.Boolean)">
+            <summary>
+              Sets a data attribute. This method will automatically prepend 'data-' to the attribute name if the attribute name
+              does not start with 'data-'.
+            </summary>
+            <param name="data">The anonymous data object containing properties that should be set as data attributes</param>
+            <param name="replaceExisting">
+              A value indicating whether the existing data attributes, if any, should have their values
+              replaced by the values found in <paramref name="data" />
+            </param>
+            <example>
+              <code>
+                // results in &lt;a data-index-url="/index" data-about-url="/about"&gt;&lt;a&gt;
+                new HtmlTag('a').Data(new { index_url = "/index", about_url = "/about"}).ToHtml() 
+            </code>
+            </example>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.WithStyles(System.Collections.Immutable.IImmutableDictionary{System.String,System.String})">
+            <summary>
+              Creates a new HtmlTag replacing the inner style attribute
+            </summary>
+        </member>
+        <member name="P:HtmlBuilders.HtmlTag.Styles">
+            <summary>
+              Gets the 'style' attribute of this <see cref="T:HtmlBuilders.HtmlTag" />.
+              Note that this is a utility method that parses the 'style' attribute from a string into a
+              <see cref="T:System.Collections.Generic.IReadOnlyDictionary`2" />
+            </summary>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Style(System.String,System.String,System.Boolean)">
+            <summary>
+              Sets a css style <paramref name="key" /> and <paramref name="value" /> on the 'style' attribute.
+            </summary>
+            <param name="key">The type of the style (width, height, margin, padding, ...)</param>
+            <param name="value">The value of the style (any valid css value for the given <paramref name="key" />)</param>
+            <param name="replaceExisting">
+              A value indicating whether the existing value for the given <paramref name="key" />
+              should be updated or not, if such a key is already present in the 'style' attribute.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.RemoveStyle(System.String)">
+            <summary>
+              Removes a <paramref name="key" /> from the <see cref="P:HtmlBuilders.HtmlTag.Styles" />, if such a key is present.
+            </summary>
+            <param name="key">The key to remove from the style</param>
+            <returns></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.WithClass(System.Collections.Immutable.IImmutableList{System.String})">
+            <summary>
+              Creates a new HtmlTag replacing the inner class attribute
+            </summary>
+        </member>
+        <member name="P:HtmlBuilders.HtmlTag.Classes">
+            <summary>
+              Gets the classes of this <see cref="T:HtmlBuilders.HtmlTag" />
+            </summary>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.HasClass(System.String)">
+            <summary>
+              Returns true if this <see cref="T:HtmlBuilders.HtmlTag" /> has the <paramref name="class" /> or false otherwise
+            </summary>
+            <param name="class">The class</param>
+            <returns>True if this <see cref="T:HtmlBuilders.HtmlTag" /> has the <paramref name="class" /> or false otherwise</returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Class(System.String)">
+            <summary>
+              Adds a class to this tag.
+            </summary>
+            <param name="class">The class(es) to add</param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.RemoveClass(System.String)">
+            <summary>
+              Removes one or more classes from this tag.
+            </summary>
+            <param name="class">The class(es) to remove</param>
+            <returns>
+              This <see cref="T:HtmlBuilders.HtmlTag"/></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Render(Microsoft.AspNetCore.Mvc.Rendering.TagRenderMode)">
+            <summary>
+              Sets the <see cref="T:Microsoft.AspNetCore.Mvc.Rendering.TagRenderMode" /> that will be used when rendering this <see cref="T:HtmlBuilders.HtmlTag" />.
+              This is a convenient way to build up an <see cref="T:HtmlBuilders.HtmlTag" /> tree, configure the <see cref="T:Microsoft.AspNetCore.Mvc.Rendering.TagRenderMode" /> for
+              each node in the tree,
+              and then render it entirely in one go.
+            </summary>
+            <param name="tagRenderMode">The tag render mode</param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.WriteTo(System.IO.TextWriter,System.Text.Encodings.Web.HtmlEncoder)">
+            <inheritdoc />
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Parse(System.String,System.Boolean)">
+            <summary>
+              Parses an <see cref="T:HtmlBuilders.HtmlTag" /> from the given <paramref name="html" />
+            </summary>
+            <param name="html">The html</param>
+            <param name="validateSyntax">A value indicating whether the html should be checked for syntax errors.</param>
+            <returns>A new <see cref="T:HtmlBuilders.HtmlTag" /> that is an object representation of the <paramref name="html" /></returns>
+            <exception cref="T:System.InvalidOperationException">
+              If <paramref name="validateSyntax" /> is true and syntax errors are
+              encountered in the <paramref name="html" />
+            </exception>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Parse(System.IO.TextReader,System.Boolean)">
+            <summary>
+              Parses an <see cref="T:HtmlBuilders.HtmlTag" /> from the given <paramref name="textReader" />
+            </summary>
+            <param name="textReader">The text reader</param>
+            <param name="validateSyntax">A value indicating whether the html should be checked for syntax errors.</param>
+            <returns>A new <see cref="T:HtmlBuilders.HtmlTag" /> that is an object representation of the <paramref name="textReader" /></returns>
+            <exception cref="T:System.InvalidOperationException">
+              If <paramref name="validateSyntax" /> is true and syntax errors are
+              encountered in the <paramref name="textReader" />
+            </exception>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Parse(HtmlAgilityPack.HtmlDocument,System.Boolean)">
+            <summary>
+              Parses an <see cref="T:HtmlBuilders.HtmlTag" /> from the given <paramref name="htmlDocument" />
+            </summary>
+            <param name="htmlDocument">The html document containing the html</param>
+            <param name="validateSyntax">A value indicating whether the html should be checked for syntax errors.</param>
+            <returns>
+              Multiple <see cref="T:HtmlBuilders.HtmlTag" />s that is an object representation of the <paramref name="htmlDocument" />
+            </returns>
+            <exception cref="T:System.InvalidOperationException">
+              If <paramref name="validateSyntax" /> is true and syntax errors are
+              encountered in the <paramref name="htmlDocument" />
+            </exception>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.ParseAll(Microsoft.AspNetCore.Html.IHtmlContent,System.Boolean)">
+            <summary>
+              Parses multiple <see cref="T:HtmlBuilders.HtmlTag" />s from the given <paramref name="htmlContent" />
+            </summary>
+            <param name="htmlContent">The html content</param>
+            <param name="validateSyntax">A value indicating whether the html should be checked for syntax errors.</param>
+            <returns>A collection of <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+            <exception cref="T:System.InvalidOperationException">
+              If <paramref name="validateSyntax" /> is true and syntax errors are
+              encountered in the <paramref name="htmlContent" />
+            </exception>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.ParseAll(System.String,System.Boolean)">
+            <summary>
+              Parses multiple <see cref="T:HtmlBuilders.HtmlTag" />s from the given <paramref name="html" />
+            </summary>
+            <param name="html">The html</param>
+            <param name="validateSyntax">A value indicating whether the html should be checked for syntax errors.</param>
+            <returns>A collection of <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+            <exception cref="T:System.InvalidOperationException">
+              If <paramref name="validateSyntax" /> is true and syntax errors are
+              encountered in the <paramref name="html" />
+            </exception>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.ParseAll(System.IO.TextReader,System.Boolean)">
+            <summary>
+              Parses multiple <see cref="T:HtmlBuilders.HtmlTag" />s from the given <paramref name="textReader" />
+            </summary>
+            <param name="textReader">The text reader</param>
+            <param name="validateSyntax">A value indicating whether the html should be checked for syntax errors.</param>
+            <returns>A collection of <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+            <exception cref="T:System.InvalidOperationException">
+              If <paramref name="validateSyntax" /> is true and syntax errors are
+              encountered in the <paramref name="textReader" />
+            </exception>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.ParseAll(HtmlAgilityPack.HtmlDocument,System.Boolean)">
+            <summary>
+              Parses multiple <see cref="T:HtmlBuilders.HtmlTag" />s from the given <paramref name="htmlDocument" />
+            </summary>
+            <param name="htmlDocument">The html document</param>
+            <param name="validateSyntax">A value indicating whether the html should be checked for syntax errors.</param>
+            <returns>A collection of <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+            <exception cref="T:System.InvalidOperationException">
+              If <paramref name="validateSyntax" /> is true and syntax errors are
+              encountered in the <paramref name="htmlDocument" />
+            </exception>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.Equals(System.Object)">
+            <summary>
+              Returns true if this <see cref="T:HtmlBuilders.HtmlTag" /> is equivalent to <paramref name="other" />. If any of the attributes or
+              the children are different,
+              this method will return false. It is important to note that the order in which styles and classes appear will not
+              affect the equality in any way.
+              However, the order of the <see cref="P:HtmlBuilders.HtmlTag.Contents" /> <strong>does</strong> matter.
+              As a rule of thumb, if one <see cref="T:HtmlBuilders.HtmlTag" /> would have the same display presentation and behavior in a browser
+              as another <see cref="T:HtmlBuilders.HtmlTag" />, they are considered equal.
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTag.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="T:HtmlBuilders.HtmlTagExtensions">
+            <summary>
+            Contains a whole series of useful methods to manipulate common HTML attributes of an HtmlTag 
+            </summary>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Name(HtmlBuilders.HtmlTag,System.String,System.Boolean)">
+            <summary>
+              Sets the name property. This is a shorthand for the <see cref="M:HtmlBuilders.HtmlTag.Attribute(System.String,System.String,System.Boolean)" /> method with 'name' as the
+              attribute parameter value.
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="name">The value for the 'name' attribute</param>
+            <param name="replaceExisting">
+              A value indicating whether the existing attribute, if any, should have its value replaced
+              by the <paramref name="name" /> provided.
+            </param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Title(HtmlBuilders.HtmlTag,System.String,System.Boolean)">
+            <summary>
+              Sets the title property. This is a shorthand for the <see cref="M:HtmlBuilders.HtmlTag.Attribute(System.String,System.String,System.Boolean)" /> method with 'title' as the
+              attribute parameter value.
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="title">The value for the 'title' attribute</param>
+            <param name="replaceExisting">
+              A value indicating whether the existing attribute, if any, should have its value replaced
+              by the <paramref name="title" /> provided.
+            </param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Id(HtmlBuilders.HtmlTag,System.String,System.Boolean)">
+            <summary>
+              Sets the id property. This is a shorthand for the <see cref="M:HtmlBuilders.HtmlTag.Attribute(System.String,System.String,System.Boolean)" /> method with 'id' as the attribute
+              parameter value.
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="id">The value for the 'id' attribute</param>
+            <param name="replaceExisting">
+              A value indicating whether the existing attribute, if any, should have its value replaced
+              by the <paramref name="id" /> provided.
+            </param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Type(HtmlBuilders.HtmlTag,System.String,System.Boolean)">
+            <summary>
+              Sets the type property. This is a shorthand for the <see cref="M:HtmlBuilders.HtmlTag.Attribute(System.String,System.String,System.Boolean)" /> method with 'type' as the
+              attribute parameter value.
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="type">The value for the 'type' attribute</param>
+            <param name="replaceExisting">
+              A value indicating whether the existing attribute, if any, should have its value replaced
+              by the <paramref name="type" /> provided.
+            </param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Value(HtmlBuilders.HtmlTag,System.String,System.Boolean)">
+            <summary>
+              Sets the value property. This is a shorthand for the <see cref="M:HtmlBuilders.HtmlTag.Attribute(System.String,System.String,System.Boolean)" /> method with 'value' as the
+              attribute parameter value.
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="value">The value for the 'value' attribute</param>
+            <param name="replaceExisting">
+              A value indicating whether the existing attribute, if any, should have its value replaced
+              by the <paramref name="value" /> provided.
+            </param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Href(HtmlBuilders.HtmlTag,System.String,System.Boolean)">
+            <summary>
+              Sets the href property. This is a shorthand for the <see cref="M:HtmlBuilders.HtmlTag.Attribute(System.String,System.String,System.Boolean)" /> method with 'href' as the
+              attribute parameter value.
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="href">The value for the 'href' attribute</param>
+            <param name="replaceExisting">
+              A value indicating whether the existing attribute, if any, should have its value replaced
+              by the <paramref name="href" /> provided.
+            </param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Src(HtmlBuilders.HtmlTag,System.String,System.Boolean)">
+            <summary>
+              Sets the src property. This is a shorthand for the <see cref="M:HtmlBuilders.HtmlTag.Attribute(System.String,System.String,System.Boolean)" /> method with 'src' as the
+              attribute parameter value.
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="src">The value for the 'src' attribute</param>
+            <param name="replaceExisting">
+              A value indicating whether the existing attribute, if any, should have its value replaced
+              by the <paramref name="src" /> provided.
+            </param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Width(HtmlBuilders.HtmlTag,System.String,System.Boolean)">
+            <summary>
+              Sets the width style. This is a shorthand for calling the <see cref="M:HtmlBuilders.HtmlTag.Style(System.String,System.String,System.Boolean)" /> method with the 'width' key
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="width">The width. This can be any valid css value for 'width'</param>
+            <param name="replaceExisting">A value indicating whether the existing width, if any, should be overriden or not</param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Height(HtmlBuilders.HtmlTag,System.String,System.Boolean)">
+            <summary>
+              Sets the height style. This is a shorthand for calling the <see cref="M:HtmlBuilders.HtmlTag.Style(System.String,System.String,System.Boolean)" /> method with the 'height' key
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="height">The height. This can be any valid css value for 'height'</param>
+            <param name="replaceExisting">A value indicating whether the existing height, if any, should be overriden or not</param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Margin(HtmlBuilders.HtmlTag,System.String,System.Boolean)">
+            <summary>
+              Sets the margin style. This is a shorthand for calling the <see cref="M:HtmlBuilders.HtmlTag.Style(System.String,System.String,System.Boolean)" /> method with the 'margin' key
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="margin">The margin. This can be any valid css value for 'margin'</param>
+            <param name="replaceExisting">A value indicating whether the existing margin, if any, should be overriden or not</param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Padding(HtmlBuilders.HtmlTag,System.String,System.Boolean)">
+            <summary>
+              Sets the padding style. This is a shorthand for calling the <see cref="M:HtmlBuilders.HtmlTag.Style(System.String,System.String,System.Boolean)" /> method with the 'padding'
+              key
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="padding">The padding. This can be any valid css value for 'padding'</param>
+            <param name="replaceExisting">A value indicating whether the existing padding, if any, should be overriden or not</param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Color(HtmlBuilders.HtmlTag,System.String,System.Boolean)">
+            <summary>
+              Sets the color style. This is a shorthand for calling the <see cref="M:HtmlBuilders.HtmlTag.Style(System.String,System.String,System.Boolean)" /> method with the 'color' key
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="color">The color. This can be any valid css value for 'color'</param>
+            <param name="replaceExisting">A value indicating whether the existing color, if any, should be overriden or not</param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.TextAlign(HtmlBuilders.HtmlTag,System.String,System.Boolean)">
+            <summary>
+              Sets the text-align style. This is a shorthand for calling the <see cref="M:HtmlBuilders.HtmlTag.Style(System.String,System.String,System.Boolean)" /> method with the
+              'text-align' key
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="textAlign">The text alignment. This can be any valid css value for 'text-align'</param>
+            <param name="replaceExisting">A value indicating whether the existing text-align, if any, should be overriden or not</param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Border(HtmlBuilders.HtmlTag,System.String,System.Boolean)">
+            <summary>
+              Sets the border style. This is a shorthand for calling the <see cref="M:HtmlBuilders.HtmlTag.Style(System.String,System.String,System.Boolean)" /> method with the 'border' key
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="border">The border. This can be any valid css value for 'border'</param>
+            <param name="replaceExisting">A value indicating whether the existing border, if any, should be overriden or not</param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Text(HtmlBuilders.HtmlTag)">
+            <summary>
+              Gets the HTML stripped content of this <see cref="T:HtmlBuilders.HtmlTag"/>
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag"/></param>
+            <returns>The HTML stripped contents.</returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Checked(HtmlBuilders.HtmlTag,System.Boolean)">
+            <summary>
+              Sets the 'checked' attribute to 'checked' if <paramref name="checked" /> is true or removes the attribute if
+              <paramref name="checked" /> is false
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="checked">
+              A value indicating whether this tag should have the attribute 'checked' with value 'checked' or
+              not.
+            </param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Disabled(HtmlBuilders.HtmlTag,System.Boolean)">
+            <summary>
+              Sets the 'disabled' attribute to 'disabled' if <paramref name="disabled" /> is true or removes the attribute if
+              <paramref name="disabled" /> is false
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="disabled">
+              A value indicating whether this tag should have the attribute 'disabled' with value 'disabled'
+              or not.
+            </param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Selected(HtmlBuilders.HtmlTag,System.Boolean)">
+            <summary>
+              Sets the 'selected' attribute to 'selected' if <paramref name="selected" /> is true or removes the attribute if
+              <paramref name="selected" /> is false
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="selected">
+              A value indicating whether this tag should have the attribute 'selected' with value 'selected'
+              or not.
+            </param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlTagExtensions.Readonly(HtmlBuilders.HtmlTag,System.Boolean)">
+            <summary>
+              Sets the 'readonly' attribute to 'readonly' if <paramref name="readonly" /> is true or removes the attribute if
+              <paramref name="readonly" /> is false
+            </summary>
+            <param name="htmlTag">This <see cref="T:HtmlBuilders.HtmlTag" /></param>
+            <param name="readonly">
+              A value indicating whether this tag should have the attribute 'readonly' with value 'readonly'
+              or not.
+            </param>
+            <returns>This <see cref="T:HtmlBuilders.HtmlTag" /></returns>
+        </member>
+        <member name="T:HtmlBuilders.HtmlTags">
+            <summary>
+              Provides convenience properties to create instances of <see cref="T:HtmlBuilders.HtmlTag" />
+            </summary>
+        </member>
+        <member name="T:HtmlBuilders.HtmlText">
+            <summary>
+              Represents a text node that has an optional parent and some text
+            </summary>
+        </member>
+        <member name="M:HtmlBuilders.HtmlText.#ctor(System.String)">
+            <summary>
+              Initializes a new instance of <see cref="T:HtmlBuilders.HtmlText" />
+            </summary>
+            <param name="text">The text that still needs to be encoded</param>
+        </member>
+        <member name="M:HtmlBuilders.HtmlText.#ctor(Microsoft.AspNetCore.Html.HtmlString)">
+            <summary>
+              Initializes a new instance of <see cref="T:HtmlBuilders.HtmlText" />
+            </summary>
+            <param name="htmlString">The already encoded HTML string</param>
+        </member>
+        <member name="M:HtmlBuilders.HtmlText.#ctor(Microsoft.AspNetCore.Mvc.ViewFeatures.StringHtmlContent)">
+            <summary>
+              Initializes a new instance of <see cref="T:HtmlBuilders.HtmlText" />
+            </summary>
+            <param name="stringHtmlContent">The string HTML content that still needs to be encoded</param>
+        </member>
+        <member name="M:HtmlBuilders.HtmlText.ToHtml">
+            <summary>
+            Exposes the inner <see cref="T:Microsoft.AspNetCore.Html.IHtmlContent"/>, if you must.
+            </summary>
+            <returns>A reference to the inner <see cref="T:Microsoft.AspNetCore.Html.IHtmlContent"/> of this HTML text</returns>
+        </member>
+        <member name="M:HtmlBuilders.HtmlText.WriteTo(System.IO.TextWriter,System.Text.Encodings.Web.HtmlEncoder)">
+            <inheritdoc />
+        </member>
+        <member name="M:HtmlBuilders.HtmlText.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:HtmlBuilders.HtmlText.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:HtmlBuilders.HtmlText.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="T:HtmlBuilders.IHtmlContentExtensions">
+            <summary>
+            Contains utility methods to convert <see cref="T:Microsoft.AspNetCore.Html.IHtmlContent"/> into other things, such as an <see cref="T:HtmlBuilders.HtmlTag"/>.
+            </summary>
+        </member>
+        <member name="M:HtmlBuilders.IHtmlContentExtensions.ToHtmlString(Microsoft.AspNetCore.Html.IHtmlContent)">
+            <summary>
+            Renders this html content to an HTML string using the default HTML encoder
+            </summary>
+            <param name="htmlContent">The HTML content to render</param>
+            <returns>A string representation of the HTML content</returns>
+        </member>
+        <member name="M:HtmlBuilders.IHtmlContentExtensions.ToHtmlTag(Microsoft.AspNetCore.Html.IHtmlContent)">
+            <summary>
+            Parses the provided HTML content and tries to extract an HTML tag from it.
+            
+            </summary>
+            <param name="htmlContent"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="T:HtmlBuilders.IHtmlElement">
+            <summary>
+              Represents an html element
+            </summary>
+        </member>
+    </members>
+</doc>

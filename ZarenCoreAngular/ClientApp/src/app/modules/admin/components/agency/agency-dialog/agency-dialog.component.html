@@ -1,0 +1,100 @@
+<h1 mat-dialog-title>agency</h1>
+<div mat-dialog-content>
+    <form fxLayout="column" #agencyForm="ngForm">
+       <mat-tab-group mat-align-tabs="start">
+<mat-tab label="Tab 1">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Agencyıata" name="agencyIATA"[(ngModel)]="agencyObj.agencyIATA"
+#agencyIATA="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Agencycode" name="agencyCode"[(ngModel)]="agencyObj.agencyCode"
+#agencyCode="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Agencyname" name="agencyName"[(ngModel)]="agencyObj.agencyName"
+#agencyName="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Agencyrepresentative" name="agencyRepresentative"[(ngModel)]="agencyObj.agencyRepresentative"
+#agencyRepresentative="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Aggrıd" name="agGrId"[(ngModel)]="agencyObj.agGrId"
+#agGrId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Countryıd" name="countryId"[(ngModel)]="agencyObj.countryId"
+#countryId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+<mat-tab label="Tab 2">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Languagesıd" name="languagesId"[(ngModel)]="agencyObj.languagesId"
+#languagesId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Agencytimestamp" name="agencyTimestamp"[(ngModel)]="agencyObj.agencyTimestamp"
+#agencyTimestamp="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Agencyactive" name="agencyActive"[(ngModel)]="agencyObj.agencyActive"
+#agencyActive="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+
+</mat-tab-group>
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row wrap" fxFlex fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button mat-button mat-dialog-close tabindex="-1" cdkFocusInitial>Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!agencyForm.valid || !agencyForm.dirty"
+            (click)="saveagency(agencyObj)">
+            Add/Update
+        </button>
+    </div>
+</div>

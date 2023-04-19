@@ -1,0 +1,266 @@
+@page "/edit-air-segment"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit AirSegment</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save AirSegment</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.AirSegment" Data="@airSegment" Visible="@(airSegment != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ai Se Departure" Component="AiSeDeparture" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@airSegment.AiSeDeparture" Name="AiSeDeparture" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ai Se Arrival" Component="AiSeArrival" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@airSegment.AiSeArrival" Name="AiSeArrival" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ai Se Flight Number" Component="AiSeFlightNumber" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@airSegment.AiSeFlightNumber" Name="AiSeFlightNumber" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ai Se Class" Component="AiSeClass" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@airSegment.AiSeClass" Name="AiSeClass" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ai Se Timestamp" Component="AiSeTimestamp" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@airSegment.AiSeTimestamp" Name="AiSeTimestamp" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Ai Se Active" Component="AiSeActive" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenCheckBox @bind-Value="@airSegment.AiSeActive" Name="AiSeActive" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Air" Component="Air" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@airsForAirId" TextProperty="AirRecordAirline" ValueProperty="Id"
+                        Disabled=@(hasAirIdValue) Placeholder="Choose Air" style="display: block; width: 100%" @bind-Value="@airSegment.AirId" Name="AirId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Airline" Component="Airline" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@airlinesForAirlineId" TextProperty="AirlineCode" ValueProperty="Id"
+                        Disabled=@(hasAirlineIdValue) Placeholder="Choose Airline" style="display: block; width: 100%" @bind-Value="@airSegment.AirlineId" Name="AirlineId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Airport" Component="Airport" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@airportsForAirportIdDestination" TextProperty="AirportCode" ValueProperty="Id"
+                        Disabled=@(hasAirportIdDestinationValue) Placeholder="Choose Airport" style="display: block; width: 100%" @bind-Value="@airSegment.AirportIdDestination" Name="AirportIdDestination"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Airport1" Component="Airport1" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@airportsForAirportIdOrigin" TextProperty="AirportCode" ValueProperty="Id"
+                        Disabled=@(hasAirportIdOriginValue) Placeholder="Choose Airport1" style="display: block; width: 100%" @bind-Value="@airSegment.AirportIdOrigin" Name="AirportIdOrigin"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Terminal" Component="Terminal" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@terminalsForTerminalIdDestination" TextProperty="TerminalName" ValueProperty="Id"
+                        Disabled=@(hasTerminalIdDestinationValue) Placeholder="Choose Terminal" style="display: block; width: 100%" @bind-Value="@airSegment.TerminalIdDestination" Name="TerminalIdDestination"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Terminal1" Component="Terminal1" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@terminalsForTerminalIdOrigin" TextProperty="TerminalName" ValueProperty="Id"
+                        Disabled=@(hasTerminalIdOriginValue) Placeholder="Choose Terminal1" style="display: block; width: 100%" @bind-Value="@airSegment.TerminalIdOrigin" Name="TerminalIdOrigin"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        airSegment = await ZarenSoftService.GetAirSegmentById(Id);
+
+        airsForAirId = await ZarenSoftService.GetAirs();
+
+        airlinesForAirlineId = await ZarenSoftService.GetAirlines();
+
+        airportsForAirportIdDestination = await ZarenSoftService.GetAirports();
+
+        airportsForAirportIdOrigin = await ZarenSoftService.GetAirports();
+
+        terminalsForTerminalIdDestination = await ZarenSoftService.GetTerminals();
+
+        terminalsForTerminalIdOrigin = await ZarenSoftService.GetTerminals();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.AirSegment airSegment;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Air> airsForAirId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Airline> airlinesForAirlineId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Airport> airportsForAirportIdDestination;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Airport> airportsForAirportIdOrigin;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Terminal> terminalsForTerminalIdDestination;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Terminal> terminalsForTerminalIdOrigin;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateAirSegment(Id, airSegment);
+            DialogService.Close(airSegment);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasAirIdValue;
+
+    [Parameter]
+    public int? AirId { get; set; }
+
+    bool hasAirlineIdValue;
+
+    [Parameter]
+    public int? AirlineId { get; set; }
+
+    bool hasAirportIdDestinationValue;
+
+    [Parameter]
+    public int? AirportIdDestination { get; set; }
+
+    bool hasAirportIdOriginValue;
+
+    [Parameter]
+    public int? AirportIdOrigin { get; set; }
+
+    bool hasTerminalIdDestinationValue;
+
+    [Parameter]
+    public int? TerminalIdDestination { get; set; }
+
+    bool hasTerminalIdOriginValue;
+
+    [Parameter]
+    public int? TerminalIdOrigin { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        airSegment = new ZarenTravel.Models.ZarenSoft.AirSegment();
+
+        hasAirIdValue = parameters.TryGetValue<int?>("AirId", out var hasAirIdResult);
+
+        if (hasAirIdValue)
+        {
+            airSegment.AirId = hasAirIdResult;
+        }
+
+        hasAirlineIdValue = parameters.TryGetValue<int?>("AirlineId", out var hasAirlineIdResult);
+
+        if (hasAirlineIdValue)
+        {
+            airSegment.AirlineId = hasAirlineIdResult;
+        }
+
+        hasAirportIdDestinationValue = parameters.TryGetValue<int?>("AirportIdDestination", out var hasAirportIdDestinationResult);
+
+        if (hasAirportIdDestinationValue)
+        {
+            airSegment.AirportIdDestination = hasAirportIdDestinationResult;
+        }
+
+        hasAirportIdOriginValue = parameters.TryGetValue<int?>("AirportIdOrigin", out var hasAirportIdOriginResult);
+
+        if (hasAirportIdOriginValue)
+        {
+            airSegment.AirportIdOrigin = hasAirportIdOriginResult;
+        }
+
+        hasTerminalIdDestinationValue = parameters.TryGetValue<int?>("TerminalIdDestination", out var hasTerminalIdDestinationResult);
+
+        if (hasTerminalIdDestinationValue)
+        {
+            airSegment.TerminalIdDestination = hasTerminalIdDestinationResult;
+        }
+
+        hasTerminalIdOriginValue = parameters.TryGetValue<int?>("TerminalIdOrigin", out var hasTerminalIdOriginResult);
+
+        if (hasTerminalIdOriginValue)
+        {
+            airSegment.TerminalIdOrigin = hasTerminalIdOriginResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

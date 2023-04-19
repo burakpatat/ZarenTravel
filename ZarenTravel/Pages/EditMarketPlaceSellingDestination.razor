@@ -1,0 +1,144 @@
+@page "/edit-market-place-selling-destination"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit MarketPlaceSellingDestination</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save MarketPlaceSellingDestination</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.MarketPlaceSellingDestination" Data="@marketPlaceSellingDestination" Visible="@(marketPlaceSellingDestination != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="City" Component="City" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@marketPlaceSellingDestination.City" Name="City" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Country" Component="Country" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@marketPlaceSellingDestination.Country" Name="Country" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Table Order" Component="TableOrder" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@marketPlaceSellingDestination.TableOrder" Name="TableOrder" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Created Date" Component="CreatedDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@marketPlaceSellingDestination.CreatedDate" Name="CreatedDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Updated Date" Component="UpdatedDate" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@marketPlaceSellingDestination.UpdatedDate" Name="UpdatedDate" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Created By" Component="CreatedBy" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@marketPlaceSellingDestination.CreatedBy" Name="CreatedBy" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Updated By" Component="UpdatedBy" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@marketPlaceSellingDestination.UpdatedBy" Name="UpdatedBy" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Market Places Profile" Component="MarketPlacesProfile" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@marketPlacesProfilesForSupplierId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasSupplierIdValue) Placeholder="Choose MarketPlacesProfile" style="display: block; width: 100%" @bind-Value="@marketPlaceSellingDestination.SupplierId" Name="SupplierId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        marketPlaceSellingDestination = await ZarenSoftService.GetMarketPlaceSellingDestinationById(Id);
+
+        marketPlacesProfilesForSupplierId = await ZarenSoftService.GetMarketPlacesProfiles();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.MarketPlaceSellingDestination marketPlaceSellingDestination;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.MarketPlacesProfile> marketPlacesProfilesForSupplierId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateMarketPlaceSellingDestination(Id, marketPlaceSellingDestination);
+            DialogService.Close(marketPlaceSellingDestination);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasSupplierIdValue;
+
+    [Parameter]
+    public int SupplierId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        marketPlaceSellingDestination = new ZarenTravel.Models.ZarenSoft.MarketPlaceSellingDestination();
+
+        hasSupplierIdValue = parameters.TryGetValue<int>("SupplierId", out var hasSupplierIdResult);
+
+        if (hasSupplierIdValue)
+        {
+            marketPlaceSellingDestination.SupplierId = hasSupplierIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}

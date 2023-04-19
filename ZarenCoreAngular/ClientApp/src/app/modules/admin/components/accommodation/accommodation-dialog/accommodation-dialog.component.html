@@ -1,0 +1,132 @@
+<h1 mat-dialog-title>accommodation</h1>
+<div mat-dialog-content>
+    <form fxLayout="column" #accommodationForm="ngForm">
+       <mat-tab-group mat-align-tabs="start">
+<mat-tab label="Tab 1">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Pnrıd" name="pNRId"[(ngModel)]="accommodationObj.pNRId"
+#pNRId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Accommodationcheckın (dd-mm-yyyy)"
+                    [ngModel]="accommodationObj.accommodationCheckIN | date:'dd-MM-yyyy'" name="accommodationCheckIN"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="accommodationCheckINPicker" name="hiddenawardDate"
+                    [(ngModel)]="accommodationObj.accommodationCheckIN">
+                <mat-datepicker-toggle matSuffix [for]="accommodationCheckINPicker"></mat-datepicker-toggle>
+                <mat-datepicker #accommodationCheckINPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Accommodationcheckout (dd-mm-yyyy)"
+                    [ngModel]="accommodationObj.accommodationCheckOUT | date:'dd-MM-yyyy'" name="accommodationCheckOUT"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="accommodationCheckOUTPicker" name="hiddenawardDate"
+                    [(ngModel)]="accommodationObj.accommodationCheckOUT">
+                <mat-datepicker-toggle matSuffix [for]="accommodationCheckOUTPicker"></mat-datepicker-toggle>
+                <mat-datepicker #accommodationCheckOUTPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Hotelıd" name="hotelId"[(ngModel)]="accommodationObj.hotelId"
+#hotelId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Rotyıd" name="roTyId"[(ngModel)]="accommodationObj.roTyId"
+#roTyId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex> 
+                <input matInput placeholder="Accommodationrate" type="number" name="accommodationRate"[(ngModel)]="accommodationObj.accommodationRate"
+#accommodationRate="ngModel"   >
+               
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+<mat-tab label="Tab 2">
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Currencyıd" name="currencyId"[(ngModel)]="accommodationObj.currencyId"
+#currencyId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Brokerıd" name="brokerId"[(ngModel)]="accommodationObj.brokerId"
+#brokerId="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Accommodationbookeddate (dd-mm-yyyy)"
+                    [ngModel]="accommodationObj.accommodationBookedDate | date:'dd-MM-yyyy'" name="accommodationBookedDate"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="accommodationBookedDatePicker" name="hiddenawardDate"
+                    [(ngModel)]="accommodationObj.accommodationBookedDate">
+                <mat-datepicker-toggle matSuffix [for]="accommodationBookedDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #accommodationBookedDatePicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Accommodationtimestap (dd-mm-yyyy)"
+                    [ngModel]="accommodationObj.accommodationTimestap | date:'dd-MM-yyyy'" name="accommodationTimestap"
+                    pattern="(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)">
+                <input matInput [hidden]='true' [matDatepicker]="accommodationTimestapPicker" name="hiddenawardDate"
+                    [(ngModel)]="accommodationObj.accommodationTimestap">
+                <mat-datepicker-toggle matSuffix [for]="accommodationTimestapPicker"></mat-datepicker-toggle>
+                <mat-datepicker #accommodationTimestapPicker></mat-datepicker>
+            </mat-form-field>
+      
+</div>
+<div fxLayout="row wrap" fxLayoutGap="30px">
+           <mat-form-field fxFlex>
+                <input matInput placeholder="Accommodationactive" name="accommodationActive"[(ngModel)]="accommodationObj.accommodationActive"
+#accommodationActive="ngModel"  >
+            
+            </mat-form-field>
+      
+</div>
+
+</div>
+      </mat-tab>
+
+</mat-tab-group>
+    </form>
+</div>
+
+<div mat-dialog-actions>
+    <div fxLayout="row wrap" fxFlex fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button mat-button mat-dialog-close tabindex="-1" cdkFocusInitial>Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!accommodationForm.valid || !accommodationForm.dirty"
+            (click)="saveaccommodation(accommodationObj)">
+            Add/Update
+        </button>
+    </div>
+</div>

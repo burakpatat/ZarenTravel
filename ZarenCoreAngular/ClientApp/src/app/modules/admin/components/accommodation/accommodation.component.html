@@ -1,0 +1,70 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">people_alt</i>
+            </div>
+            <h4 class="card-title float-left">Accommodation</h4>
+            <button mat-raised-button class="float-right" color="primary" style="margin-top: 10px;"
+              (click)="addDialog()">
+              Add
+            </button>
+          </div>
+          <div class="card-body">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover" width="100%">
+              <thead>
+                <tr>
+                 <td>Id</td>
+<td>Pnrıd</td>
+<td>Accommodationcheckın</td>
+<td>Accommodationcheckout</td>
+<td>Hotelıd</td>
+<td>Rotyıd</td>
+<td>Accommodationrate</td>
+<td>Currencyıd</td>
+<td>Brokerıd</td>
+<td>Accommodationbookeddate</td>
+<td>Accommodationtimestap</td>
+<td>Accommodationactive</td>
+
+                  <th class="text-right" data-orderable="false" data-priority="2">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let dto1 of dtos">
+                
+
+                   <td>{{dto1['ıd']}}</td>
+ <td>{{dto1['pNRId']}}</td>
+ <td>{{dto1['accommodationCheckIN'] | date }}</td>
+ <td>{{dto1['accommodationCheckOUT'] | date }}</td>
+ <td>{{dto1['hotelId']}}</td>
+ <td>{{dto1['roTyId']}}</td>
+ <td>{{dto1['accommodationRate']}}</td>
+ <td>{{dto1['currencyId']}}</td>
+ <td>{{dto1['brokerId']}}</td>
+ <td>{{dto1['accommodationBookedDate'] | date }}</td>
+ <td>{{dto1['accommodationTimestap'] | date }}</td>
+ <td>{{dto1['accommodationActive']}}</td>
+
+                  <td class="text-right">
+                    <a href="javascript:void(0)" (click)="editDialog(dto1)"
+                      class="btn btn-link btn-warning btn-just-icon edit">
+                      <i class="material-icons">dvr</i>
+                    </a>
+                    <a href="javascript:void(0)" (click)="deleteDialog(dto1)"
+                      class="btn btn-link btn-danger btn-just-icon remove">
+                      <i class="material-icons">close</i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

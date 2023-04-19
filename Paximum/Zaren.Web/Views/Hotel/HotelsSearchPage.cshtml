@@ -1,0 +1,46 @@
+﻿@using Zaren.Shared.HotelModels
+@model AllHotelQueryDTO
+@{
+    ViewData["Title"] = "Tarih";
+}
+<div id="traveller_number_container">
+    <h3>Enter The Number Of Travellers</h3>
+    <form method="post" asp-controller="Hotel" asp-action="Index">
+        <div id="traveller_number_inputdiv">
+            <input type="hidden" readonly value=@Model.Id asp-for=Id />
+            <label asp-for=NumberOfTravellers>Number of Travellers</label>
+            <input min="1" type="number"  asp-for=NumberOfTravellers value=1 />
+            <label asp-for=checkIn>Check In Date</label>
+            <input onkeydown="return false" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" asp-for=checkIn />
+            <button type="submit" class="kaydetmeButonu">Submit</button>
+       </div>
+    </form>
+</div>
+
+
+
+@*@if (Model != null)
+{
+    foreach (var city in Model.cityObjectList)
+    {
+        <div>
+            <button type="button" class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
+                <div class="d-flex">
+                    <div class="icon-location-2 text-light-1 text-20 pt-4"></div>
+                    <div class="ml-10">
+                        <div class="text-15 lh-12 js-search-option-target">@city.Name</div>
+                        <div class="text-14 lh-12 text-light-1 mt-5">@city.Name</div>
+                    </div>
+                </div>
+            </button>
+        </div>
+    }
+}*@
+
+
+
+
+
+@*<input type="hidden" readonly value=@Model.query.LocationId asp-for=query.LocationId />
+<input min="1" type="hidden" asp-for=query.NumberOfTravellers value=1 />
+<input type="text" autocomplete="off" name="end-date" class="form-control" id="end-date" placeholder="Giriş Tarihi" asp-for=query.ChcekIn value="@DateTime.Now.ToString("dd/MM/yyyy")" />*@

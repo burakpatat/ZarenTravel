@@ -1,0 +1,156 @@
+@page "/edit-booking-room"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject ZarenSoftService ZarenSoftService
+
+<PageTitle>Edit BookingRoom</PageTitle>
+    <div class="col-md-12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save BookingRoom</RadzenAlert>
+        <RadzenTemplateForm TItem="ZarenTravel.Models.ZarenSoft.BookingRoom" Data="@bookingRoom" Visible="@(bookingRoom != null)" Submit="@FormSubmit">
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Cost" Component="Cost" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@bookingRoom.Cost" Name="Cost" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Price" Component="Price" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@bookingRoom.Price" Name="Price" />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Board Type" Component="BoardType" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@boardTypesForBoardTypeId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasBoardTypeIdValue) Placeholder="Choose BoardType" style="display: block; width: 100%" @bind-Value="@bookingRoom.BoardTypeId" Name="BoardTypeId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Booking" Component="Booking" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@bookingsForBookingId" TextProperty="Reference" ValueProperty="Id"
+                        Disabled=@(hasBookingIdValue) Placeholder="Choose Booking" style="display: block; width: 100%" @bind-Value="@bookingRoom.BookingId" Name="BookingId"
+                           />
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+                <div class="col-md-3">
+                    <RadzenLabel Text="Hotel Room" Component="HotelRoom" style="width: 100%" />
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDownDataGrid Data="@hotelRoomsForHotelRoomId" TextProperty="Name" ValueProperty="Id"
+                        Disabled=@(hasHotelRoomIdValue) Placeholder="Choose HotelRoom" style="display: block; width: 100%" @bind-Value="@bookingRoom.HotelRoomId" Name="HotelRoomId"
+                           />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-end" style="margin-top: 1rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Style="margin-right: 0.5rem" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        bookingRoom = await ZarenSoftService.GetBookingRoomById(Id);
+
+        boardTypesForBoardTypeId = await ZarenSoftService.GetBoardTypes();
+
+        bookingsForBookingId = await ZarenSoftService.GetBookings();
+
+        hotelRoomsForHotelRoomId = await ZarenSoftService.GetHotelRooms();
+    }
+    protected bool errorVisible;
+    protected ZarenTravel.Models.ZarenSoft.BookingRoom bookingRoom;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.BoardType> boardTypesForBoardTypeId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.Booking> bookingsForBookingId;
+
+    protected IEnumerable<ZarenTravel.Models.ZarenSoft.HotelRoom> hotelRoomsForHotelRoomId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await ZarenSoftService.UpdateBookingRoom(Id, bookingRoom);
+            DialogService.Close(bookingRoom);
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        DialogService.Close(null);
+    }
+
+
+
+
+
+    bool hasBoardTypeIdValue;
+
+    [Parameter]
+    public int? BoardTypeId { get; set; }
+
+    bool hasBookingIdValue;
+
+    [Parameter]
+    public int? BookingId { get; set; }
+
+    bool hasHotelRoomIdValue;
+
+    [Parameter]
+    public int? HotelRoomId { get; set; }
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        bookingRoom = new ZarenTravel.Models.ZarenSoft.BookingRoom();
+
+        hasBoardTypeIdValue = parameters.TryGetValue<int?>("BoardTypeId", out var hasBoardTypeIdResult);
+
+        if (hasBoardTypeIdValue)
+        {
+            bookingRoom.BoardTypeId = hasBoardTypeIdResult;
+        }
+
+        hasBookingIdValue = parameters.TryGetValue<int?>("BookingId", out var hasBookingIdResult);
+
+        if (hasBookingIdValue)
+        {
+            bookingRoom.BookingId = hasBookingIdResult;
+        }
+
+        hasHotelRoomIdValue = parameters.TryGetValue<int?>("HotelRoomId", out var hasHotelRoomIdResult);
+
+        if (hasHotelRoomIdValue)
+        {
+            bookingRoom.HotelRoomId = hasHotelRoomIdResult;
+        }
+        await base.SetParametersAsync(parameters);
+    }
+}
